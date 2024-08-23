@@ -1,0 +1,53 @@
+.contact {
+    height: 110vh;
+    position: relative;
+    background-color: var(--primary);
+}
+
+
+.btn {
+    color: white;
+    border-radius: 0;
+    border-width: 2px;
+    padding: 10px 30px;
+    border-image-slice: 1;
+    background-image: none;
+    background: transparent;
+    border-image-source: var(--gradient);
+    box-shadow: 5px 5px 0px 0px var(--secondary);
+}
+
+.btn:hover {
+    color: white;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 10px 30px;
+    transform: translate(5px, 5px);
+}
+
+/* Email - Newsletter Button */
+.btn-secondary {
+    color: black;
+    border-width: 2px;
+    padding: 10px 30px;
+    border-image-slice: 1;
+    background-image: none;
+    background: transparent;
+    border-image-source: var(--gradient);
+}
+
+.btn-secondary:hover {
+    color: black;
+    padding: 10px 30px;
+    background-image: var(--gradient);
+}
+
+
+.custom-modal .modal-dialog {
+    max-width: 500px;
+    width: 100%;
+}
+
+.custom-modal .modal-content {
+    padding: 20px;
+}

@@ -1,0 +1,275 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"> <!-- Added Bootstrap Icons CSS -->
+</head>
+
+
+<body>
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a *ngIf="!isSearchActive" class="logo d-flex align-items-center"  (click)="onBack()">
+        <h4 class="theme_green">AVCOMMUNITY</h4>
+      </a>
+    
+      <!-- Only one search icon/button, removed the first icon -->
+      <div class="search-bar-container w-100 d-flex justify-content-center">
+        <div class="search-bar w-50" *ngIf="showSearchBox">
+          <form class="search-form d-flex align-items-center w-100">
+            <input type="text" class="form-control me-2" name="query" [(ngModel)]="searchQuetion" 
+                   (input)="getSearchQuestions()" placeholder="Search" title="Enter search keyword">
+            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+
+        <li class="nav-item d-block d-lg-none">
+          <a class="nav-link nav-icon search-bar-toggle" (click)="toggleSearch()">
+            <i class="bi bi-search"></i>
+          </a>
+        </li>
+        
+        <div *ngIf="showSearch" class="search-box">
+          <form class="search-form d-flex align-items-center">
+            <input type="text" name="query" [(ngModel)]="searchQuetion" placeholder="Search" title="Enter search keyword">
+            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+          </form>
+        </div>
+
+        <li class="nav-item dropdown" *ngIf="showSearchBox">
+          <a class="nav-link nav-icon" data-bs-toggle="modal" data-bs-target="#myDialog">
+            <i class="bi bi-pencil-square"></i>
+          </a><!-- End Notification Icon -->
+          </li>
+
+        <li class="nav-item dropdown pe-3 header_Icons">
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img [src]="getImageSource() ||  'assets/images/common_Images/user-Icon.png'" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2"> {{ userName }} </span>
+          </a><!-- End Profile Iamge Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6>{{userName}}</h6>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" (click)="onSelect('myPosts')">
+                <i class="bi bi-file-text"></i>
+                <span>My Posts</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" (click)="onSelect('contact')">
+                <i class="bi bi-question-circle"></i>
+                <span>Help</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" (click)="onSelect('logout')">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+
+          </ul>
+        </li>
+
+      </ul>
+    </nav>
+  </header><!-- End Header -->
+
+<div *ngIf="showHomepage || showMyposts">
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 col-xs-12">
+      <div id="content" class="content content-full-width">
+        <div class="profile-content">
+          <div class="tab-content p-0">
+            <div class="tab-pane fade active show"  id="profile-post">
+              <ul class="timeline">
+                <li *ngFor="let item of mainQuestions">
+                  <div class="timeline-time">
+                    <span class="date">{{ formatDOB(item.question_posted_date) }}</span>
+                    <!-- <span class="time">{{ item.time }}</span> -->
+                  </div>
+                  <div class="timeline-icon">
+                    <a href="javascript:;">&nbsp;</a>
+                  </div>
+                  <div class="timeline-body" *ngFor="let feedback of item.feedbackInfo">
+                    <div class="timeline-header">
+                      <span class="userimage"><img [src]="item.question_owner_imagePath" alt=""></span>
+                      <span class="username"><a>{{ item.question_userName_name }}</a></span>
+                      <span class="pull-right text-muted">{{ feedback.total_views }} Views</span>
+                    </div>
+                    <div class="timeline-content" (click)="toggleShowFullQuestion(item)">
+                      <p>{{ (item.question.length > 60 || item.imagePath || (item.urlLink !== 'undefined' && item.urlLink !== null && item.urlLink.trim() !== '')) && !questionStates[item.qId] ? (item.question | slice:0:50) + '....' : item.question }}</p>
+                    </div>                              
+                    
+                  <div *ngIf="isQuestionOpen(item)">
+                       <div *ngIf="item.imagePath" class="timeline-content image-container">
+                      <img [src]="item.imagePath" alt="Image">
+                    </div>
+                    <div *ngIf="item.urlLink !== 'undefined' && item.urlLink !== null && item.urlLink.trim() !== ''" class="timeline-content">
+                      <a target="_blank" [href]="item.urlLink">{{ item.urlLink }}</a>
+                  </div>                              
+                  
+                  </div> 
+                    <div class="timeline-likes">
+                      <div class="stats-right">
+                        <!-- <span class="stats-text">{{ item.shares }} Shares</span> -->
+                        <span class="stats-text">{{ feedback.total_comments }} Comments</span>
+                      </div>
+                      <div class="stats">
+                        <!-- <span class="fa-stack fa-fw stats-icon">
+                          <i class="fa fa-circle fa-stack-2x text-danger"></i>
+                          <i class="fa fa-heart fa-stack-1x fa-inverse t-plus-1"></i>
+                        </span> -->
+                        <span class="fa-stack fa-fw stats-icon">
+                          <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                          <i class="fa fa-thumbs-up fa-stack-1x fa-inverse"></i>
+                        </span>
+                        <span class="stats-total">{{ feedback.total_likes }}</span>
+                      </div>
+                    </div>
+                    <div class="timeline-footer">
+                      <a (click)="performActions(item,'like')" [ngClass]="{'liked': item.isLiked}" class="m-r-15 text-inverse-lighter"><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like</a>
+                      <a *ngIf="item.answer" (click)="showAdditionalAnswers(item)" class="m-r-15 text-inverse-lighter"><i class="fa fa-comments fa-fw fa-lg m-r-3"></i> Comments</a>
+                      <a *ngIf="showMyposts" data-bs-toggle="modal" data-bs-target="#myDialog" (click)="editQuestion(item)" class="m-r-15 text-inverse-lighter"><i class="fa fa-edit fa-fw fa-lg m-r-1"></i> Edit</a>
+                      <a *ngIf="showMyposts" (click)="deleteQuestion(item)" class="m-r-15 text-inverse-lighter"><i class="fa fa-trash-o fa-fw fa-lg m-r-1"></i> Delete</a>
+                      <!-- <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-share fa-fw fa-lg m-r-3"></i> Share</a> -->
+                    </div>
+
+                    <div class="comments">
+                      <ul *ngIf="additionalAnswersVisibility[item.qId] && additionalAnswersData[item.qId] && additionalAnswersData[item.qId].length > 0" class="mt-1">
+                          <li *ngFor="let addAnswer of additionalAnswersData[item.qId]">
+                              <div class="profile_Info">
+                                  <img *ngIf="addAnswer.answer_owner_imagePath" [src]="addAnswer.answer_owner_imagePath" alt="Profile Picture">
+                                  <div class="username">{{ addAnswer.answer_userName }}</div>
+                                  <p class="answer_posted_date">{{ addAnswer.answer_posted_date | date }}</p>
+                              </div>
+                              <p class="answer_text">{{ addAnswer.answer }}</p>
+                          </li>
+                      </ul>
+                  </div>                  
+
+                    <div class="timeline-comment-box">
+                      <div class="user"><img [src]="getImageSource()"></div>
+                      <div class="input">
+                        <form action="">
+                          <div class="input-group">
+                            <input type="text" class="form-control rounded-corner" name="replyAnswer" [(ngModel)]="item.replyAnswer" placeholder="Share your Answer here...">
+                            <div class="input-group-append p-l-10">
+                              <button class="btn btn-primary f-s-12 rounded-corner send_button" [disabled]="!item.replyAnswer" (click)="uploadAnswer(item.qId,item.replyAnswer)" type="button">
+                                  <i class="bi bi-send"></i>
+                              </button>
+                          </div>
+                          
+                        </div>
+                        
+                          </form>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="btn_box" *ngIf="mainQuestions.length !== 0">
+  <a class="view_more-link" (click)="loadMore()">View More</a>
+</div>
+</div>
+
+<div class="row justify-content-center align-items-center" *ngIf="mainQuestions.length === 0" style="height: 70vh;">
+  <div class="col-sm-6 col-lg-3 text-center">
+    <img src="assets/img/ekart/empty_produts.png" class="img-fluid" alt="No products">
+  </div>
+</div>
+
+<!-- Dialog template -->
+<!-- <ng-template #myDialog>
+  <mat-dialog-content class="d-flex align-items-center justify-content-center" style="overflow: hidden;">
+    <div class="container custom-dialog-container">
+      <textarea cols="100" class="form-control input-sm mb-2" name="userQuestion" [(ngModel)]="userQuestion" placeholder="Share here..."></textarea>
+      <mat-icon class="txt_Icons" (click)="selectPhoto()">insert_photo</mat-icon>
+      <input type="file" accept="image/*" style="display: none;" #fileInput (change)="onFileSelected($event)">      
+      <mat-icon class="txt_Icons txt_link" (click)="urlExpand()">link</mat-icon>
+      <p *ngIf="selectedFile">{{ selectedFile.name }}</p>
+      <div class="url_box" *ngIf="showUrlBox">
+        <input type="text" class="form-control input-sm" name="questionURl" [(ngModel)]="questionURl" placeholder="Enter URL"><br>
+        </div>
+    </div>
+      </mat-dialog-content>
+      
+      <mat-dialog-actions align="end" class="mat-buttons">
+        <button mat-dialog-close class="btn btn-warning">Cancel</button>
+        <button [mat-dialog-close]="true" class="btn btn-success button_left" [disabled]="!userQuestion" (click)="onUpload()">{{ buttonType }}</button>
+      </mat-dialog-actions>
+    </ng-template> -->
+
+
+    <!-- Bootstrap Modal -->
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="myDialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-3">
+      <div class="modal-body" style="padding-top: 10px;">
+        <div class="container custom-dialog-container mt-0">
+          <textarea cols="100" class="form-control input-sm mb-3" name="userQuestion" [(ngModel)]="userQuestion" placeholder="Share here..." style="resize: none; min-height: 120px; margin-top: 0;"></textarea>
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <i class="fas fa-image txt_Icons me-2" (click)="selectPhoto()" style="font-size: 1.5rem; cursor: pointer;"></i>
+              <input type="file" accept="image/*" style="display: none;" #fileInput (change)="onFileSelected($event)">
+              <i class="fas fa-link txt_Icons" (click)="urlExpand()" style="font-size: 1.5rem; cursor: pointer;"></i>
+            </div>
+            <div class="url_box" *ngIf="showUrlBox">
+              <input type="text" class="form-control input-sm" name="questionURl" [(ngModel)]="questionURl" placeholder="Enter URL">
+            </div>
+          </div>
+          <p *ngIf="selectedFile" class="mt-2">{{ selectedFile.name }}</p>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-end">
+        <button type="button" class="btn btn-warning me-2" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success button_left" [disabled]="!userQuestion" (click)="onUpload()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div *ngIf="showContactForm">
+    <app-contact></app-contact>
+  </div>
+     <app-spinner *ngIf="showSpinner"></app-spinner>
+</body>
+
+</html>

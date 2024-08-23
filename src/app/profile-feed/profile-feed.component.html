@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+    <section id="counts" class="counts">
+        <div class="d-block d-md-none d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3">
+            <h4>Feed</h4>
+        </div> 
+        <div class="header-boxs mt-3" *ngIf="showMails">
+            <div class="row">
+                <div class="col-12">
+                    <div class="grid email">
+                        <div class="grid-body">
+                            <div class="row">
+                                <!-- Search Box Centered on Mobile, Right Aligned on Larger Screens -->
+                                <div class="col-12 d-flex d-md-none justify-content-center mb-3">
+                                    <div class="filters">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" [(ngModel)]="searchTitle"
+                                                placeholder="Search by title" />
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary" type="button">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 d-none d-md-flex justify-content-md-end mb-3">
+                                    <div class="filters">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" [(ngModel)]="searchTitle"
+                                                placeholder="Search by title" />
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary" type="button">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+    
+                                <!-- Email Listing -->
+                                <div class="col-12">
+                                    <div class="table-responsive mt-4">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr *ngFor="let email of filteredEmails" class="cur_pointer" (click)="selectEmail(email)"
+                                                    [class.unopened]="!email.opened">
+                                                    <td class="subject">
+                                                        <a [class.unopened]="!email.opened" class="title-text">
+                                                            {{ email.title }}
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <img *ngIf="!email.opened" src="./assets/images/feed/feed_new.gif"
+                                                            alt="New Email" class="new-email-icon">
+                                                    </td>
+                                                    <td class="time">{{ email.createdDate | date:'hh:mm a' }} {{ email.createdDate | date:'MMM dd' }}</td>
+                                                </tr>
+                                                <!-- Show the image only when filteredEmails array is empty -->
+                                                <tr style="border-color: white;" *ngIf="filteredEmails.length === 0 && searchTitle !== ''">
+                                                    <td colspan="100">
+                                                        <div class="centered-image mt-3">
+                                                            <img src="assets/img/oops.png" alt="No records found" class="img-fluid no-records" height="250px">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    <div *ngIf="selectedEmail">
+    <div class="row mb-3">
+        <div class="col-2">
+            <div class="cur_pointer" (click)="onBack()">
+                <i class="bi bi-arrow-left"></i>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-2" style="margin-bottom: 10px;">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div *ngFor="let email of clickedemails">
+                        <div class="card-header">
+                            <h2>{{ email.title }}</h2>
+                        </div>
+                        <div class="card-body">
+                            <p>Dear User,</p><br>
+                            <p [innerHTML]="email.description"></p>
+                            <div *ngIf="email.link">
+                                <p>Source:</p>
+                                <p class="website_links"><a class="links" href="{{ email.link }}" target="_blank">{{ email.link }}</a></p>
+                            </div>
+                            <p>Best Regards,<br> AV CHAMPS.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card bg-dark text-white">
+                    <div class="card-header text-center">
+                        <h4>Our Sponsors</h4>
+                    </div>
+                    <div class="card-body text-center">
+                        <p>Sponsor us and have your logo featured here.<a class="contactUs_click text-white" (click)="sendContact()"> Contact Us</a></p>
+                        <!-- Uncomment this section if you have sponsor images -->
+                        <!-- <div class="d-flex justify-content-center">
+                            <img *ngFor="let logo of images" class="sponsor-logo mx-2" [src]="logo" alt="Logo_Img">  
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    </section>
+
+<app-spinner *ngIf="showSpinner" class="spinner"></app-spinner>
+</body>
+
+</html>

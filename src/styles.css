@@ -1,1 +1,28 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+	--primary: #1c262f;
+	--primary-light: #212d37;
+	--secondary: #0ee951;
+	--tertiary: #00dabf;
+	--gradient: linear-gradient(to right, #0ee951, #00dabf);
+}
+
+#counts {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px; /* Add some padding */
+    box-sizing: border-box; /* Ensure padding is included in the width/height */
+}
+
+
+.theme_green {
+	color: #00B074;
+}
+
+.theme_bg {
+	background-color: #00B074;
+}
+
+.cur_pointer {
+	cursor: pointer;
+}

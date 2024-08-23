@@ -1,0 +1,87 @@
+  <!-- Contact -->
+  <section class="contact d-flex align-items-center py-5" id="contact">
+    <div class="container-fluid text-light">
+        <div class="row">
+            <div class="col-lg-6 d-flex justify-content-center justify-content-lg-end align-items-center px-lg-5" data-aos="fade-right">
+                <div style="width:90%">
+                  <div class="text-center text-lg-start py-4 pt-lg-0">
+                    <p>CONTACT</p>
+                    <h2 class="py-2">Send your query</h2>
+                    <p class="para-light">We’d love to hear from you! Whether you have a question, feedback, or need support, please fill out the form below, and we’ll get back to you as soon as possible.</p>
+                  </div>
+                  <form [formGroup]="contactForm">
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <div class="form-group py-2">
+                            <input type="text" formControlName="name" class="form-control form-control-input" placeholder="Enter name">
+                            <div *ngIf="contactForm.controls['name'].invalid && (contactForm.controls['name'].dirty || contactForm.controls['name'].touched)">
+                              <small class="text-danger" *ngIf="contactForm.controls['name'].errors?.['required']">Name is required.</small>
+                              <small class="text-danger" *ngIf="contactForm.controls['name'].errors?.['pattern']">Only alphabets and spaces are allowed.</small>
+                            </div>
+                          </div>                                                             
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="form-group py-2">
+                          <input type="text" maxlength="10" formControlName="phone" (input)="validatePhoneNumber($event)" class="form-control form-control-input" placeholder="Enter phone number">
+                          <div *ngIf="contactForm.controls['phone'].invalid && (contactForm.controls['phone'].dirty || contactForm.controls['phone'].touched)">
+                            <small class="text-danger" *ngIf="contactForm.controls['phone'].errors?.['required']">Phone number is required.</small>
+                            <small class="text-danger" *ngIf="contactForm.controls['phone'].errors?.['pattern']">Enter a valid phone number.</small>
+                          </div>
+                        </div>                                 
+                      </div>
+                    </div>
+                    <div class="form-group py-1">
+                      <input type="email" formControlName="email" class="form-control form-control-input" placeholder="Enter email">
+                      <div *ngIf="contactForm.controls['email'].invalid && (contactForm.controls['email'].dirty || contactForm.controls['email'].touched)">
+                        <small class="text-danger" *ngIf="contactForm.controls['email'].errors?.['required']">Email is required.</small>
+                        <small class="text-danger" *ngIf="contactForm.controls['email'].errors?.['email']">Enter a valid email.</small>
+                      </div>
+                    </div>  
+                    <div class="form-group py-2">
+                      <textarea formControlName="message" class="form-control form-control-input" rows="6" placeholder="Message"></textarea>
+                      <div *ngIf="contactForm.controls['message'].invalid && (contactForm.controls['message'].dirty || contactForm.controls['message'].touched)">
+                        <small class="text-danger" *ngIf="contactForm.controls['message'].errors?.['required']">Message is required.</small>
+                      </div>
+                    </div>                            
+                    <div class="my-3">
+                      <button type="submit" data-bs-toggle="modal" data-bs-target="#ContactModal" class="btn form-control-submit-button modal-title" [disabled]="contactForm.invalid">Submit</button>
+                    </div>
+                  </form>
+                </div> <!-- end of div -->
+              </div>
+              <!-- end of col -->
+            <div class="col-lg-6 d-flex align-items-center" data-aos="fade-down">
+                <img class="img-fluid d-none d-lg-block" src="./assets/images/contact.jpg" alt="contact">        
+            </div> <!-- end of col -->
+        </div> <!-- end of row -->
+    </div> <!-- end of container -->
+</section> <!-- end of contact -->
+
+
+
+<div class="modal fade custom-modal" id="ContactModal" tabindex="-1" aria-labelledby="applyModalLabel" *ngIf="showCaptcha" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+
+          <div class="modal-header">
+              <h5 class="modal-title" id="applyModalLabel">Validate Captcha</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <re-captcha (resolved)="resolved($event)" siteKey="6Lc6f-opAAAAAB4fRocBPRZIZwMSFUrbVjXry4at" formControlName="recaptcha"></re-captcha>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<div class="modal fade custom-modal" id="ContactModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true" #ContactModal>
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="applyModalLabel">{{ SuccessMessage }}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+      </div>
+  </div>
+</div>

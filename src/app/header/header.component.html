@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar" class="navbar navbar-expand-lg fixed-top navbar-dark" aria-label="Main navigation">
+        <div class="container">
+            <a class="navbar-brand logo-image" href="index.html"><img src="./assets/images/av_logo.jpeg" alt="alternative"></a>
+            <a class="navbar-brand logo-text" href="index.html"></a>
+            <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault" >
+                <ul class="navbar-nav ms-auto navbar-nav-scroll">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#header" >Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" (click)="onLogin('jobPortal')">Careers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" (click)="onLogin('ekart')">Kart</a>
+                    </li>
+
+                    <!-- <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false" href="#">Drop</a>
+                        
+                        <ul class="dropdown-menu" aria-labelledby="dropdown01">
+                            <li><a class="dropdown-item" href="article.html">Article Details</a></li>
+                            <li><div class="dropdown-divider"></div></li>
+                            <li><a class="dropdown-item" href="terms.html">Terms Conditions</a></li>
+                            <li><div class="dropdown-divider"></div></li>
+                            <li><a class="dropdown-item" href="privacy.html">Privacy Policy</a></li>
+                        </ul>
+                    </li> -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+                <span class="fa-stack" *ngFor="let icon of socialIcons">
+                    <a [href]="icon.url" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-circle fa-stack-2x"></i>
+                        <i [ngClass]="icon.iconClass"></i>
+                    </a>
+                </span>
+            </div>
+        </div>
+    </nav>
+    <!-- end of navigation -->
+
+
+    <!-- Home -->
+    <section class="home py-5 d-flex align-items-center" id="header">
+        <div class="container text-light py-5"  data-aos="fade-right"> 
+            <h1 class="headline">Best <span class="home_text">AV CHAMPS</span><br>Community Portal For You</h1>
+            <p class="para para-light py-3">In today’s fast-paced, technology-driven world, the AV(Audio-Visual) community stands at the forefront of innovation, creativity, and connection. This vibrant community unites professionals, enthusiasts, and learners with a common passion for AV(Audio-Visual)technology.</p>
+            <div class="row">
+                <div *ngFor="let option of headerOptions" class="col-12 col-sm-6 col-md-3 mb-3">
+                <div class="d-flex align-items-center">
+                    <p class="p-2"><i [class]="option.icon"></i></p>
+                    <p>{{ option.label }}</p>
+                </div>
+                </div>
+            </div>
+
+            <div class="my-3">
+                <a class="btn" href="#plans">Get Started</a>
+            </div>
+        </div> <!-- end of container -->
+    </section> <!-- end of home -->
+
+    <!-- Services -->
+    <section class="services d-flex align-items-center py-5" id="services">
+        <div class="container text-light">
+            <div class="text-center pb-4" >
+                <p>OUR SERVICES</p> 
+                <h2 class="py-2">Explore unlimited possibilities</h2>
+                <p class="para-light">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae asperiores, quia accusantium sunt corporis optio recusandae? Nostrum libero pariatur cumque, ipsa dolores voluptatibus voluptate alias sit fuga. Itaque, ea quo.</p>
+            </div>
+            <div class="row gy-4 py-2" data-aos="zoom-in">
+                <div class="col-lg-4">
+                    <div class="card bg-transparent">
+                        <i class="fas fa-home fa-2x"></i>
+                        <h4 class="py-2">HOME BROADBAND</h4>
+                        <p class="para-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam odit consequatur doloribus natus in suscipit!</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card bg-transparent">
+                        <i class="fas fa-wifi fa-2x"></i>
+                        <h4 class="py-2"> HOME WIFI</h4>
+                        <p class="para-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam odit consequatur doloribus natus in suscipit!</p>
+                    </div>                    
+                </div>
+                <div class="col-lg-4">
+                    <div class="card bg-transparent">
+                        <i class="fas fa-phone fa-2x"></i>
+                        <h4 class="py-2">HOME BROADBAND</h4>
+                        <p class="para-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam odit consequatur doloribus natus in suscipit!</p>
+                    </div>                    
+                </div>
+                <div class="col-lg-4">
+                    <div class="card bg-transparent">
+                        <i class="fas fa-mobile fa-2x"></i>
+                        <h4 class="py-2">MOBILE CONNECTION</h4>
+                        <p class="para-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam odit consequatur doloribus natus in suscipit!</p>
+                    </div>                    
+                </div>
+                <div class="col-lg-4">
+                    <div class="card bg-transparent">
+                        <i class="fas fa-home fa-2x"></i>
+                        <h4 class="py-2">SECURITY</h4>
+                        <p class="para-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam odit consequatur doloribus natus in suscipit!</p>
+                    </div>                    
+                </div>
+                <div class="col-lg-4">
+                    <div class="card bg-transparent">
+                        <i class="fas fa-tv fa-2x"></i>
+                        <h4 class="py-2">TV SETUP BOX</h4>
+                        <p class="para-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam odit consequatur doloribus natus in suscipit!</p>
+                    </div>                    
+                </div>
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </section> <!-- end of services -->
+
+    <!-- Testimonials -->
+    <div class="slider-1 testimonial text-light d-flex align-items-center">
+        <div class="container">
+            <div class="row">
+                <div class="text-center w-lg-75 m-auto pb-4">
+                    <p>TESTIMONIALS</p>
+                    <h2 class="py-2">What Our Community Says</h2>
+                    <p class="para-light">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Adipisci esse facilis vel, neque ipsa mollitia impedit, commodi ab illo dignissimos, voluptatum quae amet sed tenetur dolores reprehenderit laudantium quo sint.</p>
+                </div>
+            </div> <!-- end of row -->
+            <div class="row p-2" data-aos="zoom-in">
+                <div class="col-lg-12">
+
+                    <!-- testimonial-slider.component.html -->
+                <div class="slider-container">
+                    <div class="swiper-container card-slider">
+                        <div class="swiper-wrapper">
+                            <div *ngFor="let testimonial of testimonials" class="swiper-slide">
+                                <div class="testimonial-card p-4">
+                                    <p>{{ testimonial.content }}</p>
+                                    <div class="d-flex pt-4">
+                                        <div>
+                                            <img class="avatar" [src]="testimonial.imageUrl" alt="testimonial">
+                                        </div>
+                                        <div class="ms-3 pt-2">
+                                            <h6>{{ testimonial.name }}</h6>
+                                            <p>{{ testimonial.position }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
+
+
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </div> <!-- end of testimonials -->
+
+    <div>
+        <app-contact></app-contact>
+    </div>
+
+    <!-- Footer -->
+    <section class="footer text-light">
+        <div class="container">
+            <div class="row" data-aos="fade-right">
+                <div class="col-lg-3 py-4 py-md-5">
+                    <div class="d-flex align-items-center">
+                        <h4 class="">AV CHAMPS</h4>
+                    </div>
+                    <p class="py-3 para-light">{{footertxt }}</p>
+                    <div class="d-flex">
+                        <div *ngFor="let icon of socialMediaIcons" class="me-3">
+                            <a [href]="icon.url" target="_blank" rel="noopener noreferrer">
+                                <i [ngClass]="icon.iconClass" class="fa-2x py-2"></i>
+                            </a>
+                        </div>
+                    </div>                    
+                </div> <!-- end of col -->
+
+                <div class="col-lg-3 py-4 py-md-5">
+                    <h4 class="py-2">Quick Links</h4>
+                    <div>
+                        <div *ngFor="let link of homeLinks" class="d-flex align-items-center py-2">
+                            <i class="fas fa-caret-right"></i>
+                            <a [href]="link.url"><p class="ms-3">{{ link.label }}</p></a>
+                        </div>
+                    </div>
+                </div>                
+
+                <div class="col-lg-3 py-4 py-md-5">
+                    <h4 class="py-2">Useful Links</h4>
+                    <div>
+                        <div *ngFor="let link of usefulLinks" class="d-flex align-items-center py-2">
+                            <i class="fas fa-caret-right"></i>
+                            <a [href]="link.url"><p class="ms-3">{{ link.label }}</p></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 py-4 py-md-5">
+                    <div class="d-flex align-items-center">
+                        <h4>Newsletter</h4>
+                    </div>
+                    <p class="py-3 para-light">Yes, I’d like to subscribe to newsletter and other email marketing communications.</p>
+                    <div class="d-flex align-items-center">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control p-2" placeholder="Enter Email" [(ngModel)]="newsLetterEmail" aria-label="Recipient's email">
+                            <button class="btn-secondary text-light" (click)="NewsLetterSubscribe()"><i class="fas fa-envelope fa-lg"></i></button>       
+                        </div>
+                    </div>
+                </div> 
+            </div> 
+        </div> 
+    </section>
+
+
+   <div class="modal fade custom-modal" id="applyJob" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="applyModalLabel">Validate Captcha</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <re-captcha (resolved)="resolved($event)" siteKey="6Lc6f-opAAAAAB4fRocBPRZIZwMSFUrbVjXry4at" formControlName="recaptcha"></re-captcha>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade custom-modal" id="applyJob" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true" #applyJob>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="applyModalLabel">{{ message }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="bottom py-2 text-light" >
+    <p style="text-align: center;">©2023 AV CHAMPS. All Rights Reserved.</p>
+    </div>
+    
+    <button onclick="topFunction()" id="myBtn">
+        <img src="assets/images/up-arrow.png" alt="alternative">
+    </button>
+</body>
+</html>

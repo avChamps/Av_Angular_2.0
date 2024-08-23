@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <section id="counts" class="counts">
+        <div class="d-block d-md-none d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3">
+            <h4>About</h4>
+        </div> 
+        <div class="container mt-3">
+            <form method="post">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                        <div class="profile-img text-center">
+                            <img src="https://media.licdn.com/dms/image/v2/D5603AQEZg5Kpp8wSqw/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1712027407850?e=2147483647&v=beta&t=HzgfOd3LQdqgHQcDggnDsyBjupRN3LpEB-pQ7JGssyU"
+                                alt="" width="200" class="img-fluid rounded-circle border border-secondary shadow-sm" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 mb-3 text-center text-md-left">
+                        <div class="profile-head">
+                            <h3>{{ userName }}</h3>
+                            <h6>{{ jobTitle }}</h6>
+                            <p class="proile-rating">You're a Member Since: <span>{{ formatDOB(signupDate) }}</span></p>
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="home-tab" data-toggle="tab" role="tab" aria-controls="home"
+                                        aria-selected="true">About</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-2 col-md-12 col-sm-12 text-right mb-3">
+                        <button type="button" class="btn btn-primary profile-edit-btn mt-2 mt-lg-0" (click)="toggleEditMode()"
+                            [class.save-mode]="editMode" [class.edit-mode]="!editMode">{{ editMode ? 'Save' : 'Edit' }}</button>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <div class="tab-content profile-tab" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+                                <div class="row mb-3">
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <label>Company Name</label>
+                                        <input type="text" maxlength="30" [disabled]="!editMode" [(ngModel)]="companyName" name="userNameInput"
+                                            class="form-control">
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <label>Designation</label>
+                                        <input type="text" maxlength="30" [disabled]="!editMode" [(ngModel)]="jobTitle" name="jobTitleInput"
+                                            class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <label>Email Id</label>
+                                        <input type="email" [(ngModel)]="emailId" [disabled]="!editMode" name="emailIdInput" class="form-control">
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <label>Mobile Number</label>
+                                        <input type="text" maxlength="10" [(ngModel)]="mobileNumber" [disabled]="!editMode" name="mobileNumberInput"
+                                            class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <label>DOB</label>
+                                        <input type="date" [ngModel]="formatDOB(dateOfBirth)"
+                                            (ngModelChange)="dateOfBirth = $event" [disabled]="!editMode" name="dateOfBirthInput"
+                                            class="form-control">
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <label>Location</label>
+                                        <input type="text" maxlength="30" [(ngModel)]="userCity" [disabled]="!editMode" name="userCityInput"
+                                            class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <label>Gender</label>
+                                        <select [(ngModel)]="gender" name="genderInput" [disabled]="!editMode" class="form-control">
+                                            <option>{{ gender }}</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+    <app-spinner *ngIf="showSpinner"></app-spinner>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
