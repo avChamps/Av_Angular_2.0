@@ -1,5 +1,5 @@
   <!-- Contact -->
-  <section class="contact d-flex align-items-center py-5" id="contact">
+  <section class="contact d-flex align-items-center py-5" id="contact" data-aos="fade-right">
     <div class="container-fluid text-light">
         <div class="row">
             <div class="col-lg-6 d-flex justify-content-center justify-content-lg-end align-items-center px-lg-5" data-aos="fade-right">
@@ -25,7 +25,9 @@
                           <input type="text" maxlength="10" formControlName="phone" (input)="validatePhoneNumber($event)" class="form-control form-control-input" placeholder="Enter phone number">
                           <div *ngIf="contactForm.controls['phone'].invalid && (contactForm.controls['phone'].dirty || contactForm.controls['phone'].touched)">
                             <small class="text-danger" *ngIf="contactForm.controls['phone'].errors?.['required']">Phone number is required.</small>
-                            <small class="text-danger" *ngIf="contactForm.controls['phone'].errors?.['pattern']">Enter a valid phone number.</small>
+                            <small class="text-danger" *ngIf="contactForm.controls['phone'].errors?.['pattern'] || contactForm.controls['phone'].errors?.['sameDigit']">
+                              Enter a valid phone number.
+                            </small> 
                           </div>
                         </div>                                 
                       </div>

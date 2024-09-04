@@ -42,7 +42,7 @@ html {
 
 .sidebar .nav-link {
   color: #fff;
-  padding: 10px;
+  padding: 8px;
 }
 
 .sidebar .nav-link.active {
@@ -101,7 +101,7 @@ html {
 }
 
 .social-links a {
-  font-size: 20px;
+  font-size: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -109,11 +109,10 @@ html {
   color: #fff;
   border-radius: 50%;
   text-align: center;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   transition: 0.3s;
 }
-
 
 .social-links a:hover {
   color: #ff5733;
@@ -133,6 +132,7 @@ html {
   transform: translateX(-50%);
   font-size: 0.7rem;
 }
+
 
 
 @media (max-width: 768px) {

@@ -1,0 +1,27 @@
+.box {
+    box-shadow: 4px 4px 10px #d1d9e6, -4px -4px 10px #f9f9f9;
+  }
+  
+  h2 {
+    text-align: center;
+  }
+  
+  .mat-buttons {
+    margin-top: -45px;
+  }
+  
+  .admin-panel-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+    font-size: 24px;
+  }
+  
+  .logout-icon {
+    color: red;
+    cursor: pointer;
+  }
+  
+  .btn-success {
+    margin-left: 10px;
+  }

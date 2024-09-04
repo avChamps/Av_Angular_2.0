@@ -67,10 +67,8 @@ export class CommunityComponent {
   ) {}
 
   ngOnInit (): void {
-    // this.emailId = localStorage.getItem('emailId');
-    // this.userName = localStorage.getItem('userName');
-    this.emailId = 'gdisendra@gmail.com';
-    this.userName = 'Disendra';
+    this.emailId = localStorage.getItem('emailId');
+    this.userName = localStorage.getItem('userName');
     this.getProfileImage()
     this.onSelect('homePage');
   }
@@ -368,7 +366,7 @@ loadMore () {
         qId: question.qId,
         imagePath: question.question_owner_imagePath
     };
-    const confirmation = confirm('Are you sure you want to delete the Product?');
+    const confirmation = confirm('Are you sure you want to delete the Post?');
     if (confirmation) {
         this.commintyService
             .deleteCommunity(questionData)
@@ -457,7 +455,7 @@ private handleError(error: any) {
 
   logOut () {
     this.faService.clearSession();
-    this.router.navigate(['/home-page']);
+    this.router.navigate(['']);
     window.location.reload();
   }
 }

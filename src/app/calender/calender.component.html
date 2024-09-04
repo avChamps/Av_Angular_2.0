@@ -1,5 +1,108 @@
-<section id="counts" class="counts">
-    <iframe src="https://calendar.google.com/calendar/embed?src=avchamps1%40gmail.com&ctz=Asia%2FKolkata&showTitle=0" 
-            style="border: 0" width="800" height="600" frameborder="0" scrolling="no">
+<!-- <section id="counts" class="counts"> 
+    <iframe src="https://calendar.google.com/calendar/embed?src=avchamps1%40gmail.com&ctz=Asia%2FKolkata&showTitle=0"
+        style="border: 0" width="800" height="600" frameborder="0" scrolling="no">
     </iframe>
+</section>
+ -->
+ <section id="counts" class="counts" data-aos="fade-right"> 
+  <div class="row">
+    <div class="col-2">
+      <div class="cur_pointer back-button" (click)="onBack()">
+        <i class="bi bi-arrow-left"></i>
+      </div>
+    </div>
+  </div>
+    <div class="container demo-app-main custom-calendar-container mt-3 mb-2">
+      <!-- Use Bootstrap Grid -->
+      <div class="row">
+        <div class="col-12">
+          <full-calendar *ngIf="calendarVisible" [options]="calendarOptions">
+            <ng-template #eventContent let-arg>
+              <i class="event-title" [title]="arg.event.title">{{ arg.event.title }}</i>
+            </ng-template>
+          </full-calendar>
+        </div>
+      </div>
+    </div>
+  
+<div class="modal fade" #eventInfoModal id="eventInfoModal" tabindex="-1" aria-labelledby="eventInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title mb-0" id="eventInfoModalLabel">Event Information</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="eventNameInput">Event Name</label>
+                    <input type="text" class="form-control" id="eventNameInput" #eventNameInput placeholder="Enter event name" required>
+                </div>
+                <div class="form-group">
+                    <label for="eventUrlInput">Event Url</label>
+                    <input type="text" class="form-control" id="eventUrlInput" #eventUrlInput placeholder="Enter event URL" required>
+                </div>
+                <div class="form-group">
+                    <label for="startDatePicker">Start Date</label>
+                    <input type="date" class="form-control" id="startDatePicker" [(ngModel)]="startDate" placeholder="Choose a date" required>
+                </div>
+                <div class="form-group">
+                    <label for="endDatePicker">End Date</label>
+                    <input type="date" class="form-control" id="endDatePicker" [(ngModel)]="endDate" placeholder="Choose a date" required>
+                </div>
+                <div class="form-group">
+                    <label for="eventTypeSelect">Event Type</label>
+                    <select class="form-select" id="eventTypeSelect" [(ngModel)]="selectedEventType">
+                        <option *ngFor="let eventType of eventTypes" [value]="eventType.value">
+                            {{ eventType.displayName }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" 
+                        [disabled]="!startDate || !endDate || !eventNameInput.value || !eventUrlInput.value"
+                        (click)="submitForm(eventNameInput.value, eventUrlInput.value, startDate, endDate, selectedEventType)">
+                    Submit
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+  
+  <!-- Event Type Filter Modal -->
+  <div class="modal fade" #eventTypeModal id="eventTypeModal" tabindex="-1" aria-labelledby="eventTypeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title mb-0" id="eventTypeModalLabel">Select Event Types</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+  
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <div class="d-flex flex-wrap">
+            <div *ngFor="let eventType of eventTypes" class="form-check me-3">
+              <input class="form-check-input" type="checkbox" [value]="eventType.value" (change)="onEventTypeChange($event)">
+              <label class="form-check-label">{{ eventType.displayName }}</label>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-success" (click)="applyEventTypeFilter()" data-bs-dismiss="modal">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </section>

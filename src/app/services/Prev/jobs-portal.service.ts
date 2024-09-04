@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class JobsPortalService {
 
-  private apiUrl = 'https://avchamps.com/testing-nodejs';
+  private apiUrl = 'https://avchamps.com/nodejs';
 
   // private apiUrl = 'http://localhost:3000';
 

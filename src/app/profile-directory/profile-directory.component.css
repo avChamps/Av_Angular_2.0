@@ -5,6 +5,10 @@ body {
   min-height: 100vh;
 }
 
+.counts {
+  width: 100%;
+}
+
 .card {
   background-color: #fff;
   padding: 15px;
@@ -13,6 +17,9 @@ body {
 
 .input-box {
   position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .input-box i {
@@ -216,4 +223,36 @@ body {
 
 .company_Name {
   font-size: 14px;
+}
+
+.page-link {
+  background-color: #00B074;
+  color: white;
+  cursor: pointer;
+}
+
+
+.btn-lg-square {
+  position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 48px;
+    height: 48px;
+}
+
+.btn-square,
+.btn-sm-square,
+.btn-lg-square {
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: normal;
+  border-radius: 2px;
+}
+
+@media only screen and (max-width: 999px) {
+  .btn-lg-square {
+    bottom: 55px;
+  }
 }

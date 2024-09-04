@@ -1,0 +1,108 @@
+<section id="counts" class="counts" data-aos="fade-right">
+  <div class="row">
+    <div class="col-2">
+      <div class="cur_pointer back-button" (click)="onBack()">
+        <i class="bi bi-arrow-left"></i>
+      </div>
+    </div>
+  </div>
+    <div class="container">
+      <h4 class="tool-header text-center">Budget Calculator</h4>
+      <div class="row">
+        <!-- Main Form Section -->
+        <div class="col-md-8 col-sm-12 mb-4">
+          <div class="card shadow-lg">
+            <div class="card-body">
+              <div class="form-group">
+                <label for="roomType">Select Room Type</label>
+                <select id="roomType" class="form-select" [(ngModel)]="selectedRoomType">
+                  <option *ngFor="let room of roomTypes" [value]="room.type">{{ room.type }}</option>
+                </select>
+              </div>
+              <div class="form-group mt-3">
+                <div class="row">
+                  <div class="col-6">
+                    <label for="roomQuantity">Quantity of Rooms</label>
+                    <input type="range"  [disabled]="selectedRoomType === 'Select Room'" id="roomQuantity" class="form-range" min="0" max="100" [(ngModel)]="roomQuantity">
+                  </div>
+                  <div class="col-6">
+                    <input type="number"  min="0" max="100" (keypress)="preventNegative($event)" (input)="validateMaxValue($event)"  [disabled]="selectedRoomType === 'Select Room'" class="form-control mt-2" [(ngModel)]="roomQuantity">
+                  </div>
+                </div>
+                <label for="costPerRoom" class="mb-0 mt-2">Cost per Room</label>
+                <input type="number" max="999999999" [disabled]="selectedRoomType === 'Select Room'" min="0"  (input)="restrictDigits($event)" (keypress)="preventNegative($event)" id="costPerRoom" class="form-control mt-2" [(ngModel)]="costPerRoom">
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Summary Section -->
+        <div class="col-md-4 col-sm-12">
+          <div class="card shadow-lg">
+            <div class="card-body">
+              <h5 class="card-title">Room Quantity</h5>
+              <p class="card-text">{{ roomQuantity }}</p>
+              <h5 class="card-title">Cost per Room</h5>
+              <p class="card-text">{{ costPerRoom | currency:'INR':'symbol' }}</p>
+              <h3>Total</h3>
+              <h2>{{ totalCost | currency:'INR':'symbol' }}</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Add Button -->
+      <div class="d-flex justify-content-center mt-3">
+        <button class="btn btn-primary" [disabled]="!costPerRoom || !selectedRoomType" (click)="saveRoomDetails()">Add</button>
+      </div>
+  
+      <!-- Budget Table Section -->
+      <div class="btu-calculator-container mt-5" *ngIf="showBudgetTable" id="tabelData">
+        <div class="container">
+          <div id="pdfContent">
+            <h4 class="tool-header text-center">Budget Calculator</h4>
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead class="custom-table-header text-center">
+                  <tr>
+                    <th scope="col">Sl.No</th>
+                    <th scope="col">Room Type</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of savedRooms; let i = index" [ngClass]="getRowClass(i)">
+                    <td class="text-center">{{ i + 1 }}</td>
+                    <td>{{ row.roomType }}</td>
+                    <td class="text-center">{{ row.quantity }}</td>
+                    <td class="text-center">{{ row.price }}</td>
+                    <td class="text-center">{{ row.total | currency:'INR':'symbol' }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+  
+            <!-- Add/Remove Icons -->
+            <div class="text-right disabled_Button">
+              <i class="bi bi-dash-circle ml-2 cur_pointer " (click)="removeRow()"></i>
+            </div>
+  
+            <div class="results text-center" id="pdfContentContainer">
+              <p><strong>Grand Total:</strong> &#8377;{{ totalBudget }}</p>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Buttons -->
+        <div class="row justify-content-center mb-2 mt-3 disabled_Button">
+          <div class="col-md-4 text-center">
+            <button class="btn btn-warning mr-2" (click)="refreshValues()">Cancel</button>
+            <button class="btn btn-success" (click)="downloadRack('tabelData')">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  

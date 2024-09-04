@@ -9,7 +9,7 @@
     <!-- Navigation -->
     <nav id="navbar" class="navbar navbar-expand-lg fixed-top navbar-dark" aria-label="Main navigation">
         <div class="container">
-            <a class="navbar-brand logo-image" href="index.html"><img src="./assets/images/av_logo.jpeg" alt="alternative"></a>
+            <a class="navbar-brand logo-image" href="index.html"><img src="./assets/images/logo/av_champs_logo.png" alt="alternative"></a>
             <a class="navbar-brand logo-text" href="index.html"></a>
             <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -26,7 +26,9 @@
                     <li class="nav-item">
                         <a class="nav-link" (click)="onLogin('ekart')">Kart</a>
                     </li>
-
+                    <li class="nav-item">
+                        <a class="nav-link" (click)="onLogin('community')">Community</a>
+                    </li>
                     <!-- <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false" href="#">Drop</a>
                         
@@ -55,7 +57,7 @@
 
 
     <!-- Home -->
-    <section class="home py-5 d-flex align-items-center" id="header">
+    <section class="home py-5 d-flex align-items-center" id="header" data-aos="fade-right"> 
         <div class="container text-light py-5"  data-aos="fade-right"> 
             <h1 class="headline">Best <span class="home_text">AV CHAMPS</span><br>Community Portal For You</h1>
             <p class="para para-light py-3">In today’s fast-paced, technology-driven world, the AV(Audio-Visual) community stands at the forefront of innovation, creativity, and connection. This vibrant community unites professionals, enthusiasts, and learners with a common passion for AV(Audio-Visual)technology.</p>
@@ -69,13 +71,13 @@
             </div>
 
             <div class="my-3">
-                <a class="btn" href="#plans">Get Started</a>
+                <a class="btn" (click)="onLogin('profile')">Get Started</a>
             </div>
         </div> <!-- end of container -->
     </section> <!-- end of home -->
 
     <!-- Services -->
-    <section class="services d-flex align-items-center py-5" id="services">
+    <!-- <section class="services d-flex align-items-center py-5" id="services">
         <div class="container text-light">
             <div class="text-center pb-4" >
                 <p>OUR SERVICES</p> 
@@ -125,9 +127,9 @@
                         <p class="para-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam odit consequatur doloribus natus in suscipit!</p>
                     </div>                    
                 </div>
-            </div> <!-- end of row -->
-        </div> <!-- end of container -->
-    </section> <!-- end of services -->
+            </div>
+        </div>
+    </section> -->
 
     <!-- Testimonials -->
     <div class="slider-1 testimonial text-light d-flex align-items-center">
@@ -136,7 +138,7 @@
                 <div class="text-center w-lg-75 m-auto pb-4">
                     <p>TESTIMONIALS</p>
                     <h2 class="py-2">What Our Community Says</h2>
-                    <p class="para-light">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Adipisci esse facilis vel, neque ipsa mollitia impedit, commodi ab illo dignissimos, voluptatum quae amet sed tenetur dolores reprehenderit laudantium quo sint.</p>
+                    <p class="para-light">Check out these testimonials to see how AV CHAMPS can advance your career. Excited to achieve similar success? Sign up today to begin!</p>
                 </div>
             </div> <!-- end of row -->
             <div class="row p-2" data-aos="zoom-in">

@@ -36,12 +36,12 @@ export class RedirectedPageComponent implements OnInit {
   }
 
   redirectedPath () {
-    if (this.receivedValue === 'avEngineer-dashboard') {
-      this.router.navigate(['/avEngineer-dashboard'])
+    if (this.receivedValue === 'profile-dashboard') {
+      this.router.navigate(['/profile-dashboard'])
     } else if (this.receivedValue === 'ekart-page') {
       this.router.navigate(['/ekart-page'])
-    } else if (this.receivedValue === 'av-community') {
-      this.router.navigate(['/av-community'])
+    } else if (this.receivedValue === 'community') {
+      this.router.navigate(['/community'])
     } else if(this.receivedValue === '') {
     } else if(this.receivedValue === 'jobs-portal') {
       this.router.navigate(['/jobs-portal']);

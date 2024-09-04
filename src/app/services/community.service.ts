@@ -9,8 +9,8 @@ export class CommunityService {
   //  url = 'http:// 192.168.29.47:3000'
   // url = 'http://10.0.0.68:3000';
   // url = 'http://localhost:3000'
-  url = 'https://avchamps.com/testing-nodejs';
-  // url = 'https://avchamps.com/nodejs';
+  // url = 'https://avchamps.com/testing-nodejs';
+  url = 'https://avchamps.com/nodejs';
 
 
   constructor(private http: HttpClient) { }

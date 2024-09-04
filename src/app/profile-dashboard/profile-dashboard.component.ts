@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import * as $ from 'jquery';
 import { FaServiceService } from '../services/fa-service.service';
@@ -10,10 +10,10 @@ import { UserServicesService } from '../services/user-services.service';
   styleUrls: ['./profile-dashboard.component.css']
 })
 export class ProfileDashboardComponent implements OnInit {
-  userName: string = "Disendra";
+  userName: any;
   activeMenuItem: any
   CickedsocialMedia: any
-  emailId: string = 'disendra889@gmail.com';
+  emailId:any;
   showSpinner: boolean = false
   products: any[] = []
   profileWeight!: number
@@ -25,10 +25,11 @@ export class ProfileDashboardComponent implements OnInit {
   linkedInUrl!: string
   profileImageType!: string
   socialMediaUrls: { [key: string]: string } = {}
+  @ViewChild('sidebarMenu') sidebarMenu!: ElementRef;
 
   constructor(
     private router: Router,
-    private userService: UserServicesService,
+    private userService: UserServicesService, private renderer  : Renderer2,
     private faService: FaServiceService, private route: ActivatedRoute
   ) { }
 
@@ -36,8 +37,8 @@ export class ProfileDashboardComponent implements OnInit {
     $('.navbar-toggler').click(function () {
       $('#sidebarMenu').toggleClass('sticky');
     });
-    // this.userName = localStorage.getItem('userName')
-    // this.emailId = localStorage.getItem('emailId')
+    this.userName = localStorage.getItem('userName')
+    this.emailId = localStorage.getItem('emailId')
     this.showSpinner = true;
     this.getProfile()
     this.userService
@@ -47,6 +48,19 @@ export class ProfileDashboardComponent implements OnInit {
         console.log(response)
         this.showSpinner = false
       })
+  }
+
+  closeSidebar() {
+    this.renderer.setStyle(this.sidebarMenu.nativeElement, 'display', 'none');
+  }
+
+  toggleSidebar() {
+    const currentDisplay = this.sidebarMenu.nativeElement.style.display;
+    if (currentDisplay === 'none' || currentDisplay === '') {
+      this.renderer.setStyle(this.sidebarMenu.nativeElement, 'display', 'block');
+    } else {
+      this.renderer.setStyle(this.sidebarMenu.nativeElement, 'display', 'none');
+    }
   }
 
   getProfile() {
@@ -87,7 +101,7 @@ export class ProfileDashboardComponent implements OnInit {
       return 'assets/img/empty_Image.png'
     }
   }
-
+  
   shareOnSocialMedia(media: string) {
     this.CickedsocialMedia = media;
     if (this.CickedsocialMedia === 'twitter') {
@@ -189,7 +203,7 @@ export class ProfileDashboardComponent implements OnInit {
 
   logOut() {
     this.faService.clearSession()
-    this.router.navigate(['/home-page'])
+    this.router.navigate([''])
     window.location.reload();
   }
 

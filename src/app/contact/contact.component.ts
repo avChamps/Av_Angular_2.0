@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ViewChild, ElementRef } from '@angular/core';
 import { FaServiceService } from '../services/fa-service.service';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Modal } from 'bootstrap';
 
@@ -23,11 +23,22 @@ export class ContactComponent implements AfterViewInit {
   constructor(private fb: FormBuilder, private http: HttpClient, private router: Router, private faService: FaServiceService) {
     this.contactForm = this.fb.group({
       name: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]],
-      phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/),this.sameDigitValidator]],
       email: ['', [Validators.required, Validators.email]],
       message: ['', Validators.required]
     });
   }
+
+sameDigitValidator(control: AbstractControl): { [key: string]: boolean } | null {
+  const phoneNumber = control.value;
+  if (phoneNumber && phoneNumber.length === 10) {
+    const firstDigit = phoneNumber[0];
+    if (phoneNumber.split('').every((digit: any) => digit === firstDigit)) {
+      return { 'sameDigit': true };
+    }
+  }
+  return null;
+}
 
   ngAfterViewInit(): void {
     this.modalInstance = new Modal(this.applyJobModal.nativeElement);

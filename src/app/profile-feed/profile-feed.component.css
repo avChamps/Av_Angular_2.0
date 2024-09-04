@@ -18,9 +18,16 @@
 .time {
     color: #666;
     font-size: 0.85em;
+    white-space: nowrap;
+    display: inline-block;
+    border-bottom: none;
 }
 
 .input-group {
     max-width: 400px;
     width: 100%;
+}
+
+.input-group-append :hover {
+  background-color: #00B074;;
 }

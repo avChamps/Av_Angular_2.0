@@ -1,0 +1,127 @@
+<section id="counts" class="counts" data-aos="fade-right">
+    <div class="row">
+      <div class="col-2">
+        <div class="cur_pointer back-button" (click)="onBack()">
+          <i class="bi bi-arrow-left"></i>
+        </div>
+      </div>
+    </div>
+<div class="container mb-2">
+    <h4 class="text-center mb-4">Bandwidth Calculator</h4>
+    <div class="border p-3 rounded shadow-lg">
+        <div class="row">
+            <!-- Resolution and pixel inputs -->
+            <div class="col-md-4 mb-3">
+                <label for="resolution" class="form-label">Resolution</label>
+                <select id="resolution" class="form-select" [(ngModel)]="selectedResolution" (change)="onResolutionChange()">
+                    <option value="" disabled>Select a Resolution</option>
+                    <option *ngFor="let res of resolutions" [value]="res.value">{{ res.label }}</option>
+                </select>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="horizontalPixels" class="form-label">Total Horizontal Pixels</label>
+                <input type="number" id="horizontalPixels" class="form-control" [(ngModel)]="horizontalPixels" disabled>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="verticalPixels" class="form-label">Total Vertical Pixels</label>
+                <input type="number" id="verticalPixels" class="form-control" [(ngModel)]="verticalPixels" disabled>
+            </div>
+        </div>
+
+        <!-- Frame rate, bit depth, and channel inputs -->
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label for="frameRate" class="form-label">Frame Rate</label>
+                <select id="frameRate" class="form-select" [(ngModel)]="frameRate">
+                    <option value="0" disabled>Select Frame Rate</option>
+                    <option *ngFor="let rate of frameRates" [value]="rate">{{rate}}</option>
+                </select>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="bitDepth" class="form-label">Bit Depth</label>
+                <select id="bitDepth" class="form-select" [(ngModel)]="bitDepth">
+                    <option value="0" disabled>Select Bit Depth</option>
+                    <option *ngFor="let depth of bitDepths" [value]="depth">{{depth}}</option>
+                </select>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="channels" class="form-label">Number of Graphic Channels</label>
+                <input type="number" id="channels" class="form-control" [(ngModel)]="channels" disabled>
+            </div>
+        </div>
+
+        <!-- Chroma and overhead inputs -->
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label for="chroma" class="form-label">Chroma Decimation Factor</label>
+                <select id="chroma" class="form-select" [(ngModel)]="chromaFactor">
+                    <option value="1">4:4:4</option>
+                    <option value="0.66">4:2:2</option>
+                    <option value="0.50">4:2:0</option>
+                </select>
+            </div>
+            <div class="col-md-4 mb-3 d-flex flex-column align-items-start">
+                <div class="form-check form-switch mb-2">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-check-input" type="checkbox" id="overheadToggle" [(ngModel)]="isOverheadEnabled" (change)="toggleOverhead()">
+                    <label class="form-check-label ml-2" for="overheadToggle">25 percent overhead</label>
+                </div>                
+                <input type="number" id="overheadValue" class="form-control" [(ngModel)]="overheadValue" [disabled]="!isOverheadEnabled">
+            </div>
+        </div>
+
+        <!-- Calculate button -->
+        <div class="text-center mt-4">
+            <button class="btn btn-primary" [disabled]="!selectedResolution || !frameRate || !bitDepth || !chromaFactor" (click)="onCalculate()">Calculate</button>
+        </div>
+
+        <!-- Result display -->
+        <div class="text-center mt-3" *ngIf="showResult">
+            <div class="row justify-content-center">
+                <div class="col-md-4 mb-2">
+                    <div class="p-3 rounded text-center shadow-lg border border-warning">
+                        <p>Bandwidth per Channel:</p>
+                        <p class="h5">{{ resultPerChannel | number: '1.2-2' }} Gbps</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <div class="p-3 rounded text-center shadow-lg border border-warning">
+                        <p>Total signal Bandwidth:</p>
+                        <p class="h5">{{ finalResult | number: '1.2-2' }} Gbps</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Explanation and formula section -->
+    <div class="mt-5">
+        <h6>What It Is</h6>
+        <p>The three are closely interrelated. You might prioritize video quality, but in doing so, you will have higher latency and a higher bandwidth. Alternatively, you might be limited in bandwidth and have to sacrifice video quality and deal with increased latency. Lower latency and higher video quality results in a higher bandwidth.</p>
+        <p>Striking a balance between all these competing desires, video quality, latency, and bandwidth, equals greater cost. Determining your streaming AVoIP solution is a constant negotiation between cost and these three factors.</p>
+    </div>
+
+<!-- Centered Formula section -->
+<div class="container mt-4 shadow-lg p-4 rounded">
+    <div class="row">
+        <!-- Adjusting the layout for centering f(x) on the left -->
+        <div class="col-md-4 d-flex flex-column justify-content-center align-items-center">
+            <h5 class="mb-0">Formula</h5>
+            <span class="px-2 py-1">f(x)</span>
+        </div>
+        <div class="col-md-8">
+            <p>The formula for estimating video bandwidth is:</p>
+            <p class="fw-bold">HPXVPxFRxBD*3*CDF*1.25</p>
+            <ul class="list-unstyled">
+                <li>HP = Horizontal Pixels</li>
+                <li>VP = Vertical Pixels</li>
+                <li>FR = Frame Rate</li>
+                <li>BD = Bit Depth</li>
+                <li>3 = Number of Graphic Channels</li>
+                <li>CDF = Chroma Decimation Factor</li>
+                <li>1.25 = Overhead Required for DVI or HDMI transport</li>
+            </ul>
+        </div>
+    </div>
+</div>   
+</div>
+</section>

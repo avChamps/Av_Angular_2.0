@@ -14,7 +14,7 @@ export class LoginPageComponent implements OnInit {
   receivedValue: any
   googleUrl: any
   linkedInUrl: any;
-  baseUrl = 'https://avchamps.com/testing-nodejs';
+  baseUrl = 'https://avchamps.com/nodejs';
   // baseUrl : string = 'http://localhost:3000';
   constructor (
     private route: ActivatedRoute,
@@ -51,6 +51,8 @@ export class LoginPageComponent implements OnInit {
       this.router.navigate(['/ekart-page'])
     } else if (this.receivedValue === 'av-community') {
       this.router.navigate(['/av-community'])
+    } else if(this.receivedValue === 'profile-dashboard') {
+      this.router.navigate(['/profile-dashboard']);
     }
   }
 }

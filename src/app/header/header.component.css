@@ -137,7 +137,7 @@ li {
 
 .offcanvas-collapse {
 	position: fixed;
-	top: 2.75rem;
+	top: 3.75rem;
 	/* adjusts the height between the top of the page and the offcanvas menu */
 	bottom: 0;
 	left: 100%;
@@ -240,7 +240,7 @@ li {
 /****************/
 .home {
 	/* background-image: url(/assets/images/home.jpg); */
-	background-image: url(/testing/assets/images/home.jpg);;
+	background-image: url('../../assets/images/home.jpg');;
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -659,10 +659,10 @@ li {
 		background-size: 22px 34px;
 	}
 
-	.custom-modal .modal-dialog {
+	/* .custom-modal .modal-dialog {
 		max-width: 500px;
 		width: 100%;
-	}
+	} */
 
 	.custom-modal .modal-content {
 		padding: 20px;

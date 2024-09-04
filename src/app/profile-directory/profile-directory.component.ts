@@ -112,6 +112,13 @@ export class ProfileDirectoryComponent {
     this.clickedUserData = [item];
   }
 
+  scrollToTop() {
+    window.scrollTo({
+      top : 0,
+      behavior : 'smooth'
+    })
+  }
+
   onBack(): void {
     this.companyName = '';
     this.instagramUrl = '';

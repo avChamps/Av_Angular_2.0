@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FaServiceService } from '../services/fa-service.service';
@@ -26,6 +26,7 @@ export class HeaderComponent implements AfterViewInit {
 
 
   constructor(private fb: FormBuilder, private http: HttpClient, private router: Router, private faService: FaServiceService) {
+    // window.location.reload();
     this.contactForm = this.fb.group({
       name: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]],
       phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
@@ -47,8 +48,7 @@ export class HeaderComponent implements AfterViewInit {
       }
     );
   }
-
-
+  
   scrollToSection(sectionId: string): void {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -86,9 +86,11 @@ export class HeaderComponent implements AfterViewInit {
       value = 'ekart-page'
     } else if (option === 'jobPortal') {
       value = 'jobs-portal'
+    } else if(option === 'profile') {
+       value = 'profile-dashboard'
     }
     else {
-      value = 'av-community'
+      value = 'community'
     }
 
     this.router.navigate(['/login-page', value])
@@ -206,9 +208,9 @@ scrollToTop() {
   ];
 
   usefulLinks = [
-    { label: 'Privacy', url: 'privacy.html' },
-    { label: 'Terms', url: 'terms.html' },
-    { label: 'Disclaimer', url: '#your-link' }
+    { label: 'Privacy', url: '#header'},
+    { label: 'Terms', url: '#header' },
+    { label: 'Disclaimer', url: '#header' }
   ];
 
   sponsers = [
@@ -231,7 +233,7 @@ scrollToTop() {
       position: 'AV Engineer'
     },
     {
-      content: 'The VC BAR SIMULATOR on AV Champs is excellent. It helps visualize camera, mic, and speaker coverage for our VC bar.',
+      content: 'The VC BAR SIMULATOR on AV Champs is excellent. It helps visualize camera, mic, and speaker coverage.',
       imageUrl: 'assets/images/udayp.jpg',
       name: 'Uday P',
       position: 'AV Engineer'

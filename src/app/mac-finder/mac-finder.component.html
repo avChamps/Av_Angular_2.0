@@ -1,0 +1,28 @@
+<section id="counts" class="counts" data-aos="fade-right">
+    <!-- Back Button Section -->
+    <div class="me-2">
+        <div class="cur_pointer back-button" (click)="onBack()">
+            <i class="bi bi-arrow-left"></i>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center align-items-center">
+
+        <!-- Search Box Section -->
+        <div>
+            <div class="input-group" style="max-width: 500px;">
+                <input type="text" class="form-control mac_Search" name="search" [(ngModel)]="sysAddress"
+                    placeholder="Enter Mac address..." (keyup.enter)="getVendor(sysAddress)" style="height: 50px;">
+                <span class="input-group-text">
+                    <i class="fa fa-search"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Displaying getVendorData -->
+    <div class="row mt-4">
+        <div class="col">
+            <h4 class="text-center">{{ getVendorData }}</h4>
+        </div>
+    </div>
+</section>

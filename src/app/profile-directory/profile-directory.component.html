@@ -7,12 +7,13 @@
 </head>
 
 <body>
+  <section id="counts" class="counts" data-aos="fade-right">
+  <div  *ngIf="searchBox ||!showClickedData" class="d-block d-md-none d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3">
+    <h4>Directory</h4>
+  </div> 
   <div class="container mt-2" *ngIf="searchBox">
-    <div class="d-block d-md-none d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3">
-      <h4>Directory</h4>
-    </div> 
     <div class="row justify-content-center mt-2">
-      <div class="col-md-6">
+      <div class="col-md-5">
         <div class="card">
           <div class="input-box">
             <input
@@ -26,25 +27,25 @@
           </div>
   
           <div *ngFor="let item of pagedUserData" class="list" (click)="showDetails(item)">
-            <img class="search_Image" [src]="item.imagePath || 'assets/img/user-Icon.png'" />
+            <img class="search_Image" [src]="item.imagePath || 'assets/images/common_Images/user-Icon.png'" />
             <div class="d-flex flex-column ml-3">
-              <span class="Search_Name">{{ item.fullName }}</span>
-              <span class="company_Name">{{ item.companyName }}</span>
+              <span class="Search_Name">{{ item.fullName | titleCase }}</span>
+              <span class="company_Name">{{ item.companyName | titleCase }}</span>
             </div>
           </div>
   
           <div *ngIf="pagedUserData.length === 0 && filterTerm !== ''">
             <div class="text-center">
-              <img src="assets/img/oops.png" alt="" class="img-fluid no-records" height="250px" />
+              <img src="assets/images/common_Images/oops.png" alt="" class="img-fluid no-records" height="250px" />
             </div>
           </div>
-  
+           
           <div *ngIf="showFilters">
             <div *ngIf="showFilters" class="mt-3">
               <nav *ngIf="totalRecords > pageSize">
                 <ul class="pagination justify-content-center">
                   <li class="page-item" [ngClass]="{ disabled: currentPage === 1 }">
-                    <a class="page-link" (click)="changePage(currentPage - 1)"><i class="fas fa-arrow-left"></i></a>
+                    <a class="page-link bg-white" (click)="changePage(currentPage - 1)"><i class="fas fa-arrow-left theme_green"></i></a>
                   </li>
   
                   <li class="page-item" [ngClass]="{ active: currentPage === 1 }">
@@ -68,7 +69,7 @@
                   </li>
   
                   <li class="page-item" [ngClass]="{ disabled: currentPage === totalPages }">
-                    <a class="page-link" (click)="changePage(currentPage + 1)"><i class="fas fa-arrow-right"></i></a>
+                    <a class="page-link bg-white" (click)="changePage(currentPage + 1)"><i class="fas fa-arrow-right theme_green"></i></a>
                   </li>
                 </ul>
               </nav>
@@ -78,18 +79,18 @@
       </div>
     </div>
   </div>
-  
 
   <div class="wrapper text-center" *ngIf="showClickedData">
     <div class="img-area mx-auto">
         <div class="inner-area">
-            <img [src]="imagePath || 'assets/img/user-Icon.png'" alt="">
+            <!-- <img [src]="imagePath || 'assets/images/common_Images/user-Icon.png'" alt=""> -->
+           <img [src]="imagePath ? imagePath : 'assets/images/common_Images/user-Icon.png'" alt="Profile Picture">
         </div>
     </div>
     <div class="icon arrow" *ngIf="showClickedData" (click)="onBack()"><i class="fas fa-arrow-left"></i></div>
     <div *ngFor="let item of clickedUserData">
-        <div class="name">{{ item.fullName }}</div>
-        <div class="about">{{ item.companyName }}</div>
+        <div class="name">{{ item.fullName | titleCase }}</div>
+        <div class="about">{{ item.companyName | titleCase }}</div>
     </div>
     <div class="social-icons d-flex justify-content-center mt-3">
         <a *ngIf="facebookUrl" [href]="facebookUrl" target="_blank" class="fb mx-2"><i class="fab fa-facebook-f"></i></a>
@@ -106,6 +107,9 @@
     </div>
 </div>
 
+<a class="btn btn-lg btn-primary btn-lg-square back-to-top" *ngIf="searchBox ||!showClickedData" (click)="scrollToTop()"><i class="bi bi-arrow-up"></i></a>
 
     <app-spinner *ngIf="showSpinner" class="spinner"></app-spinner>
+  </section>
 </body>
+</html>

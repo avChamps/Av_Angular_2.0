@@ -1,12 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { Injectable } from '@angular/core'
+import { Route, Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs'
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserServicesService {
-  url = 'https://avchamps.com/testing-nodejs';
+  url = 'https://avchamps.com/nodejs';
   // url = 'http://localhost:3000'
   // url = 'http://10.0.0.68:3000';
 
@@ -14,7 +15,7 @@ export class UserServicesService {
 
   private refreshData$ = new Subject<void>()
 
-  constructor (private http: HttpClient) {}
+  constructor (private http: HttpClient, private router : Router) {}
 
   uploadProfile (data: FormData) {
     return this.http.post(`${this.url}/insertProfile`, data)
@@ -79,6 +80,10 @@ export class UserServicesService {
       params
     })
   }
+
+onBack() {
+  this.router.navigate(['/profile-dashboard/tools']);
+}
 
   insertCart (data: FormData) {
     return this.http.post(`${this.url}/insertCart`, data)

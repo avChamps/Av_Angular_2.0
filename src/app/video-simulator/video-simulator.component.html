@@ -1,0 +1,203 @@
+<section id="counts" class="counts" data-aos="fade-right">
+  <div class="row">
+    <div class="col-2">
+      <div class="cur_pointer back-button" (click)="onBack()">
+        <i class="bi bi-arrow-left"></i>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <h3 class="tool-header text-center mb-4">VC Bar Simulator</h3>
+
+    <!-- Step 1: Room Dimensions -->
+    <div class="step mb-4">
+      <div class="step-header d-flex justify-content-between align-items-center bg-info text-white p-2">
+        <span>STEP:1</span>
+        <p class="m-0 text-center flex-grow-1">Enter Room Dimensions</p>
+      </div>
+    
+      <div class="step-body p-3 bg-light rounded">
+        <div class="form-group row align-items-center">
+          <!-- Room Length -->
+          <div class="col-12 col-md-4 d-flex align-items-center mb-3 mb-md-0">
+            <label for="roomLength" class="form-label me-2 mb-0">Room Length</label>
+            <i class="fa fa-info-circle fs-5 text-muted me-2" [tooltip]="roomLengthTooltip"></i>
+            <input type="text" class="form-control w-50" id="roomLength" [(ngModel)]="roomLength" maxlength="3" (blur)="validateRange($event, 'roomLength')">
+          </div>
+      
+          <!-- Units -->
+          <div class="col-12 col-md-4 d-flex align-items-center mb-3 mb-md-0">
+            <label class="form-label me-2 mb-0">Units</label>
+            <div class="btn-group btn-group-toggle" role="group">
+              <input type="radio" class="btn-check" name="unit" id="meters" (change)="updateTooltips()" autocomplete="off" [(ngModel)]="unit" value="meters" />
+              <label class="btn btn-outline-primary" for="meters">Meters</label>
+      
+              <input type="radio" class="btn-check" name="unit" id="feet" (change)="updateTooltips()" autocomplete="off" [(ngModel)]="unit" value="feet" />
+              <label class="btn btn-outline-primary" for="feet">Feet</label>
+            </div>
+          </div>
+      
+          <!-- Room Width -->
+          <div class="col-12 col-md-4 d-flex align-items-center mb-3 mb-md-0">
+            <label for="roomWidth" class="form-label me-2 mb-0">Room Width</label>
+            <i class="fa fa-info-circle fs-5 text-muted me-2" [tooltip]="roomWidthTooltip"></i>
+            <input type="text" class="form-control w-50" id="roomWidth" [(ngModel)]="roomWidth" maxlength="3" (blur)="validateRange($event, 'roomWidth')">
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- Step 2: Video Bar Details -->
+    <div class="step mb-4">
+      <div class="step-header d-flex justify-content-between align-items-center bg-info text-white p-2">
+        <span>STEP:2</span>
+        <p class="m-0 text-center flex-grow-1">Enter Video Bar Details</p>
+      </div>
+      <div class="step-body p-3 bg-light rounded">
+        <div class="form-group row mb-2">
+          <label for="make" class="col-sm-1 col-form-label">Make</label>
+          <div class="col-sm-5">
+            <input type="text" class="form-control" id="make" [(ngModel)]="make">
+          </div>
+          <label for="model" class="col-sm-1 col-form-label">Model</label>
+          <div class="col-sm-5">
+            <input type="text" class="form-control" id="model" [(ngModel)]="model">
+          </div>
+        </div>
+        
+        <div class="form-group row mb-2 align-items-center">
+          <label for="fov" class="col-sm-1 col-form-label">FOV</label>
+          <div class="col-sm-2">
+            <input type="number" [disabled]="!make || !model" class="form-control" id="fov" [(ngModel)]="fov">
+          </div>
+          
+          <label for="spl" class="col-sm-1 col-form-label">SPL(dB)</label>
+          <div class="col-sm-2 input-group">
+            <input type="number" [disabled]="!make || !model" class="form-control" id="spl" [(ngModel)]="spl"
+              (keypress)="validateInput($event)" (input)="restrictLength('spl')">
+          </div>
+
+          <label for="At" class="col-sm-1 col-form-label">at</label>
+          <div class="col-sm-2">
+            <select class="form-control" [disabled]="!spl" [(ngModel)]="splOption">
+              <option value="1">1 Meter</option>
+              <option value="0.5">0.5 Meters</option>
+            </select>
+          </div>
+          
+          <label for="spl" class="col-sm-1 col-form-label">Mic</label>
+          <div class="col-sm-2 input-group">
+            <input type="number" [disabled]="!make || !model" class="form-control" id="microphone" [(ngModel)]="microphone">
+          </div>
+          
+          <!-- <div class="col-sm-auto d-flex align-items-center px-1">
+            <p class="mb-0">at</p>
+          </div>
+          
+          <div class="col-sm-1">
+            <select class="form-control" [disabled]="!spl" [(ngModel)]="splOption">
+              <option value="1">1 Meter</option>
+              <option value="0.5">0.5 Meters</option>
+            </select>
+          </div> -->
+        
+          <!-- <label for="microphone" class="col-sm-2 col-form-label">Microphone</label>
+          <div class="col-sm-2">
+            <input type="number" [disabled]="!make || !model" class="form-control" id="microphone" [(ngModel)]="microphone">
+          </div> -->
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    <div class="row justify-content-center text-center mb-4">
+      <!-- Column for each button -->
+      <div class="col-12 col-md-auto mb-2 mb-md-0">
+        <button class="btn btn-primary w-100" [disabled]="!roomLength || !roomWidth || !fov"
+          (click)="createBox('cameraCoverage')">
+          Camera Coverage
+        </button>
+      </div>
+
+      <div class="col-12 col-md-auto mb-2 mb-md-0">
+        <button class="btn btn-primary w-100 ml-md-2" [disabled]="!roomLength || !roomWidth || !spl"
+          (click)="createBox('loudSpeakerCoverage')">
+          LoudSpeaker Coverage
+        </button>
+      </div>
+
+      <div class="col-12 col-md-auto">
+        <button class="btn btn-primary w-100 ml-md-2" [disabled]="!roomLength || !roomWidth || !microphone"
+          (click)="createBox('microphoneCoverage')">
+          Microphone Coverage
+        </button>
+      </div>
+    </div>
+
+
+    <!-- Disclaimer -->
+    <div class="content_header">
+      <h3 class="d-flex align-items-center gap-2"><i class="bi bi-exclamation-triangle-fill text-danger"></i>Disclaimer
+      </h3>
+      <ul>
+        <li>This tool provides simulated results based on the input values supplied by the user.</li>
+        <li>We strongly advise conducting comprehensive performance testing of the product before finalizing your
+          purchase.</li>
+        <li>The performance of the video bar depends on room acoustics, lighting, network conditions, and the video
+          application used by the user.</li>
+      </ul>
+    </div>
+
+    <!-- Modal Structure -->
+    <!-- Modal Structure -->
+    <div #myModal class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" id="downloadGraph">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="myModalLabel">{{ currentCoverage }}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body position-relative" id="ids">
+            <div *ngIf="showBox" class="custom-popup">
+              <!-- Display vertical room width label -->
+              <div class="d-flex justify-content-center mb-3">
+                <div class="vertical-label position-absolute start-0 d-flex align-items-center">
+                  <p class="rotate-text">{{ roomWidth + (unit === 'feet' ? ' fts' : 'mts') }}</p>
+                </div>
+              </div>
+
+              <!-- Canvas for displaying different coverage types -->
+              <div class="text-center position-relative">
+                <!-- Camera Coverage Canvas -->
+                <canvas *ngIf="showCameraCoverage" id="cameraCoverage" [width]="canvasWidth" [height]="canvasHeight"
+                  class="border"></canvas>
+
+                <!-- Microphone Coverage Canvas -->
+                <canvas *ngIf="showMicrophoneCoverage" #microphoneCanvas [width]="canvasWidth" [height]="canvasHeight"
+                  class="border"></canvas>
+
+                <!-- Loud Speaker Coverage Canvas -->
+                <canvas *ngIf="showloudSpeaker" #splCanvas [width]="canvasWidth" [height]="canvasHeight"
+                  class="border"></canvas>
+              </div>
+
+              <!-- Display horizontal room length label at bottom center -->
+              <div class="length-label position-absolute start-50 translate-middle-x">
+                <p class="roomLength">{{ roomLength + (unit === 'feet' ? ' fts' : 'mts') }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success disabled_Button"
+              (click)="downloadGraph('downloadGraph')">Download</button>
+            <button type="button" class="btn btn-secondary disabled_Button" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</section>

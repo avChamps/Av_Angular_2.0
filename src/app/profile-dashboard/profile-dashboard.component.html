@@ -1,38 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Page Title</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    </head>
 <body>
 
     <nav class="navbar navbar-expand-md navbar-dark theme_bg d-md-none">
         <a class="navbar-brand" routerLink="profile-dashboard">AVCHAMPS</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation" (click)="toggleSidebar()">
             <span class="navbar-toggler-icon"></span>
         </button>
     </nav>
 
-    <div class="collapse d-md-block theme_bg sidebar" id="sidebarMenu">
+    <div class="collapse d-md-block theme_bg sidebar" id="sidebarMenu" #sidebarMenu>
         <div class="container">
             <div class="row justify-content-center">
               <div class="col-md-8 d-flex flex-column align-items-center">
                 <div class="profile-container position-relative">
-                  <!-- <img [src]="getImageSource() || 'assets/img/user-Icon.png'" -->
-                   <img src="https://media.licdn.com/dms/image/v2/D5603AQEZg5Kpp8wSqw/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1712027407850?e=2147483647&v=beta&t=HzgfOd3LQdqgHQcDggnDsyBjupRN3LpEB-pQ7JGssyU"
-                       alt=""
-                       class="img-fluid profile-image rounded-circle"
-                       [ngStyle]="{'border': profileWeight <= 40 ? '2px solid red' : (profileWeight > 40 && profileWeight <= 80 ? '2px solid blue' : '2px solid green')}">
+                  <!-- <img [src]="getImageSource() || 'assets/data-toggle="collapse" data-target="#sidebarMenu" img/user-Icon.png'" -->
+                   <img [src]="getImageSource() || 'assets/img/user-Icon.png'" alt="" class="img-fluid profile-image rounded-circle"
+                    [ngStyle]="{'border': profileWeight <= 40 ? '2px solid red' : (profileWeight > 40 && profileWeight <= 80 ? '2px solid blue' : '2px solid green')}">
                   <button class="btn profile_Weight position-absolute"
                           style="top: 100%; left: 50%; transform: translate(-50%, -50%); padding: 2px 8px; font-size: 12px; border-radius: 12px;"
                           [ngClass]="{'btn-danger': profileWeight <= 40, 'btn-primary': profileWeight > 40 && profileWeight <= 80, 'btn-success': profileWeight > 80}">
                     {{ profileWeight }}%completed
                   </button>
                 </div>
-                <p class="user-name mt-2 text-white font-weight-500" style="font-size: 1.5rem;">Disendra</p>
+                <p class="user-name mt-2 text-white font-weight-500" style="font-size: 1.5rem;"> {{ userName | titleCase }} </p>
               </div>
             </div>
           </div>
@@ -40,7 +37,7 @@
         <!-- Logout Button -->
         <div class="logout-container text-right">
             <button class="btn btn-link text-white" (click)="logOut()">
-                <i class="bi bi-box-arrow-right text-danger fs-5"></i></button>
+                <i class="bi bi-box-arrow-right fs-5"></i></button>
         </div>
 
         <div class="social-links text-center" data-bs-toggle="modal" data-bs-target="#showSocialMedia">
@@ -50,21 +47,52 @@
             <a (click)="shareOnSocialMedia('linkedin')" class="linkedin"><i class="bi bi-linkedin"></i></a>
         </div>      
     
-        <ul class="nav flex-column text-center nav-row">
-            <li class="nav-item">
-                <a class="nav-link" routerLink="about"> <i class="bi bi-person"></i> About</a>
+        <!-- <ul class="nav flex-column text-center nav-row">
+            <li class="nav-item" *ngFor="let item of navItems">
+              <a class="nav-link" [routerLink]="getLink(item)" (click)="closeSidebar()">
+                <i [class]="item.icon"></i> {{ item.name }}
+              </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink="feed"> <i class="bi bi-envelope"></i> Feed</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink="directory"> <i class="bi bi-person-check"></i> Directory</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink="calender"> <i class="bi bi-calendar"></i> Calendar</a>
-            </li>
-        </ul>       
+          </ul>         -->
 
+          <ul class="nav flex-column text-center nav-row">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="about" (click)="closeSidebar()">
+                <i class="bi bi-person"></i> About
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="feed" (click)="closeSidebar()">
+                <i class="bi bi-envelope"></i> Feed
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="directory" (click)="closeSidebar()">
+                <i class="bi bi-person-check"></i> Directory
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="tools" (click)="closeSidebar()">
+                <i class="bi bi-tools"></i> Tools
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/jobs-portal" target="_blank" (click)="closeSidebar()">
+                <i class="bi bi-briefcase"></i> Careers
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/ekart-page" target="_blank" (click)="closeSidebar()">
+                <i class="bi bi-cart"></i> Ekart
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/community" target="_blank" (click)="closeSidebar()">
+                <i class="bi bi-people"></i> Community
+              </a>
+            </li>
+          </ul>
+          
         <div class="version-tag text-center text-white mt-auto">
             v2.0.0
         </div>
@@ -99,6 +127,9 @@
         </div>
       </div>
     
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
 

@@ -13,7 +13,7 @@ export class AuthGuardService {
     if (this.faService.hasSession()) {
       return true;
     } else {
-      this.router.navigate(['/home-page']);
+      this.router.navigate(['']);
       return false;
     }
 }

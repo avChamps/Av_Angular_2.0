@@ -1,0 +1,72 @@
+<section id="counts" class="counts" data-aos="fade-right">
+    <div class="row">
+        <div class="col-2">
+            <div class="cur_pointer back-button" (click)="onBack()">
+                <i class="bi bi-arrow-left"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mb-2">
+        <h4 class="text-center mb-1">Projector Throw Distance</h4>
+        <div class="border p-3 rounded shadow-lg mt-2">
+            <div class="row g-2 justify-content-center align-items-center">
+                <!-- Width Input -->
+                <div class="col-6 col-sm-auto">
+                    <label for="width" class="form-label">Width</label>
+                    <input type="number" id="width" class="form-control" [(ngModel)]="width">
+                </div>
+
+                <!-- Through Ratio Input -->
+                <div class="col-6 col-sm-auto">
+                    <label for="throughRatio" class="form-label">Through Ratio</label>
+                    <input type="number" id="throughRatio" class="form-control" [(ngModel)]="throughRatio">
+                </div>
+
+                <!-- Reset Icon -->
+                <div class="col-6 col-sm-auto text-center">
+                    <button class="btn btn-warning w-100 text-white" (click)="onReset()"><i class="bi bi-arrow-clockwise"></i>Refresh</button>
+                    </div>
+
+                <!-- Calculate Button -->
+                <div class="col-6 col-sm-auto text-center">
+                    <button class="btn btn-primary w-100" (click)="onCalculate()">Calculate</button>
+                </div>
+            </div>
+
+            <!-- Result Display -->
+            <div class="text-center mt-3">
+                <p>Projection distance(L): {{ projectionDistance | number: '1.2-2' }} inches</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Explanation and formula section -->
+    <div class="mt-5">
+        <h6>What It Is</h6>
+        <p>Projector throw distance is the value that helps in obtaining the best-quality picture results as formed by the projector on the screen. This distance can be calculated using a projector throw ratio distance calculator, which helps increase accuracy, save time and effort, and promise a high-quality and ultimate viewing experience.</p>
+    </div>
+
+    <!-- Centered Formula section -->
+    <div class="container shadow-lg p-4 rounded mb-2">
+        <div class="row">
+            <div class="col-md-4 d-flex flex-column justify-content-center align-items-center">
+                <h5 class="mb-0">Formula</h5>
+                <span class="px-2 py-1">f(x)</span>
+            </div>
+            <div class="col-md-8">
+                <p>Estimating Throw Distance Formula</p>
+                <p class="fw-bold">The formula for estimating throw is: D = SW * TR</p>
+                <p>Where</p>
+                <ul>
+                    <li>D is the distance from the front of the lens to the closest point on the screen</li>
+                    <li>SW is screen width or width of the projected image</li>
+                    <li>TR is the throw ratio or ratio of throw distance to image width</li>
+                    <li>Refer to the owner's manual of your projector and lens combination to find an accurate formula for your specific project.</li>
+                </ul>
+            </div>
+        </div>
+    </div>   
+</section>
+
+<app-spinner *ngIf="showSpinner"></app-spinner>

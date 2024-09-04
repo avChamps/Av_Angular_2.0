@@ -16,7 +16,7 @@
 
     <div class="d-flex align-items-center justify-content-between">
       <a *ngIf="!isSearchActive" class="logo d-flex align-items-center"  (click)="onBack()">
-        <h4 class="theme_green">AVCOMMUNITY</h4>
+        <img src="./assets/images/logo/av_champs_logo.png" class="custom_logo_img" alt="alternative">
       </a>
     
       <!-- Only one search icon/button, removed the first icon -->
@@ -57,17 +57,10 @@
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img [src]="getImageSource() ||  'assets/images/common_Images/user-Icon.png'" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2"> {{ userName }} </span>
+            <span class="d-none d-md-block dropdown-toggle ps-2"> {{ userName | titleCase }} </span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-            <li class="dropdown-header">
-              <h6>{{userName}}</h6>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
             <li>
               <a class="dropdown-item d-flex align-items-center" (click)="onSelect('myPosts')">
                 <i class="bi bi-file-text"></i>
@@ -75,17 +68,10 @@
               </a>
             </li>
             <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
               <a class="dropdown-item d-flex align-items-center" (click)="onSelect('contact')">
                 <i class="bi bi-question-circle"></i>
                 <span>Help</span>
               </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
             </li>
 
             <li>
@@ -121,11 +107,11 @@
                   </div>
                   <div class="timeline-body" *ngFor="let feedback of item.feedbackInfo">
                     <div class="timeline-header">
-                      <span class="userimage"><img [src]="item.question_owner_imagePath" alt=""></span>
+                      <span class="userimage"><img [src]="item.question_owner_imagePath || 'assets/images/common_Images/user-Icon.png' " alt=""></span>
                       <span class="username"><a>{{ item.question_userName_name }}</a></span>
                       <span class="pull-right text-muted">{{ feedback.total_views }} Views</span>
                     </div>
-                    <div class="timeline-content" (click)="toggleShowFullQuestion(item)">
+                    <div class="timeline-content cur_pointer" (click)="toggleShowFullQuestion(item)">
                       <p>{{ (item.question.length > 60 || item.imagePath || (item.urlLink !== 'undefined' && item.urlLink !== null && item.urlLink.trim() !== '')) && !questionStates[item.qId] ? (item.question | slice:0:50) + '....' : item.question }}</p>
                     </div>                              
                     
@@ -156,10 +142,10 @@
                       </div>
                     </div>
                     <div class="timeline-footer">
-                      <a (click)="performActions(item,'like')" [ngClass]="{'liked': item.isLiked}" class="m-r-15 text-inverse-lighter"><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like</a>
-                      <a *ngIf="item.answer" (click)="showAdditionalAnswers(item)" class="m-r-15 text-inverse-lighter"><i class="fa fa-comments fa-fw fa-lg m-r-3"></i> Comments</a>
-                      <a *ngIf="showMyposts" data-bs-toggle="modal" data-bs-target="#myDialog" (click)="editQuestion(item)" class="m-r-15 text-inverse-lighter"><i class="fa fa-edit fa-fw fa-lg m-r-1"></i> Edit</a>
-                      <a *ngIf="showMyposts" (click)="deleteQuestion(item)" class="m-r-15 text-inverse-lighter"><i class="fa fa-trash-o fa-fw fa-lg m-r-1"></i> Delete</a>
+                      <a (click)="performActions(item,'like')" [ngClass]="{'liked': item.isLiked}" class="text-inverse-lighter"><i class="fa fa-thumbs-up fa-fw fa-lg display-left"></i> Like</a>
+                      <a *ngIf="item.answer" (click)="showAdditionalAnswers(item)" class="text-inverse-lighter"><i class="fa fa-comments fa-fw fa-lg display-left"></i> Comments</a>
+                      <a *ngIf="showMyposts" data-bs-toggle="modal" data-bs-target="#myDialog" (click)="editQuestion(item)" class="text-inverse-lighter display-left"><i class="fa fa-edit fa-fw fa-lg"></i> Edit</a>
+                      <a *ngIf="showMyposts" (click)="deleteQuestion(item)" class="text-inverse-lighter"><i class="fa fa-trash-o fa-fw fa-lg display-left"></i> Delete</a>
                       <!-- <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-share fa-fw fa-lg m-r-3"></i> Share</a> -->
                     </div>
 
@@ -167,27 +153,27 @@
                       <ul *ngIf="additionalAnswersVisibility[item.qId] && additionalAnswersData[item.qId] && additionalAnswersData[item.qId].length > 0" class="mt-1">
                           <li *ngFor="let addAnswer of additionalAnswersData[item.qId]">
                               <div class="profile_Info">
-                                  <img *ngIf="addAnswer.answer_owner_imagePath" [src]="addAnswer.answer_owner_imagePath" alt="Profile Picture">
+                                <img [src]="addAnswer.answer_owner_imagePath ? addAnswer.answer_owner_imagePath : 'assets/images/common_Images/user-Icon.png'" alt="Profile Picture">
                                   <div class="username">{{ addAnswer.answer_userName }}</div>
-                                  <p class="answer_posted_date">{{ addAnswer.answer_posted_date | date }}</p>
+                                  <!-- <span><i class="fa fa-ellipsis-v"></i></span> -->
+                                  <p class="answer_posted_date mb-0">{{ addAnswer.answer_posted_date | date }}</p>
                               </div>
-                              <p class="answer_text">{{ addAnswer.answer }}</p>
+                              <p class="answer_text" [innerHTML]="addAnswer.answer | linkifyPipe">{{ addAnswer.answer }}</p>
                           </li>
                       </ul>
                   </div>                  
 
                     <div class="timeline-comment-box">
-                      <div class="user"><img [src]="getImageSource()"></div>
+                      <div class="user"><img [src]="getImageSource() || 'assets/images/common_Images/user-Icon.png'"></div>
                       <div class="input">
                         <form action="">
                           <div class="input-group">
                             <input type="text" class="form-control rounded-corner" name="replyAnswer" [(ngModel)]="item.replyAnswer" placeholder="Share your Answer here...">
                             <div class="input-group-append p-l-10">
                               <button class="btn btn-primary f-s-12 rounded-corner send_button" [disabled]="!item.replyAnswer" (click)="uploadAnswer(item.qId,item.replyAnswer)" type="button">
-                                  <i class="bi bi-send"></i>
+                                <i class="fas fa-arrow-alt-circle-right"></i>
                               </button>
-                          </div>
-                          
+                          </div>                          
                         </div>
                         
                           </form>
@@ -209,35 +195,13 @@
 </div>
 </div>
 
-<div class="row justify-content-center align-items-center" *ngIf="mainQuestions.length === 0" style="height: 70vh;">
+<div class="row justify-content-center align-items-center w-100" *ngIf="mainQuestions.length === 0 && !showContactForm" style="height: 70vh;">
   <div class="col-sm-6 col-lg-3 text-center">
-    <img src="assets/img/ekart/empty_produts.png" class="img-fluid" alt="No products">
+    <img src="assets/images/ekart/empty_produts.png" class="img-fluid" alt="No products">
   </div>
 </div>
 
-<!-- Dialog template -->
-<!-- <ng-template #myDialog>
-  <mat-dialog-content class="d-flex align-items-center justify-content-center" style="overflow: hidden;">
-    <div class="container custom-dialog-container">
-      <textarea cols="100" class="form-control input-sm mb-2" name="userQuestion" [(ngModel)]="userQuestion" placeholder="Share here..."></textarea>
-      <mat-icon class="txt_Icons" (click)="selectPhoto()">insert_photo</mat-icon>
-      <input type="file" accept="image/*" style="display: none;" #fileInput (change)="onFileSelected($event)">      
-      <mat-icon class="txt_Icons txt_link" (click)="urlExpand()">link</mat-icon>
-      <p *ngIf="selectedFile">{{ selectedFile.name }}</p>
-      <div class="url_box" *ngIf="showUrlBox">
-        <input type="text" class="form-control input-sm" name="questionURl" [(ngModel)]="questionURl" placeholder="Enter URL"><br>
-        </div>
-    </div>
-      </mat-dialog-content>
-      
-      <mat-dialog-actions align="end" class="mat-buttons">
-        <button mat-dialog-close class="btn btn-warning">Cancel</button>
-        <button [mat-dialog-close]="true" class="btn btn-success button_left" [disabled]="!userQuestion" (click)="onUpload()">{{ buttonType }}</button>
-      </mat-dialog-actions>
-    </ng-template> -->
-
-
-    <!-- Bootstrap Modal -->
+<!-- Bootstrap Modal -->
 <!-- Bootstrap Modal -->
 <div class="modal fade" id="myDialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">

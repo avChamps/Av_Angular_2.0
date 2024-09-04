@@ -1,0 +1,102 @@
+<section id="counts" class="counts" data-aos="fade-right">
+  <div class="row">
+    <div class="col-2">
+      <div class="cur_pointer back-button" (click)="onBack()">
+        <i class="bi bi-arrow-left"></i>
+      </div>
+    </div>
+  </div>
+<div class="container btu-calculator-container">
+    <h4 class="tool-header text-center">AV Rack Simulator</h4>
+  
+    <!-- Table for AV Rack Simulator -->
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <table class="table table-bordered">
+          <!-- Apply custom class to the thead -->
+          <thead class="custom-table-header text-center">
+            <tr>
+              <th scope="col">Sl.No</th>
+              <th scope="col">Equipment/Model</th>
+              <th scope="col">RU Size</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of btuRows; let i = index">
+              <td class="text-center">{{ i + 1 }}</td>
+              <td>
+                <input type="text" class="form-control" placeholder="Enter Equipment Details" [(ngModel)]="row.equipment" maxlength="50" (ngModelChange)="updateRackConfiguration()">
+              </td>
+              <td>
+                <input type="number" class="form-control" [(ngModel)]="row.watt" [disabled]="!row.equipment" maxlength="4" (ngModelChange)="updateRackConfiguration()" onkeypress="if(this.value.length==4) return false;">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+  
+        <!-- Add/Remove Icons -->
+        <div class="text-right mb-3">
+          <i class="bi bi-plus-circle cur_pointer" (click)="addRow()"></i>
+          <i class="bi bi-dash-circle ml-2 cur_pointer " (click)="removeLastRow()"></i>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Buttons -->
+    <div class="row justify-content-center mb-4">
+      <div class="col-md-4 text-center">
+        <button class="btn btn-warning mr-2" (click)="onClear()">Cancel</button>
+        <button class="btn btn-success" (click)="downloadRack('rackDiagram')">Save</button>
+      </div>
+    </div>
+  
+    <!-- Description -->
+    <div class="row mb-4">
+      <div class="col">
+        <p class="text-center">Enter the devices you intend to include in your AV setup. Our audiovisual rack diagram tool will automatically generate a rack layout. Once the AV rack layout is generated, you can visualize it in 2D to gain a clear understanding of the final assembly of your audiovisual rack.</p>
+      </div>
+    </div>
+  
+    <!-- Rack Elevation -->
+    <div class="row justify-content-center mb-2" *ngIf="totalRackHeight !== 0" id="rackDiagram">
+      <div class="col-md-8">
+        <h4 class="tool-header text-center mb-3">Rack Elevation</h4>
+        <div class="d-flex justify-content-center">
+          <div class="border border-dark d-flex" [ngStyle]="{'height': totalRackHeight + 'px', 'width': '100%'}">
+            <!-- Left Rack Numbers -->
+            <div class="d-flex flex-column justify-content-end align-items-center border-right p-2">
+              <div *ngFor="let n of rackNumbers.slice().reverse()" class="border-bottom w-100 text-center py-1">
+                {{ n }}
+              </div>
+            </div>
+  
+            <!-- Rack Items -->
+            <div class="flex-grow-1 position-relative">
+              <div *ngFor="let row of btuRows; let i = index" 
+                   class="position-absolute bg-light d-flex justify-content-center align-items-center border-bottom border-top"
+                   [ngClass]="{
+                     'w-50': row.watt > 0 && row.watt < 1, 
+                     'border-left': row.watt > 0 && row.watt < 1 && (i % 2 !== 0)
+                   }"
+                   [ngStyle]="{
+                     'height': ((row.watt >= 1 ? row.watt : 1) * 35) + 'px',
+                     'bottom': (getRackItemBottom(i) * 35) + 'px',
+                     'width': row.watt > 0 && row.watt < 1 ? '50%' : '100%',
+                     'left': row.watt > 0 && row.watt < 1 ? (i % 2 === 0 ? '0' : '50%') : '0'
+                   }">
+                <span>{{ row.equipment }}</span>
+              </div>
+            </div>
+  
+            <!-- Right Rack Numbers -->
+            <div class="d-flex flex-column justify-content-end align-items-center border-left p-2">
+              <div *ngFor="let n of rackNumbers.slice().reverse()" class="border-bottom w-100 text-center py-1">
+                {{ n }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

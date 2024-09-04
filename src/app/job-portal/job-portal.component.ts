@@ -13,8 +13,8 @@ export class JobPortalComponent implements OnInit {
   jobType: string = 'full-time';
   filteredJobType : any;
   job_role: string = '';
-  minSalary = '';
-  maxSalary!: number;
+  minSalary: number | null = null;
+  maxSalary: number | null = null;
   email!: string;
   phone!: number;
   location: string = '';
@@ -30,13 +30,15 @@ export class JobPortalComponent implements OnInit {
   displayAllPosts: boolean = true;
   postedBy: string = '';
   buttonType: string = 'Upload';
-  userName: any = 'Disendra';
-  emailId: any = 'disendra889@gmail.com';
+  userName : any;
+  emailId : any;
   profileImg: any[] = [];
   jobHeadline: string = 'Post A Job'
   slNo: any;
   isContact: boolean = false;
   ShowJobPrtal: boolean = true;
+  showSpinner : boolean = false;
+  isMaxSalaryValid: boolean = true;
 
   jobRoles = [] = [
     { label: "Live Events", value: "live_events" },
@@ -72,22 +74,23 @@ export class JobPortalComponent implements OnInit {
   constructor(private jobPortaService: UserServicesService, private faService: FaServiceService, private cdr: ChangeDetectorRef, private userService: UserServicesService,
     private router: Router) { }
   ngOnInit(): void {
-    // this.emailId = localStorage.getItem('emailId')
-    // this.userName = localStorage.getItem('userName');
-    this.userName = 'Disendra'
-
+    this.emailId = localStorage.getItem('emailId')
+    this.userName = localStorage.getItem('userName');
     this.getProfileImage()
     this.getPostedJobs('search');
+    setTimeout(() => {
+      this.scrollToTop();
+    }, 180);
   }
 
 
   getProfileImage() {
-    // this.showSpinner = true
+    this.showSpinner = true
     this.userService
       .getProfileImage(this.emailId)
       .subscribe((response: any) => {
         console.log(response)
-        // this.showSpinner = false
+        this.showSpinner = false
         this.profileImg = response.records
       })
   }
@@ -169,7 +172,6 @@ export class JobPortalComponent implements OnInit {
       tab.active = false;
     }
   });
-    // Update the current job type and reload the jobs
     this.jobType = selectedValue;
     this.currentPage = 1;
     // this.getPostedJobs('search');
@@ -211,6 +213,15 @@ export class JobPortalComponent implements OnInit {
     else {
       this.uploadEditJob()
     }
+  }
+
+  validateSalaryRange(): boolean {
+    if (this.minSalary !== null && this.maxSalary !== null) {
+      this.isMaxSalaryValid = this.maxSalary > this.minSalary;
+    } else {
+      this.isMaxSalaryValid = true; // Valid when one or both fields are empty
+    }
+    return this.isMaxSalaryValid;
   }
 
   applyDetails(details: any) {
@@ -266,7 +277,7 @@ export class JobPortalComponent implements OnInit {
 
   deleteJob(job: any) {
     console.log(job)
-    // this.showSpinner = true
+    this.showSpinner = true
     const applicationData = {
       job_role: job.job_role,
       company: job.company,
@@ -278,7 +289,7 @@ export class JobPortalComponent implements OnInit {
     }
     this.jobPortaService.deleteJob(applicationData).subscribe((response: any) => {
       console.log('Response from server:', response)
-      // this.showSpinner = false
+      this.showSpinner = false
       if (response && response.status) {
         alert(response.message);
         this.refreshPage();
@@ -292,7 +303,7 @@ export class JobPortalComponent implements OnInit {
   clearInputs() {
     this.jobType = '';
     this.job_role = '';
-    this.minSalary = '';
+    this.minSalary = null;
     this.maxSalary = 0;
     this.email = '';
     this.phone = 0;
@@ -306,7 +317,7 @@ export class JobPortalComponent implements OnInit {
 
   logOut() {
     this.faService.clearSession();
-    this.router.navigate(['/home-page']);
+    this.router.navigate(['']);
     window.location.reload();
   }
 
@@ -317,8 +328,8 @@ export class JobPortalComponent implements OnInit {
 
   scrollToBottom() {
     window.scrollTo({
-      top: document.body.scrollHeight, // Scrolls to the bottom of the page
-      behavior: 'smooth' // Enables smooth scrolling
+      top: document.body.scrollHeight,
+      behavior: 'smooth'
     });
   }
 

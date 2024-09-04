@@ -1,0 +1,46 @@
+/* .container {
+    box-shadow: 4px 4px 10px #d1d9e6, -4px -4px 10px #f9f9f9;
+} */
+
+.step-header {
+    background-color: #00b3b3;
+    color: white;
+    padding: 10px;
+}
+
+.content_header h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.custom-popup {
+    width: 80%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.border {
+    border: 1px solid #000000;
+}
+
+.vertical-label {
+    left: 10px; /* Adjust for spacing */
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .rotate-text {
+    transform: rotate(-90deg);
+    white-space: nowrap;
+  }
+  
+  .length-graph {
+    bottom: 10px; /* Adjust to position slightly above the bottom */
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .position-relative {
+    position: relative;
+  }

@@ -7,7 +7,7 @@
 </head>
 <body>
 
-    <section id="counts" class="counts">
+    <section id="counts" class="counts" data-aos="fade-right">
         <div class="d-block d-md-none d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3">
             <h4>Feed</h4>
         </div> 
@@ -62,20 +62,10 @@
                                                             alt="New Email" class="new-email-icon">
                                                     </td>
                                                     <td class="time">{{ email.createdDate | date:'hh:mm a' }} {{ email.createdDate | date:'MMM dd' }}</td>
-                                                </tr>
-                                                <!-- Show the image only when filteredEmails array is empty -->
-                                                <tr style="border-color: white;" *ngIf="filteredEmails.length === 0 && searchTitle !== ''">
-                                                    <td colspan="100">
-                                                        <div class="centered-image mt-3">
-                                                            <img src="assets/img/oops.png" alt="No records found" class="img-fluid no-records" height="250px">
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
+                                                </tr>                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
-    
                             </div>
                         </div>
                     </div>
@@ -83,12 +73,20 @@
             </div>
         </div>
 
-
+        <div *ngIf="filteredEmails.length === 0 && searchTitle !== ''">
+            <div class="container">
+              <div class="row justify-content-center">
+                <div class="col-12 col-md-6 d-flex justify-content-center">
+                  <img src="assets/images/common_Images/oops.png" alt="" class="img-fluid" height="250px" />
+                </div>
+              </div>
+            </div>
+          </div>          
 
     <div *ngIf="selectedEmail">
     <div class="row mb-3">
         <div class="col-2">
-            <div class="cur_pointer" (click)="onBack()">
+            <div class="cur_pointer back-button" (click)="onBack()">
                 <i class="bi bi-arrow-left"></i>
             </div>
         </div>
@@ -108,7 +106,8 @@
                                 <p>Source:</p>
                                 <p class="website_links"><a class="links" href="{{ email.link }}" target="_blank">{{ email.link }}</a></p>
                             </div>
-                            <p>Best Regards,<br> AV CHAMPS.</p>
+                            <p>Best Regards,<br>
+                                <img src="./assets/images/logo/av_champs_logo.png" class="custom_logo_img" alt="alternative">
                         </div>
                     </div>
                 </div>
@@ -121,7 +120,7 @@
                         <h4>Our Sponsors</h4>
                     </div>
                     <div class="card-body text-center">
-                        <p>Sponsor us and have your logo featured here.<a class="contactUs_click text-white" (click)="sendContact()"> Contact Us</a></p>
+                        <p>Sponsor us and have your logo featured here.&nbsp;<a class="contactUs_click" (click)="sendContact()">Contact Us</a></p>
                         <!-- Uncomment this section if you have sponsor images -->
                         <!-- <div class="d-flex justify-content-center">
                             <img *ngFor="let logo of images" class="sponsor-logo mx-2" [src]="logo" alt="Logo_Img">  

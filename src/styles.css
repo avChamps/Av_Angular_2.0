@@ -1,3 +1,8 @@
+html,
+body {
+	font-family: 'Poppins', sans-serif !important;
+}
+
 :root {
 	--primary: #1c262f;
 	--primary-light: #212d37;
@@ -6,23 +11,48 @@
 	--gradient: linear-gradient(to right, #0ee951, #00dabf);
 }
 
-#counts {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px; /* Add some padding */
-    box-sizing: border-box; /* Ensure padding is included in the width/height */
-}
-
-
 .theme_green {
 	color: #00B074;
 }
 
 .theme_bg {
-	background-color: #00B074;
+	background-color: #00B074 !important;
 }
 
 .cur_pointer {
 	cursor: pointer;
+}
+
+.custom_logo_img {
+	width: 130px;
+	height: 40px;
+}
+
+.back-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 5px;
+	width: 40px;
+	height: 40px;
+	background-color: #f0f0f0;
+	border-radius: 50%;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	transition: background-color 0.3s ease, transform 0.3s ease;
+	cursor: pointer;
+}
+
+.back-button:hover {
+	background-color: #e0e0e0;
+	transform: scale(1.1);
+}
+
+.back-button i {
+	color: #007bff;
+	font-size: 1.5rem;
+}
+
+.custom-table-header th {
+	background-color: #00b3b3 !important;
+	color: white !important;
 }

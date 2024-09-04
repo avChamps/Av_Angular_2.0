@@ -13,7 +13,8 @@ import * as bootstrap from 'bootstrap';
 })
 export class EkartComponent implements OnInit {
 
-  userName: string = 'Disendra';
+  userName: any;
+  emailId : any;
   title!: string;
   description!: string;
   location: string = '';
@@ -36,12 +37,12 @@ export class EkartComponent implements OnInit {
   showViewMore: boolean = true;
   viewMoreButton: boolean = false;
   showEmptyImg: boolean = false;
-  isValid : boolean = false;
+  isValid : boolean = true;
+  displayScrollIcon : boolean = true;
   selectedItem: any;
   offset: number = 0;
   searchKeyword: string = '';
   sellerButton: string = 'Upload';
-  emailId: string = 'disendra889@gmail.com';
   productCategory: string = '';
 
   @ViewChild('seller') sellerForm!: TemplateRef<any>;
@@ -57,6 +58,8 @@ export class EkartComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.emailId = localStorage.getItem('emailId')
+    this.userName = localStorage.getItem('userName');
     this.getCartData(this.offset);
     this.getProfileImage();
   }
@@ -100,12 +103,14 @@ export class EkartComponent implements OnInit {
       this.showCart = true;
       this.showProducts = false;
       this.showContactForm = false;
+      this.displayScrollIcon = true;
       this.getUploadProducts(0);
     } else if (option === 'products') {
       window.location.reload();
     } else if (option === 'contact') {
       this.showSearchBox = false;
       this.showContactForm = true;
+      this.displayScrollIcon = false;
       this.showCart = false;
       this.showProducts = false;
     } else {
@@ -115,6 +120,7 @@ export class EkartComponent implements OnInit {
 
   getUploadProducts(offset: number) {
     this.showSpinner = true;
+    this.isValid = true;
     this.userService.getUploadData(this.emailId, offset).subscribe(response => {
       this.uploadProducts = this.uploadProducts.concat(response.records);
       this.getRecords(response);
@@ -143,18 +149,6 @@ export class EkartComponent implements OnInit {
   onSearch() {
     this.products = [];
     this.getCartData(0);
-  }
-
-  onCancel() {
-    const modalElement = document.getElementById('sellerModal');
-    if (modalElement) {
-      const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
-      modalInstance.hide();
-      const modalBackdrop = document.querySelector('.modal-backdrop');
-      if (modalBackdrop) {
-        modalBackdrop.remove();
-      }
-    }
   }
 
   getImageSource(): string {
@@ -289,9 +283,6 @@ export class EkartComponent implements OnInit {
 
   selectedProduct(index: any) {
     this.selectedItem = [index];
-    const modalElement = this.contactModal.nativeElement;
-    const modalInstance = new bootstrap.Modal(modalElement);
-    modalInstance.show();
   }
 
   onCart(type: string) {
@@ -348,7 +339,7 @@ export class EkartComponent implements OnInit {
 
   logOut() {
     this.faService.clearSession();
-    this.router.navigate(['/home-page']);
+    this.router.navigate(['']);
     window.location.reload();
   }
 }

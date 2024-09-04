@@ -12,26 +12,46 @@ import { ProfileDirectoryComponent } from './profile-directory/profile-directory
 import { ProfileFeedComponent } from './profile-feed/profile-feed.component';
 import { CommunityComponent } from './community/community.component';
 import { CalenderComponent } from './calender/calender.component';
-
+import { AdminPageComponent } from './admin-page/admin-page.component';
+import { VideoSimulatorComponent } from './video-simulator/video-simulator.component';
+import { ToolsPageComponent } from './tools-page/tools-page.component';
+import { BussinessCardComponent } from './bussiness-card/bussiness-card.component';
+import { MacFinderComponent } from './mac-finder/mac-finder.component';
+import { AvRackComponent } from './av-rack/av-rack.component';
+import { BudgetCalculatorComponent } from './budget-calculator/budget-calculator.component';
+import { BandwidthCalculatorComponent } from './bandwidth-calculator/bandwidth-calculator.component';
+import { ThrowDistanceComponent } from './throw-distance/throw-distance.component';
+import { DiagonalScreenComponent } from './diagonal-screen/diagonal-screen.component';
 
 const appRoutes: Routes = [
     { path: '', component: HeaderComponent },
     { path: 'redirected-page/:value', component: RedirectedPageComponent },
-    { path: 'jobs-portal', component: JobPortalComponent },
-    { path: 'community', component: CommunityComponent },
+    { path: 'jobs-portal', component: JobPortalComponent, canActivate: [AuthGuardService] },
+    { path: 'community', component: CommunityComponent, canActivate: [AuthGuardService] },
     { path: 'login-page/:value', component: LoginPageComponent },
-    { path: 'ekart', component: EkartComponent },
+    { path : 'admin-page', component : AdminPageComponent },
+    { path: 'bussiness-card/:emailId', component: BussinessCardComponent },
+    { path: 'ekart-page', component: EkartComponent, canActivate: [AuthGuardService] },
     {
-        path: 'profile-dashboard', component: ProfileDashboardComponent, children: [
-            { path: 'about', component: ProfileAboutComponent },
-            { path: 'feed', component: ProfileFeedComponent },
-            { path: 'directory', component: ProfileDirectoryComponent },
-            { path: 'calender', component: CalenderComponent },
-            { path: '', redirectTo: 'about', pathMatch: 'full' }
+        path: 'profile-dashboard', component: ProfileDashboardComponent, canActivate: [AuthGuardService],
+         children: [
+            { path: 'about', component: ProfileAboutComponent, canActivate: [AuthGuardService] },
+            { path: 'feed', component: ProfileFeedComponent , canActivate: [AuthGuardService]},
+            { path: 'directory', component: ProfileDirectoryComponent , canActivate: [AuthGuardService]},
+            { path: 'calendar', component: CalenderComponent, canActivate: [AuthGuardService] },
+            { path: 'videoSimulator', component: VideoSimulatorComponent, canActivate: [AuthGuardService] },
+            { path: 'tools', component: ToolsPageComponent, canActivate: [AuthGuardService] },
+            { path: 'macFinder', component: MacFinderComponent, canActivate: [AuthGuardService] },
+            { path: 'avRack', component: AvRackComponent, canActivate: [AuthGuardService] },
+            { path: 'budgetCalculator', component: BudgetCalculatorComponent, canActivate: [AuthGuardService] },
+            { path: 'bandwithCalculator', component: BandwidthCalculatorComponent, canActivate: [AuthGuardService] },
+            { path: 'projectThrowDistance', component: ThrowDistanceComponent, canActivate: [AuthGuardService] },
+            { path: 'DiagonalScreenSize', component : DiagonalScreenComponent, canActivate: [AuthGuardService] },
+            { path: 'bussiness-card', component: BussinessCardComponent },
+            { path: '', redirectTo: 'feed', pathMatch: 'full' }
         ]
     }
 ];
-
 
 @NgModule({
     imports: [

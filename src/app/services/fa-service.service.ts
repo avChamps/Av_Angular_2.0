@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core'
   providedIn: 'root'
 })
 export class FaServiceService {
-   url = 'https://avchamps.com/testing-nodejs';
+   url = 'https://avchamps.com/nodejs';
   // url = 'http://localhost:3000'
   // url = 'http://192.168.29.47:3000'
 

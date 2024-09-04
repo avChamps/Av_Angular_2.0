@@ -23,6 +23,21 @@ import { ProfileDirectoryComponent } from './profile-directory/profile-directory
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { CommunityComponent } from './community/community.component';
 import { CalenderComponent } from './calender/calender.component';
+import { ToastrModule } from 'ngx-toastr';
+import { TitleCasePipe } from './title-case.pipe';
+import { AdminPageComponent } from './admin-page/admin-page.component';
+import { VideoSimulatorComponent } from './video-simulator/video-simulator.component';
+import { LinkifyPipePipe } from './linkify-pipe.pipe';
+import { ToolsPageComponent } from './tools-page/tools-page.component';
+import { BussinessCardComponent } from './bussiness-card/bussiness-card.component';
+import { QRCodeModule } from 'angularx-qrcode';
+import { MacFinderComponent } from './mac-finder/mac-finder.component';
+import { AvRackComponent } from './av-rack/av-rack.component';
+import { BudgetCalculatorComponent } from './budget-calculator/budget-calculator.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { BandwidthCalculatorComponent } from './bandwidth-calculator/bandwidth-calculator.component';
+import { ThrowDistanceComponent } from './throw-distance/throw-distance.component';
+import { DiagonalScreenComponent } from './diagonal-screen/diagonal-screen.component';
 
 
 @NgModule({
@@ -41,7 +56,19 @@ import { CalenderComponent } from './calender/calender.component';
     ProfileFeedComponent,
     ProfileDirectoryComponent,
     CommunityComponent,
-    CalenderComponent
+    CalenderComponent,
+    TitleCasePipe,
+    AdminPageComponent,
+    VideoSimulatorComponent,
+    LinkifyPipePipe,
+    ToolsPageComponent,
+    BussinessCardComponent,
+    MacFinderComponent,
+    AvRackComponent,
+    BudgetCalculatorComponent,
+    BandwidthCalculatorComponent,
+    ThrowDistanceComponent,
+    DiagonalScreenComponent
   ],
   imports: [
     BrowserModule,
@@ -49,6 +76,7 @@ import { CalenderComponent } from './calender/calender.component';
     FormsModule,
     HttpClientModule,
     RecaptchaFormsModule,
+    FullCalendarModule,
     RecaptchaModule,
     AppRoutingModule,
     BrowserModule,
@@ -59,8 +87,9 @@ import { CalenderComponent } from './calender/calender.component';
     HttpClientJsonpModule,
     CommonModule,
     ReactiveFormsModule,
-    TooltipModule
-    
+    TooltipModule,
+    QRCodeModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     DatePipe

@@ -4,7 +4,6 @@
     background-color: var(--primary);
 }
 
-
 .btn {
     color: white;
     border-radius: 0;
@@ -43,10 +42,10 @@
 }
 
 
-.custom-modal .modal-dialog {
+/* .custom-modal .modal-dialog {
     max-width: 500px;
     width: 100%;
-}
+} */
 
 .custom-modal .modal-content {
     padding: 20px;

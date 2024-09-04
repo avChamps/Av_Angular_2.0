@@ -3,31 +3,18 @@
 
 <head>
     <meta charset="utf-8">
-    <title>JobEntry - Job Portal Website Template</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
-
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
-
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap"
-        rel="stylesheet">
-
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
 <body>
-    <div class="container-xxl p-0">
+    <div class="container-xxl p-0" data-aos="fade-right">
         <!-- Navbar Start -->
         <nav class="navbar navbar-expand-lg navbar-light shadow sticky-top p-0">
             <a class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5" (click)="reloadPage()">
-                <h1 class="m-0 text-primary">AVKART</h1>
+                <img src="./assets/images/logo/av_champs_logo.png" class="custom_logo_img" alt="alternative">
             </a>
             <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
@@ -36,8 +23,7 @@
                 <div class="navbar-nav ms-auto p-4 p-lg-0">
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img src='https://lh3.googleusercontent.com/a/ACg8ocIiKImCVKiOcZPxAJeZ7G9HRVkjCZkTLW6ko1GHLZqg1Lvhh493=s96-c'
-                                alt="Profile Image" class="profile-image">{{userName}}
+                            <img [src]="getImageSource() ||  'assets/img/user-Icon.png'" alt="Profile Image" class="profile-image">{{userName}}
                         </a>
                         <div class="dropdown-menu rounded-0 m-0">
                             <a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#sellerModal"
@@ -86,7 +72,9 @@
         </div>
     </div>
     <!-- Search Section End -->
+   <div *ngIf="displayScrollIcon">
     <a class="btn btn-lg btn-primary btn-lg-square back-to-top" (click)="scrollToTop()"><i class="bi bi-arrow-up"></i></a>
+   </div>
     <!-- Product Section Start -->
     <section class="product_section layout_padding mt-2" *ngIf="showProducts && products.length > 0">
         <div class="container">
@@ -124,7 +112,7 @@
         <div class="container h-100 py-2">
             <div class="row d-flex justify-content-center h-100">
                 <div class="col-10">
-                    <div *ngFor="let item of products"
+                    <div *ngFor="let item of uploadProducts"
                         class="card rounded-3 mb-2"
                         style="box-shadow: 4px 4px 10px #d1d9e6, -4px -4px 10px #f9f9f9;">
                         <div class="card-body p-4">
@@ -169,7 +157,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="sellerModalLabel">Product Information</h5>
-                    <button type="button" (click)="onCancel()" class="btn btn-danger" aria-label="Close">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -202,7 +190,7 @@
                         <label>Mobile</label><label class="red-asterisk">*</label>
                         <input type="number" class="form-control" (keyup)="isValidMobileNumber()" [(ngModel)]="mobileNumber" name="mobileNumber">
                     </div>
-                    <div *ngIf="!isValid && mobileNumber">
+                    <div *ngIf="!isValid">
                         <small class="text-danger">Invalid mobile number.</small>
                       </div>
                       
@@ -221,8 +209,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal"
-                        (click)="onCancel()">Cancel</button>
+                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-success"
                         [disabled]="!this.emailId || !this.title || !this.description || !this.location || !this.price || !this.showFile"
                         (click)="onUpload()">{{sellerButton}}</button>
@@ -235,25 +222,27 @@
     <!-- Contact Seller Modal Start -->
     <div class="modal fade" id="PostProduct" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="applyModalLabel">Contact Seller</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div *ngFor="let item of selectedItem">
-                        <p class="seller_Name"><i class="fa fa-user fa-green"></i> {{ item.userName }}</p>
-                        <p class="seller_Number"><i class="fa fa-phone fa-green"></i> {{ item.mobileNumber }}</p>
-                        <p class="seller_location"><i class="fa fa-map-marker fa-green custom-location-icon"></i> {{ item.location }}</p>
-                    </div>
-                </div>
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="applyModalLabel">Contact Seller</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
             </div>
+            <div class="modal-body">
+              <div *ngFor="let item of selectedItem">
+                <p class="seller_Name"><i class="fa fa-user fa-green"></i> {{ item.userName | titleCase}}</p>
+                <p class="seller_Number"><i class="fa fa-phone fa-green"></i> {{ item.mobileNumber }}</p>
+                <p class="seller_Number"><i class="fa fa-envelope fa-green"></i> {{ item.emailId }}</p>
+                <p class="seller_location"><i class="fa fa-map-marker fa-green custom-location-icon"></i> {{ item.location }}</p>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
+      </div>
     <!-- Contact Seller Modal End -->
 
     <!-- No Records Found Start -->
-    <div class="row justify-content-center align-items-center" *ngIf="products.length === 0" style="height: 70vh;">
+    <div class="row justify-content-center align-items-center w-100" *ngIf="products.length === 0 && !showContactForm"
+    style="height: 70vh;">
         <div class="col-sm-6 col-lg-3 text-center">
             <img src="assets/images/ekart/empty_produts.png" class="img-fluid" style="margin-bottom: -25px;" alt="No products">
             <p>No Records Found</p>
