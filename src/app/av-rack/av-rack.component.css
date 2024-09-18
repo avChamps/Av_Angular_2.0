@@ -1,0 +1,25 @@
+.border-bottom {
+    border-bottom: 1px solid black;
+}
+
+.rack-number,
+.rack-item {
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.rack-item {
+    width: 100%;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+}
+
+.last-item {
+    border-top: 1px solid black;
+}
+
+.rack-number {
+    border-bottom: 1px solid black;
+}

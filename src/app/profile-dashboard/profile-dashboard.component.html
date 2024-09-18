@@ -8,14 +8,14 @@
     </head>
 <body>
 
-    <nav class="navbar navbar-expand-md navbar-dark theme_bg d-md-none">
+    <nav class="navbar navbar-expand-md navbar-dark d-md-none"  [ngClass]="selectedTheme === 'default' ? 'theme_bg' : 'dark_theme'">
         <a class="navbar-brand" routerLink="profile-dashboard">AVCHAMPS</a>
         <button class="navbar-toggler" type="button" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation" (click)="toggleSidebar()">
             <span class="navbar-toggler-icon"></span>
         </button>
     </nav>
 
-    <div class="collapse d-md-block theme_bg sidebar" id="sidebarMenu" #sidebarMenu>
+    <div class="collapse d-md-block sidebar" [ngClass]="selectedTheme === 'default' ? 'theme_bg' : 'dark_theme'" id="sidebarMenu" #sidebarMenu>
         <div class="container">
             <div class="row justify-content-center">
               <div class="col-md-8 d-flex flex-column align-items-center">
@@ -40,54 +40,47 @@
                 <i class="bi bi-box-arrow-right fs-5"></i></button>
         </div>
 
-        <div class="social-links text-center" data-bs-toggle="modal" data-bs-target="#showSocialMedia">
-            <a (click)="shareOnSocialMedia('twitter')" class="twitter"><i class="bi bi-twitter-x"></i></a>
-            <a (click)="shareOnSocialMedia('facebook')" class="facebook"><i class="bi bi-facebook"></i></a>
-            <a (click)="shareOnSocialMedia('instagram')" class="instagram"><i class="bi bi-instagram"></i></a>
-            <a (click)="shareOnSocialMedia('linkedin')" class="linkedin"><i class="bi bi-linkedin"></i></a>
-        </div>      
-    
-        <!-- <ul class="nav flex-column text-center nav-row">
-            <li class="nav-item" *ngFor="let item of navItems">
-              <a class="nav-link" [routerLink]="getLink(item)" (click)="closeSidebar()">
-                <i [class]="item.icon"></i> {{ item.name }}
-              </a>
-            </li>
-          </ul>         -->
+        <div class="social-links text-center cur_pointer" data-bs-toggle="modal" data-bs-target="#showSocialMedia">
+          <a (click)="shareOnSocialMedia('twitter')" [ngClass]="getSocialClass('twitter')" class="twitter"><i class="bi bi-twitter-x"></i></a>
+          <a (click)="shareOnSocialMedia('facebook')" [ngClass]="getSocialClass('facebook')" class="facebook"><i class="bi bi-facebook"></i></a>
+          <a (click)="shareOnSocialMedia('instagram')" [ngClass]="getSocialClass('instagram')" class="instagram"><i class="bi bi-instagram"></i></a>
+          <a (click)="shareOnSocialMedia('linkedin')" [ngClass]="getSocialClass('linkedin')" class="linkedin"><i class="bi bi-linkedin"></i></a>
+          <a class="linkedin" data-bs-toggle="modal" [ngClass]="getSocialClass('settings')" data-bs-target="#myModal"><i class="bi bi-gear"></i></a>
+      </div>
 
           <ul class="nav flex-column text-center nav-row">
-            <li class="nav-item">
-              <a class="nav-link" routerLink="about" (click)="closeSidebar()">
+            <li class="nav-item cur_pointer" routerLink="about" routerLinkActive="active-link" >
+              <a class="nav-link" (click)="closeSidebar()">
                 <i class="bi bi-person"></i> About
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="feed" (click)="closeSidebar()">
+            <li class="nav-item cur_pointer" routerLink="feed" routerLinkActive="active-link">
+              <a class="nav-link" (click)="closeSidebar()">
                 <i class="bi bi-envelope"></i> Feed
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="directory" (click)="closeSidebar()">
+            <li class="nav-item cur_pointer" routerLink="directory" routerLinkActive="active-link">
+              <a class="nav-link" (click)="closeSidebar()">
                 <i class="bi bi-person-check"></i> Directory
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="tools" (click)="closeSidebar()">
+            <li class="nav-item cur_pointer" routerLink="tools" routerLinkActive="active-link">
+              <a class="nav-link" (click)="closeSidebar()">
                 <i class="bi bi-tools"></i> Tools
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/jobs-portal" target="_blank" (click)="closeSidebar()">
+            <li class="nav-item cur_pointer">
+              <a class="nav-link" href="/jobs-portal" routerLinkActive="active-link" target="_blank" (click)="closeSidebar()">
                 <i class="bi bi-briefcase"></i> Careers
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/ekart-page" target="_blank" (click)="closeSidebar()">
+            <li class="nav-item cur_pointer">
+              <a class="nav-link" href="/ekart-page" target="_blank" routerLinkActive="active-link" (click)="closeSidebar()">
                 <i class="bi bi-cart"></i> Ekart
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/community" target="_blank" (click)="closeSidebar()">
+            <li class="nav-item cur_pointer">
+              <a class="nav-link" href="/community" target="_blank" routerLinkActive="active-link" (click)="closeSidebar()">
                 <i class="bi bi-people"></i> Community
               </a>
             </li>
@@ -126,6 +119,47 @@
             </div>
         </div>
       </div>
+
+    <!-- The Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Select Themes</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          
+          <div class="modal-body">
+            <div class="container">
+              <div class="row">
+                <!-- Default Theme -->
+                <div class="col-12 col-md-6 text-center mb-3">
+                  <img src="/assets/images/common_Images/default_theme_image.png" alt="Default Theme" 
+                      class="img-fluid theme-thumbnail" 
+                      [ngClass]="{'selected-theme': tempSelectedTheme === 'default'}"
+                      (click)="selectTheme('default')">
+                  <p>Default Theme</p>
+                </div>
+                <!-- Dark Theme -->
+                <div class="col-12 col-md-6 text-center mb-3">
+                  <img src="/assets/images/common_Images/dark_theme_image.png" alt="Dark Theme" 
+                      class="img-fluid theme-thumbnail" 
+                      [ngClass]="{'selected-theme': tempSelectedTheme === 'dark'}"
+                      (click)="selectTheme('dark')">
+                  <p>Dark Theme</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer" [ngStyle]="{'background-color': selectedThemeColor}">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" (click)="applyTheme()" data-bs-dismiss="modal">Apply</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     
       <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>

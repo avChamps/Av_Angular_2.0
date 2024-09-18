@@ -51,9 +51,12 @@ html {
 
 .nav-link {
   color: #fff;
-  padding: 10px 15px;
-  display: flex;
   align-items: center;
+  display: block;
+  text-align: center;
+  width: 100%;
+  padding: 10px 0;
+  color: white;
 }
 
 .nav-link i {
@@ -105,13 +108,21 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: black;
+  /* background: black; */
   color: #fff;
   border-radius: 50%;
   text-align: center;
   width: 30px;
   height: 30px;
   transition: 0.3s;
+}
+
+.Social_theme_bg {
+  background-color: black;
+}
+
+.social_dark_theme {
+  background-color: lightslategray;
 }
 
 .social-links a:hover {
@@ -133,6 +144,16 @@ html {
   font-size: 0.7rem;
 }
 
+.active-link {
+  background-color: #ffffff6e;
+  border-radius: 10px;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, .175) !important;
+}
+
+.selected-theme {
+  border: 3px solid blue;
+  border-radius: 5px;
+}
 
 
 @media (max-width: 768px) {

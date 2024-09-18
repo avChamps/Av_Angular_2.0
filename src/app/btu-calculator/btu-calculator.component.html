@@ -1,0 +1,93 @@
+<section id="counts" class="counts" data-aos="fade-right">
+    <div class="me-2">
+        <div class="cur_pointer rounded-circle shadow-sm p-2 back-button" (click)="onBack()">
+            <i class="fas fa-arrow-left"></i>
+        </div>
+    </div>
+
+    <!-- Budget Table Section -->
+    <h4 class="text-center mb-4">BTU Calculator</h4>
+    <div class="container mb-2">
+        <div id="pdfContent" class="row">
+            <div class="col-12 col-md-8 offset-md-2">
+                <div class="table-responsive">
+                    <table class="table table-bordered" #tableContainer>
+                        <thead class="custom-table-header text-center">
+                            <tr>
+                                <th scope="col">Sl.No</th>
+                                <th scope="col">Equipment</th>
+                                <th scope="col">Watts</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of btuRows; let i = index">
+                                <td class="text-center col-1">{{ i + 1 }}</td>
+                                <td class="col-3"><input type="text" placeholder="Enter Equipment Details" [(ngModel)]="row.equipment"
+                                        maxlength="50" (ngModelChange)="calculateTotalWatt()"></td>
+                                <td class="col-1"><input type="number" onKeyPress="if(this.value.length==4) return false;"
+                                        [(ngModel)]="row.watt" [disabled]="!row.equipment" maxlength="4" (keypress)="preventNegative($event)"
+                                        class="watt-input" (focus)="clearDefaultZero()" (ngModelChange)="calculateTotalWatt()"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                 <!-- Add/Remove Icons -->
+                 <div class="text-right disabled_Button">
+                    <i class="bi bi-dash-circle ml-2 cur_pointer" (click)="removeRow()"></i>
+                    <i class="bi bi-plus-circle ml-2 cur_pointer" (click)="addRow()"></i>
+                </div>
+
+                <div class="results text-left" style="line-height: 10px;" id="pdfContentContainer">
+                    <p><span>Total Watts: </span>{{total}} Watts</p>
+                    <p><span>Thermal Dissipation: </span>{{thermalTotal | number:'1.2-2'}} BTU/hr</p>
+                    <p><span>Cooling Required: </span>{{requiredCooling | number:'1.2-2'}} Tons</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="row justify-content-center mb-2 mt-3 disabled_Button">
+            <div class="col-md-4 text-center">
+                <button class="btn btn-warning mr-2" (click)="refreshValues()">Cancel</button>
+                <button class="btn btn-success" (click)="downloadRack()">Save</button>
+            </div>
+        </div>
+
+        <!-- Explanation and formula section -->
+        <div class="mt-5">
+            <h6>What It Is</h6>
+            <p>Electronic equipment, when powered on, generates heat whether it's active or idle. This heat is measured
+                in British Thermal Units (BTUs). One BTU is approximately 1055 joules, and one watt per hour is
+                equivalent to 3.4 BTUs. It's crucial to calculate the total heat produced by all electronic equipment in
+                an active AV rack.</p>
+            <p>AV designers typically determine the total BTU for a system and share this information with HVAC
+                engineers. This allows designers to incorporate appropriate cooling solutions to prevent equipment
+                failure and balance HVAC systems for user comfort. Equipment wattage details can often be found in the
+                owner's manual or on the device itself.</p>
+        </div>
+
+
+        <!-- Centered Formula section -->
+        <div class="container mt-4 shadow-lg p-4 rounded">
+            <div class="row">
+                <!-- Adjusting the layout for centering f(x) on the left -->
+                <div class="col-md-4 d-flex flex-column justify-content-center align-items-center">
+                    <h5 class="mb-0 fw-bold">Formula</h5>
+                    <span class="px-2 py-1 fw-bold">f(x)</span>
+                </div>
+                <div class="col-md-8">
+                    <p>The Formula for Calculating heat load is:</p>
+                    <p class="fw-bold">Total BTU = We * 3.4</p>
+                    <p>Where:</p>
+                    <ul class="list-unstyled">
+                        <li><b>We</b> = Total Watts of all total equipment's used in the room</li>
+                        <li><b>3.4</b> = Conversion factor, where 1 watt of power generates 3.4 BTU of heat per Hour</li>
+                    </ul>
+                    <p>This Formula does not account load generated by amplifier.</p>
+                    <p>Cooling Required follows the industry practice of measuring air conditioning cooling capacity in
+                        tons. The required capacity is calculated by dividing the BTU/hr heat load by 12,000.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

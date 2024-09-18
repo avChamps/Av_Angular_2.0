@@ -9,7 +9,7 @@ import { UserServicesService } from '../services/user-services.service';
 })
 export class MacFinderComponent {
   sysAddress !: string;
-  getVendorData: any[] = []
+  getVendorData: any;
   showSpinner: boolean = false;
 
   constructor(private faService: FaServiceService, private userService: UserServicesService) { }
@@ -17,10 +17,15 @@ export class MacFinderComponent {
   getVendor(sysAddress: any) {
     this.showSpinner = true
     this.faService.getMacData(sysAddress).subscribe((response: any) => {
-      this.showSpinner = false
-      console.log(response)
-      this.getVendorData = response.records[0].company;
-      console.log(this.getVendorData)
+      this.showSpinner = false;
+      console.log(response);
+      let records = response.records[0];
+      if (records === '' || records === undefined || records === null) {
+        this.getVendorData = "Records Not Found"
+      } else {
+        this.getVendorData = records.company;
+        console.log(this.getVendorData);
+      }
     })
   }
   onBack() {

@@ -11,7 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { RedirectedPageComponent } from './redirected-page/redirected-page.component';
 import { ContactComponent } from './contact/contact.component';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
 import { EkartComponent } from './ekart/ekart.component';
@@ -38,6 +38,11 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { BandwidthCalculatorComponent } from './bandwidth-calculator/bandwidth-calculator.component';
 import { ThrowDistanceComponent } from './throw-distance/throw-distance.component';
 import { DiagonalScreenComponent } from './diagonal-screen/diagonal-screen.component';
+import { AspectRatioComponent } from './aspect-ratio/aspect-ratio.component';
+import { AudioDelayComponent } from './audio-delay/audio-delay.component';
+import { BtuCalculatorComponent } from './btu-calculator/btu-calculator.component';
+import { PowerCalculatorComponent } from './power-calculator/power-calculator.component';
+import { SafePipe } from './services/safe.pipe';
 
 
 @NgModule({
@@ -68,7 +73,12 @@ import { DiagonalScreenComponent } from './diagonal-screen/diagonal-screen.compo
     BudgetCalculatorComponent,
     BandwidthCalculatorComponent,
     ThrowDistanceComponent,
-    DiagonalScreenComponent
+    DiagonalScreenComponent,
+    AspectRatioComponent,
+    AudioDelayComponent,
+    BtuCalculatorComponent,
+    PowerCalculatorComponent,
+    SafePipe
   ],
   imports: [
     BrowserModule,
@@ -92,7 +102,7 @@ import { DiagonalScreenComponent } from './diagonal-screen/diagonal-screen.compo
     ToastrModule.forRoot()
   ],
   providers: [
-    DatePipe
+    DatePipe,DecimalPipe
   ],
   bootstrap: [AppComponent]
 })

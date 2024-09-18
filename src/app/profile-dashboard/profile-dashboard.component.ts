@@ -3,6 +3,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import * as $ from 'jquery';
 import { FaServiceService } from '../services/fa-service.service';
 import { UserServicesService } from '../services/user-services.service';
+import { an } from '@fullcalendar/core/internal-common';
 
 @Component({
   selector: 'app-profile-dashboard',
@@ -13,7 +14,7 @@ export class ProfileDashboardComponent implements OnInit {
   userName: any;
   activeMenuItem: any
   CickedsocialMedia: any
-  emailId:any;
+  emailId: any;
   showSpinner: boolean = false
   products: any[] = []
   profileWeight!: number
@@ -23,13 +24,16 @@ export class ProfileDashboardComponent implements OnInit {
   instagramUrl!: string
   insertionType!: string
   linkedInUrl!: string
-  profileImageType!: string
+  profileImageType!: string;
+  selectedThemeColor!: string;
+  selectedTheme: any;
+  tempSelectedTheme!: string;
   socialMediaUrls: { [key: string]: string } = {}
   @ViewChild('sidebarMenu') sidebarMenu!: ElementRef;
 
   constructor(
     private router: Router,
-    private userService: UserServicesService, private renderer  : Renderer2,
+    private userService: UserServicesService, private renderer: Renderer2,
     private faService: FaServiceService, private route: ActivatedRoute
   ) { }
 
@@ -48,6 +52,7 @@ export class ProfileDashboardComponent implements OnInit {
         console.log(response)
         this.showSpinner = false
       })
+      this.selectedTheme = localStorage.getItem('selectedTheme');
   }
 
   closeSidebar() {
@@ -91,7 +96,6 @@ export class ProfileDashboardComponent implements OnInit {
       })
   }
 
-
   getImageSource(): string {
     if (this.products && this.products.length > 0) {
       this.profileImageType = 'updateImage'
@@ -101,7 +105,28 @@ export class ProfileDashboardComponent implements OnInit {
       return 'assets/img/empty_Image.png'
     }
   }
-  
+
+  selectTheme(theme: string) {
+    this.tempSelectedTheme = theme;
+  }
+
+  applyTheme() {
+    if (this.tempSelectedTheme === 'default') {
+      this.selectedTheme = 'default'
+    } else {
+      this.selectedTheme = 'dark_theme'
+    }
+    localStorage.setItem('selectedTheme', this.selectedTheme);
+  }
+
+  getSocialClass(platform: string): string {
+    if (this.selectedTheme === 'default') {
+        return 'Social_theme_bg';
+    } else {
+        return 'social_dark_theme';
+    }
+}
+
   shareOnSocialMedia(media: string) {
     this.CickedsocialMedia = media;
     if (this.CickedsocialMedia === 'twitter') {

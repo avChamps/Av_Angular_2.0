@@ -22,6 +22,10 @@ import { BudgetCalculatorComponent } from './budget-calculator/budget-calculator
 import { BandwidthCalculatorComponent } from './bandwidth-calculator/bandwidth-calculator.component';
 import { ThrowDistanceComponent } from './throw-distance/throw-distance.component';
 import { DiagonalScreenComponent } from './diagonal-screen/diagonal-screen.component';
+import { AspectRatioComponent } from './aspect-ratio/aspect-ratio.component';
+import { AudioDelayComponent } from './audio-delay/audio-delay.component';
+import { BtuCalculatorComponent } from './btu-calculator/btu-calculator.component';
+import { PowerCalculatorComponent } from './power-calculator/power-calculator.component';
 
 const appRoutes: Routes = [
     { path: '', component: HeaderComponent },
@@ -38,16 +42,20 @@ const appRoutes: Routes = [
             { path: 'about', component: ProfileAboutComponent, canActivate: [AuthGuardService] },
             { path: 'feed', component: ProfileFeedComponent , canActivate: [AuthGuardService]},
             { path: 'directory', component: ProfileDirectoryComponent , canActivate: [AuthGuardService]},
-            { path: 'calendar', component: CalenderComponent, canActivate: [AuthGuardService] },
-            { path: 'videoSimulator', component: VideoSimulatorComponent, canActivate: [AuthGuardService] },
+            { path: 'tools/calendar', component: CalenderComponent, canActivate: [AuthGuardService] },
+            { path: 'tools/videoSimulator', component: VideoSimulatorComponent, canActivate: [AuthGuardService] },
             { path: 'tools', component: ToolsPageComponent, canActivate: [AuthGuardService] },
-            { path: 'macFinder', component: MacFinderComponent, canActivate: [AuthGuardService] },
-            { path: 'avRack', component: AvRackComponent, canActivate: [AuthGuardService] },
-            { path: 'budgetCalculator', component: BudgetCalculatorComponent, canActivate: [AuthGuardService] },
-            { path: 'bandwithCalculator', component: BandwidthCalculatorComponent, canActivate: [AuthGuardService] },
-            { path: 'projectThrowDistance', component: ThrowDistanceComponent, canActivate: [AuthGuardService] },
-            { path: 'DiagonalScreenSize', component : DiagonalScreenComponent, canActivate: [AuthGuardService] },
-            { path: 'bussiness-card', component: BussinessCardComponent },
+            { path: 'tools/macFinder', component: MacFinderComponent, canActivate: [AuthGuardService] },
+            { path: 'tools/avRack', component: AvRackComponent, canActivate: [AuthGuardService] },
+            { path: 'tools/budgetCalculator', component: BudgetCalculatorComponent, canActivate: [AuthGuardService] },
+            { path: 'tools/bandwithCalculator', component: BandwidthCalculatorComponent, canActivate: [AuthGuardService] },
+            { path: 'tools/projectThrowDistance', component: ThrowDistanceComponent, canActivate: [AuthGuardService] },
+            { path: 'tools/DiagonalScreenSize', component : DiagonalScreenComponent, canActivate: [AuthGuardService] },
+            { path: 'tools/aspectCalculator', component : AspectRatioComponent, canActivate: [AuthGuardService] },
+            { path: 'tools/audioDelayCalculator', component : AudioDelayComponent, canActivate: [AuthGuardService] },
+            { path: 'tools/btuCalculator', component : BtuCalculatorComponent, canActivate: [AuthGuardService] },
+            { path: 'tools/powerCalculator', component : PowerCalculatorComponent, canActivate: [AuthGuardService] },
+            { path: 'tools/bussiness-card', component: BussinessCardComponent },
             { path: '', redirectTo: 'feed', pathMatch: 'full' }
         ]
     }

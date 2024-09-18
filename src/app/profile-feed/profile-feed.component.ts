@@ -37,6 +37,38 @@ export class ProfileFeedComponent {
     })
   }
 
+  icons: string[] = [
+    'fas fa-microphone',
+    'fas fa-volume-up',
+    'fas fa-bullhorn',
+    'fas fa-desktop',
+    'fas fa-project-diagram',
+    'fas fa-camera',
+    'fas fa-video',
+    'fas fa-volume-up'
+  ];
+
+  colors: string[] = [
+    'red',
+    'blue',
+    'green',
+    'orange',
+    'purple',
+    'yellow',
+    'pink',
+    'teal'
+  ];
+
+  getRandomColor(): string {
+    const randomIndex = Math.floor(Math.random() * this.colors.length);
+    return this.colors[randomIndex];
+  }
+
+  getRandomIcon(): string {
+    const randomIndex = Math.floor(Math.random() * this.icons.length);
+    return this.icons[randomIndex];
+  }
+
   onBack() {
     this.showMails = true
     this.selectedEmail = false

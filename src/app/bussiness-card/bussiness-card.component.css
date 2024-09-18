@@ -1,12 +1,8 @@
-body,
-html {
-    height: 100%;
+a {
+	color: #0056b3 !important;
+	text-decoration: underline;
 }
 
-.custom-card {
-    width: auto;
-    height: 200px;
-    background: linear-gradient(to right, #e0f7fa, #e1bee7);
-    border-radius: 10px;
-    border: 1px solid #000;
+.margin-right {
+	margin-right: -10px;
 }

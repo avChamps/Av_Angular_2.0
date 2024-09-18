@@ -111,7 +111,7 @@ export class ProfileAboutComponent implements OnInit {
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     if (!emailPattern.test(this.emailId)) {
       this.isEmailValidated = false;
-      this.emailErrorMessage = 'Invalid email format.';
+      this.emailErrorMessage = 'Enter valid email ID.';
     } else {
       this.isEmailValidated = true;
       this.emailErrorMessage = '';

@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -30,13 +29,17 @@
                                     <a class="nav-link text-left active text-white theme_bg" id="home-tab" data-toggle="tab" role="tab" aria-controls="home" 
                                         aria-selected="true">About</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-left active text-white theme_bg" routerLink="/profile-dashboard/tools/bussiness-card" id="home-tab" data-toggle="tab" role="tab" aria-controls="home" 
+                                        aria-selected="true">Bussiness Card</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
                     
                     <div class="col-lg-2 col-md-12 col-sm-12 text-right mb-3">
-                        <button type="button" class="btn btn-success profile-edit-btn mt-2 mt-lg-0" (click)="toggleEditMode()"
-                            [class.save-mode]="editMode" [class.edit-mode]="!editMode"  [disabled]="!isMobileNumberValidated || !isEmailValidated" >{{ editMode ? 'Save' : 'Edit' }}</button>
+                        <button type="button" class="btn btn-success theme_bg mt-2 mt-lg-0" (click)="toggleEditMode()"
+                            [class.save-mode]="editMode" [class.edit-mode]="!editMode"  [disabled]="!isMobileNumberValidated || !isEmailValidated || companyNameInput.value?.length > 24 || jobTitleInput.value?.length > 24" >{{ editMode ? 'Save' : 'Edit' }}</button>
                     </div>
                 </div>
                 <div class="row mt-4">
@@ -47,13 +50,15 @@
                                 <div class="row mb-3">
                                     <div class="col-lg-6 col-md-6 col-sm-12">
                                         <label>Company Name</label>
-                                        <input type="text" maxlength="30" [disabled]="!editMode" [(ngModel)]="companyName" name="userNameInput" placeholder="Enter Company Name"
+                                        <input type="text" maxlength="25" [disabled]="!editMode" [(ngModel)]="companyName" name="companyNameInput" #companyNameInput="ngModel"  placeholder="Enter Company Name"
                                             class="form-control">
+                                            <p *ngIf="companyNameInput.value?.length > 24" class="text-danger fs">Max 24 Characters are allowed</p>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-12">
                                         <label>Designation</label>
-                                        <input type="text" maxlength="30" [disabled]="!editMode" [(ngModel)]="jobTitle" name="jobTitleInput" placeholder="Enter jobTitle"
+                                        <input type="text" maxlength="25" [disabled]="!editMode" [(ngModel)]="jobTitle" name="jobTitleInput" #jobTitleInput="ngModel" placeholder="Enter jobTitle"
                                             class="form-control">
+                                            <p *ngIf="jobTitleInput.value?.length > 24" class="text-danger fs">Max 24 Characters are allowed</p>
                                     </div>
                                 </div>
 
@@ -61,13 +66,13 @@
                                     <div class="col-lg-6 col-md-6 col-sm-12">
                                         <label>Email Id</label>
                                         <input type="email" [(ngModel)]="emailId" [disabled]="!editMode" (ngModelChange)="validateEmail()" placeholder="Enter emailId" name="emailIdInput" class="form-control">
-                                        <p *ngIf="emailErrorMessage" class="text-danger"> {{ emailErrorMessage }} </p>
+                                        <p *ngIf="emailErrorMessage" class="text-danger fs"> {{ emailErrorMessage }} </p>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-12">
                                         <label>Mobile Number</label>
                                         <input type="text" maxlength="10" [(ngModel)]="mobileNumber" (ngModelChange)="onMobileNumberChange()" [disabled]="!editMode" placeholder="Enter mobileNumber" name="mobileNumberInput"
                                             class="form-control">
-                                            <p *ngIf="mobileErrorMessage" class="text-danger"> {{ mobileErrorMessage }} </p>
+                                            <p *ngIf="mobileErrorMessage" class="text-danger fs"> {{ mobileErrorMessage }} </p>
                                     </div>
                                 </div>
 

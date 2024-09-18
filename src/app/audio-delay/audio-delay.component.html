@@ -1,0 +1,71 @@
+<section id="counts" class="counts" data-aos="fade-right">
+    <div class="me-2">
+        <div class="cur_pointer rounded-circle shadow-sm p-2 back-button" (click)="onBack()">
+            <i class="fas fa-arrow-left"></i>
+        </div>
+    </div>
+
+    <h4 class="text-center mb-4">Audio Delay Calculator</h4>
+    <div class="container mb-2">
+    <div class="container shadow-lg p-4 rounded mb-2">
+        <div class="row g-2 justify-content-center align-items-center">
+      
+          <!-- Label Column -->
+          <div class="col-12 mt-3 col-sm-auto text-center">
+            <label for="distance" class="form-label fw-bold">Distance(mts/ft) : </label>
+          </div>
+      
+          <!-- Input Column -->
+          <div class="col-12 col-sm-auto">
+            <input type="number" id="distance" class="form-control" (keypress)="preventNegative($event, (distance !== undefined ? distance.toString() : ''))"  (focus)="clearDefaultZero()" [(ngModel)]="distance">
+          </div>
+      
+          <!-- Refresh Button -->
+          <div class="col-12 col-sm-auto text-center">
+            <button class="btn btn-warning w-100 text-white" (click)="onReset()">
+              <i class="bi bi-arrow-clockwise"></i> Refresh
+            </button>
+          </div>
+      
+          <!-- Calculate Button -->
+          <div class="col-12 col-sm-auto text-center">
+            <button class="btn btn-primary w-100" (click)="calculateAudio()" [disabled]="!distance">Calculate</button>
+          </div>
+        </div>
+      
+        <!-- Result Display -->
+        <div class="text-center mt-3 fw-bold">
+          <p>Delay Needed(mtr):  {{ delayNeededInFeet | number: '1.2-2' }} milliseconds</p>
+          <p>Delay Needed(fts):  {{ delayNeededInMtr | number: '1.2-2' }} milliseconds</p>
+        </div>
+      </div>
+      
+    <!-- Explanation and formula section -->
+    <div class="mt-5">
+        <h6>What It Is</h6>
+        <p>Whether you're setting up a professional audio system or fine-tuning your home theater, an Audio Delay Calculator can be an invaluable tool for achieving precise time alignment and delivering a superior audio experience.</p>
+        </div>
+
+    <!-- Centered Formula section -->
+    <div class="container shadow-lg p-4 rounded mb-2">
+        <div class="row">
+            <div class="col-md-4 d-flex flex-column justify-content-center align-items-center">
+                <h5 class="mb-0 fw-bold">Formula</h5>
+                <span class="px-2 py-1 fw-bold">f(x)</span>
+            </div>
+            <div class="col-md-8">
+                <p>To calculate milliseconds, use the following formula:</p>
+                <p>The diagonal of a screen can be calculated using the Pythagorean Theorem: <b>A<sup>2</sup> + B<sup>2</sup> = C<sup>2</sup></b></p>
+                <p>Where</p>
+                <ul>
+                    <li>Meters / Speed of sound (343 m/s in room temperature) * 1000 = delay in milliseconds.</li>
+                    <li>Feet / Speed of sound (1125 f/s in room temperature) * 1000 = delay in milliseconds.</li>
+                 </ul>
+                 <p>Refer to the owner's manual of your project and lens combination to find an accurate formula for your specific project.</p>
+            </div>
+        </div>
+    </div>  
+  </div> 
+</section>
+
+<app-spinner *ngIf="showSpinner"></app-spinner>

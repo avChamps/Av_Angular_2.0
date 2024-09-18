@@ -1,10 +1,8 @@
 <section id="counts" class="counts" data-aos="fade-right">
-    <div class="row">
-      <div class="col-2">
-        <div class="cur_pointer back-button" (click)="onBack()">
-          <i class="bi bi-arrow-left"></i>
+    <div class="me-2">
+        <div class="cur_pointer rounded-circle shadow-sm p-2 back-button" (click)="onBack()">
+            <i class="fas fa-arrow-left"></i>
         </div>
-      </div>
     </div>
 <div class="container mb-2">
     <h4 class="text-center mb-4">Bandwidth Calculator</h4>
@@ -65,7 +63,7 @@
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-check-input" type="checkbox" id="overheadToggle" [(ngModel)]="isOverheadEnabled" (change)="toggleOverhead()">
                     <label class="form-check-label ml-2" for="overheadToggle">25 percent overhead</label>
                 </div>                
-                <input type="number" id="overheadValue" class="form-control" [(ngModel)]="overheadValue" [disabled]="!isOverheadEnabled">
+                <input type="number" id="overheadValue" class="form-control" [(ngModel)]="overheadValue" disabled>
             </div>
         </div>
 
@@ -105,20 +103,20 @@
     <div class="row">
         <!-- Adjusting the layout for centering f(x) on the left -->
         <div class="col-md-4 d-flex flex-column justify-content-center align-items-center">
-            <h5 class="mb-0">Formula</h5>
-            <span class="px-2 py-1">f(x)</span>
+            <h5 class="mb-0 fw-bold">Formula</h5>
+            <span class="px-2 py-1 fw-bold">f(x)</span>
         </div>
         <div class="col-md-8">
             <p>The formula for estimating video bandwidth is:</p>
             <p class="fw-bold">HPXVPxFRxBD*3*CDF*1.25</p>
             <ul class="list-unstyled">
-                <li>HP = Horizontal Pixels</li>
-                <li>VP = Vertical Pixels</li>
-                <li>FR = Frame Rate</li>
-                <li>BD = Bit Depth</li>
-                <li>3 = Number of Graphic Channels</li>
-                <li>CDF = Chroma Decimation Factor</li>
-                <li>1.25 = Overhead Required for DVI or HDMI transport</li>
+                <li><b>HP</b> = Horizontal Pixels</li>
+                <li><b>VP</b> = Vertical Pixels</li>
+                <li><b>FR</b> = Frame Rate</li>
+                <li><b>BD</b> = Bit Depth</li>
+                <li><b>3</b> = Number of Graphic Channels</li>
+                <li><b>CDF</b> = Chroma Decimation Factor</li>
+                <li><b>1.25</b> = Overhead Required for DVI or HDMI transport</li>
             </ul>
         </div>
     </div>

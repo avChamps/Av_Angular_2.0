@@ -1,45 +1,42 @@
 <section id="counts" class="counts" data-aos="fade-right">
-    <div class="row">
-        <div class="col-2">
-            <div class="cur_pointer back-button" (click)="onBack()">
-                <i class="bi bi-arrow-left"></i>
-            </div>
+    <div class="me-2">
+        <div class="cur_pointer rounded-circle shadow-sm p-2 back-button" (click)="onBack()">
+            <i class="fas fa-arrow-left"></i>
         </div>
     </div>
 
+    <h4 class="text-center mb-4">Projector Throw Distance</h4>
     <div class="container mb-2">
-        <h4 class="text-center mb-1">Projector Throw Distance</h4>
-        <div class="border p-3 rounded shadow-lg mt-2">
+    <div class="container shadow-lg p-4 rounded mb-2 mt-2">
             <div class="row g-2 justify-content-center align-items-center">
                 <!-- Width Input -->
                 <div class="col-6 col-sm-auto">
                     <label for="width" class="form-label">Width</label>
-                    <input type="number" id="width" class="form-control" [(ngModel)]="width">
+                    <input type="number" id="width" class="form-control" (keypress)="preventNegative($event)"  (focus)="clearDefaultZero('width')" [(ngModel)]="width">
                 </div>
 
                 <!-- Through Ratio Input -->
                 <div class="col-6 col-sm-auto">
                     <label for="throughRatio" class="form-label">Through Ratio</label>
-                    <input type="number" id="throughRatio" class="form-control" [(ngModel)]="throughRatio">
+                    <input type="number" id="throughRatio" class="form-control" (keypress)="preventNegative($event)"  (focus)="clearDefaultZero('throughRatio')" [(ngModel)]="throughRatio">
                 </div>
 
                 <!-- Reset Icon -->
-                <div class="col-6 col-sm-auto text-center">
+                <div class="col-6 mt-4 col-sm-auto text-center">
                     <button class="btn btn-warning w-100 text-white" (click)="onReset()"><i class="bi bi-arrow-clockwise"></i>Refresh</button>
                     </div>
 
                 <!-- Calculate Button -->
-                <div class="col-6 col-sm-auto text-center">
-                    <button class="btn btn-primary w-100" (click)="onCalculate()">Calculate</button>
+                <div class="col-6 mt-4 col-sm-auto text-center">
+                    <button class="btn btn-primary w-100" (click)="onCalculate()" [disabled]="!width || !throughRatio" >Calculate</button>
                 </div>
             </div>
 
             <!-- Result Display -->
             <div class="text-center mt-3">
-                <p>Projection distance(L): {{ projectionDistance | number: '1.2-2' }} inches</p>
+                <p class="fw-bold">Projection distance(L): {{ projectionDistance | number: '1.2-2' }} inches</p>
             </div>
         </div>
-    </div>
 
     <!-- Explanation and formula section -->
     <div class="mt-5">
@@ -51,22 +48,24 @@
     <div class="container shadow-lg p-4 rounded mb-2">
         <div class="row">
             <div class="col-md-4 d-flex flex-column justify-content-center align-items-center">
-                <h5 class="mb-0">Formula</h5>
-                <span class="px-2 py-1">f(x)</span>
+                <h5 class="mb-0 fw-bold">Formula</h5>
+                <span class="px-2 py-1 fw-bold">f(x)</span>
             </div>
             <div class="col-md-8">
                 <p>Estimating Throw Distance Formula</p>
-                <p class="fw-bold">The formula for estimating throw is: D = SW * TR</p>
+                <p class="fw-bold">The formula for estimating throw is: <b>D = SW * TR</b></p>
                 <p>Where</p>
                 <ul>
-                    <li>D is the distance from the front of the lens to the closest point on the screen</li>
-                    <li>SW is screen width or width of the projected image</li>
-                    <li>TR is the throw ratio or ratio of throw distance to image width</li>
+                    <li><b>D</b> is the distance from the front of the lens to the closest point on the screen</li>
+                    <li><b>SW</b> is screen width or width of the projected image</li>
+                    <li><b>TR</b> is the throw ratio or ratio of throw distance to image width</li>
                     <li>Refer to the owner's manual of your projector and lens combination to find an accurate formula for your specific project.</li>
                 </ul>
             </div>
         </div>
-    </div>   
+    </div>  
+  </div>  
 </section>
 
 <app-spinner *ngIf="showSpinner"></app-spinner>
+

@@ -54,7 +54,7 @@
                                                     [class.unopened]="!email.opened">
                                                     <td class="subject">
                                                         <a [class.unopened]="!email.opened" class="title-text">
-                                                            {{ email.title }}
+                                                            <i [class]="getRandomIcon()" [style.color]="getRandomColor()"></i>&nbsp;&nbsp;{{ email.title }}
                                                         </a>
                                                     </td>
                                                     <td>

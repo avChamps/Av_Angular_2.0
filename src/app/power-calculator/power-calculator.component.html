@@ -1,0 +1,95 @@
+<section id="counts" class="counts" data-aos="fade-right">
+    <div class="me-2">
+        <div class="cur_pointer rounded-circle shadow-sm p-2 back-button" (click)="onBack()">
+            <i class="fas fa-arrow-left"></i>
+        </div>
+    </div>
+
+    <!-- Budget Table Section -->
+    <h4 class="text-center mb-4">Power Calculator</h4>
+    <div class="container mb-2">
+        <div id="pdfContent" class="row">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="custom-table-header text-center">
+                        <tr>
+                            <th scope="col">Sl.No</th>
+                            <th scope="col">Equipment</th>
+                            <th scope="col">Current(A)</th>
+                            <th scope="col">Voltage(V)</th>
+                            <th scope="col">Watts(W)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of powerCalRows; let i = index">
+                            <td class="text-center col-1">{{ i + 1 }}</td>
+                            <td class="col-3">
+                                <input type="text" placeholder="Enter Equipment Details" [(ngModel)]="row.equipment"
+                                    maxlength="50" (ngModelChange)="calculateTotalWatt()" class="form-control">
+                            </td>
+                            <td class="col-1">
+                                <input type="number" [(ngModel)]="row.current"
+                                    onKeyPress="if(this.value.length==4) return false;" [disabled]="!row.equipment"
+                                    class="form-control watt-input" (focus)="clearDefaultZero('current')" (ngModelChange)="calculateTotalWatt()">
+                            </td>
+                            <td class="col-1">
+                                <input type="number" [(ngModel)]="row.voltage"
+                                    onKeyPress="if(this.value.length==3) return false;" max="3"
+                                    [disabled]="!row.equipment" class="form-control watt-input" (focus)="clearDefaultZero('watt')"
+                                    (ngModelChange)="calculateTotalWatt()">
+                            </td>
+                            <td class="col-1">
+                                <input type="number" [(ngModel)]="row.watt" readonly [disabled]="!row.equipment"
+                                    class="form-control watt-input final_count" (ngModelChange)="calculateTotalWatt()">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Add/Remove Icons -->
+            <div class="text-right disabled_Button">
+                <i class="bi bi-dash-circle ml-2 cur_pointer" (click)="removeRow()"></i>
+                <i class="bi bi-plus-circle ml-2 cur_pointer" (click)="addRow()"></i>
+            </div>
+
+            <div class="results text-left" style="line-height: 10px;" id="pdfContentContainer">
+                <p><span>Total Watts(W): </span>{{totalkWh | number:'1.2-2'}}</p>
+                <p><span>kWh: </span>{{totalPowerCol | number:'1.2-2'}}</p>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="row justify-content-center mb-2 mt-3 disabled_Button">
+            <div class="col-md-4 text-center">
+                <button class="btn btn-warning mr-2" (click)="refreshValues()">Cancel</button>
+                <button class="btn btn-success" (click)="downloadRack()">Save</button>
+            </div>
+        </div>
+
+        <!-- Explanation and formula section -->
+        <div class="mt-5">
+            <h6>What It Is</h6>
+            <p>The process of utilizing a power calculator involves estimating or calculating the electrical power
+                requirements of the AV system. The power consumption of AV devices is measured in watts, and
+                understanding these power needs is essential for efficient electrical planning and ensuring
+                compatibility with equipment.</p>
+        </div>
+
+
+        <!-- Centered Formula section -->
+        <div class="container mt-4 shadow-lg p-4 rounded">
+            <div class="row">
+                <!-- Adjusting the layout for centering f(x) on the left -->
+                <div class="col-md-4 d-flex flex-column justify-content-center align-items-center">
+                    <h5 class="mb-0 fw-bold">Formula</h5>
+                    <span class="px-2 py-1 fw-bold">f(x)</span>
+                </div>
+                <div class="col-md-8">
+                    <p>The Formula for Calculating Power Calculator is:</p>
+                    <p class="fw-bold">Power (Watts) = Voltage (Volts) * Current (Amperes)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

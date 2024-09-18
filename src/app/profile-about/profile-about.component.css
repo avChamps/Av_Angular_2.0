@@ -1,7 +1,7 @@
-.profile-edit-btn {
-    background-color: #00B074;
-}
-
 input::placeholder {
     opacity: 0.8;
+}
+
+.fs {
+    font-size: 12px;
 }

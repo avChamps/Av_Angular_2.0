@@ -12,6 +12,7 @@ import { jsPDF } from 'jspdf';
 export class AvRackComponent {
   showSpinner: boolean = true;
   isAvrack: boolean = false;
+  viewRackImg : boolean = false;
   totalRackHeight: any;
   rackNumbers: any;
   total: number = 0
@@ -54,9 +55,27 @@ export class AvRackComponent {
     return index % 2 === 0 ? 'even-row' : 'odd-row'
   }
 
+  viewRack() {
+     this.viewRackImg = true;
+  } 
+
   addRow() {
     this.btuRows.push({ company: '', equipment: '', watt: 0 });
     this.updateRackConfiguration()
+  }
+
+  clearDefaultZero() {
+    this.btuRows.forEach((row) => {
+      if (row.watt === 0) {
+        row.watt = undefined as any;
+      }
+    });
+  }
+
+  preventNegative(event: KeyboardEvent) {
+    if (event.key === '-' || event.key === 'e') {
+      event.preventDefault();
+    }
   }
 
   removeLastRow() {
@@ -73,7 +92,8 @@ export class AvRackComponent {
     ]
     this.totalRackHeight = 0;
     this.rackNumbers = [];
-    this.updateRackConfiguration()
+    this.updateRackConfiguration();
+    this.viewRackImg = false;
   }
 
   downloadRack(elementId: string) {

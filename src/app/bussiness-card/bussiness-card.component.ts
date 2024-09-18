@@ -26,7 +26,7 @@ export class BussinessCardComponent {
   designation!: string
   companyName!: string
   emailId: any
-  key = 'encrypt!135790'
+  key = 'encrypt!135790';
   linkedIn: string = 'https://www.linkedin.com/in/disendra-yadav-b6b1a9220'
   instagram: string = 'https://www.instagram.com/'
 
@@ -54,6 +54,10 @@ export class BussinessCardComponent {
 
     const encryptedString = encodeURIComponent(this.encrypt(this.emailId));
     this.urlLink = this.document.location.origin + '/bussiness-card/' + encryptedString;
+  }
+
+  onProfile() {
+    this.router.navigateByUrl('profile-dashboard/about');
   }
 
   encrypt(emailId: string): string {

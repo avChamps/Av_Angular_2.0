@@ -1,13 +1,12 @@
 <section id="counts" class="counts" data-aos="fade-right">
-  <div class="row">
-    <div class="col-2">
-      <div class="cur_pointer back-button" (click)="onBack()">
-        <i class="bi bi-arrow-left"></i>
-      </div>
+  <div class="me-2">
+    <div class="cur_pointer rounded-circle shadow-sm p-2 back-button" (click)="onBack()">
+        <i class="fas fa-arrow-left"></i>
     </div>
-  </div>
+</div>
+
+<h4 class="text-center mb-4">Budget Calculator</h4>
     <div class="container">
-      <h4 class="tool-header text-center">Budget Calculator</h4>
       <div class="row">
         <!-- Main Form Section -->
         <div class="col-md-8 col-sm-12 mb-4">
@@ -30,7 +29,8 @@
                   </div>
                 </div>
                 <label for="costPerRoom" class="mb-0 mt-2">Cost per Room</label>
-                <input type="number" max="999999999" [disabled]="selectedRoomType === 'Select Room'" min="0"  (input)="restrictDigits($event)" (keypress)="preventNegative($event)" id="costPerRoom" class="form-control mt-2" [(ngModel)]="costPerRoom">
+                <input type="number" max="999999999" [disabled]="selectedRoomType === 'Select Room'" (keypress)="preventNegative($event)" 
+                (focus)="clearDefaultZero()"  min="0"  (input)="restrictDigits($event)" (keypress)="preventNegative($event)" id="costPerRoom" class="form-control mt-2" [(ngModel)]="costPerRoom">
               </div>
             </div>
           </div>
@@ -43,9 +43,9 @@
               <h5 class="card-title">Room Quantity</h5>
               <p class="card-text">{{ roomQuantity }}</p>
               <h5 class="card-title">Cost per Room</h5>
-              <p class="card-text">{{ costPerRoom | currency:'INR':'symbol' }}</p>
+              <p class="card-text">{{ costPerRoom  ? costPerRoom : 0 | currency:'INR':'symbol' }}</p>
               <h3>Total</h3>
-              <h2>{{ totalCost | currency:'INR':'symbol' }}</h2>
+              <h2>{{ totalCost  ? totalCost : 0 | currency:'INR':'symbol' }}</h2>
             </div>
           </div>
         </div>
@@ -60,9 +60,8 @@
       <div class="btu-calculator-container mt-5" *ngIf="showBudgetTable" id="tabelData">
         <div class="container">
           <div id="pdfContent">
-            <h4 class="tool-header text-center">Budget Calculator</h4>
             <div class="table-responsive">
-              <table class="table table-bordered">
+              <table class="table table-bordered" #tableContainer>
                 <thead class="custom-table-header text-center">
                   <tr>
                     <th scope="col">Sl.No</th>
@@ -70,6 +69,7 @@
                     <th scope="col">Quantity</th>
                     <th scope="col">Price</th>
                     <th scope="col">Total</th>
+                    <th scope="col" *ngIf="isDisplay">Action</th> <!-- Action column -->
                   </tr>
                 </thead>
                 <tbody>
@@ -79,30 +79,36 @@
                     <td class="text-center">{{ row.quantity }}</td>
                     <td class="text-center">{{ row.price }}</td>
                     <td class="text-center">{{ row.total | currency:'INR':'symbol' }}</td>
+                    <td class="text-center" *ngIf="isDisplay">
+                      <i class="bi bi-trash cur_pointer"  (click)="deleteRow(i)"></i>
+                    </td>
                   </tr>
                 </tbody>
               </table>
             </div>
-  
+      
             <!-- Add/Remove Icons -->
             <div class="text-right disabled_Button">
-              <i class="bi bi-dash-circle ml-2 cur_pointer " (click)="removeRow()"></i>
+              <i class="bi bi-dash-circle ml-2 cur_pointer" (click)="toggleActionItems()"></i>
             </div>
-  
+      
             <div class="results text-center" id="pdfContentContainer">
               <p><strong>Grand Total:</strong> &#8377;{{ totalBudget }}</p>
             </div>
+            
+            <P><i class="fa fa-info-circle text-danger"></i>Tax are not included in the values shown above.</P>
           </div>
         </div>
-  
+      
         <!-- Buttons -->
         <div class="row justify-content-center mb-2 mt-3 disabled_Button">
           <div class="col-md-4 text-center">
             <button class="btn btn-warning mr-2" (click)="refreshValues()">Cancel</button>
-            <button class="btn btn-success" (click)="downloadRack('tabelData')">Save</button>
+            <button class="btn btn-success" (click)="downloadRack()">Save</button>
           </div>
         </div>
       </div>
+      
     </div>
   </section>
   

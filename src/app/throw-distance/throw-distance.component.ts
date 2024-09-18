@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { UserServicesService } from '../services/user-services.service';
+import { an } from '@fullcalendar/core/internal-common';
 
 @Component({
   selector: 'app-throw-distance',
@@ -20,6 +21,20 @@ export class ThrowDistanceComponent {
     this.projectionDistance = this.width * this.throughRatio;
     this.showSpinner = false;
     },700)
+  }
+
+  clearDefaultZero(type: 'width' | 'throughRatio') {
+    if (type === 'width' && this.width === 0) {
+      this.width = undefined as any;
+    } else if (type === 'throughRatio') {
+      this.throughRatio = undefined as any;
+    }
+  } 
+
+  preventNegative(event: KeyboardEvent) {
+    if (event.key === '-' || event.key === 'e') {
+      event.preventDefault();
+    }
   }
 
   onReset() {

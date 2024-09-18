@@ -1,0 +1,137 @@
+<section id="counts" class="counts" data-aos="fade-right">
+    <div class="me-2">
+        <div class="cur_pointer rounded-circle shadow-sm p-2 back-button" (click)="onBack()">
+            <i class="fas fa-arrow-left"></i>
+        </div>
+    </div>
+
+    <h4 class="text-center mb-4">Aspect Ratio Calculator</h4>
+    <div class="container mb-2">
+    <div class="container shadow-lg p-4 rounded mb-2 mt-2">
+        <div class="row g-2 align-items-center">
+            <!-- Calculate Dropdown -->
+            <div class="col-12 col-sm-3">
+                <label for="calculate" class="form-label">Calculate</label>
+                <select id="calculate" class="form-select" [(ngModel)]="selectedCalculateOptions" (ngModelChange)="onOptionChange($event)">
+                    <option *ngFor="let options of calculateOptions" [value]="options.value">{{ options.name }}</option>
+                </select>
+            </div>
+
+            <!-- Width Input -->
+            <div class="col-12 col-sm-2" *ngIf="isShowHeight">
+                <label for="width" class="form-label">Width</label>
+                <input type="number" id="width" class="form-control" (keypress)="preventNegative($event)"  (focus)="clearDefaultZero('width')" [(ngModel)]="width">
+            </div>
+
+             <!-- height Input -->
+             <div class="col-12 col-sm-2" *ngIf="isShowWidth">
+                <label for="width" class="form-label">Height</label>
+                <input type="number" id="width" class="form-control" (keypress)="preventNegative($event)"  (focus)="clearDefaultZero('height')" [(ngModel)]="height">
+            </div>
+    
+            <!-- Aspect Ratio Inputs -->
+            <div class="col-12 col-sm-4" *ngIf="isAspectRatio">
+                <label for="aspect-ratio" class="form-label">Aspect Ratio</label>
+                <div class="row g-1">
+                    <div class="col-6">
+                        <input type="number" id="aspectRatio1" class="form-control" 
+                               (keypress)="preventNegative($event)" 
+                               (focus)="clearDefaultZero('aspectRatio1')" [(ngModel)]="aspectRatio1">
+                    </div>
+                    <div class="col-6">
+                        <input type="number" id="aspectRatio2" class="form-control" 
+                               (keypress)="preventNegative($event)" 
+                               (focus)="clearDefaultZero('aspectRatio2')" [(ngModel)]="aspectRatio2">
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Units Dropdown -->
+            <div class="col-12 col-sm-3">
+                <label for="units" class="form-label">Units</label>
+                <select id="units" class="form-select" [(ngModel)]="selectedUnits" (ngModelChange)="onUnitChange($event)">
+                    <option *ngFor="let unit of unitOptions" [value]="unit.value">{{ unit.name }}</option>
+                </select>
+            </div>
+        </div>
+    
+        <!-- Buttons and Display Section -->
+        <div class="row justify-content-center mt-4">
+            <div class="col-6 col-sm-2 text-center mb-2 mb-sm-0">
+                <button class="btn btn-warning w-100 text-white" (click)="onReset()">
+                    <i class="bi bi-arrow-clockwise"></i> Refresh
+                </button>
+            </div>
+        
+            <div class="col-6 col-sm-2 text-center">
+                <button class="btn btn-primary w-100" (click)="calculateAspectRatio()">Calculate</button>
+            </div>
+        </div>
+      
+        <div class="text-center mt-4" *ngIf="showResult">
+            <div class="container">
+                <div class="row justify-content-center p-2 rounded shadow-lg border border-warning">
+                    <!-- Use flexbox for layout changes based on screen size -->
+                    <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-around w-100">
+                        <div class="p-2 d-flex flex-lg-row align-items-center">
+                            <span class="d-flex display_result" ><b>Aspect Ratio:&nbsp; </b></span>
+                            <span>{{ aspectRatio }}</span>
+                        </div>
+                        <div class="p-2 d-flex flex-lg-row align-items-center">
+                            <span class="d-flex display_result"><b>Dimensions:&nbsp; </b></span>
+                            <span>{{ dimensions }}</span>
+                        </div>
+                        <div class="p-2 d-flex flex-lg-row align-items-center">
+                            <span class="d-flex display_result"><b>Mode: &nbsp;</b></span>
+                            <span>{{ mode }}</span>
+                        </div>
+                        <div class="p-2 d-flex flex-lg-row align-items-center">
+                            <span class="d-flex display_result"><b>Width: &nbsp;</b></span>
+                            <span>{{ width | number: '1.0-0'}} {{ selectedUnits }}</span>
+                        </div>
+                        <div class="p-2 d-flex flex-lg-row align-items-center">
+                            <span class="d-flex display_result"><b>Height:&nbsp; </b></span>
+                            <span>{{ height  | number: '1.0-0'}} {{ selectedUnits }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            
+        </div>
+    </div>
+
+    <!-- Explanation and formula section -->
+    <div class="mt-5">
+        <h6>What It Is</h6>
+        <p>The width and height of an image have a fixed ratio, called the aspect ratio. It is written as x:y, where x
+            and y are two numbers. For instance, an image with a 16:9 aspect ratio will always have 16 units of width
+            for every 9 units of height, regardless of its size. So, both an image that is 16 cm wide and 9 cm high and
+            an image that is 32 cm wide and 18 cm high have the same 16:9 aspect ratio.</p>
+    </div>
+
+    <!-- Centered Formula section -->
+    <div class="container shadow-lg p-4 rounded mb-2">
+        <div class="row">
+            <div class="col-md-4 d-flex flex-column justify-content-center align-items-center">
+                <h5 class="mb-0 fw-bold">Formula</h5>
+                <span class="px-2 py-1 fw-bold">f(x)</span>
+            </div>
+            <div class="col-md-8">
+                <p>Aspect ratio Formula</p>
+                <p>The formula for finding aspect ratio is: <b>AR=W/H</b></p>
+                <p>Where</p>
+                <ul>
+                    <li><b>AR</b> is the aspect ratio</li>
+                    <li><b>W</b> is the width of the displayed image</li>
+                    <li><b>H</b> is the height of the displayed image</li>
+                </ul>
+                <p>Note that W and H are measured in inches or millimeters.</p>
+                <a (click)="openPdf()" class="cur_pointer text-blue">For more ...</a>
+            </div>
+        </div>
+    </div> 
+
+    </div>
+</section>
+
+<app-spinner *ngIf="showSpinner"></app-spinner>
