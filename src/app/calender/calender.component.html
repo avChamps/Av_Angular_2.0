@@ -11,15 +11,14 @@
       <button  class="btn w-100 cur_pointer" *ngIf="event.name" [ngStyle]="{'background-color': event.colorCode}" (click)="filterByEventType(event.eventType, event.name, event.colorCode)">
         {{ event.name }}
       </button>
-    </div>
-
-    <div class="col-12 col-sm-6 col-md-2 mb-2">
-      <button class="btn btn-success w-100 cur_pointer" data-bs-toggle="modal" data-bs-target="#eventInfoModal">Post Event</button>
-    </div>
-    
+    </div>  
 
     <div class="col-12 col-sm-6 col-md-2 mb-2">
       <button class="btn btn-primary w-100 cur_pointer" (click)="filterTodayEvents()">Today</button>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-2 mb-2">
+      <button class="btn btn-success cur_pointer" data-bs-toggle="modal" data-bs-target="#eventInfoModal" tooltip="Post Event"><i class="bi-pencil-square"></i></button>
     </div>
     
   </div>
@@ -30,12 +29,14 @@
         <div class="card mx-auto h-100 shadow-lg" [ngStyle]="{'border-bottom': '2px solid ' + eventColorCode}">
           <div class="card-body">
             <div class="row">
-              <div class="col-4">
-                <div class="text-center p-3 text-white rounded d-flex flex-column align-items-center justify-content-center" [ngStyle]="{'background-color': eventColorCode }" style="height: 100px;">
-                  <h6 class="mb-0">{{ getMonth(events.event_date) }}</h6>
-                  <h2 class="mt-1">{{ getDay(events.event_date) }}</h2>
+              <div class="col-4" style="padding: 3px;">
+                <div class="text-center p-3 text-white rounded d-flex flex-column align-items-center justify-content-center" 
+                     [ngStyle]="{'background-color': eventColorCode }" 
+                     style="height: 100px;">
+                  <h6 class="mb-0" style="font-size: 14px;">{{ getMonth(events.event_date) }}</h6>
+                  <h2 class="mt-1" style="font-size: 28px;">{{ getDay(events.event_date) }}</h2>
                 </div>
-              </div>
+              </div>              
               <div class="col-8">
                 <p>{{ formatDate(events.event_date) }}</p>
                 <div class="text-center mb-2">
@@ -98,6 +99,8 @@
       </div>
   </div>
 </div>
+
+<app-spinner *ngIf="showSpinner"></app-spinner>
 
   </section>
 

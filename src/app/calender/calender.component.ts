@@ -18,7 +18,7 @@ export class CalenderComponent {
   displayEventName: string = '';
   eventColorCode: string = '';
   eventNameInput: any;
-  showSpinner: boolean = true;
+  showSpinner: boolean = false;
   selectedEventType: string = '';
   eventsResponse: any[] = [];
   filteredEvents: any[] = [];
@@ -115,7 +115,6 @@ export class CalenderComponent {
       this.showSpinner = false;
     });
   }
-
 
   getMonth(dateString: string): string {
     const date = new Date(dateString);
