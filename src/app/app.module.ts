@@ -43,8 +43,12 @@ import { AudioDelayComponent } from './audio-delay/audio-delay.component';
 import { BtuCalculatorComponent } from './btu-calculator/btu-calculator.component';
 import { PowerCalculatorComponent } from './power-calculator/power-calculator.component';
 import { SafePipe } from './services/safe.pipe';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
-
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -99,7 +103,14 @@ import { SafePipe } from './services/safe.pipe';
     ReactiveFormsModule,
     TooltipModule,
     QRCodeModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     DatePipe,DecimalPipe

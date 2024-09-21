@@ -1,0 +1,22 @@
+{
+    "Last Login:": "చివరి ప్రవేశం:",
+    "About": "వివరాలు",
+    "Bussiness Card": "వ్యాపార కార్డు",
+    "Edit": "సవరించు",
+    "Save": "సేవ్",
+    "Company Name": "కంపెనీ పేరు",
+    "Designation": "హోదా",
+    "Email Id": "ఈమెయిల్ ఐడి",
+    "Mobile Number": "మొబైల్ నంబర్",
+    "DOB": "జన్మ తేదీ",
+    "Location": "అవస్థానం",
+    "Gender": "లింగం",
+    "Enter Company Name": "కంపెనీ పేరు నమోదు చేయండి",
+    "Enter jobTitle": "ఉద్యోగ టైటిల్ నమోదు చేయండి",
+    "Enter emailId": "ఈమెయిల్ ఐడి నమోదు చేయండి",
+    "Enter mobileNumber": "మొబైల్ నంబర్ నమోదు చేయండి",
+    "Enter UserCity": "యూజర్ నగరం నమోదు చేయండి",
+    "Max 24 Characters are allowed": "గరిష్టంగా 24 అక్షరాలు అనుమతించబడతాయి",
+    "Enter valid email ID.": "సరైన ఈమెయిల్ ఐడిని నమోదు చేయండి.",
+    "Invalid Mobile Number.": "అసరైన మొబైల్ నంబర్."
+}

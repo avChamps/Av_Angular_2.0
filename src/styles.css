@@ -46,18 +46,14 @@ body {
 	cursor: pointer;
 }
 
-/* .back-button:hover {
+.back-button:hover {
 	background-color: #e0e0e0;
 	transform: scale(1.1);
-} */
+}
 
 .back-button {
 	background-color: #8080805c!important;
 }
-/* .back-button i {
-	color: #007bff;
-	font-size: 1.5rem;
-} */
 
 .custom-table-header th {
 	background-color: #00b3b3 !important;
@@ -67,3 +63,10 @@ body {
 .box_shadow {
 	box-shadow: 4px 4px 10px #d1d9e6, -4px -4px 10px #f9f9f9 !important;
 }
+
+.toast-right-center {
+	top: 50%;
+	right: 0;
+	transform: translateY(-50%);
+  }
+  

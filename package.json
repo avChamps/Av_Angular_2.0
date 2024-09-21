@@ -24,6 +24,8 @@
     "@fullcalendar/interaction": "^6.1.15",
     "@fullcalendar/list": "^6.1.15",
     "@fullcalendar/timegrid": "^6.1.15",
+    "@ngx-translate/core": "^15.0.0",
+    "@ngx-translate/http-loader": "^8.0.0",
     "@srexi/purecounterjs": "^1.5.0",
     "angularx-qrcode": "^18.0.1",
     "aos": "^2.3.4",

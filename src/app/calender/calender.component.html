@@ -51,16 +51,14 @@
   
 </div>
 
-<div class="modal fade" #eventInfoModal id="eventInfoModal" tabindex="-1" aria-labelledby="eventInfoModalLabel" aria-hidden="true">
+<div class="modal fade" id="eventInfoModal" tabindex="-1" aria-labelledby="eventInfoModalLabel" aria-hidden="true">
   <div class="modal-dialog">
       <div class="modal-content">
-          <!-- Modal Header -->
           <div class="modal-header">
               <h4 class="modal-title mb-0" id="eventInfoModalLabel">Event Information</h4>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
 
-          <!-- Modal Body -->
           <div class="modal-body">
               <div class="form-group">
                   <label for="eventNameInput">Event Name</label>
@@ -90,9 +88,9 @@
 
           <!-- Modal Footer -->
           <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-secondary" #closeButton data-bs-dismiss="modal">Close</button>
               <button type="button" class="btn btn-success" 
-                      [disabled]="!startDate || !endDate || !eventName || !eventUrl"
+                      [disabled]="!startDate || !endDate || !eventName || !eventUrl || !selectedEventType"
                       (click)="submitForm()">
                   Submit
               </button>

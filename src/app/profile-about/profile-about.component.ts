@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthServiceService } from '../services/auth-service.service';
 import { FaServiceService } from '../services/fa-service.service';
 import { UserServicesService } from '../services/user-services.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile-about',
@@ -34,14 +35,20 @@ export class ProfileAboutComponent implements OnInit {
     private userService: UserServicesService,
     private authService: AuthServiceService,
     private faService: FaServiceService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private translate: TranslateService
   ) {
     this.emailId = localStorage.getItem('emailId');
     this.userName = localStorage.getItem('userName');
+    // this.translate.setDefaultLang('telugu');
   }
 
   ngOnInit(): void {
     this.getProfileData()
+  }
+
+  switchLanguage(lang: string) {
+    this.translate.use(lang);
   }
 
   toggleEditMode() {
@@ -111,7 +118,7 @@ export class ProfileAboutComponent implements OnInit {
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     if (!emailPattern.test(this.emailId)) {
       this.isEmailValidated = false;
-      this.emailErrorMessage = 'Enter valid email ID.';
+      this.emailErrorMessage = this.translate.instant('Enter valid email ID.');
     } else {
       this.isEmailValidated = true;
       this.emailErrorMessage = '';
@@ -130,7 +137,7 @@ export class ProfileAboutComponent implements OnInit {
     const regex = /^(?!([0-9])\1{9})[1-9][0-9]{9}$/;
     if (!regex.test(this.mobileNumber)) {
       this.isMobileNumberValidated = false;
-      this.mobileErrorMessage = 'Invalid Mobile Number.';
+      this.mobileErrorMessage = this.translate.instant('Invalid Mobile Number.');
     } else {
       this.isMobileNumberValidated = true;
       this.mobileErrorMessage = '';

@@ -23,15 +23,15 @@
                         <div class="profile-head">
                             <h3>{{ userName | titleCase }}</h3>
                             <h6>{{ jobTitle | titleCase }}</h6>
-                            <p class="proile-rating">Last Login: <span>{{ formatDate(updatedDate) }}</span></p>
+                            <p class="proile-rating">{{ "Last Login:" | translate }} <span>{{ formatDate(updatedDate) }}</span></p>
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link text-left active text-white theme_bg" id="home-tab" data-toggle="tab" role="tab" aria-controls="home" 
-                                        aria-selected="true">About</a>
+                                        aria-selected="true">{{"About" | translate }}</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-left active text-white theme_bg" routerLink="/profile-dashboard/tools/bussiness-card" id="home-tab" data-toggle="tab" role="tab" aria-controls="home" 
-                                        aria-selected="true">Bussiness Card</a>
+                                        aria-selected="true">{{"Bussiness Card" | translate}}</a>
                                 </li>
                             </ul>
                         </div>
@@ -39,7 +39,8 @@
                     
                     <div class="col-lg-2 col-md-12 col-sm-12 text-right mb-3">
                         <button type="button" class="btn btn-success theme_bg mt-2 mt-lg-0" (click)="toggleEditMode()"
-                            [class.save-mode]="editMode" [class.edit-mode]="!editMode"  [disabled]="!isMobileNumberValidated || !isEmailValidated || companyNameInput.value?.length > 24 || jobTitleInput.value?.length > 24" >{{ editMode ? 'Save' : 'Edit' }}</button>
+                            [class.save-mode]="editMode" [class.edit-mode]="!editMode"  [disabled]="!isMobileNumberValidated || !isEmailValidated || companyNameInput.value?.length > 24 || jobTitleInput.value?.length > 24" >{{ editMode ? ('Save' | translate) : ('Edit' | translate) }}
+                        </button>
                     </div>
                 </div>
                 <div class="row mt-4">
@@ -49,28 +50,28 @@
 
                                 <div class="row mb-3">
                                     <div class="col-lg-6 col-md-6 col-sm-12">
-                                        <label>Company Name</label>
-                                        <input type="text" maxlength="25" [disabled]="!editMode" [(ngModel)]="companyName" name="companyNameInput" #companyNameInput="ngModel"  placeholder="Enter Company Name"
+                                        <label>{{"Company Name" | translate}}</label>
+                                        <input type="text" maxlength="25" [disabled]="!editMode" [(ngModel)]="companyName" name="companyNameInput" #companyNameInput="ngModel"  placeholder="{{'Enter Company Name' | translate}}"
                                             class="form-control">
-                                            <p *ngIf="companyNameInput.value?.length > 24" class="text-danger fs">Max 24 Characters are allowed</p>
+                                            <p *ngIf="companyNameInput.value?.length > 24" class="text-danger fs">{{"Max 24 Characters are allowed" | translate}}</p>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-12">
-                                        <label>Designation</label>
-                                        <input type="text" maxlength="25" [disabled]="!editMode" [(ngModel)]="jobTitle" name="jobTitleInput" #jobTitleInput="ngModel" placeholder="Enter jobTitle"
+                                        <label>{{"Designation" | translate}}</label>
+                                        <input type="text" maxlength="25" [disabled]="!editMode" [(ngModel)]="jobTitle" name="jobTitleInput" #jobTitleInput="ngModel" placeholder="{{'Enter jobTitle' | translate}}"
                                             class="form-control">
-                                            <p *ngIf="jobTitleInput.value?.length > 24" class="text-danger fs">Max 24 Characters are allowed</p>
+                                            <p *ngIf="jobTitleInput.value?.length > 24" class="text-danger fs">{{"Max 24 Characters are allowed" | translate}}</p>
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
                                     <div class="col-lg-6 col-md-6 col-sm-12">
-                                        <label>Email Id</label>
-                                        <input type="email" [(ngModel)]="emailId" [disabled]="!editMode" (ngModelChange)="validateEmail()" placeholder="Enter emailId" name="emailIdInput" class="form-control">
+                                        <label>{{"Email Id" | translate }}</label>
+                                        <input type="email" [(ngModel)]="emailId" [disabled]="!editMode" (ngModelChange)="validateEmail()" placeholder="{{'Enter emailId' | translate}}" name="emailIdInput" class="form-control">
                                         <p *ngIf="emailErrorMessage" class="text-danger fs"> {{ emailErrorMessage }} </p>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-12">
-                                        <label>Mobile Number</label>
-                                        <input type="text" maxlength="10" [(ngModel)]="mobileNumber" (ngModelChange)="onMobileNumberChange()" [disabled]="!editMode" placeholder="Enter mobileNumber" name="mobileNumberInput"
+                                        <label>{{"Mobile Number" | translate}}</label>
+                                        <input type="text" maxlength="10" [(ngModel)]="mobileNumber" (ngModelChange)="onMobileNumberChange()" [disabled]="!editMode" placeholder="{{'Enter mobileNumber' | translate}}" name="mobileNumberInput"
                                             class="form-control">
                                             <p *ngIf="mobileErrorMessage" class="text-danger fs"> {{ mobileErrorMessage }} </p>
                                     </div>
@@ -78,21 +79,21 @@
 
                                 <div class="row mb-3">
                                     <div class="col-lg-6 col-md-6 col-sm-12">
-                                        <label>DOB</label>
+                                        <label>{{"DOB" | translate}}</label>
                                         <input type="date" [ngModel]="formatDOB(dateOfBirth)"
                                             (ngModelChange)="dateOfBirth = $event" [disabled]="!editMode" name="dateOfBirthInput"
                                             class="form-control">
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-12">
-                                        <label>Location</label>
-                                        <input type="text" maxlength="30" [(ngModel)]="userCity" placeholder="Enter UserCity" [disabled]="!editMode" name="userCityInput"
+                                        <label>{{"Location" | translate}}</label>
+                                        <input type="text" maxlength="30" [(ngModel)]="userCity" placeholder="{{'Enter UserCity' | translate}}" [disabled]="!editMode" name="userCityInput"
                                             class="form-control">
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
                                     <div class="col-lg-6 col-md-6 col-sm-12">
-                                        <label>Gender</label>
+                                        <label>{{"Gender" | translate}}</label>
                                         <select [(ngModel)]="gender" name="genderInput"  [disabled]="!editMode" class="form-control">
                                              <option value="male">Male</option>
                                             <option value="female">Female</option>

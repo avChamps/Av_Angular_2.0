@@ -1,6 +1,8 @@
 import { ChangeDetectorRef, Component, Input, Renderer2, TemplateRef, ViewChild, ElementRef } from '@angular/core';
 import { UserServicesService } from '../services/user-services.service';
 import { FaServiceService } from '../services/fa-service.service';
+import { ToastrService } from 'ngx-toastr';
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-calender',
@@ -17,12 +19,13 @@ export class CalenderComponent {
   eventColorCode: string = '';
   eventNameInput: any;
   showSpinner: boolean = true;
-  selectedEventType: any;
+  selectedEventType: string = '';
   eventsResponse: any[] = [];
   filteredEvents: any[] = [];
-  @ViewChild('eventInfoModal') eventInfoModal!: ElementRef;
+  @ViewChild('closeButton') closeButton!: ElementRef<HTMLButtonElement>;
 
   eventTypes = [
+    { displayName: 'Select EventType', value: '' },
     { displayName: 'Webinar', value: 'webinar' },
     { displayName: 'Trade Show', value: 'trade_show' },
     { displayName: 'Classroom', value: 'classroom' },
@@ -33,6 +36,7 @@ export class CalenderComponent {
   constructor(
     private faService: FaServiceService,
     public userService: UserServicesService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -150,10 +154,19 @@ export class CalenderComponent {
     this.faService.postEvent(data).subscribe({
       next: (response) => {
         console.log('Event submitted successfully:', response);
+        this.toastr.success('Event submitted successfully!', 'Success', {
+          positionClass: 'toast-right-center'
+        });
+
+        this.closeButton.nativeElement.click();
+        this.clearPopup();
       },
       error: (err: any) => {
         console.error('Error submitting the event:', err);
         this.handleError(err);
+        this.toastr.error('Failed to submit the event.', 'Error' ,{
+           positionClass: 'toast-right-center'
+        });
       },
     });
   }
@@ -166,6 +179,14 @@ export class CalenderComponent {
     } else {
       console.log('Unexpected error:', err);
     }
+  }
+
+  clearPopup() {
+    this.startDate = ''
+    this.endDate = '';
+    this.eventName = '';
+    this.eventUrl = '';
+    this.selectedEventType = ''
   }
 
   onBack() {
