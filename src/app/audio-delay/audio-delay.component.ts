@@ -1,18 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserServicesService } from '../services/user-services.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-audio-delay',
   templateUrl: './audio-delay.component.html',
   styleUrls: ['./audio-delay.component.css']
 })
-export class AudioDelayComponent {
+export class AudioDelayComponent implements OnInit {
   delayNeededInFeet = 0;
   distance : number = 0;
   delayNeededInMtr = 0;
   showSpinner: boolean = false;
 
-  constructor(private userService: UserServicesService) { }
+  constructor(private userService: UserServicesService,private translate: TranslateService) { }
+  ngOnInit(): void {
+    let language = localStorage.getItem('selectedLanguage') || 'english';
+    this.translate.setDefaultLang(language);
+  }
 
   calculateAudio(): void {
     this.showSpinner = true;

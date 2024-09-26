@@ -5,61 +5,61 @@
         </div>
     </div>
 
-    <h4 class="text-center mb-4">Projector Throw Distance</h4>
+    <h4 class="text-center mb-4">{{'Projector Throw Distance' | translate}}</h4>
     <div class="container mb-2">
     <div class="container shadow-lg p-4 rounded mb-2 mt-2">
             <div class="row g-2 justify-content-center align-items-center">
                 <!-- Width Input -->
                 <div class="col-6 col-sm-auto">
-                    <label for="width" class="form-label">Width</label>
+                    <label for="width" class="form-label">{{'Width' | translate}}</label>
                     <input type="number" id="width" class="form-control" (keypress)="preventNegative($event)"  (focus)="clearDefaultZero('width')" [(ngModel)]="width">
                 </div>
 
                 <!-- Through Ratio Input -->
                 <div class="col-6 col-sm-auto">
-                    <label for="throughRatio" class="form-label">Through Ratio</label>
+                    <label for="throughRatio" class="form-label">{{'Through Ratio' |translate}}</label>
                     <input type="number" id="throughRatio" class="form-control" (keypress)="preventNegative($event)"  (focus)="clearDefaultZero('throughRatio')" [(ngModel)]="throughRatio">
                 </div>
 
                 <!-- Reset Icon -->
                 <div class="col-6 mt-4 col-sm-auto text-center">
-                    <button class="btn btn-warning w-100 text-white" (click)="onReset()"><i class="bi bi-arrow-clockwise"></i>Refresh</button>
+                    <button class="btn btn-warning w-100 text-white" (click)="onReset()"><i class="bi bi-arrow-clockwise"></i>{{'Refresh' | translate}}</button>
                     </div>
 
                 <!-- Calculate Button -->
                 <div class="col-6 mt-4 col-sm-auto text-center">
-                    <button class="btn btn-primary w-100" (click)="onCalculate()" [disabled]="!width || !throughRatio" >Calculate</button>
+                    <button class="btn btn-primary w-100" (click)="onCalculate()" [disabled]="!width || !throughRatio" >{{'Calculate' |translate}}</button>
                 </div>
             </div>
 
             <!-- Result Display -->
             <div class="text-center mt-3">
-                <p class="fw-bold">Projection distance(L): {{ projectionDistance | number: '1.2-2' }} inches</p>
+                <p class="fw-bold">{{'Projection distance' | translate}}(L): {{ projectionDistance | number: '1.2-2' }} inches</p>
             </div>
         </div>
 
     <!-- Explanation and formula section -->
     <div class="mt-5">
-        <h6>What It Is</h6>
-        <p>Projector throw distance is the value that helps in obtaining the best-quality picture results as formed by the projector on the screen. This distance can be calculated using a projector throw ratio distance calculator, which helps increase accuracy, save time and effort, and promise a high-quality and ultimate viewing experience.</p>
+        <h6>{{'What It Is' | translate}}</h6>
+        <p>{{'Projector throw distance is the value that helps in obtaining the best-quality picture results as formed by the projector on the screen. This distance can be calculated using a projector throw ratio distance calculator, which helps increase accuracy, save time and effort, and promise a high-quality and ultimate viewing experience.' | translate}}</p>
     </div>
 
     <!-- Centered Formula section -->
     <div class="container shadow-lg p-4 rounded mb-2">
         <div class="row">
             <div class="col-md-4 d-flex flex-column justify-content-center align-items-center">
-                <h5 class="mb-0 fw-bold">Formula</h5>
+                <h5 class="mb-0 fw-bold">{{'Formula' | translate}}</h5>
                 <span class="px-2 py-1 fw-bold">f(x)</span>
             </div>
             <div class="col-md-8">
-                <p>Estimating Throw Distance Formula</p>
-                <p class="fw-bold">The formula for estimating throw is: <b>D = SW * TR</b></p>
-                <p>Where</p>
+                <p>{{'Estimating Throw Distance Formula' | translate}}</p>
+                <p class="fw-bold">{{'The formula for estimating throw is' | translate}}: <b>D = SW * TR</b></p>
+                <p>{{'Where' | translate}}</p>
                 <ul>
-                    <li><b>D</b> is the distance from the front of the lens to the closest point on the screen</li>
-                    <li><b>SW</b> is screen width or width of the projected image</li>
-                    <li><b>TR</b> is the throw ratio or ratio of throw distance to image width</li>
-                    <li>Refer to the owner's manual of your projector and lens combination to find an accurate formula for your specific project.</li>
+                    <li><b>D</b> {{'is the distance from the front of the lens to the closest point on the screen' | translate}}</li>
+                    <li><b>SW</b> {{'is screen width or width of the projected image' | translate}}</li>
+                    <li><b>TR</b> {{'is the throw ratio or ratio of throw distance to image width' | translate}}</li>
+                    <li>{{"Refer to the owner's manual of your projector and lens combination to find an accurate formula for your specific project." | translate}}</li>
                 </ul>
             </div>
         </div>

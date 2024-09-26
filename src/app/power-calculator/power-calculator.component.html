@@ -6,25 +6,25 @@
     </div>
 
     <!-- Budget Table Section -->
-    <h4 class="text-center mb-4">Power Calculator</h4>
+    <h4 class="text-center mb-4">{{'Power Calculator' | translate}}</h4>
     <div class="container mb-2">
         <div id="pdfContent" class="row">
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead class="custom-table-header text-center">
                         <tr>
-                            <th scope="col">Sl.No</th>
-                            <th scope="col">Equipment</th>
-                            <th scope="col">Current(A)</th>
-                            <th scope="col">Voltage(V)</th>
-                            <th scope="col">Watts(W)</th>
+                            <th scope="col">{{'Sl.No' | translate}}</th>
+                            <th scope="col">{{'Equipment' | translate}}</th>
+                            <th scope="col">{{'Current' | translate}}(A)</th>
+                            <th scope="col">{{'Voltage' | translate}}(V)</th>
+                            <th scope="col">{{'Watts' | translate}}(W)</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let row of powerCalRows; let i = index">
                             <td class="text-center col-1">{{ i + 1 }}</td>
                             <td class="col-3">
-                                <input type="text" placeholder="Enter Equipment Details" [(ngModel)]="row.equipment"
+                                <input type="text" placeholder="{{'Enter Equipment Details' | translate}}" [(ngModel)]="row.equipment"
                                     maxlength="50" (ngModelChange)="calculateTotalWatt()" class="form-control">
                             </td>
                             <td class="col-1">
@@ -54,7 +54,7 @@
             </div>
 
             <div class="results text-left" style="line-height: 10px;" id="pdfContentContainer">
-                <p><span>Total Watts(W): </span>{{totalkWh | number:'1.2-2'}}</p>
+                <p><span>{{'Total Watts' |translate}}(W): </span>{{totalkWh | number:'1.2-2'}}</p>
                 <p><span>kWh: </span>{{totalPowerCol | number:'1.2-2'}}</p>
             </div>
         </div>
@@ -62,18 +62,18 @@
         <!-- Buttons -->
         <div class="row justify-content-center mb-2 mt-3 disabled_Button">
             <div class="col-md-4 text-center">
-                <button class="btn btn-warning mr-2" (click)="refreshValues()">Cancel</button>
-                <button class="btn btn-success" (click)="downloadRack()">Save</button>
+                <button class="btn btn-warning mr-2" (click)="refreshValues()">{{'Cancel' | translate}}</button>
+                <button class="btn btn-success" (click)="downloadRack()">{{'Save' | translate}}</button>
             </div>
         </div>
 
         <!-- Explanation and formula section -->
         <div class="mt-5">
-            <h6>What It Is</h6>
-            <p>The process of utilizing a power calculator involves estimating or calculating the electrical power
+            <h6>{{'What It Is' | translate}}</h6>
+            <p>{{"The process of utilizing a power calculator involves estimating or calculating the electrical power
                 requirements of the AV system. The power consumption of AV devices is measured in watts, and
                 understanding these power needs is essential for efficient electrical planning and ensuring
-                compatibility with equipment.</p>
+                compatibility with equipment." | translate}}</p>
         </div>
 
 
@@ -82,11 +82,11 @@
             <div class="row">
                 <!-- Adjusting the layout for centering f(x) on the left -->
                 <div class="col-md-4 d-flex flex-column justify-content-center align-items-center">
-                    <h5 class="mb-0 fw-bold">Formula</h5>
+                    <h5 class="mb-0 fw-bold">{{'Formula' | translate}}</h5>
                     <span class="px-2 py-1 fw-bold">f(x)</span>
                 </div>
                 <div class="col-md-8">
-                    <p>The Formula for Calculating Power Calculator is:</p>
+                    <p>{{'The Formula for Calculating Power Calculator is' | translate}}:</p>
                     <p class="fw-bold">Power (Watts) = Voltage (Volts) * Current (Amperes)</p>
                 </div>
             </div>

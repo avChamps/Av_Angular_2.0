@@ -5,60 +5,60 @@
         </div>
     </div>
 
-    <h4 class="text-center mb-4">Diagonal Screen Size Calculator</h4>
+    <h4 class="text-center mb-4">{{'Diagonal Screen Size Calculator' | translate}}</h4>
     <div class="container mb-2">
         <div class="container shadow-lg p-4 rounded mb-2 mt-2">
             <div class="row g-2 justify-content-center align-items-center">
                 <!-- Width Input -->
                 <div class="col-6 col-sm-auto">
-                    <label for="width" class="form-label">Width</label>
+                    <label for="width" class="form-label">{{'Width' | translate}}</label>
                     <input type="number" id="width" class="form-control" (keypress)="preventNegative($event, (width !== undefined ? width.toString() : ''))"  (focus)="clearDefaultZero('width')" [(ngModel)]="width">
                 </div>
 
                 <!-- Through Ratio Input -->
                 <div class="col-6 col-sm-auto"> 
-                    <label for="height" class="form-label">height</label>
+                    <label for="height" class="form-label">{{'height' | translate}}</label>
                     <input type="number" id="height" class="form-control" (keypress)="preventNegative($event, (height !== undefined ? height.toString() : ''))"  (focus)="clearDefaultZero('height')" [(ngModel)]="height">
                 </div>
 
                 <!-- Reset Icon -->
                 <div class="col-6 col-sm-auto mt-4 text-center">
-                    <button class="btn btn-warning w-100 text-white" (click)="onReset()"><i class="bi bi-arrow-clockwise"></i>Refresh</button>
+                    <button class="btn btn-warning w-100 text-white" (click)="onReset()"><i class="bi bi-arrow-clockwise"></i>{{'Refresh' | translate}}</button>
                     </div>
 
                 <!-- Calculate Button -->
                 <div class="col-6 col-sm-auto mt-4 text-center">
-                    <button class="btn btn-primary w-100" (click)="calculateDiagonalSize()" [disabled]="!height || !width">Calculate</button>
+                    <button class="btn btn-primary w-100" (click)="calculateDiagonalSize()" [disabled]="!height || !width">{{'Calculate' | translate}}</button>
                 </div>
             </div>
 
             <!-- Result Display -->
             <div class="text-center mt-3">
-                <p class="fw-bold">Diagonal Screen Size: {{ diagonalSize | number: '1.2-2' }} inches</p>
+                <p class="fw-bold">{{'Diagonal Screen Size' | translate}}: {{ diagonalSize | number: '1.2-2' }} inches</p>
             </div>
         </div>
 
     <!-- Explanation and formula section -->
     <div class="mt-5">
-        <h6>What It Is</h6>
-        <p>The Diagonal Screen Size Calculator simplifies the process of determining the diagonal size of a screen based on its width and height. Whether you’re working with a television, monitor, or any other display, this tool provides a convenient way to calculate the diagonal screen size, offering practical applications for consumers and professionals alike.</p>
+        <h6>{{'What It Is' | translate}}</h6>
+        <p>{{'The Diagonal Screen Size Calculator simplifies the process of determining the diagonal size of a screen based on its width and height. Whether you’re working with a television, monitor, or any other display, this tool provides a convenient way to calculate the diagonal screen size, offering practical applications for consumers and professionals alike.' | translate}}</p>
     </div>
 
     <!-- Centered Formula section -->
     <div class="container shadow-lg p-4 rounded mb-2">
         <div class="row">
             <div class="col-md-4 d-flex flex-column justify-content-center align-items-center">
-                <h5 class="mb-0 fw-bold">Formula</h5>
+                <h5 class="mb-0 fw-bold">{{'Formula' | translate}}</h5>
                 <span class="px-2 py-1 fw-bold">f(x)</span>
             </div>
             <div class="col-md-8">
-                <p>Screen Diagonal Formula(pythagorean Theorem)</p>
-                <p>The diagonal of a screen can be calculated using the Pythagorean Theorem: <b>A<sup>2</sup> + B<sup>2</sup> = C<sup>2</sup></b></p>
+                <p>{{'Screen Diagonal Formula' | translate}}(pythagorean Theorem)</p>
+                <p>{{'The diagonal of a screen can be calculated using the Pythagorean Theorem' | translate}}: <b>A<sup>2</sup> + B<sup>2</sup> = C<sup>2</sup></b></p>
                 <p>Where</p>
                 <ul>
-                    <li><b>A</b> is the height of a screen</li>
-                    <li><b>B</b> is the height of a screen</li>
-                    <li><b>C</b> is the diagonal length of a screen</li>
+                    <li><b>A</b> {{'is the height of a screen' | translate}}</li>
+                    <li><b>B</b> {{'is the height of a screen' | translate}}</li>
+                    <li><b>C</b> {{'is the diagonal length of a screen' | translate}}</li>
                  </ul>
             </div>
         </div>

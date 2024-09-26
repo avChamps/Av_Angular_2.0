@@ -6,7 +6,7 @@
     </div>
 
     <!-- Budget Table Section -->
-    <h4 class="text-center mb-4">BTU Calculator</h4>
+    <h4 class="text-center mb-4">{{'BTU Calculator' | translate}}</h4>
     <div class="container mb-2">
         <div id="pdfContent" class="row">
             <div class="col-12 col-md-8 offset-md-2">
@@ -14,15 +14,15 @@
                     <table class="table table-bordered" #tableContainer>
                         <thead class="custom-table-header text-center">
                             <tr>
-                                <th scope="col">Sl.No</th>
-                                <th scope="col">Equipment</th>
-                                <th scope="col">Watts</th>
+                                <th scope="col">{{'Sl.No' | translate}}</th>
+                                <th scope="col">{{'Equipment' | translate}}</th>
+                                <th scope="col">{{'Watts' | translate}}</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let row of btuRows; let i = index">
                                 <td class="text-center col-1">{{ i + 1 }}</td>
-                                <td class="col-3"><input type="text" placeholder="Enter Equipment Details" [(ngModel)]="row.equipment"
+                                <td class="col-3"><input type="text" placeholder="{{'Enter Equipment Details' | translate}}" [(ngModel)]="row.equipment"
                                         maxlength="50" (ngModelChange)="calculateTotalWatt()"></td>
                                 <td class="col-1"><input type="number" onKeyPress="if(this.value.length==4) return false;"
                                         [(ngModel)]="row.watt" [disabled]="!row.equipment" maxlength="4" (keypress)="preventNegative($event)"
@@ -38,9 +38,9 @@
                 </div>
 
                 <div class="results text-left" style="line-height: 10px;" id="pdfContentContainer">
-                    <p><span>Total Watts: </span>{{total}} Watts</p>
-                    <p><span>Thermal Dissipation: </span>{{thermalTotal | number:'1.2-2'}} BTU/hr</p>
-                    <p><span>Cooling Required: </span>{{requiredCooling | number:'1.2-2'}} Tons</p>
+                    <p><span>{{'Total Watts' | translate}}: </span>{{total}}</p>
+                    <p><span>{{'Thermal Dissipation' | translate}}: </span>{{thermalTotal | number:'1.2-2'}} BTU/hr</p>
+                    <p><span>{{'Cooling Required' | translate}}: </span>{{requiredCooling | number:'1.2-2'}} Tons</p>
                 </div>
             </div>
         </div>
@@ -48,22 +48,16 @@
         <!-- Buttons -->
         <div class="row justify-content-center mb-2 mt-3 disabled_Button">
             <div class="col-md-4 text-center">
-                <button class="btn btn-warning mr-2" (click)="refreshValues()">Cancel</button>
-                <button class="btn btn-success" (click)="downloadRack()">Save</button>
+                <button class="btn btn-warning mr-2" (click)="refreshValues()">{{'Cancel' | translate}}</button>
+                <button class="btn btn-success" (click)="downloadRack()">{{'Save' | translate}}</button>
             </div>
         </div>
 
         <!-- Explanation and formula section -->
         <div class="mt-5">
-            <h6>What It Is</h6>
-            <p>Electronic equipment, when powered on, generates heat whether it's active or idle. This heat is measured
-                in British Thermal Units (BTUs). One BTU is approximately 1055 joules, and one watt per hour is
-                equivalent to 3.4 BTUs. It's crucial to calculate the total heat produced by all electronic equipment in
-                an active AV rack.</p>
-            <p>AV designers typically determine the total BTU for a system and share this information with HVAC
-                engineers. This allows designers to incorporate appropriate cooling solutions to prevent equipment
-                failure and balance HVAC systems for user comfort. Equipment wattage details can often be found in the
-                owner's manual or on the device itself.</p>
+            <h6>{{'What It Is' | translate}}</h6>
+            <p>{{"Electronic equipment, when powered on, generates heat whether it's active or idle. This heat is measured in British Thermal Units (BTUs). One BTU is approximately 1055 joules, and one watt per hour is equivalent to 3.4 BTUs. It's crucial to calculate the total heat produced by all electronic equipment in an active AV rack." | translate}}</p>
+            <p>{{"AV designers typically determine the total BTU for a system and share this information with HVAC engineers. This allows designers to incorporate appropriate cooling solutions to prevent equipment failure and balance HVAC systems for user comfort. Equipment wattage details can often be found in the owner's manual or on the device itself." | translate}}</p>
         </div>
 
 
@@ -72,20 +66,19 @@
             <div class="row">
                 <!-- Adjusting the layout for centering f(x) on the left -->
                 <div class="col-md-4 d-flex flex-column justify-content-center align-items-center">
-                    <h5 class="mb-0 fw-bold">Formula</h5>
+                    <h5 class="mb-0 fw-bold">{{'Formula' | translate}}</h5>
                     <span class="px-2 py-1 fw-bold">f(x)</span>
                 </div>
                 <div class="col-md-8">
-                    <p>The Formula for Calculating heat load is:</p>
-                    <p class="fw-bold">Total BTU = We * 3.4</p>
-                    <p>Where:</p>
+                    <p>{{'The Formula for Calculating heat load is' | translate}}:</p>
+                    <p class="fw-bold">{{'Total' | translate}} BTU = We * 3.4</p>
+                    <p>{{'Where' | translate}}:</p>
                     <ul class="list-unstyled">
-                        <li><b>We</b> = Total Watts of all total equipment's used in the room</li>
-                        <li><b>3.4</b> = Conversion factor, where 1 watt of power generates 3.4 BTU of heat per Hour</li>
+                        <li><b>We</b> = {{"Total Watts of all total equipment's used in the room" | translate}}</li>
+                        <li><b>3.4</b> = {{'Conversion factor, where 1 watt of power generates 3.4 BTU of heat per Hour' | translate}}</li>
                     </ul>
-                    <p>This Formula does not account load generated by amplifier.</p>
-                    <p>Cooling Required follows the industry practice of measuring air conditioning cooling capacity in
-                        tons. The required capacity is calculated by dividing the BTU/hr heat load by 12,000.</p>
+                    <p>{{'This Formula does not account load generated by amplifier.' | translate}}</p>
+                    <p>{{"Cooling Required follows the industry practice of measuring air conditioning cooling capacity in tons. The required capacity is calculated by dividing the BTU/hr heat load by 12,000." | translate}}</p>
                 </div>
             </div>
         </div>

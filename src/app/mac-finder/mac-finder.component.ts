@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FaServiceService } from '../services/Prev/fa-service.service';
 import { UserServicesService } from '../services/user-services.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-mac-finder',
@@ -12,7 +13,12 @@ export class MacFinderComponent {
   getVendorData: any;
   showSpinner: boolean = false;
 
-  constructor(private faService: FaServiceService, private userService: UserServicesService) { }
+  constructor(private faService: FaServiceService, private userService: UserServicesService, private translate : TranslateService) { }
+
+  ngOnInit(): void {
+    let language = localStorage.getItem('selectedLanguage') || 'english';
+    this.translate.setDefaultLang(language);
+  }
 
   getVendor(sysAddress: any) {
     this.showSpinner = true
@@ -21,7 +27,7 @@ export class MacFinderComponent {
       console.log(response);
       let records = response.records[0];
       if (records === '' || records === undefined || records === null) {
-        this.getVendorData = "Records Not Found"
+        this.getVendorData = this.translate.instant("Records Not Found");
       } else {
         this.getVendorData = records.company;
         console.log(this.getVendorData);

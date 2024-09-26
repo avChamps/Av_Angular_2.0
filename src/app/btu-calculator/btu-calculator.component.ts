@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { UserServicesService } from '../services/user-services.service';
 import jsPDF from 'jspdf';
 import { DecimalPipe } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-btu-calculator',
@@ -13,7 +14,12 @@ export class BtuCalculatorComponent {
   thermalTotal: number = 0;
   requiredCooling: number = 0 ;
 
-  constructor(private userService: UserServicesService, private decimalPipe: DecimalPipe) { }
+  constructor(private userService: UserServicesService, private decimalPipe: DecimalPipe, private translate: TranslateService) { }
+
+  ngOnInit(): void {
+    let language = localStorage.getItem('selectedLanguage') || 'english';
+    this.translate.setDefaultLang(language);
+  }
 
   btuRows = [
     { company: '', equipment: '', watt: 0 },

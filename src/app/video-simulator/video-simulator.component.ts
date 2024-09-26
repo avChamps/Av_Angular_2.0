@@ -1,6 +1,7 @@
-import { ChangeDetectorRef, Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import html2canvas from 'html2canvas';
 import { UserServicesService } from '../services/user-services.service';
+import { TranslateService } from '@ngx-translate/core';
 declare var bootstrap: any;
 
 
@@ -9,7 +10,7 @@ declare var bootstrap: any;
   templateUrl: './video-simulator.component.html',
   styleUrls: ['./video-simulator.component.css']
 })
-export class VideoSimulatorComponent {
+export class VideoSimulatorComponent implements OnInit {
   roomLength: number = 0;
   roomWidth: number = 0;
   currentGraphIndex = 0;
@@ -35,13 +36,18 @@ export class VideoSimulatorComponent {
   @ViewChild('fovCoverageCanvas', { static: false }) fovCoverageCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('splCanvas', { static: false }) splCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('microphoneCanvas', { static: false }) microphoneCanvas!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('myModal', { static: true }) myModal!: ElementRef; 
+  @ViewChild('videoModal', { static: true }) videoModal!: ElementRef; 
   roomLengthTooltip: string = 'Room lengh must be between 8 - 28 feet';
   roomWidthTooltip: string = 'Room width mest be between 8 - 18 feet';
 
-  constructor(private cdr: ChangeDetectorRef, private userService : UserServicesService) { }
+  constructor(private cdr: ChangeDetectorRef, private userService : UserServicesService,private translate : TranslateService) { }
 
   coverages = ['DISCLAIMER', 'Camera Coverage', 'Microphone Coverage', 'Loud Speaker Coverage', 'Cabling Diagram'];
+
+ ngOnInit(): void {
+    let language = localStorage.getItem('selectedLanguage') || 'english';
+  this.translate.setDefaultLang(language);
+   }
 
   nextCoverage() {
     const currentIndex = this.coverages.indexOf(this.currentCoverage);
@@ -87,8 +93,8 @@ export class VideoSimulatorComponent {
 
   createBox(coverage: any) {
 
-    if (this.myModal && this.myModal.nativeElement) {
-      const modal = new bootstrap.Modal(this.myModal.nativeElement);
+    if (this.videoModal && this.videoModal.nativeElement) {
+      const modal = new bootstrap.Modal(this.videoModal.nativeElement);
       modal.show();
       
       // this.generateUnits();
@@ -97,20 +103,20 @@ export class VideoSimulatorComponent {
       this.boxHeight = this.roomLength;
       this.cdr.detectChanges();
       if (coverage === 'cameraCoverage') {
-        this.currentCoverage = 'Camera Coverage';
+        this.currentCoverage = this.translate.instant('Camera Coverage');
         this.showCameraCoverage = true;
         this.showMicrophoneCoverage = false;
         this.showloudSpeaker = false;
         setTimeout(() => { this.drawCoverage(); }, 0);
       } else if (coverage === 'microphoneCoverage') {
-        this.currentCoverage = 'Microphone Coverage';
+        this.currentCoverage = this.translate.instant('Microphone Coverage');
         this.showMicrophoneCoverage = true;
         this.showCameraCoverage = false;
         this.showloudSpeaker = false;
         setTimeout(() => { this.drawFOV(); }, 100);
       }
       else if (coverage === 'loudSpeakerCoverage') {
-        this.currentCoverage = 'Loud Speaker Coverage';
+        this.currentCoverage = this.translate.instant('Loud Speaker Coverage');
         this.showMicrophoneCoverage = false;
         this.showCameraCoverage = false;
         this.showloudSpeaker = true;
@@ -464,7 +470,7 @@ export class VideoSimulatorComponent {
         });
   
         // Close the modal after download
-        const modalElement = document.getElementById('myModal');
+        const modalElement = document.getElementById('videoModal');
         if (modalElement) {
           const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
           modalInstance.hide();

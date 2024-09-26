@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserServicesService } from '../services/user-services.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-bandwidth-calculator',
   templateUrl: './bandwidth-calculator.component.html',
   styleUrls: ['./bandwidth-calculator.component.css']
 })
-export class BandwidthCalculatorComponent {
+export class BandwidthCalculatorComponent  implements OnInit{
   resolution: string = '';
   selectedResolution: string = '';
   horizontalPixels: number = 0;
@@ -31,7 +32,12 @@ export class BandwidthCalculatorComponent {
     { label: '8192 x 4320 (8K)', value: '8192x4320' }
   ];
   
-  constructor(private userService : UserServicesService) { }
+  constructor(private userService : UserServicesService,private translate : TranslateService) { }
+  
+  ngOnInit(): void {
+    let language = localStorage.getItem('selectedLanguage') || 'english';
+    this.translate.setDefaultLang(language);
+  }
   
     toggleOverhead() {
       if (this.isOverheadEnabled) {

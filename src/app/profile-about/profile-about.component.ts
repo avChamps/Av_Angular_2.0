@@ -40,15 +40,12 @@ export class ProfileAboutComponent implements OnInit {
   ) {
     this.emailId = localStorage.getItem('emailId');
     this.userName = localStorage.getItem('userName');
-    // this.translate.setDefaultLang('telugu');
+    let language = localStorage.getItem('selectedLanguage') || 'english';
+    this.translate.setDefaultLang(language);
   }
 
   ngOnInit(): void {
     this.getProfileData()
-  }
-
-  switchLanguage(lang: string) {
-    this.translate.use(lang);
   }
 
   toggleEditMode() {

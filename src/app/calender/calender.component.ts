@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, Input, Renderer2, TemplateRef, ViewChild,
 import { UserServicesService } from '../services/user-services.service';
 import { FaServiceService } from '../services/fa-service.service';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 declare var bootstrap: any;
 
 @Component({
@@ -14,6 +15,8 @@ export class CalenderComponent {
   endDate: any;
   eventName: any;
   eventUrl: any;
+  minDate: string = '';
+  isUrlInvalid: boolean = false;
   uniqueEventTypes: any;
   displayEventName: string = '';
   eventColorCode: string = '';
@@ -36,11 +39,15 @@ export class CalenderComponent {
   constructor(
     private faService: FaServiceService,
     public userService: UserServicesService,
-    private toastr: ToastrService
+    private toastr: ToastrService, private translate : TranslateService
   ) { }
 
   ngOnInit(): void {
     this.getEvents();
+    const today = new Date();
+    this.minDate = today.toISOString().split('T')[0];
+      let language = localStorage.getItem('selectedLanguage') || 'english';
+      this.translate.setDefaultLang(language);
   }
 
   // Filter events by the event type
@@ -50,16 +57,15 @@ export class CalenderComponent {
     this.filteredEvents = this.eventsResponse.filter(event => event.eventType === eventType);
   }
 
-  // Filter today's events
   filterTodayEvents(): void {
-    const today = new Date().setHours(0, 0, 0, 0);  // Set to the start of the day
-    this.filteredEvents = this.eventsResponse.filter(event => {
-      const eventDate = new Date(event.event_date).setHours(0, 0, 0, 0);
-      return eventDate === today;
+    const today = new Date();
+    const todayDateString = today.toISOString().split('T')[0];
+    console.log(todayDateString)
+    this.filteredEvents = this.filteredEvents.filter(event => {
+      return event.event_date === todayDateString;
     });
-    console.log("Today's Events: ", this.filteredEvents);
-  }
 
+  }
 
   getEvents() {
     this.showSpinner = true;
@@ -131,6 +137,11 @@ export class CalenderComponent {
     return `${date.getDate()}${this.getOrdinal(date.getDate())} ${date.toLocaleString('default', { month: 'long' })} ${date.getFullYear()}`;
   }
 
+  validateUrl() {
+    const regex = /\.(com|in)$/;
+    this.isUrlInvalid = !regex.test(this.eventUrl);
+  }
+
   getOrdinal(day: number): string {
     if (day > 3 && day < 21) return 'th';
     switch (day % 10) {
@@ -153,7 +164,7 @@ export class CalenderComponent {
     this.faService.postEvent(data).subscribe({
       next: (response) => {
         console.log('Event submitted successfully:', response);
-        this.toastr.success('Event submitted successfully!', 'Success', {
+        this.toastr.success(this.translate.instant('Event submitted successfully!'), 'Success', {
           positionClass: 'toast-right-center'
         });
 
@@ -163,8 +174,8 @@ export class CalenderComponent {
       error: (err: any) => {
         console.error('Error submitting the event:', err);
         this.handleError(err);
-        this.toastr.error('Failed to submit the event.', 'Error' ,{
-           positionClass: 'toast-right-center'
+        this.toastr.error(this.translate.instant('Failed to submit the event.'), 'Error', {
+          positionClass: 'toast-right-center'
         });
       },
     });

@@ -5,7 +5,7 @@
     </div>
   </div>
   <div class="container btu-calculator-container">
-    <h4 class="tool-header text-center">AV Rack Simulator</h4>
+    <h4 class="tool-header text-center">{{'AV Rack Simulator' | translate}}</h4>
 
     <!-- Table for AV Rack Simulator -->
     <div class="row justify-content-center">
@@ -15,15 +15,15 @@
           <thead class="custom-table-header text-center">
             <tr>
               <th scope="col">Sl.No</th>
-              <th scope="col">Equipment/Model</th>
-              <th scope="col">RU Size</th>
+              <th scope="col">{{'Equipment/Model' | translate}}</th>
+              <th scope="col">{{'RU Size' | translate}}</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let row of btuRows; let i = index">
               <td class="text-center">{{ i + 1 }}</td>
               <td>
-                <input type="text" class="form-control" placeholder="Enter Equipment Details"
+                <input type="text" class="form-control" placeholder="{{'Enter Equipment Details' | translate}}"
                   [(ngModel)]="row.equipment" maxlength="50" (ngModelChange)="updateRackConfiguration()">
               </td>
               <td>
@@ -46,22 +46,22 @@
     <!-- Buttons -->
     <div class="row justify-content-center mb-4">
       <div class="col-md-4 text-center">
-        <button class="btn btn-warning mr-2" (click)="onClear()">Cancel</button>
-        <button class="btn btn-success" (click)="viewRack()">Save</button>
+        <button class="btn btn-warning mr-2" (click)="onClear()">{{'Cancel' | translate}}</button>
+        <button class="btn btn-success" (click)="viewRack()">{{'Generate' | translate}}</button>
       </div>
     </div>
 
     <!-- Description -->
     <div class="mt-5">
-        <p>Enter the devices you intend to include in your AV setup. Our audiovisual rack diagram
+        <p>{{'Enter the devices you intend to include in your AV setup. Our audiovisual rack diagram
           tool will automatically generate a rack layout. Once the AV rack layout is generated, you can visualize it in
-          2D to gain a clear understanding of the final assembly of your audiovisual rack.</p>
+          2D to gain a clear understanding of the final assembly of your audiovisual rack.' | translate}}</p>
       </div>
 
     <!-- Rack Elevation -->
     <div class="row justify-content-center mb-2" id="rackDiagram" *ngIf="viewRackImg">
       <div class="col-md-8">
-        <h4 class="tool-header text-center mb-3">Rack Elevation</h4>
+        <h4 class="tool-header text-center mb-3">{{'Rack Elevation' | translate}}</h4>
         <div class="d-flex justify-content-center">
           <div class="border border-dark d-flex" [ngStyle]="{'height': totalRackHeight + 'px', 'width': '100%'}">
             <!-- Left Rack Numbers -->
@@ -94,7 +94,7 @@
   
     <div class="row justify-content-center mb-2 mt-4 disabled_Button">
       <div class="col-md-4 text-center">
-        <button class="btn btn-success" (click)="downloadRack('rackDiagram')">Save</button>
+        <button class="btn btn-success" (click)="downloadRack('rackDiagram')">{{'Download' | translate}}</button>
       </div>
     </div>
   </div>

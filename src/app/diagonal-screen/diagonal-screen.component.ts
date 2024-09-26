@@ -1,19 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserServicesService } from '../services/user-services.service';
 import { an } from '@fullcalendar/core/internal-common';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-diagonal-screen',
   templateUrl: './diagonal-screen.component.html',
   styleUrls: ['./diagonal-screen.component.css']
 })
-export class DiagonalScreenComponent {
+export class DiagonalScreenComponent implements OnInit {
   width: number = 0;
   height: number = 0;
   diagonalSize: number = 0;
   showSpinner: boolean = false;
 
-  constructor(private userService: UserServicesService) { }
+  constructor(private userService: UserServicesService, private translate : TranslateService) { }
+
+  ngOnInit(): void {
+  let language = localStorage.getItem('selectedLanguage') || 'english';
+  this.translate.setDefaultLang(language);
+  }
 
   calculateDiagonalSize() {
     this.showSpinner = true;

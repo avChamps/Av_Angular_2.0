@@ -11,7 +11,7 @@
         <div>
             <div class="input-group mt-2" style="max-width: 500px;">
                 <input type="text" class="form-control mac_Search" name="search" [(ngModel)]="sysAddress"
-                    placeholder="Enter Mac address..." (keyup.enter)="getVendor(sysAddress)" style="height: 50px;">
+                    placeholder="{{'Enter Mac address' | translate}}..." (keyup.enter)="getVendor(sysAddress)" style="height: 50px;">
                 <span class="input-group-text">
                     <i class="fa fa-search"></i>
                 </span>

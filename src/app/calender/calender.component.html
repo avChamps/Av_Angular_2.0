@@ -8,17 +8,17 @@
 <div class="container mt-4">
   <div class="row mb-3 text-center">
     <div class="col-12 col-sm-6 col-md-2 mb-2" *ngFor="let event of uniqueEventTypes">
-      <button  class="btn w-100 cur_pointer" *ngIf="event.name" [ngStyle]="{'background-color': event.colorCode}" (click)="filterByEventType(event.eventType, event.name, event.colorCode)">
+      <button  class="btn w-100 cur_pointer text-white" *ngIf="event.name" [ngStyle]="{'background-color': event.colorCode}" (click)="filterByEventType(event.eventType, event.name, event.colorCode)">
         {{ event.name }}
       </button>
     </div>  
 
     <div class="col-12 col-sm-6 col-md-2 mb-2">
-      <button class="btn btn-primary w-100 cur_pointer" (click)="filterTodayEvents()">Today</button>
+      <button class="btn btn-primary w-100 cur_pointer" style="background-color: blueviolet;" (click)="filterTodayEvents()">{{'Today' | translate}}</button>
     </div>
 
     <div class="col-12 col-sm-6 col-md-2 mb-2">
-      <button class="btn btn-success cur_pointer" data-bs-toggle="modal" data-bs-target="#eventInfoModal" tooltip="Post Event"><i class="bi-pencil-square"></i></button>
+      <button class="btn btn-success cur_pointer" data-bs-toggle="modal" data-bs-target="#eventInfoModal" tooltip="{{'Post Event' | translate}}"><i class="bi-pencil-square"></i></button>
     </div>
     
   </div>
@@ -40,7 +40,7 @@
               <div class="col-8">
                 <p>{{ formatDate(events.event_date) }}</p>
                 <div class="text-center mb-2">
-                  <button class="btn btn-warning">{{ displayEventName }}</button>
+                  <button class="btn btn-info">{{ displayEventName }}</button>
                 </div>
                 <p class="f-2"><a [href]="events.website_Url" target="_blank">{{ events.event_name | titleCase }}</a></p>
               </div>
@@ -49,56 +49,70 @@
         </div>
       </div>
     </div>
-  
+
+    <div class="container d-flex justify-content-center align-items-center" *ngIf="filteredEvents.length === 0">
+      <div class="text-center">
+        <img src="assets/images/common_Images/oops.png" alt="" class="img-fluid no-records" style="height: 500px;"/>
+      </div>
+    </div>
 </div>
 
 <div class="modal fade" id="eventInfoModal" tabindex="-1" aria-labelledby="eventInfoModalLabel" aria-hidden="true">
   <div class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h4 class="modal-title mb-0" id="eventInfoModalLabel">Event Information</h4>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-
-          <div class="modal-body">
-              <div class="form-group">
-                  <label for="eventNameInput">Event Name</label>
-                  <input type="text" class="form-control" [(ngModel)]="eventName" placeholder="Enter event name" required>
-              </div>
-              <div class="form-group">
-                  <label for="eventUrlInput">Event Url</label>
-                  <input type="text" class="form-control" [(ngModel)]="eventUrl" placeholder="Enter event URL" required>
-              </div>
-              <div class="form-group">
-                  <label for="startDatePicker">Start Date</label>
-                  <input type="date" class="form-control" [(ngModel)]="startDate" placeholder="Choose a date" required>
-              </div>
-              <div class="form-group">
-                  <label for="endDatePicker">End Date</label>
-                  <input type="date" class="form-control" [(ngModel)]="endDate" placeholder="Choose a date" required>
-              </div>
-              <div class="form-group">
-                  <label for="eventTypeSelect">Event Type</label>
-                  <select class="form-select" id="eventTypeSelect" [(ngModel)]="selectedEventType">
-                      <option *ngFor="let eventType of eventTypes" [value]="eventType.value">
-                          {{ eventType.displayName }}
-                      </option>
-                  </select>
-              </div>
-          </div>
-
-          <!-- Modal Footer -->
-          <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" #closeButton data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-success" 
-                      [disabled]="!startDate || !endDate || !eventName || !eventUrl || !selectedEventType"
-                      (click)="submitForm()">
-                  Submit
-              </button>
-          </div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title mb-0" id="eventInfoModalLabel">{{'Event Information' | translate}}</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="eventNameInput">{{'Event Name' | translate}}</label>
+          <input type="text" class="form-control" [(ngModel)]="eventName" placeholder="{{'Enter event name' | translate}}" required>
+        </div>
+        <div class="form-group">
+          <label for="eventUrlInput">{{'Event Url' | translate}}</label>
+          <input type="text" class="form-control" [(ngModel)]="eventUrl" placeholder="{{'Enter event URL' | translate}}" required
+            [ngClass]="{'is-invalid': isUrlInvalid}"
+            (blur)="validateUrl()">
+          <div *ngIf="isUrlInvalid" class="invalid-feedback">
+            {{'Invalid URL.' | translate}}
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="startDatePicker">{{'Start Date'  | translate}}</label>
+          <input type="date" class="form-control" [(ngModel)]="startDate" placeholder="{{'Choose a date' | translate}}" required
+            [attr.min]="minDate">
+        </div>
+        <div class="form-group">
+          <label for="endDatePicker">{{'End Date' | translate}}</label>
+          <input type="date" class="form-control" [(ngModel)]="endDate" placeholder="{{'Choose a date' | translate}}" required
+            [attr.min]="startDate || minDate">
+        </div>
+        <div class="form-group">
+          <label for="eventTypeSelect">{{'Event Type' | translate}}</label>
+          <select class="form-select" id="eventTypeSelect" [(ngModel)]="selectedEventType">
+            <option *ngFor="let eventType of eventTypes" [value]="eventType.value">
+              {{ eventType.displayName }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" #closeButton data-bs-dismiss="modal">{{'Close' | translate}}</button>
+        <button type="button" class="btn btn-success"
+          [disabled]="!startDate || !endDate || !eventName || !eventUrl || isUrlInvalid || !selectedEventType"
+          (click)="submitForm()">
+          {{'Submit' | translate}}
+        </button>
+      </div>
+    </div>
   </div>
 </div>
+
+
 
 <app-spinner *ngIf="showSpinner"></app-spinner>
 

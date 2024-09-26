@@ -26,7 +26,7 @@
                   <button class="btn profile_Weight position-absolute"
                           style="top: 100%; left: 50%; transform: translate(-50%, -50%); padding: 2px 8px; font-size: 12px; border-radius: 12px;"
                           [ngClass]="{'btn-danger': profileWeight <= 40, 'btn-primary': profileWeight > 40 && profileWeight <= 80, 'btn-success': profileWeight > 80}">
-                    {{ profileWeight }}%completed
+                    {{ profileWeight }}%{{'completed'  | translate}}
                   </button>
                 </div>
                 <p class="user-name mt-2 text-white font-weight-500" style="font-size: 1.5rem;"> {{ userName | titleCase }} </p>
@@ -51,37 +51,37 @@
           <ul class="nav flex-column text-center nav-row">
             <li class="nav-item cur_pointer" routerLink="about" routerLinkActive="active-link" >
               <a class="nav-link" (click)="closeSidebar()">
-                <i class="bi bi-person"></i> About
+                <i class="bi bi-person"></i> {{'About'  | translate}}
               </a>
             </li>
             <li class="nav-item cur_pointer" routerLink="feed" routerLinkActive="active-link">
               <a class="nav-link" (click)="closeSidebar()">
-                <i class="bi bi-envelope"></i> Feed
+                <i class="bi bi-envelope"></i> {{'Feed'  | translate}}
               </a>
             </li>
             <li class="nav-item cur_pointer" routerLink="directory" routerLinkActive="active-link">
               <a class="nav-link" (click)="closeSidebar()">
-                <i class="bi bi-person-check"></i> Directory
+                <i class="bi bi-person-check"></i> {{'Directory'  | translate}}
               </a>
             </li>
             <li class="nav-item cur_pointer" routerLink="tools" routerLinkActive="active-link">
               <a class="nav-link" (click)="closeSidebar()">
-                <i class="bi bi-tools"></i> Tools
+                <i class="bi bi-tools"></i> {{'Tools'  | translate}}
               </a>
             </li>
             <li class="nav-item cur_pointer">
               <a class="nav-link" href="/jobs-portal" routerLinkActive="active-link" target="_blank" (click)="closeSidebar()">
-                <i class="bi bi-briefcase"></i> Careers
+                <i class="bi bi-briefcase"></i> {{'Careers'  | translate}}
               </a>
             </li>
             <li class="nav-item cur_pointer">
               <a class="nav-link" href="/ekart-page" target="_blank" routerLinkActive="active-link" (click)="closeSidebar()">
-                <i class="bi bi-cart"></i> Ekart
+                <i class="bi bi-cart"></i> {{'Ekart'  | translate}}
               </a>
             </li>
             <li class="nav-item cur_pointer">
               <a class="nav-link" href="/community" target="_blank" routerLinkActive="active-link" (click)="closeSidebar()">
-                <i class="bi bi-people"></i> Community
+                <i class="bi bi-people"></i> {{'Community' | translate}}
               </a>
             </li>
           </ul>
@@ -101,20 +101,20 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="myDialogTitle">Social Media Links</h5>
+                    <h5 class="modal-title" id="myDialogTitle">{{'Social Media Links' | translate}}</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="socialMediaInput">Add {{ CickedsocialMedia }} URL*</label>
+                        <label for="socialMediaInput">{{'Add' | translate}} {{ CickedsocialMedia | translate}} {{'URL'}}*</label>
                         <input type="text" class="form-control" id="socialMediaInput" [(ngModel)]="inputValue">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-success" (click)="saveSocialMediaUrl()">Save</button>
+                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal">{{'Cancel' | translate}}</button>
+                    <button type="button" class="btn btn-success" (click)="saveSocialMediaUrl()">{{'Save' | translate}}</button>
                 </div>
             </div>
         </div>
@@ -125,45 +125,62 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Select Themes</h5>
+            <h5 class="modal-title" id="exampleModalLabel">{{'Settings' | translate}}</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          
+    
           <div class="modal-body">
             <div class="container">
               <div class="row">
-                <!-- Default Theme -->
-                <div class="col-12 col-md-6 text-center mb-3">
-                  <img src="/assets/images/common_Images/default_theme_image.png" alt="Default Theme" 
-                      class="img-fluid theme-thumbnail" 
-                      [ngClass]="{'selected-theme': tempSelectedTheme === 'default'}"
-                      (click)="selectTheme('default')">
-                  <p>Default Theme</p>
+                <div class="col-12">
+                  <h6>{{'Select Theme' | translate}}</h6>
                 </div>
-                <!-- Dark Theme -->
-                <div class="col-12 col-md-6 text-center mb-3">
-                  <img src="/assets/images/common_Images/dark_theme_image.png" alt="Dark Theme" 
-                      class="img-fluid theme-thumbnail" 
-                      [ngClass]="{'selected-theme': tempSelectedTheme === 'dark'}"
-                      (click)="selectTheme('dark')">
-                  <p>Dark Theme</p>
+                <!-- Themes in two columns for larger screens -->
+                <div class="col-12 col-md-6 d-flex align-items-center mb-3">
+                  <input type="radio" id="defaultTheme" name="theme" value="default" 
+                         [(ngModel)]="tempSelectedTheme" (change)="selectTheme('default')">
+                  <label for="defaultTheme" class="form-check-label ml-2">{{'Default' | translate}}</label>
+                </div>
+                <div class="col-12 col-md-6 d-flex align-items-center mb-3">
+                  <input type="radio" id="darkTheme" name="theme" value="dark" 
+                         [(ngModel)]="tempSelectedTheme" (change)="selectTheme('dark')">
+                  <label for="darkTheme" class="form-check-label ml-2">{{'Dark' | translate}}</label>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-12">
+                  <h6>{{'Select Language' | translate}}</h6>
+                </div>
+                <div class="col-12 col-md-4 d-flex align-items-center mb-3">
+                  <input type="radio" id="englishLang" name="language" value="english" 
+                         [(ngModel)]="tempSelectedLanguage" (change)="selectLanguage('english')">
+                  <label for="englishLang" class="form-check-label ml-2">{{'English' | translate}}</label>
+                </div>
+                <div class="col-12 col-md-4 d-flex align-items-center mb-3">
+                  <input type="radio" id="teluguLang" name="language" value="telugu" 
+                         [(ngModel)]="tempSelectedLanguage" (change)="selectLanguage('telugu')">
+                  <label for="teluguLang" class="form-check-label ml-2">{{'Telugu' | translate}}</label>
+                </div>
+                <div class="col-12 col-md-4 d-flex align-items-center mb-3">
+                  <input type="radio" id="hindiLang" name="language" value="hindi" 
+                         [(ngModel)]="tempSelectedLanguage" (change)="selectLanguage('hindi')">
+                  <label for="hindiLang" class="form-check-label ml-2">{{'Hindi' | translate}}</label>
                 </div>
               </div>
             </div>
-
+    
             <div class="modal-footer" [ngStyle]="{'background-color': selectedThemeColor}">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" (click)="applyTheme()" data-bs-dismiss="modal">Apply</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{'Close' | translate}}</button>
+              <button type="button" class="btn btn-primary" (click)="applyThemeAndLanguage()" data-bs-dismiss="modal">{{'Apply' | translate}}</button>
             </div>
           </div>
         </div>
       </div>
     </div>
-
     
       <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
-

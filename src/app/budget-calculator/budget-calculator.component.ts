@@ -1,9 +1,10 @@
-import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import * as bootstrap from 'bootstrap';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { UserServicesService } from '../services/user-services.service';
+import { TranslateService } from '@ngx-translate/core';
 
 interface SavedRoom {
   showDelete: boolean;
@@ -20,7 +21,7 @@ interface SavedRoom {
 })
 
 
-export class BudgetCalculatorComponent {
+export class BudgetCalculatorComponent implements OnInit {
 
   totalBudget: any;
   isBudgetCal: boolean = false;
@@ -32,7 +33,12 @@ export class BudgetCalculatorComponent {
   roomQuantity: number = 0;
   costPerRoom: number = 0;
 
-  constructor(private userService: UserServicesService, private renderer: Renderer2) { }
+  constructor(private userService: UserServicesService, private renderer: Renderer2, private translate: TranslateService) { }
+
+  ngOnInit(): void {
+    let language = localStorage.getItem('selectedLanguage') || 'english';
+    this.translate.setDefaultLang(language);
+  }
 
   savedRooms: SavedRoom[] = [];
 

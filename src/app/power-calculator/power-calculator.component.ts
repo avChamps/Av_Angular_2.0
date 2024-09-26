@@ -1,18 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserServicesService } from '../services/user-services.service';
 import jsPDF from 'jspdf';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-power-calculator',
   templateUrl: './power-calculator.component.html',
   styleUrls: ['./power-calculator.component.css']
 })
-export class PowerCalculatorComponent {
+export class PowerCalculatorComponent implements OnInit{
   totalPowerCol: number = 0;
   total: number = 0;
   totalkWh: number = 0;
 
-  constructor(private userService: UserServicesService) { }
+  constructor(private userService: UserServicesService,private translate : TranslateService) { } 
+
+  ngOnInit(): void {
+    let language = localStorage.getItem('selectedLanguage') || 'english';
+    this.translate.setDefaultLang(language);
+  }
 
   powerCalRows = [
     { equipment: '', current: 0, voltage: 0, watt: 0 },

@@ -9,7 +9,7 @@
 <body>
   <section id="counts" class="counts" data-aos="fade-right">
   <div  *ngIf="searchBox ||!showClickedData" class="d-block d-md-none d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3">
-    <h4>Directory</h4>
+    <h4>{{'Directory' | translate }}</h4>
   </div> 
   <div class="container mt-2" *ngIf="searchBox">
     <div class="row justify-content-center mt-2">
@@ -94,16 +94,16 @@
     </div>
     <div class="social-icons d-flex justify-content-center mt-3">
         <a *ngIf="facebookUrl" [href]="facebookUrl" target="_blank" class="fb mx-2"><i class="fab fa-facebook-f"></i></a>
-        <a *ngIf="!facebookUrl" [ngClass]="{'disabled': !facebookUrl}" [tooltip]="emptyLinks" class="fb mx-2"><i class="fab fa-facebook-f"></i></a>
+        <a *ngIf="!facebookUrl" [ngClass]="{'disabled': !facebookUrl}" tooltip="{{'The user has not updated' | translate}}" class="fb mx-2"><i class="fab fa-facebook-f"></i></a>
 
         <a *ngIf="twitterUrl" [href]="twitterUrl" target="_blank" class="twitter mx-2"><i class="fab fa-x-twitter"></i></a>
-        <a *ngIf="!twitterUrl" [ngClass]="{'disabled': !twitterUrl}" [tooltip]="emptyLinks" class="twitter mx-2"><i class="fab fa-x-twitter"></i></a>
+        <a *ngIf="!twitterUrl" [ngClass]="{'disabled': !twitterUrl}" tooltip="{{'The user has not updated' | translate}}" class="twitter mx-2"><i class="fab fa-x-twitter"></i></a>
 
         <a *ngIf="instagramUrl" [href]="instagramUrl" target="_blank" class="insta mx-2"><i class="fab fa-instagram"></i></a>
-        <a *ngIf="!instagramUrl" [ngClass]="{'disabled': !instagramUrl}" [tooltip]="emptyLinks" class="insta mx-2"><i class="fab fa-instagram"></i></a>
+        <a *ngIf="!instagramUrl" [ngClass]="{'disabled': !instagramUrl}" tooltip="{{'The user has not updated' | translate}}" class="insta mx-2"><i class="fab fa-instagram"></i></a>
 
         <a *ngIf="linkedInUrl" [href]="linkedInUrl" target="_blank" class="lIn mx-2"><i class="fab fa-linkedin"></i></a>
-        <a *ngIf="!linkedInUrl" [ngClass]="{'disabled': !linkedInUrl}" [tooltip]="emptyLinks" class="lIn mx-2"><i class="fab fa-linkedin"></i></a>
+        <a *ngIf="!linkedInUrl" [ngClass]="{'disabled': !linkedInUrl}" tooltip="{{'The user has not updated' | translate}}" class="lIn mx-2"><i class="fab fa-linkedin"></i></a>
     </div>
 </div>
 

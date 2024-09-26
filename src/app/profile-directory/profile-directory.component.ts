@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthServiceService } from '../services/auth-service.service';
 import { FaServiceService } from '../services/fa-service.service';
 import { UserServicesService } from '../services/user-services.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile-directory',
@@ -31,16 +32,17 @@ export class ProfileDirectoryComponent {
   searchBox: boolean = true;
   showSpinner: boolean = false;
   filterTerm: string = '';
-  emptyLinks: string = 'The user has not updated';
-
   constructor(
     private faService: FaServiceService,
     private userService: UserServicesService,
-    private authService: AuthServiceService
+    private authService: AuthServiceService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit(): void {
     this.getData(0, this.pageSize);
+    let language = localStorage.getItem('selectedLanguage') || 'english';
+    this.translate.setDefaultLang(language);
   }
 
   getData(offset: number, limit: number): void {

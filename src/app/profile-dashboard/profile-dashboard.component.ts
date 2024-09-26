@@ -4,6 +4,7 @@ import * as $ from 'jquery';
 import { FaServiceService } from '../services/fa-service.service';
 import { UserServicesService } from '../services/user-services.service';
 import { an } from '@fullcalendar/core/internal-common';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile-dashboard',
@@ -27,14 +28,17 @@ export class ProfileDashboardComponent implements OnInit {
   profileImageType!: string;
   selectedThemeColor!: string;
   selectedTheme: any;
+  selectedLanguage : any;
   tempSelectedTheme!: string;
+  tempSelectedLanguage! : string;
+
   socialMediaUrls: { [key: string]: string } = {}
   @ViewChild('sidebarMenu') sidebarMenu!: ElementRef;
 
   constructor(
     private router: Router,
     private userService: UserServicesService, private renderer: Renderer2,
-    private faService: FaServiceService, private route: ActivatedRoute
+    private faService: FaServiceService, private route: ActivatedRoute,private translate: TranslateService
   ) { }
 
   ngOnInit(): void {
@@ -53,6 +57,9 @@ export class ProfileDashboardComponent implements OnInit {
         this.showSpinner = false
       })
       this.selectedTheme = localStorage.getItem('selectedTheme');
+      localStorage.setItem('language', 'telugu');
+      let language = localStorage.getItem('selectedLanguage') || 'english';
+      this.translate.setDefaultLang(language);
   }
 
   closeSidebar() {
@@ -110,13 +117,27 @@ export class ProfileDashboardComponent implements OnInit {
     this.tempSelectedTheme = theme;
   }
 
-  applyTheme() {
+  selectLanguage(language: string) {
+    this.tempSelectedLanguage = language;
+  }
+
+  applyThemeAndLanguage() {
     if (this.tempSelectedTheme === 'default') {
       this.selectedTheme = 'default'
     } else {
       this.selectedTheme = 'dark_theme'
     }
     localStorage.setItem('selectedTheme', this.selectedTheme);
+
+    if (this.tempSelectedLanguage === 'english') {
+      this.selectedLanguage = 'english';
+    } else if (this.tempSelectedLanguage === 'telugu') {
+      this.selectedLanguage = 'telugu';
+    } else {
+      this.selectedLanguage = 'hindi';
+    }
+    localStorage.setItem('selectedLanguage', this.selectedLanguage);
+    window.location.reload();
   }
 
   getSocialClass(platform: string): string {

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthServiceService } from '../services/auth-service.service';
 import { FaServiceService } from '../services/fa-service.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile-feed',
@@ -20,11 +21,13 @@ export class ProfileFeedComponent {
 
   constructor(
     private faService: FaServiceService,
-    private authService: AuthServiceService
+    private authService: AuthServiceService, private translate: TranslateService
   ) { }
 
   ngOnInit(): void {
-    this.getData()
+    this.getData();
+    let language = localStorage.getItem('selectedLanguage') || 'english';
+    this.translate.setDefaultLang(language);
   }
 
   getData() {

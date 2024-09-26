@@ -1,19 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserServicesService } from '../services/user-services.service';
 import { an } from '@fullcalendar/core/internal-common';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-throw-distance',
   templateUrl: './throw-distance.component.html',
   styleUrls: ['./throw-distance.component.css']
 })
-export class ThrowDistanceComponent {
+export class ThrowDistanceComponent implements OnInit {
   width: number = 0;
   projectionDistance: number = 0;
   throughRatio: number = 0;
   showSpinner : boolean = false;
 
-  constructor(private userService: UserServicesService) { }
+  constructor(private userService: UserServicesService,private translate: TranslateService) { }
+  ngOnInit(): void {
+    let language = localStorage.getItem('selectedLanguage') || 'english';
+  this.translate.setDefaultLang(language);
+   }
 
   onCalculate() {
     this.showSpinner = true;

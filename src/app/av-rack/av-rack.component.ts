@@ -1,15 +1,16 @@
-import { Component, Renderer2 } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { UserServicesService } from '../services/user-services.service';
 import * as bootstrap from 'bootstrap';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-av-rack',
   templateUrl: './av-rack.component.html',
   styleUrls: ['./av-rack.component.css']
 })
-export class AvRackComponent {
+export class AvRackComponent implements OnInit {
   showSpinner: boolean = true;
   isAvrack: boolean = false;
   viewRackImg : boolean = false;
@@ -17,7 +18,12 @@ export class AvRackComponent {
   rackNumbers: any;
   total: number = 0
 
-  constructor(private userService: UserServicesService, private renderer: Renderer2) { }
+  constructor(private userService: UserServicesService, private renderer: Renderer2,private translate : TranslateService) { }
+
+  ngOnInit(): void {
+    let language = localStorage.getItem('selectedLanguage') || 'english';
+    this.translate.setDefaultLang(language);
+  }
 
   btuRows = [
     { company: '', equipment: '', watt: 0 },

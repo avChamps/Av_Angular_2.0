@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserServicesService } from '../services/user-services.service';
 import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-aspect-ratio',
   templateUrl: './aspect-ratio.component.html',
   styleUrls: ['./aspect-ratio.component.css']
 })
-export class AspectRatioComponent {
+export class AspectRatioComponent implements OnInit {
   width: number = 0;
   height: number = 0;
   mode: string = '';
@@ -26,7 +27,11 @@ export class AspectRatioComponent {
   selectedUnits: string = 'px';
   pdfUrl: string = './assets/pdf/AspectRatio.pdf';
 
-  constructor(private userService: UserServicesService) { }
+  constructor(private userService: UserServicesService,private translate: TranslateService) { }
+  ngOnInit(): void {
+    let language = localStorage.getItem('selectedLanguage') || 'english';
+    this.translate.setDefaultLang(language);
+  }
 
   unitOptions = [
     { name: 'Pixels(px)', value: 'px' },

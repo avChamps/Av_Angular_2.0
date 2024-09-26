@@ -5,7 +5,7 @@
     </div>
 </div>
 
-<h4 class="text-center mb-4">Budget Calculator</h4>
+<h4 class="text-center mb-4">{{'Budget Calculator' | translate}}</h4>
     <div class="container">
       <div class="row">
         <!-- Main Form Section -->
@@ -13,7 +13,7 @@
           <div class="card shadow-lg">
             <div class="card-body">
               <div class="form-group">
-                <label for="roomType">Select Room Type</label>
+                <label for="roomType">{{'Select Room Type' | translate}}</label>
                 <select id="roomType" class="form-select" [(ngModel)]="selectedRoomType">
                   <option *ngFor="let room of roomTypes" [value]="room.type">{{ room.type }}</option>
                 </select>
@@ -21,14 +21,14 @@
               <div class="form-group mt-3">
                 <div class="row">
                   <div class="col-6">
-                    <label for="roomQuantity">Quantity of Rooms</label>
+                    <label for="roomQuantity">{{'Quantity of Rooms' | translate}}</label>
                     <input type="range"  [disabled]="selectedRoomType === 'Select Room'" id="roomQuantity" class="form-range" min="0" max="100" [(ngModel)]="roomQuantity">
                   </div>
                   <div class="col-6">
                     <input type="number"  min="0" max="100" (keypress)="preventNegative($event)" (input)="validateMaxValue($event)"  [disabled]="selectedRoomType === 'Select Room'" class="form-control mt-2" [(ngModel)]="roomQuantity">
                   </div>
                 </div>
-                <label for="costPerRoom" class="mb-0 mt-2">Cost per Room</label>
+                <label for="costPerRoom" class="mb-0 mt-2">{{'Cost per Room' | translate}}</label>
                 <input type="number" max="999999999" [disabled]="selectedRoomType === 'Select Room'" (keypress)="preventNegative($event)" 
                 (focus)="clearDefaultZero()"  min="0"  (input)="restrictDigits($event)" (keypress)="preventNegative($event)" id="costPerRoom" class="form-control mt-2" [(ngModel)]="costPerRoom">
               </div>
@@ -40,11 +40,11 @@
         <div class="col-md-4 col-sm-12">
           <div class="card shadow-lg">
             <div class="card-body">
-              <h5 class="card-title">Room Quantity</h5>
+              <h5 class="card-title">{{'Room Quantity' | translate}}</h5>
               <p class="card-text">{{ roomQuantity }}</p>
-              <h5 class="card-title">Cost per Room</h5>
+              <h5 class="card-title">{{'Cost per Room' | translate}}</h5>
               <p class="card-text">{{ costPerRoom  ? costPerRoom : 0 | currency:'INR':'symbol' }}</p>
-              <h3>Total</h3>
+              <h3>{{'Total' | translate}}</h3>
               <h2>{{ totalCost  ? totalCost : 0 | currency:'INR':'symbol' }}</h2>
             </div>
           </div>
@@ -53,7 +53,7 @@
   
       <!-- Add Button -->
       <div class="d-flex justify-content-center mt-3">
-        <button class="btn btn-primary" [disabled]="!costPerRoom || !selectedRoomType" (click)="saveRoomDetails()">Add</button>
+        <button class="btn btn-primary" [disabled]="!costPerRoom || !selectedRoomType" (click)="saveRoomDetails()">{{'Add' | translate}}</button>
       </div>
   
       <!-- Budget Table Section -->
@@ -64,12 +64,12 @@
               <table class="table table-bordered" #tableContainer>
                 <thead class="custom-table-header text-center">
                   <tr>
-                    <th scope="col">Sl.No</th>
-                    <th scope="col">Room Type</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Total</th>
-                    <th scope="col" *ngIf="isDisplay">Action</th> <!-- Action column -->
+                    <th scope="col">{{'Sl.No' | translate}}</th>
+                    <th scope="col">{{'Room Type' | translate}}</th>
+                    <th scope="col">{{'Quantity' | translate}}</th>
+                    <th scope="col">{{'Price' | translate}}</th>
+                    <th scope="col">{{'Total' | translate}}</th>
+                    <th scope="col" *ngIf="isDisplay">{{'Action' | translate}}</th> <!-- Action column -->
                   </tr>
                 </thead>
                 <tbody>
@@ -93,18 +93,18 @@
             </div>
       
             <div class="results text-center" id="pdfContentContainer">
-              <p><strong>Grand Total:</strong> &#8377;{{ totalBudget }}</p>
+              <p><strong>{{'Grand Total'  |translate}}:</strong> &#8377;{{ totalBudget }}</p>
             </div>
             
-            <P><i class="fa fa-info-circle text-danger"></i>Tax are not included in the values shown above.</P>
+            <P><i class="fa fa-info-circle text-danger"></i>{{'Tax are not included in the values shown above.' | translate}}</P>
           </div>
         </div>
       
         <!-- Buttons -->
         <div class="row justify-content-center mb-2 mt-3 disabled_Button">
           <div class="col-md-4 text-center">
-            <button class="btn btn-warning mr-2" (click)="refreshValues()">Cancel</button>
-            <button class="btn btn-success" (click)="downloadRack()">Save</button>
+            <button class="btn btn-warning mr-2" (click)="refreshValues()">{{'Cancel' | translate}}</button>
+            <button class="btn btn-success" (click)="downloadRack()">{{'Save' | translate}}</button>
           </div>
         </div>
       </div>

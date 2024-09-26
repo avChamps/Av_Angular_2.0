@@ -22,7 +22,7 @@
                                     <div class="filters">
                                         <div class="input-group">
                                             <input type="text" class="form-control" [(ngModel)]="searchTitle"
-                                                placeholder="Search by title" />
+                                                placeholder="{{'Search by title' | translate}}" />
                                             <div class="input-group-append">
                                                 <button class="btn btn-outline-secondary" type="button">
                                                     <i class="fa fa-search"></i>
@@ -35,7 +35,7 @@
                                     <div class="filters">
                                         <div class="input-group">
                                             <input type="text" class="form-control" [(ngModel)]="searchTitle"
-                                                placeholder="Search by title" />
+                                                placeholder="{{'Search by title' | translate}}" />
                                             <div class="input-group-append">
                                                 <button class="btn btn-outline-secondary" type="button">
                                                     <i class="fa fa-search"></i>
@@ -84,13 +84,11 @@
           </div>          
 
     <div *ngIf="selectedEmail">
-    <div class="row mb-3">
-        <div class="col-2">
-            <div class="cur_pointer back-button" (click)="onBack()">
-                <i class="bi bi-arrow-left"></i>
+        <div class="me-2">
+            <div class="cur_pointer rounded-circle shadow-sm p-2 back-button" (click)="onBack()">
+                <i class="fas fa-arrow-left"></i>
             </div>
         </div>
-    </div>
     <div class="container mt-2" style="margin-bottom: 10px;">
         <div class="row">
             <div class="col-12">
@@ -100,13 +98,13 @@
                             <h2>{{ email.title }}</h2>
                         </div>
                         <div class="card-body">
-                            <p>Dear User,</p><br>
+                            <p>{{'Dear User' | translate}},</p><br>
                             <p [innerHTML]="email.description"></p>
                             <div *ngIf="email.link">
-                                <p>Source:</p>
+                                <p>{{'Source' | translate}}:</p>
                                 <p class="website_links"><a class="links" href="{{ email.link }}" target="_blank">{{ email.link }}</a></p>
                             </div>
-                            <p>Best Regards,<br>
+                            <p>{{'Best Regards' | translate}},<br>
                                 <img src="./assets/images/logo/av_champs_logo.png" class="custom_logo_img" alt="alternative">
                         </div>
                     </div>
@@ -117,10 +115,10 @@
             <div class="col-12">
                 <div class="card bg-dark text-white">
                     <div class="card-header text-center">
-                        <h4>Our Sponsors</h4>
+                        <h4>{{'Our Sponsors' | translate}}</h4>
                     </div>
                     <div class="card-body text-center">
-                        <p>Sponsor us and have your logo featured here.&nbsp;<a class="contactUs_click" (click)="sendContact()">Contact Us</a></p>
+                        <p>{{'Sponsor us and have your logo featured here' | translate}}.&nbsp;<a class="contactUs_click cur_pointer" (click)="sendContact()">{{'Contact Us' | translate}}</a></p>
                         <!-- Uncomment this section if you have sponsor images -->
                         <!-- <div class="d-flex justify-content-center">
                             <img *ngFor="let logo of images" class="sponsor-logo mx-2" [src]="logo" alt="Logo_Img">  
