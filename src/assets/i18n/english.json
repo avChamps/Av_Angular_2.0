@@ -203,7 +203,11 @@
     "This tool provides simulated results based on the input values supplied by the user.": "This tool provides simulated results based on the input values supplied by the user.",
     "We strongly advise conducting comprehensive performance testing of the product before finalizing your purchase.": "We strongly advise conducting comprehensive performance testing of the product before finalizing your purchase.",
     "The performance of the video bar depends on room acoustics, lighting, network conditions, and the video application used by the user.": "The performance of the video bar depends on room acoustics, lighting, network conditions, and the video application used by the user.",
-    "Loud Speaker Coverage": "Loud Speaker Coverage"
+    "Loud Speaker Coverage": "Loud Speaker Coverage",
+    "Working Email Id": "Working Email ID",
+    "Enter Working emailId": "Enter Working Email ID",
+    "Enter valid Working Email ID": "Enter valid Working Email ID",
+    "Please enter a valid Working email ID": "Please enter a valid Working Email ID",
+    "Company Email Id": "Company Email ID"
 }
-
 

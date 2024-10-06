@@ -69,4 +69,15 @@ body {
 	right: 0;
 	transform: translateY(-50%);
   }
+
+.toast-custom-position {
+	top: 50%;
+	right: 0;
+	transform: translateY(-50%);
+  }
+  
+  .toast-success {
+	background-color: #90EE90 !important; 
+	color: #000 !important; 
+  }
   

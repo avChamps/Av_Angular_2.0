@@ -30,7 +30,7 @@ export class ProfileDashboardComponent implements OnInit {
   selectedTheme: any;
   selectedLanguage : any;
   tempSelectedTheme!: string;
-  tempSelectedLanguage! : string;
+  tempSelectedLanguage : any;
 
   socialMediaUrls: { [key: string]: string } = {}
   @ViewChild('sidebarMenu') sidebarMenu!: ElementRef;
@@ -58,7 +58,7 @@ export class ProfileDashboardComponent implements OnInit {
       })
       this.selectedTheme = localStorage.getItem('selectedTheme');
       localStorage.setItem('language', 'telugu');
-      let language = localStorage.getItem('selectedLanguage') || 'english';
+      let language = localStorage.getItem('selectedLanguage') || 'english'; 
       this.translate.setDefaultLang(language);
   }
 
@@ -129,12 +129,15 @@ export class ProfileDashboardComponent implements OnInit {
     }
     localStorage.setItem('selectedTheme', this.selectedTheme);
 
-    if (this.tempSelectedLanguage === 'english') {
-      this.selectedLanguage = 'english';
+    if(this.tempSelectedLanguage === undefined || '') {
+       this.tempSelectedLanguage = localStorage.getItem('selectedLanguage');
+    }
+    if (this.tempSelectedLanguage === 'hindi') {
+      this.selectedLanguage = 'hindi';
     } else if (this.tempSelectedLanguage === 'telugu') {
       this.selectedLanguage = 'telugu';
     } else {
-      this.selectedLanguage = 'hindi';
+      this.selectedLanguage = 'english';
     }
     localStorage.setItem('selectedLanguage', this.selectedLanguage);
     window.location.reload();

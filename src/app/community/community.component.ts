@@ -7,6 +7,9 @@ import { CommunityService } from '../services/community.service';
 import { FaServiceService } from '../services/fa-service.service';
 import { UserServicesService } from '../services/user-services.service';
 import * as bootstrap from 'bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { Modal } from 'bootstrap';
+
 
 @Component({
   selector: 'app-community',
@@ -28,11 +31,13 @@ export class CommunityComponent {
   selectedFileName: any;
   likedQuestion : any;
   questionURl: any;
+  displayCoins : any;
   profileImg: any[] = []
   mainQuestions: any[] = []
   additionalAnswers: any[] = []
   likedQuestionIds: number[] = [];
-  expanded: boolean = false
+  expanded: boolean = false;
+  isDisplyedCoins : boolean = false;
   searchKeyword : string = '';
   productCategory : string = '';
   location : any;
@@ -46,11 +51,12 @@ export class CommunityComponent {
   showMyposts: boolean = false;
   showFullQuestion : boolean = false;
   showSearchBox : boolean = true;
-  updateQid: any
+  updateQid: any;
   buttonType: string = 'Save'
   showSpinner: boolean = false;
   @ViewChild('myDialog') myDialog!: ElementRef;
   @ViewChild('fileInput') fileInput!: ElementRef;
+  @ViewChild('actionButton') actionButton!: ElementRef;
   additionalAnswersVisibility: { [key: string]: boolean } = {}
   additionalAnswersData: { [key: string]: any[] } = {}
   showFullContent : { [key: string]: boolean } = {}
@@ -63,6 +69,7 @@ export class CommunityComponent {
     private faService : FaServiceService,
     private userService: UserServicesService,
     private datePipe: DatePipe,
+    private toastr: ToastrService,
     private authGuard : AuthGuardService
   ) {}
 
@@ -200,8 +207,13 @@ loadMore () {
         console.log('Response from server:', response)
         if (response && response.status) {
           this.userService.refreshData()
-          this.showSpinner = false
-          alert(response.message);
+          this.showSpinner = false;
+          this.toastr.success(response.message, 'Success', {
+            positionClass: 'toast-custom-position',
+            timeOut: 3000, 
+            closeButton: true,
+            progressBar: true
+          });
           this.onSelect('myPosts');
           // window.location.reload()
         } else {
@@ -222,6 +234,7 @@ loadMore () {
 
   // Upload
   onUpload () {
+    this.actionButton.nativeElement.click();
     if (this.buttonType === 'Save') {
       this.showSpinner = true
       const formData = new FormData()
@@ -236,34 +249,47 @@ loadMore () {
         .insertCommunity(formData)
         .subscribe((response: any) => {
           console.log('Response from server:', response)
-          this.showSpinner = false
+          this.showSpinner = false;
           if (response && response.status) {
-            alert(response.message)
-            window.location.reload()
+            // alert(response.message)
+            this.toastr.success(response.message), 'Success', {
+              positionClass: 'toast-right-center'
+            };
+            this.getQuestions();
+            this.userQuestion = '';
+            this.selectedFile = '';
+            this.insertPoints(10);
+            // window.location.reload()
           } else {
             alert('An error occurred. Please try again later.')
           }
         })
+
     } else {
       this.updateCommunity()
     }
   }
-
-  uploadAnswer (qId:any,replyAnswer :any) {
-    this.showSpinner = true
+  
+  uploadAnswer (qId:any,item :any) {
+    this.showSpinner = true;
     const formData = new FormData()
     formData.append('emailId', this.emailId)
-    formData.append('answer', replyAnswer)
+    formData.append('answer', item.replyAnswer)
     formData.append('userName', this.userName)
     formData.append('qId', qId)
     this.commintyService
       .insertCommunityAnswer(formData)
       .subscribe((response: any) => {
         console.log('Response from server:', response)
-        this.showSpinner = false
+        this.showSpinner = false;
         if (response && response.status) {
-          alert(response.message)
-          window.location.reload()
+          this.insertPoints(5);
+          // alert(response.message)
+          this.toastr.success(response.message), 'Success', {
+            positionClass: 'toast-right-center'
+          };
+              item.replyAnswer = '';
+          this.getQuestions();
         } else {
           alert('An error occurred. Please try again later.')
         }
@@ -319,7 +345,41 @@ loadMore () {
       }
     );
   }
-  
+
+  insertPoints(points : number) {
+    this.showSpinner = true;
+    this.displayCoins = points;
+    const pointsData = {
+      emailId : this.emailId, 
+      userName : this.userName, 
+      points : points
+    };
+    this.userService.insertPoints(pointsData).subscribe((response: any) => {
+      this.isDisplyedCoins = false;
+      console.log('Form submitted:', response);
+        console.log(response);
+        setTimeout(() => {
+          this.isDisplyedCoins = true;
+        }, 100);
+    });
+    this.showSpinner = false;
+  }
+
+  deletePoints(points : number) {
+    this.showSpinner = true;
+    this.displayCoins = points;
+    const pointsData = {
+      emailId : this.emailId, 
+      userName : this.userName, 
+      points : points
+    };
+    this.userService.deletePoints(pointsData).subscribe((response: any) => {
+      console.log('Form submitted:', response);
+        console.log(response);
+    });
+    this.showSpinner = false;
+  }
+
   toggleSearch () {
     this.showSearch = !this.showSearch;
     this.isSearchActive = !this.isSearchActive; 
@@ -374,7 +434,11 @@ loadMore () {
                 console.log('Response from server:', response);
                 this.showSpinner = false;
                 if (response && response.status) {
-                    alert(response.message);
+                    // alert(response.message);
+                    this.toastr.success(response.message), 'Success', {
+                      positionClass: 'toast-right-center'
+                    };
+                    this.deletePoints(10);
                     this.onSelect('myPosts');
                 } else {
                     alert('An error occurred. Please try again later.');
@@ -453,6 +517,7 @@ private handleError(error: any) {
     return ''
   }
 
+  
   logOut () {
     this.faService.clearSession();
     this.router.navigate(['']);

@@ -203,7 +203,13 @@
     "This tool provides simulated results based on the input values supplied by the user.": "यह उपकरण उपयोगकर्ता द्वारा प्रदान की गई इनपुट मानों के आधार पर सिम्युलेटेड परिणाम प्रदान करता है।",
     "We strongly advise conducting comprehensive performance testing of the product before finalizing your purchase.": "हम आपकी खरीदारी को अंतिम रूप देने से पहले उत्पाद की व्यापक प्रदर्शन परीक्षण करने की जोरदार सलाह देते हैं।",
     "The performance of the video bar depends on room acoustics, lighting, network conditions, and the video application used by the user.": "वीडियो बार का प्रदर्शन कमरे की ध्वनिकी, प्रकाश, नेटवर्क की स्थिति और उपयोगकर्ता द्वारा उपयोग किए गए वीडियो एप्लिकेशन पर निर्भर करता है।",
-    "Loud Speaker Coverage": "लाउडस्पीकर कवरेज"
+    "Loud Speaker Coverage": "लाउडस्पीकर कवरेज",
+    "Working Email Id": "कार्यरत ईमेल ID",
+    "Enter Working emailId": "कार्यरत ईमेल ID दर्ज करें",
+    "Enter valid Working Email ID": "मान्य कार्यरत ईमेल ID दर्ज करें",
+    "Please enter a valid Working email ID": "कृपया मान्य कार्यरत ईमेल ID दर्ज करें",
+    "Company Email Id": "कंपनी ईमेल ID"
 }
+
 
 

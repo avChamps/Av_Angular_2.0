@@ -170,7 +170,7 @@
                           <div class="input-group">
                             <input type="text" class="form-control rounded-corner" name="replyAnswer" [(ngModel)]="item.replyAnswer" placeholder="Share your Answer here...">
                             <div class="input-group-append p-l-10">
-                              <button class="btn btn-primary f-s-12 rounded-corner send_button" [disabled]="!item.replyAnswer" (click)="uploadAnswer(item.qId,item.replyAnswer)" type="button">
+                              <button class="btn btn-primary f-s-12 rounded-corner send_button" [disabled]="!item.replyAnswer" (click)="uploadAnswer(item.qId,item)" type="button">
                                 <i class="fas fa-arrow-alt-circle-right"></i>
                               </button>
                           </div>                          
@@ -203,7 +203,7 @@
 
 <!-- Bootstrap Modal -->
 <!-- Bootstrap Modal -->
-<div class="modal fade" id="myDialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="myDialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" #modalId>
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content p-3">
       <div class="modal-body" style="padding-top: 10px;">
@@ -223,7 +223,7 @@
         </div>
       </div>
       <div class="modal-footer justify-content-end">
-        <button type="button" class="btn btn-warning me-2" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-warning me-2" #actionButton data-bs-dismiss="modal">Cancel</button>
         <button type="button" class="btn btn-success button_left" [disabled]="!userQuestion" (click)="onUpload()">Save</button>
       </div>
     </div>
@@ -233,6 +233,11 @@
   <div *ngIf="showContactForm">
     <app-contact></app-contact>
   </div>
+
+  <div *ngIf="isDisplyedCoins">
+      <app-coins-blast [coins]="displayCoins"></app-coins-blast>
+  </div>
+
      <app-spinner *ngIf="showSpinner"></app-spinner>
 </body>
 

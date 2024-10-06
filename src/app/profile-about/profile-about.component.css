@@ -5,3 +5,7 @@ input::placeholder {
 .fs {
     font-size: 12px;
 }
+
+.nav-tabs {
+    border-bottom: none;
+}

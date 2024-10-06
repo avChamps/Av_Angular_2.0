@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="200px" height="200px">
+    <!-- Outer Circle -->
+    <circle cx="256" cy="256" r="256" fill="#FFA500"/>
+    <!-- Inner Circle -->
+    <circle cx="256" cy="256" r="200" fill="#FFCC00"/>
+    <!-- Dollar Sign -->
+    <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="Arial" font-size="180" fill="#FFD700" font-weight="bold">$</text>
+    <!-- Coin Shading -->
+    <circle cx="256" cy="256" r="250" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="20" stroke-dasharray="80 40"/>
+</svg>

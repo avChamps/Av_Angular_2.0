@@ -202,7 +202,12 @@
     "This tool provides simulated results based on the input values supplied by the user.": "ఈ పరికరం వినియోగదారుడు అందించిన ఇన్‌పుట్ విలువల ఆధారంగా సిమ్యులేటెడ్ ఫలితాలను అందిస్తుంది.",
     "We strongly advise conducting comprehensive performance testing of the product before finalizing your purchase.": "మీ కొనుగోళ్లను తుది చేసేము ముందు ఉత్పత్తి యొక్క సమగ్ర పనితీరు పరీక్షను నిర్వహించడం బలంగా సిఫార్సు చేస్తున్నాము.",
     "The performance of the video bar depends on room acoustics, lighting, network conditions, and the video application used by the user.": "వీడియో బార్ యొక్క పనితీరు గది ఆకొస్టిక్‌లు, కాంతి, నెట్‌వర్క్ పరిస్థితులు, మరియు వినియోగదారుడు ఉపయోగించే వీడియో అనువర్తనంపై ఆధారపడి ఉంది.",
-    "Loud Speaker Coverage": "లౌడ్‌స్పీకర్ కవరేజ్"
+    "Loud Speaker Coverage": "లౌడ్‌స్పీకర్ కవరేజ్",
+    "Working Email Id": "చర్యలో ఉన్న ఇమెయిల్ ID",
+    "Enter Working emailId": "చర్యలో ఉన్న ఇమెయిల్ ID నమోదు చేయండి",
+    "Enter valid Working Email ID": "చర్యలో ఉన్న చెల్లుబాటు అయ్యే ఇమెయిల్ ID నమోదు చేయండి",
+    "Please enter a valid Working email ID": "దయచేసి చెల్లుబాటు అయ్యే ఇమెయిల్ IDను నమోదు చేయండి",
+    "Company Email Id": "కంపెనీ ఇమెయిల్ ID"
 }
 
 

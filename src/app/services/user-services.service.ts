@@ -113,10 +113,21 @@ onBack() {
     return this.http.get<any>(`${this.url}/getBussinessCard/${emailId}`)
   }
 
+  insertPoints (data: any) {
+    return this.http.post(`${this.url}/insertPoints`, data)
+  }
+
+  deletePoints(data :any) {
+    return this.http.post(`${this.url}/deletePoints`, data)
+  }
+
+  getPoints (data: any) {
+    return this.http.post(`${this.url}/getPoints`, data)
+  }
+
   getRefreshDataObservable () {
     return this.refreshData$.asObservable()
   }
-
 
   submitApplication(applicationData: any): Observable<any> {
     // return this.http.post<any>(`this.apiUrl` + `submitApplication``, applicationData);

@@ -164,8 +164,11 @@ export class CalenderComponent {
     this.faService.postEvent(data).subscribe({
       next: (response) => {
         console.log('Event submitted successfully:', response);
-        this.toastr.success(this.translate.instant('Event submitted successfully!'), 'Success', {
-          positionClass: 'toast-right-center'
+        this.toastr.success('Event submitted successfully!', 'Success', {
+          positionClass: 'toast-custom-position',
+          timeOut: 3000, 
+          closeButton: true,
+          progressBar: true
         });
 
         this.closeButton.nativeElement.click();

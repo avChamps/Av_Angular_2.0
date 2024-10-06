@@ -12,8 +12,9 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class ProfileAboutComponent implements OnInit {
   emailId: any
+  workingEmailId : any;
   dateOfBirth: any
-  gender!: string
+  gender: string = '';
   mobileNumber: any
   userCity!: string
   companyName: any
@@ -22,13 +23,18 @@ export class ProfileAboutComponent implements OnInit {
   updatedDate: any;
   userName: any
   imagePath: any;
+  userPoints : any;
+  profileWeight : any;
   emailErrorMessage: string = '';
+  emailWorkingErrorMessage : string = '';
   mobileErrorMessage: string = '';
   profileImageType : string = '';
+  signupDate : any;
   products: any[] = []
   showSpinner: boolean = false
   editMode: boolean = false;
   isEmailValidated: boolean = true;
+  isWorkingEmailValidated : boolean = true;
   isMobileNumberValidated: boolean = true;
 
   constructor(
@@ -45,7 +51,8 @@ export class ProfileAboutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getProfileData()
+    this.getProfileData();
+    this.getProfileWeight();
   }
 
   toggleEditMode() {
@@ -57,14 +64,16 @@ export class ProfileAboutComponent implements OnInit {
   getProfileData() {
     this.showSpinner = true;
     this.userService.getProfile(this.emailId).subscribe((response: any) => {
-      console.log(response)
+      console.log(response);
       if (response.records.length !== 0) {
         const record = response.records[0]
         this.imagePath = record.imagePath;
         this.updatedDate = record.updatedDate;
+        this.signupDate = record.signupDate;
         this.userName = record.fullName;
         this.companyName = record.companyName;
         this.emailId = record.emailId;
+        this.workingEmailId = record.workingEmailId;
         this.mobileNumber = record.mobileNumber;
         this.dateOfBirth = record.dob;
         this.gender = record.gender;
@@ -76,12 +85,50 @@ export class ProfileAboutComponent implements OnInit {
     })
   }
 
+  getProfileWeight() {
+    this.userService.getProfileWeight(this.emailId).subscribe((response: any) => {
+      if(response) {
+        this.profileWeight = response.profileWeight
+        console.log(response)
+        this.showSpinner = false;
+        this.getPoints();
+      } else {
+        console.log('Error while fectching the profile weight');
+      }})
+      
+  }
+
+
+  getPoints() {
+    this.showSpinner = true;
+    let email = { emailId: this.emailId };
+    
+    this.userService.getPoints(email).subscribe(
+      (response: any) => {
+        if (response && response.data && response.data.length > 0) {
+          let userPoints = response.data[0].points;
+          this.userPoints = userPoints + this.profileWeight;
+        } else {
+          console.error('No data found in response');
+        }
+        this.showSpinner = false;
+      },
+      (error: any) => {
+        console.error('Error while loading the points', error);
+        console.log('Full error details:', error);
+        this.showSpinner = false;
+      }
+    );
+  }
+  
+
   saveProfileData() {
     this.showSpinner = true;
 
     if (this.isEmailValidated === true && this.isMobileNumberValidated === true) {
       const profileData = new FormData()
       profileData.append('emailId', this.emailId || '');
+      profileData.append('workingEmailId', this.workingEmailId || '');
       profileData.append('companyName', this.companyName || '')
       profileData.append('mobileNumber', this.mobileNumber || '')
       profileData.append('designation', this.jobTitle || '')
@@ -108,7 +155,11 @@ export class ProfileAboutComponent implements OnInit {
   }
 
   formattedDate() {
+    if(this.updatedDate !== undefined || null || '') {
     return this.datePipe.transform(this.updatedDate, 'yyyy-MM-dd');
+    } else {
+      return this.datePipe.transform(this.signupDate, 'yyyy-MM-dd');
+    }
   }
 
   validateEmail() {
@@ -121,6 +172,23 @@ export class ProfileAboutComponent implements OnInit {
       this.emailErrorMessage = '';
     }
   }
+
+  validateWorkingEmail() {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    const businessDomainPattern = /@(?!gmail\.com$|yahoo\.com$|hotmail\.com$|outlook\.com$|aol\.com$)[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  
+    if (!emailPattern.test(this.workingEmailId)) {
+      this.isWorkingEmailValidated = false;
+      this.emailWorkingErrorMessage = this.translate.instant('Enter valid Working Email ID');
+    } else if (!businessDomainPattern.test(this.workingEmailId)) {
+      this.isWorkingEmailValidated = false;
+      this.emailWorkingErrorMessage = this.translate.instant('Please enter a valid Working email ID');
+    } else {
+      this.isWorkingEmailValidated = true;
+      this.emailWorkingErrorMessage = '';
+    }
+  }
+  
 
   getImageSource(): string {
     if (this.imagePath) {

@@ -208,25 +208,26 @@
                   Job Type is required.
                 </div>
               </div>
-              <div class="mb-3 row">
+              <div class="row">
                 <label for="salary" class="form-label col-12">Salary Range</label>
-                <div class="col-12 col-sm-6">
-                  <input type="text" class="form-control" id="minSalary" name="minSalary" placeholder="Enter Min Salary"
+                <div class="col-12 col-sm-6 mb-3">
+                  <input type="number" class="form-control" id="minSalary" name="minSalary" placeholder="Enter Min Salary"
                     [(ngModel)]="minSalary" required>
                   <div *ngIf="!minSalary && jobForm.submitted" class="text-danger">
                     Min Salary is required.
                   </div>
                 </div>
-                <div class="col-12 col-sm-6">
-                  <input type="text" class="form-control" id="maxSalary" name="maxSalary" [(ngModel)]="maxSalary"
+                <div class="col-12 col-sm-6 mb-3">
+                  <input type="number" class="form-control" id="maxSalary" name="maxSalary" [(ngModel)]="maxSalary"
                     placeholder="Enter Max Salary" required>
                   <div *ngIf="!maxSalary && jobForm.submitted" class="text-danger">
                     Max Salary is required.
                   </div>
                 </div>
               </div>
-              <div class="mb-3 row">
-                <div class="col-12 col-sm-6">
+              
+              <div class="row">
+                <div class="col-12 col-sm-6 mb-3">
                   <label for="email" class="form-label">Email<span class="text-danger">*</span></label>
                   <input type="email" class="form-control" id="email" placeholder="Enter Email" name="email"
                     [(ngModel)]="email" required email>
@@ -236,7 +237,7 @@
                   </div>
                 </div>
 
-                <div class="col-12 col-sm-6">
+                <div class="col-12 col-sm-6 mb-3">
                   <label for="phone" class="form-label">Phone<span class="text-danger">*</span></label>
                   <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter Phone Number"
                     [(ngModel)]="phone" required pattern="^[0-9]{10}$">
@@ -257,10 +258,9 @@
                 </div>
               </div>
 
-
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                  (click)="clearInputs()">Close</button>
+                  (click)="clearInputs()" #actionButton>Close</button>
                 <button type="submit" class="btn btn-primary">{{buttonType }}</button>
               </div>
             </form>
@@ -293,6 +293,10 @@
       <app-contact></app-contact>
     </div>
   </div>
+
+  <div *ngIf="isDisplyedCoins">
+    <app-coins-blast [coins]="displayCoins"></app-coins-blast>
+</div>
 
 </body>
 

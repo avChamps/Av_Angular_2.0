@@ -5,6 +5,7 @@ import { AuthServiceService } from '../services/auth-service.service';
 import { FaServiceService } from '../services/fa-service.service';
 import { UserServicesService } from '../services/user-services.service';
 import * as bootstrap from 'bootstrap';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-ekart',
@@ -34,6 +35,8 @@ export class EkartComponent implements OnInit {
   showProducts: boolean = true;
   showSearchBox: boolean = true;
   showContactForm: boolean = false;
+  displayCoins : any;
+  isDisplyedCoins : boolean = false;
   showViewMore: boolean = true;
   viewMoreButton: boolean = false;
   showEmptyImg: boolean = false;
@@ -47,6 +50,7 @@ export class EkartComponent implements OnInit {
 
   @ViewChild('seller') sellerForm!: TemplateRef<any>;
   @ViewChild('contact', { static: true }) contactModal!: ElementRef;
+  @ViewChild('actionButton') actionButton!: ElementRef;
   insertionType: any;
 
   constructor(
@@ -54,7 +58,8 @@ export class EkartComponent implements OnInit {
     private router: Router,
     private faService: FaServiceService,
     private authService: AuthServiceService,
-    private authGuard: AuthGuardService
+    private authGuard: AuthGuardService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -179,6 +184,7 @@ export class EkartComponent implements OnInit {
 
   uploadProduct() {
     this.showSpinner = true;
+    this.actionButton.nativeElement.click()
     const formData = new FormData();
     formData.append('emailId', this.emailId);
     formData.append('title', this.title);
@@ -194,8 +200,16 @@ export class EkartComponent implements OnInit {
       this.showSpinner = false;
       if (response && response.status) {
         this.userService.refreshData();
-        alert(response.message);
-        window.location.reload();
+        // alert(response.message);
+        this.toastr.success(response.message, 'Success', {
+          positionClass: 'toast-custom-position',
+          timeOut: 3000, 
+          closeButton: true,
+          progressBar: true
+        });
+        this.insertPoints(10);
+        this.getCartData(this.offset);
+        // window.location.reload();
       } else {
         alert('An error occurred. Please try again later.');
       }
@@ -260,11 +274,22 @@ export class EkartComponent implements OnInit {
       this.showSpinner = false;
       if (response && response.status) {
         this.userService.refreshData();
-        alert(response.message);
-        this.getUploadProducts(this.offset);
+        this.toastr.success(response.message, 'success', {
+          positionClass: 'toast-custom-position',
+          timeOut: 3000, 
+          closeButton: true,
+          progressBar: true
+        });
+        this.deletePoints(10);
+        this.getCartData(this.offset);
         window.location.reload();
       } else {
-        alert('An error occurred. Please try again later.');
+        this.toastr.error('An error occurred. Please try again later.', 'error', {
+          positionClass: 'toast-custom-position',
+          timeOut: 3000, 
+          closeButton: true,
+          progressBar: true
+        });
       }
     });
   }
@@ -319,6 +344,41 @@ export class EkartComponent implements OnInit {
     this.viewMoreButton = response.records.length === 5;
     this.showEmptyImg = response.records.length === 0;
   }
+
+  insertPoints(points : number) {
+    this.showSpinner = true;
+    this.displayCoins = points;
+    const pointsData = {
+      emailId : this.emailId, 
+      userName : this.userName, 
+      points : points
+    };
+    this.userService.insertPoints(pointsData).subscribe((response: any) => {
+      this.isDisplyedCoins = false;
+      console.log('Form submitted:', response);
+        console.log(response);
+        setTimeout(() => {
+          this.isDisplyedCoins = true;
+        }, 100);
+    });
+    this.showSpinner = false;
+  }
+
+  deletePoints(points : number) {
+    this.showSpinner = true;
+    this.displayCoins = points;
+    const pointsData = {
+      emailId : this.emailId, 
+      userName : this.userName, 
+      points : points
+    };
+    this.userService.deletePoints(pointsData).subscribe((response: any) => {
+      console.log('Form submitted:', response);
+        console.log(response);
+    });
+    this.showSpinner = false;
+  }
+
 
   clearInputs() {
     this.title = '';

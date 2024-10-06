@@ -45,6 +45,7 @@ import { PowerCalculatorComponent } from './power-calculator/power-calculator.co
 import { SafePipe } from './services/safe.pipe';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { CoinsBlastComponent } from './coins-blast/coins-blast.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -82,7 +83,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     AudioDelayComponent,
     BtuCalculatorComponent,
     PowerCalculatorComponent,
-    SafePipe
+    SafePipe,
+    CoinsBlastComponent
   ],
   imports: [
     BrowserModule,

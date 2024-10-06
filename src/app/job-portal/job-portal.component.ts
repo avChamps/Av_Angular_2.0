@@ -1,8 +1,9 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { UserServicesService } from '../services/user-services.service';
 import { Router } from '@angular/router';
 import { FaServiceService } from '../services/fa-service.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-job-portal',
@@ -32,6 +33,7 @@ export class JobPortalComponent implements OnInit {
   buttonType: string = 'Upload';
   userName : any;
   emailId : any;
+  displayCoins : any;
   profileImg: any[] = [];
   jobHeadline: string = 'Post A Job'
   slNo: any;
@@ -39,8 +41,11 @@ export class JobPortalComponent implements OnInit {
   ShowJobPrtal: boolean = true;
   showSpinner : boolean = false;
   isMaxSalaryValid: boolean = true;
+  isDisplyedCoins : boolean = false;
+  @ViewChild('actionButton') actionButton!: ElementRef;
 
-  jobRoles = [] = [
+
+  jobRoles= [] = [
     { label: "Live Events", value: "live_events" },
     { label: "Installation Professionals", value: "installation_professionals" },
     { label: "Sales & Marketing", value: "sales_marketing" },
@@ -72,7 +77,7 @@ export class JobPortalComponent implements OnInit {
 
 
   constructor(private jobPortaService: UserServicesService, private faService: FaServiceService, private cdr: ChangeDetectorRef, private userService: UserServicesService,
-    private router: Router) { }
+    private router: Router,private toastr: ToastrService) { }
   ngOnInit(): void {
     this.emailId = localStorage.getItem('emailId')
     this.userName = localStorage.getItem('userName');
@@ -193,14 +198,34 @@ export class JobPortalComponent implements OnInit {
           postedBy: this.emailId
         };
 
+        this.actionButton.nativeElement.click();
         this.jobPortaService.submitApplication(applicationData).subscribe(
           response => {
-            alert(response.message);
+            // alert(response.message);
             console.log('Application submitted successfully', response);
-            window.location.reload();
+            this.getPostedJobs('search');
+            this.scrollToTop();
+            this.clearInputs(); 
+            this.toastr.success(response.message, 'Success', {
+              positionClass: 'toast-custom-position',
+              timeOut: 3000, 
+              closeButton: true,
+              progressBar: true
+            });
+            this.actionButton.nativeElement.click();
+            // window.location.reload();
+            form.resetForm();
+            this.clearInputs();
+            this.insertPoints(10);
           },
           error => {
             console.error('Error submitting application', error);
+            this.toastr.success('Error submitting application', 'Failed', {
+              positionClass: 'toast-custom-position',
+              timeOut: 3000, 
+              closeButton: true,
+              progressBar: true
+            });
           }
         );
       } else {
@@ -245,6 +270,42 @@ export class JobPortalComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
+  
+  insertPoints(points : number) {
+    this.showSpinner = true;
+    this.displayCoins = points;
+    const pointsData = {
+      emailId : this.emailId, 
+      userName : this.userName, 
+      points : points
+    };
+    this.userService.insertPoints(pointsData).subscribe((response: any) => {
+      this.isDisplyedCoins = false;
+      console.log('Form submitted:', response);
+        console.log(response);
+        setTimeout(() => {
+          this.isDisplyedCoins = true;
+        }, 100);
+    });
+    this.showSpinner = false;
+  }
+
+  deletePoints(points : number) {
+    this.showSpinner = true;
+    this.displayCoins = points;
+    const pointsData = {
+      emailId : this.emailId, 
+      userName : this.userName, 
+      points : points
+    };
+    this.userService.deletePoints(pointsData).subscribe((response: any) => {
+      console.log('Form submitted:', response);
+        console.log(response);
+    });
+    this.showSpinner = false;
+  }
+  
+
 
   uploadEditJob() {
     const applicationData = {
@@ -260,12 +321,17 @@ export class JobPortalComponent implements OnInit {
       postedBy: this.emailId,
       slNo: this.slNo
     };
+    this.actionButton.nativeElement.click();
     this.jobPortaService.editJob(applicationData).subscribe(
       response => {
-        alert(response.message);
+        this.toastr.success(response.message, 'Success', {
+          positionClass: 'toast-custom-position',
+          timeOut: 3000, 
+          closeButton: true,
+          progressBar: true
+        });
         console.log('Application submitted successfully', response);
-        // this.clearInputs();
-        window.location.reload();
+        this.getPostedJobs('search');
       },
       error => {
         console.error('Error submitting application', error);
@@ -276,8 +342,8 @@ export class JobPortalComponent implements OnInit {
 
 
   deleteJob(job: any) {
-    console.log(job)
-    this.showSpinner = true
+    this.showSpinner = true;
+    this.actionButton.nativeElement.click();
     const applicationData = {
       job_role: job.job_role,
       company: job.company,
@@ -291,9 +357,14 @@ export class JobPortalComponent implements OnInit {
       console.log('Response from server:', response)
       this.showSpinner = false
       if (response && response.status) {
-        alert(response.message);
-        this.refreshPage();
-        // window.location.reload();
+        this.toastr.success(response.message, 'Success', {
+          positionClass: 'toast-custom-position',
+          timeOut: 3000, 
+          closeButton: true,
+          progressBar: true
+        });
+         this.deletePoints(10);
+        this.getPostedJobs('search');
       } else {
         alert('An error occurred. Please try again later.')
       }
@@ -311,10 +382,6 @@ export class JobPortalComponent implements OnInit {
     this.companyUrl = '';
   }
 
-  refreshPage() {
-    window.location.reload();
-  }
-
   logOut() {
     this.faService.clearSession();
     this.router.navigate(['']);
@@ -324,6 +391,10 @@ export class JobPortalComponent implements OnInit {
   contactForm() {
     this.isContact = true;
     this.ShowJobPrtal = false;
+  }
+
+  refreshPage() {
+    window.location.reload();
   }
 
   scrollToBottom() {
