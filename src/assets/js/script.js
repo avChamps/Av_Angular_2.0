@@ -2,7 +2,7 @@
 // COLLAPSE THE NAVBAR BY ADDING THE TOP-NAV-COLLAPSE CLASS
 window.onscroll = function () {
     scrollFunction();
-    scrollFunctionBTT(); // back to top button
+    // scrollFunctionBTT();
 };
 
 function scrollFunction() {

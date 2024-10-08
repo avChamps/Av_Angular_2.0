@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
 import { AuthServiceService } from '../services/auth-service.service';
 import { FaServiceService } from '../services/fa-service.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './profile-feed.component.html',
   styleUrls: ['./profile-feed.component.css']
 })
-export class ProfileFeedComponent {
+export class ProfileFeedComponent implements AfterViewInit{
 
   selectedEmail: boolean = false
   showMails: boolean = true
@@ -20,9 +20,13 @@ export class ProfileFeedComponent {
   private OPENED_EMAILS_KEY = 'openedEmails'
 
   constructor(
-    private faService: FaServiceService,
+    private faService: FaServiceService,  private cdr: ChangeDetectorRef,
     private authService: AuthServiceService, private translate: TranslateService
   ) { }
+
+  ngAfterViewInit(): void {
+    this.cdr.detectChanges();
+  }
 
   ngOnInit(): void {
     this.getData();
@@ -87,7 +91,10 @@ export class ProfileFeedComponent {
     this.selectedEmail = true
     this.clickedemails = [email]
     email.opened = true;
-    this.markEmailAsOpened(email.title)
+    this.markEmailAsOpened(email.title);
+    setTimeout(() => {
+      this.cdr.detectChanges();
+    });
   }
 
   get filteredEmails(): any[] {

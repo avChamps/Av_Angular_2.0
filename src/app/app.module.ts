@@ -46,6 +46,7 @@ import { SafePipe } from './services/safe.pipe';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { CoinsBlastComponent } from './coins-blast/coins-blast.component';
+import { ProductReviewComponent } from './product-review/product-review.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -84,7 +85,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     BtuCalculatorComponent,
     PowerCalculatorComponent,
     SafePipe,
-    CoinsBlastComponent
+    CoinsBlastComponent,
+    ProductReviewComponent
   ],
   imports: [
     BrowserModule,

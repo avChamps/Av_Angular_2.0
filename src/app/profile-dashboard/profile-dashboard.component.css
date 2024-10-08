@@ -141,11 +141,10 @@ hr {
 }
 
 .version-tag {
-  position: absolute;
-  bottom: 10px;
+  position: relative;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 0.7rem;
+  font-size: 0.6rem;
 }
 
 .active-link {
@@ -190,3 +189,4 @@ hr {
     overflow-x: hidden;
   }
 }
+

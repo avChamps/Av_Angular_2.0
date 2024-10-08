@@ -16,7 +16,9 @@ export class ProfileDashboardComponent implements OnInit {
   activeMenuItem: any
   CickedsocialMedia: any
   emailId: any;
-  showSpinner: boolean = false
+  showSpinner: boolean = false;
+  showAdminPanel : boolean = false;
+  adminSession : boolean = false;
   products: any[] = []
   profileWeight!: number
   inputValue!: string
@@ -56,11 +58,33 @@ export class ProfileDashboardComponent implements OnInit {
         console.log(response)
         this.showSpinner = false
       })
+      this.showAdmin();
       this.selectedTheme = localStorage.getItem('selectedTheme');
       localStorage.setItem('language', 'telugu');
       let language = localStorage.getItem('selectedLanguage') || 'english'; 
       this.translate.setDefaultLang(language);
   }
+  
+  showAdmin() {
+    const validAdmins = [
+      { email: 'harishnelluru@gmail.com', name: 'Harish' },
+      { email: 'gdisendra@gmail.com', name: 'Disendra' },
+      { email: 'vishnuvardhan.malle@gmail.com', name: 'Vishnu Vardhan Yadav' },
+      { email : 'udaypasumarthi59@gmail.com', name : 'Uday'},
+      { email : 'avchamps1@gmail.com', name : 'AV'}
+    ];
+    const isValidAdmin = validAdmins.some(admin => admin.email === this.emailId && admin.name === this.userName);
+    if (isValidAdmin) {
+      window.localStorage.setItem('adminSession', 'true');
+      this.showAdminPanel = true;
+      this.adminSession = true; 
+    } else {
+      window.localStorage.removeItem('adminSession');
+      this.showAdminPanel = false;
+      this.adminSession = false;
+    }
+  }
+  
 
   closeSidebar() {
     this.renderer.setStyle(this.sidebarMenu.nativeElement, 'display', 'none');
@@ -109,7 +133,7 @@ export class ProfileDashboardComponent implements OnInit {
       return this.products[0].imagePath
     } else {
       this.profileImageType = 'insertImage'
-      return 'assets/img/empty_Image.png'
+      return 'assets/images/common_Images/user-Icon.png'
     }
   }
 

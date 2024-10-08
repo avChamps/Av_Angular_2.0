@@ -194,7 +194,7 @@ export class ProfileAboutComponent implements OnInit {
     if (this.imagePath) {
       return this.imagePath;
     } else {
-      return 'assets/img/empty_Image.png'
+      return 'assets/images/common_Images/user-Icon.png'
     }
   }
 

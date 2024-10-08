@@ -84,6 +84,11 @@
                 <i class="bi bi-people"></i> {{'Community' | translate}}
               </a>
             </li>
+            <!-- <li class="nav-item cur_pointer" *ngIf="showAdminPanel">
+              <a class="nav-link" href="/admin-page" target="_blank" routerLinkActive="active-link" (click)="closeSidebar()">
+                <i class="bi bi-gear-fill"></i> {{'Admin Page' | translate}}
+              </a>
+            </li> -->
           </ul>
           
         <div class="version-tag text-center text-white mt-auto">
@@ -167,6 +172,13 @@
                          [(ngModel)]="tempSelectedLanguage" (change)="selectLanguage('hindi')">
                   <label for="hindiLang" class="form-check-label ml-2">{{'Hindi' | translate}}</label>
                 </div>
+              </div>
+              <div *ngIf="showAdminPanel"><hr>
+              <div class="row">
+                  <a href="/admin-page" target="_blank" class="text-blue text-center" routerLinkActive="active-link" (click)="closeSidebar()">
+                    {{'Admin Page' | translate}}
+                  </a>
+              </div>
               </div>
             </div>
     

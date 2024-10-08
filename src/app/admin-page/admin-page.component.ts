@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FaServiceService } from '../services/fa-service.service';
 import * as bootstrap from 'bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-page',
@@ -26,17 +27,25 @@ export class AdminPageComponent implements OnInit {
   selectedRating: any = 'All';
   endDate!: Date | null;
   showSpinner: boolean = false;
-  showAdminpanel: boolean = false; // Initialize as false by default
+  showAdminpanel: boolean = false;
   selectedOptions: any;
   @ViewChild('adminPortalModal', { static: true }) adminPortalModal!: ElementRef;
 
-  constructor(private faService: FaServiceService) { }
+  constructor(private faService: FaServiceService,private router: Router) { }
 
   ngOnInit(): void {
-    this.checkLoginStatus();
-    if (!this.showAdminpanel) {
-      this.showLogin();
+    // this.checkLoginStatus();
+    let adminSession = localStorage.getItem('adminSession');
+    if(adminSession) {
+      this.showAdminpanel = true;
+    } else {
+      this.router.navigate(['/home'])
+      this.showAdminpanel = false;
     }
+    // this.showLogin();
+    // if (!this.showAdminpanel) {
+    //   this.showLogin();
+    // }
   }
 
   eventTypes = [
@@ -53,32 +62,32 @@ export class AdminPageComponent implements OnInit {
     console.log(selectElement.value);
   }
 
-  showLogin() {
-    const modalElement = this.adminPortalModal.nativeElement;
-    const modal = new bootstrap.Modal(modalElement);
-    modal.show();
-  }
+  // showLogin() {
+  //   const modalElement = this.adminPortalModal.nativeElement;
+  //   const modal = new bootstrap.Modal(modalElement);
+  //   modal.show();
+  // }
 
-  submitForm(emailId: any, userName: any, password: any) {
-    if (emailId === 'Avchamps1@gmail.com' && userName === 'AvChamps' && password === 'Bl@ckp0ny@24') {
-      localStorage.setItem('isLoggedIn', 'true');
-      this.showAdminpanel = true;
-    } else {
-      alert('You are not an Admin');
-    }
-  }
+  // submitForm(emailId: any, userName: any, password: any) {
+  //   if (emailId === 'Avchamps1@gmail.com' && userName === 'AvChamps' && password === 'Bl@ckp0ny@24') {
+  //     localStorage.setItem('isLoggedIn', 'true');
+  //     this.showAdminpanel = true;
+  //   } else {
+  //     alert('You are not an Admin');
+  //   }
+  // }
 
-  checkLoginStatus() {
-    const isLoggedIn = localStorage.getItem('isLoggedIn');
-    this.showAdminpanel = isLoggedIn === 'true';
-  }
+  // checkLoginStatus() {
+  //   const isLoggedIn = localStorage.getItem('isLoggedIn');
+  //   this.showAdminpanel = isLoggedIn === 'true';
+  // }
 
   onSubmit() {
     this.showSpinner = true;
     const feedData = {
       sender: this.sender,
       title: this.title,
-      dltFeedDate: this.dltFeedDate,
+      // dltFeedDate: this.dltFeedDate,
       description: this.description,
       link: this.link
     };
@@ -103,7 +112,7 @@ export class AdminPageComponent implements OnInit {
       website_Url: this.eventUrl,
       eventType: this.eventType,
       dltFeedDate: this.dltFeedDate,
-      eventEndDate: this.eventEndDate
+      eventEndDate: this.dltFeedDate
     };
     this.faService.insertEvent(data).subscribe((response: any) => {
       console.log('Form submitted:', response);

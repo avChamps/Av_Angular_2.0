@@ -21,26 +21,26 @@
                 <label for="sender" class="mb-0">Sender:</label>
                 <input type="text" class="form-control" id="sender" name="sender" disabled required [(ngModel)]="sender">
               </div>
-              <div class="form-group">
+              <div class="form-group mt-2">
                 <label for="title" class="mb-0">Title:</label>
                 <input type="text" class="form-control" id="title" name="title" required [(ngModel)]="title">
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <label for="title" class="mb-0">Expiry Date:</label>
                 <input type="date" class="form-control" id="title" name="title" required [(ngModel)]="dltFeedDate">
-              </div>
-              <div class="form-group">
+              </div> -->
+              <div class="form-group mt-2">
                 <label for="description" class="mb-0">Description:</label>
                 <textarea class="form-control" id="description" name="description" rows="5" required [(ngModel)]="description"></textarea>
               </div>
-              <div class="form-group">
+              <div class="form-group mt-2">
                 <label for="link" class="mb-0">Link:</label>
                 <input type="text" class="form-control" id="link" name="link" required [(ngModel)]="link">
               </div>
               
               <div class="text-right mt-2">
               <button type="submit" (click)="onClear()" class="btn btn-primary mr-2">Cancel</button>          
-              <button type="submit" (click)="onSubmit()" [disabled]="!sender || !title || !dltFeedDate || !description" class="btn btn-success">Save</button>
+              <button type="submit" (click)="onSubmit()" [disabled]="!sender || !title || !description" class="btn btn-success">Save</button>
               </div><br>
             </form>
           </div>
@@ -56,41 +56,42 @@
                 <label for="sender" class="mb-0">Event Name</label>
                 <input type="text" class="form-control" id="sender" name="sender" required [(ngModel)]="eventName">
               </div>
-              <div class="form-group">
+              <div class="form-group mt-2">
                 <label for="sender" class="mb-0">Event Type</label>
                 <select class="form-control" (change)="onEventTypeChange($event)">
                   <option *ngFor="let eventType of eventTypes" [value]="eventType.value">{{ eventType.displayName }}</option>
                 </select>                
               </div>
-              <div class="form-group">
+              <div class="form-group mt-2">
                 <label for="title" class="mb-0">Event URL:</label> 
                 <input type="text" class="form-control" id="title" name="title" required [(ngModel)]="eventUrl">
               </div>
 
-              <div class="row">
-                <div class="col-12 col-md-6">
+              <div class="row mt-2">
+                <div class="col-6 col-md-6">
                   <div class="form-group">
                     <label for="startDate" class="mb-0">Start Date:</label>
                     <input type="date" class="form-control" id="startDate" name="startDate" required [(ngModel)]="startDate">
                   </div>
                 </div>
-                <div class="col-12 col-md-">
+
+                <div class="col-6 col-md-6">
+                  <div class="form-group">
+                    <label for="title" class="mb-0">Expiry Date:</label>
+                    <input type="date" class="form-control" id="title" name="title" required [(ngModel)]="dltFeedDate">
+                  </div>
+                </div>
+                <!-- <div class="col-12 col-md-">
                   <div class="form-group">
                     <label for="endDate" class="mb-0">End Date:</label>
                     <input type="date" class="form-control" id="endDate" name="endDate" required [(ngModel)]="eventEndDate">
                   </div>
-                </div>
-              </div>
-              
-
-            <div class="form-group">
-                <label for="title" class="mb-0">Expiry Date:</label>
-                <input type="date" class="form-control" id="title" name="title" required [(ngModel)]="dltFeedDate">
+                </div> -->
               </div>
                            
               <div class="text-right mt-2">
               <button type="submit" (click)="onClear()" class="btn btn-primary">Cancel</button>          
-              <button type="submit" (click)="postEvent()" [disabled]="!eventName || !eventUrl || !startDate || !eventEndDate || !dltFeedDate" class="btn btn-success ml-2">Save</button>
+              <button type="submit" (click)="postEvent()" [disabled]="!eventName || !eventUrl || !startDate || !dltFeedDate" class="btn btn-success ml-2">Save</button>
               </div><br>
             </form>
           </div>
@@ -125,7 +126,7 @@
 </div>
 
 <!-- Bootstrap Modal -->
-<div class="modal fade" id="adminPortalModal" tabindex="-1" aria-labelledby="adminPortalModalLabel" aria-hidden="true" #adminPortalModal>
+<!-- <div class="modal fade" id="adminPortalModal" tabindex="-1" aria-labelledby="adminPortalModalLabel" aria-hidden="true" #adminPortalModal>
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header d-flex align-items-center justify-content-between">
@@ -154,7 +155,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   
 
 <app-spinner *ngIf="showSpinner"></app-spinner>    
