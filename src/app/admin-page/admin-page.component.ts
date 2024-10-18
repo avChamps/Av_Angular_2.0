@@ -2,6 +2,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FaServiceService } from '../services/fa-service.service';
 import * as bootstrap from 'bootstrap';
 import { Router } from '@angular/router';
+import { UserServicesService } from '../services/user-services.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-admin-page',
@@ -15,8 +17,11 @@ export class AdminPageComponent implements OnInit {
   sender = 'AV Champs';
   title: any;
   description: any;
+  emailId : any;
   eventName: any;
-  eventUrl: any;
+  selectedFile: any;
+  eventUrl: any; 
+  selectedFileName : any;
   link: any;
   chart: any;
   totalCount: any;
@@ -31,11 +36,12 @@ export class AdminPageComponent implements OnInit {
   selectedOptions: any;
   @ViewChild('adminPortalModal', { static: true }) adminPortalModal!: ElementRef;
 
-  constructor(private faService: FaServiceService,private router: Router) { }
+  constructor(private faService: FaServiceService,private router: Router,  private toastr: ToastrService, private userService : UserServicesService) { }
 
   ngOnInit(): void {
     // this.checkLoginStatus();
     let adminSession = localStorage.getItem('adminSession');
+    this.emailId = localStorage.getItem('emailId');
     if(adminSession) {
       this.showAdminpanel = true;
     } else {
@@ -146,6 +152,46 @@ export class AdminPageComponent implements OnInit {
     });
   }
 
+
+  selectFile(): void {
+    const fileInput = document.getElementById('fileInput');
+    if (fileInput) {
+      fileInput.click();
+    } else {
+      console.error('File input element not found.');
+    }
+  }
+
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+    this.selectedFileName = this.selectedFile ? this.selectedFile.name : '';
+  }
+
+  uploadProduct() {
+    this.showSpinner = true;
+    const formData = new FormData();
+    formData.append('emailId', this.emailId);
+    formData.append('title', this.title);
+    formData.append('image', this.selectedFile);
+
+    this.userService.insertProduct(formData).subscribe((response: any) => {
+      this.showSpinner = false;
+      if (response && response.status) {
+        this.userService.refreshData();
+        // alert(response.message);
+        this.toastr.success(response.message, 'Success', {
+          positionClass: 'toast-custom-position',
+          timeOut: 3000, 
+          closeButton: true,
+          progressBar: true
+        });
+        this.onClear();
+      } else {
+        alert('An error occurred. Please try again later.');
+      }
+    });
+  }
+
   onClear() {
     // this.sender = '';
     this.title = '';
@@ -154,7 +200,9 @@ export class AdminPageComponent implements OnInit {
     this.eventUrl = '';
     this.link = '';
     this.startDate = null;
-    this.endDate = null;
+    this.endDate = null;;
+    this.selectedFile = '';
+    this.selectedFile = ''
     this.dltFeedDate = '';
   }
 

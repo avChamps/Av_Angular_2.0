@@ -15,7 +15,7 @@
     <div class="container mt-4">
         <div class="row justify-content-center">
           <div class="col-md-6 box">
-            <h2 class="mb-2">Insert the Feed</h2>
+            <h4 class="mb-2 text-center">Insert the Feed</h4>
             <form>
               <div class="form-group">
                 <label for="sender" class="mb-0">Sender:</label>
@@ -50,7 +50,7 @@
       <div class="container mt-4">
         <div class="row justify-content-center">
           <div class="col-md-6 box">
-            <h2 class="mb-2">Post Events</h2>
+            <h4 class="mb-2 text-center">Post Events</h4>
             <form>
               <div class="form-group">
                 <label for="sender" class="mb-0">Event Name</label>
@@ -124,6 +124,38 @@
 </div>
 <br>
 </div>
+
+
+<div class="container mt-4 mb-2">
+  <div class="row justify-content-center">
+    <div class="col-md-6 box">
+      <h4 class="mb-2 text-center">Insert the Product</h4>
+      <form>
+        <div class="form-group">
+          <label>Title</label><label class="red-asterisk">*</label>
+          <input type="text" maxlength="75" class="form-control" [(ngModel)]="title" name="title">
+        </div>
+        <div class="form-group mt-2">
+          <label>Image</label><label class="red-asterisk">*</label>
+          <div id="drop-area" class="drop-area" (click)="selectFile()">
+              <input type="file" accept="image/*" id="fileInput" class="file-input"
+                  (change)="onFileSelected($event)">
+              <p>Click here or drag & drop files</p>
+          </div>
+          <p class="file_name">{{ selectedFileName }}</p>
+       </div>
+       <div class="text-right mt-2 mb-2">
+        <button type="submit" (click)="onClear()" class="btn btn-primary">Cancel</button>          
+        <button type="submit" (click)="uploadProduct()" [disabled]="!title || !selectedFileName" class="btn btn-success ml-2">Save</button>
+        </div>
+      </form>
+  </div>
+  </div>
+</div>
+
+
+
+
 
 <!-- Bootstrap Modal -->
 <!-- <div class="modal fade" id="adminPortalModal" tabindex="-1" aria-labelledby="adminPortalModalLabel" aria-hidden="true" #adminPortalModal>

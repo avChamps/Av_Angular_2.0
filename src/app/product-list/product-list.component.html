@@ -1,0 +1,38 @@
+<!-- app.component.html -->
+<div class="container my-5">
+    <!-- Search Bar -->
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="bi bi-search"></i>
+                </span>
+                <input type="text" class="form-control" placeholder="Search...">
+            </div>
+        </div>
+    </div>
+
+    <!-- Dynamic Image Grid -->
+    <div class="row text-center" *ngIf="showOEM">
+        <div class="col-6 col-md-3 mb-4" *ngFor="let item of oemItems">
+            <div class="border p-3 shadow-sm" (click)="showClickedOEM(item.name)">
+                <img [src]="item.imageUrl" [alt]="item.name" class="img-fluid">
+                <!-- <br>{{ item.name }} -->
+            </div>
+        </div>
+    </div>
+
+    <div class="row text-center" *ngIf="showSelectedOEM">
+        <div class="col-6 col-md-3 mb-4" *ngFor="let item of devices">
+            <div class="p-3 d-flex flex-column align-items-center" 
+                 (click)="showClickedOEM(item.name)" style="height: 200px; width: 200px;">
+                <div class="d-flex align-items-center justify-content-center" style="height: 150px;">
+                    <img [src]="item.image" [alt]="item.name" class="img-fluid" style="max-height: 100%; max-width: 100%;">
+                </div>
+                <div class="mt-auto">
+                    {{ item.name }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

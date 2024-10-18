@@ -27,11 +27,13 @@ import { AudioDelayComponent } from './audio-delay/audio-delay.component';
 import { BtuCalculatorComponent } from './btu-calculator/btu-calculator.component';
 import { PowerCalculatorComponent } from './power-calculator/power-calculator.component';
 import { ProductReviewComponent } from './product-review/product-review.component';
+import { ProductListComponent } from './product-list/product-list.component';
 
 const appRoutes: Routes = [
     { path: '', component: HeaderComponent },
     { path: 'home', component: HeaderComponent },
-    // { path: 'product-review', component: ProductReviewComponent },
+    { path: 'product-list', component: ProductListComponent },
+    { path : 'product-list-review', component : ProductReviewComponent },
     { path: 'redirected-page/:value', component: RedirectedPageComponent },
     { path: 'jobs-portal', component: JobPortalComponent, canActivate: [AuthGuardService] },
     { path: 'community', component: CommunityComponent, canActivate: [AuthGuardService] },

@@ -25,3 +25,28 @@
   .btn-success {
     margin-left: 10px;
   }
+
+  .red-asterisk {
+    color: red;
+  }
+  
+  .drop-area {
+    border: 2px dashed#00B074;
+    border-radius: 5px;
+    padding: 5px;
+    text-align: center;
+  }
+  
+  .file-input {
+    display: none;
+  }
+  
+  .drop-area.drag {
+    background-color: #f0f0f0;
+  }
+  
+  .file_name {
+    margin-bottom: 15px;
+    color: black;
+  }
+  
