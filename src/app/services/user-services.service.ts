@@ -101,6 +101,22 @@ onBack() {
     return this.http.post(`${this.url}/deleteCartRecords`, data)
   }
 
+  insertProductReview (data: any) {
+    return this.http.post(`${this.url}/insertProductReview`, data)
+  }
+
+  getProductReview(data : any) {
+    return this.http.post(`${this.url}/getProductReview`, data)
+  }
+
+  getRatings(data : any) {
+    return this.http.post(`${this.url}/getRatings`, data)
+  }
+
+  insertProductFeedback(data :any) {
+    return this.http.post(`${this.url}/insertProductFeedback`, data)
+  }
+
   insertFeedback (feedbackData: any) {
     return this.http.post(`${this.url}/insertFeedBack`, feedbackData)
   }

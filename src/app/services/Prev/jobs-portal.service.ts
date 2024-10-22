@@ -7,9 +7,9 @@ import { Observable } from 'rxjs';
 })
 export class JobsPortalService {
 
-  private apiUrl = 'https://avchamps.com/nodejs';
+  // private apiUrl = 'https://avchamps.com/nodejs';
 
-  // private apiUrl = 'http://localhost:3000';
+  private apiUrl = 'http://localhost:3000';
 
   constructor(private http: HttpClient) { }
 

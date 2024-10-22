@@ -11,7 +11,7 @@ export class AppComponent implements OnInit{
 
   ngOnInit() {
     AOS.init();
-    console.log = function() {}
+    // console.log = function() {}
   }
 
 }

@@ -68,7 +68,7 @@ export class ProfileDashboardComponent implements OnInit {
   showAdmin() {
     const validAdmins = [
       { email: 'harishnelluru@gmail.com', name: 'Harish' },
-      { email: 'gdisendra@gmail.com', name: 'Disendra' },
+      { email: 'disendra889@gmail.com', name: 'Disendra' },
       { email: 'vishnuvardhan.malle@gmail.com', name: 'Vishnu Vardhan Yadav' },
       { email : 'udaypasumarthi59@gmail.com', name : 'Uday'},
       { email : 'avchamps1@gmail.com', name : 'AV'}

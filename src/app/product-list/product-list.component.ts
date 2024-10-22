@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
@@ -6,8 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent {
-  showOEM: boolean = false;
-  showSelectedOEM: boolean = true;
+  showOEM: boolean = true;
+  showSelectedOEM: boolean = false;
+
+  constructor(private router : Router) { }
 
   oemItems = [
     { name: 'Neat', imageUrl: 'https://avchamps.com/testing/Product-Images/neat_img.png', clickOption: 'Neat' }
@@ -15,17 +18,22 @@ export class ProductListComponent {
 
 
   devices = [
-    { name: 'Neat Frame', image: 'https://avchamps.com/testing/Product-Images/neat_frame.jpg' },
-    { name: 'Neat Bar', image: 'https://avchamps.com/testing/Product-Images/sound_bar.png' },
-    { name: 'Neat Bar Pro', image: 'https://avchamps.com/testing/Product-Images/sound_bar_pro.jpg' }
+    { name: 'Neat Frame', image: 'https://avchamps.com/testing/Product-Images/neat_frame.jpg', clickOption : 'neatFrame' },
+    { name: 'Neat Bar', image: 'https://avchamps.com/testing/Product-Images/sound_bar.png', clickOption : 'neatBar'},
+    { name: 'Neat Bar Pro', image: 'https://avchamps.com/testing/Product-Images/sound_bar_pro.jpg', clickOption : 'neatBarPro' }
 
   ];
 
   showClickedOEM(option: any) {
     this.showSelectedOEM = true;
     this.showOEM = false;
-    alert(option);
   }
+
+  showClickedProduct(option: any) {
+    this.router.navigate(['product-list-review', option]);
+  }
+  
+  
 
 }
 

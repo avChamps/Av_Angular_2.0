@@ -88,6 +88,8 @@ export class HeaderComponent implements AfterViewInit {
       value = 'jobs-portal'
     } else if(option === 'profile') {
        value = 'profile-dashboard'
+    } else if(option === 'productReview') {
+      value = 'product-list'
     }
     else {
       value = 'community'

@@ -21,7 +21,6 @@ export class AdminPageComponent implements OnInit {
   eventName: any;
   selectedFile: any;
   eventUrl: any; 
-  selectedFileName : any;
   link: any;
   chart: any;
   totalCount: any;
@@ -152,45 +151,6 @@ export class AdminPageComponent implements OnInit {
     });
   }
 
-
-  selectFile(): void {
-    const fileInput = document.getElementById('fileInput');
-    if (fileInput) {
-      fileInput.click();
-    } else {
-      console.error('File input element not found.');
-    }
-  }
-
-  onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
-    this.selectedFileName = this.selectedFile ? this.selectedFile.name : '';
-  }
-
-  uploadProduct() {
-    this.showSpinner = true;
-    const formData = new FormData();
-    formData.append('emailId', this.emailId);
-    formData.append('title', this.title);
-    formData.append('image', this.selectedFile);
-
-    this.userService.insertProduct(formData).subscribe((response: any) => {
-      this.showSpinner = false;
-      if (response && response.status) {
-        this.userService.refreshData();
-        // alert(response.message);
-        this.toastr.success(response.message, 'Success', {
-          positionClass: 'toast-custom-position',
-          timeOut: 3000, 
-          closeButton: true,
-          progressBar: true
-        });
-        this.onClear();
-      } else {
-        alert('An error occurred. Please try again later.');
-      }
-    });
-  }
 
   onClear() {
     // this.sender = '';

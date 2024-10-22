@@ -33,7 +33,7 @@ const appRoutes: Routes = [
     { path: '', component: HeaderComponent },
     { path: 'home', component: HeaderComponent },
     { path: 'product-list', component: ProductListComponent },
-    { path : 'product-list-review', component : ProductReviewComponent },
+    { path : 'product-list-review/:option', component : ProductReviewComponent },
     { path: 'redirected-page/:value', component: RedirectedPageComponent },
     { path: 'jobs-portal', component: JobPortalComponent, canActivate: [AuthGuardService] },
     { path: 'community', component: CommunityComponent, canActivate: [AuthGuardService] },
