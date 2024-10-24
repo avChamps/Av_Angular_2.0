@@ -1,14 +1,13 @@
 .filled {
-  color: gold;
+  color: green;
 }
 
 .mobile_container {
-  margin-top: 0px!important;
+  margin-top: 0px !important;
 }
 
 @media (max-width: 768px) {
   .mobile_container {
-  margin-top: 30px!important;
+    margin-top: 30px !important;
   }
 }
-

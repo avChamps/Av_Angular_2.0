@@ -13,22 +13,26 @@ import { DOCUMENT } from '@angular/common';
 export class ProductReviewComponent implements OnInit {
   showSpinner: boolean = false;
   showEmptyProducts: boolean = false;
-  linkCopied: boolean = false
+  linkCopied: boolean = false;
   emailId: any;
   urlLink: any;
-  userName!: string;
+  userName: any;
   displayUserName: any;
   productName!: string;
   reviews: any;
-  changeName: string = '';
+  changeName: string = 'no';
   currentRating: number = 0;
   totalRatings: number = 0;
   rating: number = 0;
   selectedDevice: any;
-  averageRating: any;
+  averageRating: number = 0;
   reviewData: any[] = []
   ratingsData: any[] = [];
   feedbackData: any[] = [];
+  fullStars: number[] = [];
+  hasHalfStar = false;
+  emptyStars: number[] = [];
+  ratingsMap: { [key: number]: { count: number, percentage: number } } = {};
   ratingCounts: { [key: number]: number } = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
   @ViewChild('closeButton') closeButton!: ElementRef<HTMLButtonElement>;
   @ViewChild('showRating') showRating!: ElementRef<HTMLButtonElement>;
@@ -46,10 +50,11 @@ export class ProductReviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.emailId = localStorage.getItem('emailId')
-    // this.userName = localStorage.getItem('userName');
+    this.userName = localStorage.getItem('userName');
     this.totalRatings = this.ratingsData.reduce((acc, curr) => acc + curr.ratingCount, 0);
     this.getRatings();
     this.getProductReview();
+    // this.setStars();    
   }
 
   devices = [
@@ -62,7 +67,18 @@ export class ProductReviewComponent implements OnInit {
     this.rating = value;
   }
 
+  setStars() {
+    const fullStarCount = Math.floor(this.averageRating);
+    const hasHalfStar = this.averageRating % 1 >= 0.5;
+    const emptyStarCount = 5 - fullStarCount - (hasHalfStar ? 1 : 0);
+
+    this.fullStars = Array(fullStarCount).fill(0);
+    this.hasHalfStar = hasHalfStar;
+    this.emptyStars = Array(emptyStarCount).fill(0);
+  }
+
   getProductReview(): void {
+    this.showSpinner = true;
     const data = {
       productName: this.productName
     };
@@ -70,7 +86,6 @@ export class ProductReviewComponent implements OnInit {
     this.userService.getProductReview(data).subscribe(
       (response: any) => {
         console.log(response);
-        this.showSpinner = false;
         this.closeButton.nativeElement.click();
         if (response.status === false) {
           this.showEmptyProducts = true;
@@ -82,6 +97,7 @@ export class ProductReviewComponent implements OnInit {
         }
       }
     );
+    this.showSpinner = false;
   }
 
   getProgressWidth(star: number): number {
@@ -90,18 +106,14 @@ export class ProductReviewComponent implements OnInit {
     return (count / this.totalRatings) * 100;
   }
 
-
-
-
   getRatings(): void {
+    this.showSpinner = true;
     const data = { productName: this.productName };
     console.log('getRatings request payload:', data); // Log to check payload
 
     this.userService.getRatings(data).subscribe(
       (response: any) => {
-        console.log(response); // Log the response
-        this.showSpinner = false;
-
+        console.log(response);
         if (response && response.status) {
           this.ratingsData = response.data;
           this.feedbackData = response.data;
@@ -112,6 +124,7 @@ export class ProductReviewComponent implements OnInit {
             this.averageRating = this.ratingsData.reduce(
               (acc, curr) => acc + curr.rating * curr.ratingCount, 0
             ) / this.totalRatings;
+            this.setStars();
           } else {
             // If there are no records, set totalRatings and averageRating to 0
             this.totalRatings = 0;
@@ -123,19 +136,15 @@ export class ProductReviewComponent implements OnInit {
         }
       },
       (error: any) => {
-        console.error('Error fetching ratings:', error); // Log any errors
-        this.showSpinner = false;
+        console.error('Error fetching ratings:', error);
       }
     );
+    this.showSpinner = false;
   }
-
-
-
 
   insertProductReview(reviewForm: NgForm): void {
     this.showSpinner = true;
     if (!reviewForm.valid) {
-      this.showSpinner = false;
       return;
     }
 
@@ -152,7 +161,6 @@ export class ProductReviewComponent implements OnInit {
 
     this.userService.insertProductReview(data).subscribe(
       (response: any) => {
-        this.showSpinner = false;
         this.closeButton.nativeElement.click();
         this.getRatings();
         this.getProductReview();
@@ -169,16 +177,14 @@ export class ProductReviewComponent implements OnInit {
         }
       }
     );
+    this.showSpinner = false;
   }
 
   insertProductFeedback(reviewNumber: any, type: any) {
-    this.showSpinner = true;
     const feedbackKey = `productFeedback_${reviewNumber}`;
     const previousFeedback = localStorage.getItem(feedbackKey);
 
     if (previousFeedback) {
-      this.showSpinner = false;
-      alert('You have already provided feedback for this review.');
       return;
     }
 
@@ -192,7 +198,7 @@ export class ProductReviewComponent implements OnInit {
     }
 
     const data = {
-      emailId: 'disendra889@gmail.com',
+      emailId: this.emailId,
       displayUserName: this.userName,
       productName: this.productName,
       reviewNumber: reviewNumber,
@@ -215,17 +221,29 @@ export class ProductReviewComponent implements OnInit {
       });
   }
 
-
   mapRatingCounts(): void {
-    this.ratingCounts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
-    this.ratingsData.forEach((ratingItem: any) => {
-      const star = ratingItem.rating;
-      const count = ratingItem.ratingCount;
-      if (this.ratingCounts[star] !== undefined) {
-        this.ratingCounts[star] = count;
+    const totalRatings = this.ratingsData.reduce((acc, curr) => acc + curr.ratingCount, 0);
+    this.ratingsMap = {
+      5: { count: 0, percentage: 0 },
+      4: { count: 0, percentage: 0 },
+      3: { count: 0, percentage: 0 },
+      2: { count: 0, percentage: 0 },
+      1: { count: 0, percentage: 0 }
+    };
+
+    // Map the response data to the ratingsMap
+    this.ratingsData.forEach(ratingObj => {
+      const rating = ratingObj.rating;
+      const count = ratingObj.ratingCount;
+      const percentage = (count / totalRatings) * 100;
+
+      if (this.ratingsMap[rating]) {
+        this.ratingsMap[rating].count = count;
+        this.ratingsMap[rating].percentage = percentage;
       }
     });
   }
+
 
   getRatingCount(star: number): number {
     return this.ratingCounts[star] || 0;
@@ -266,8 +284,17 @@ export class ProductReviewComponent implements OnInit {
     this.showRating.nativeElement.click();
   }
 
+  onClear() {
+    this.reviews = '';
+    this.rating = 0;
+  }
+
   onBack() {
-    this.router.navigate(['product-list']);
+    this.showSpinner = true
+    setTimeout(() => {
+      this.router.navigate(['product-list/sub-page']);
+      this.showSpinner = false;
+    }, 1000);
   }
 
 }

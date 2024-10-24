@@ -26,13 +26,9 @@ export class RedirectedPageComponent implements OnInit {
 
   setSession() {
     this.faService.getSession().subscribe(response => {
-      const token = 'cdfdsfdd'
-      const emailId = 'disendra889@gmail.com'
-      const userName = 'Disendra'; 
-
-      // const token = response.session[0].jwtToken
-      // const userName = response.session[0].firstName;
-      // const emailId = response.session[0].emailId;
+      const token = response.session[0].jwtToken
+      const userName = response.session[0].firstName;
+      const emailId = response.session[0].emailId;
       this.faService.setSession(token, userName, emailId);
       this.redirectedPath()
     })
@@ -49,7 +45,7 @@ export class RedirectedPageComponent implements OnInit {
     } else if (this.receivedValue === 'jobs-portal') {
       this.router.navigate(['/jobs-portal']);
     } else if(this.receivedValue === 'product-list') {
-      this.router.navigate(['/product-list']);
+      this.router.navigate(['/product-list/main-page']);
     }
   }
 }

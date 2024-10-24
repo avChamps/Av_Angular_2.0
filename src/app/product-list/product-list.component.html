@@ -1,32 +1,38 @@
-<!-- app.component.html -->
+<!DOCTYPE html>
+<html>
+<body>
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+
 <div class="container my-5">
     <!-- Search Bar -->
     <div class="row justify-content-center mb-4">
         <div class="col-md-6">
             <div class="input-group">
-                <span class="input-group-text">
-                    <i class="bi bi-search"></i>
-                </span>
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <i class="bi bi-search"></i>
+                    </span>
+                </div>
                 <input type="text" class="form-control" placeholder="Search...">
             </div>
+            
         </div>
     </div>
 
     <!-- Dynamic Image Grid -->
     <div class="row text-center" *ngIf="showOEM">
         <div class="col-6 col-md-3 mb-4" *ngFor="let item of oemItems">
-            <div class="border p-3 shadow-sm" (click)="showClickedOEM(item.name)">
+            <div class="border p-3 shadow-sm cur_pointer" (click)="showClickedOEM(item.name)">
                 <img [src]="item.imageUrl" [alt]="item.name" class="img-fluid">
-                <!-- <br>{{ item.name }} -->
             </div>
         </div>
     </div>
 
     <div class="row text-center" *ngIf="showSelectedOEM">
         <div class="col-6 col-md-3 mb-4" *ngFor="let item of devices">
-            <div class="p-3 d-flex flex-column align-items-center" 
-                 (click)="showClickedProduct(item.clickOption)" style="height: 200px; width: 200px;">
-                <div class="d-flex align-items-center justify-content-center" style="height: 150px;">
+            <div class="p-3 d-flex flex-column align-items-center cur_pointer" 
+                 (click)="showClickedProduct(item.clickOption)" style="height: auto; width: auto; max-width: 100%;">
+                <div class="d-flex align-items-center justify-content-center" style="height: 150px; max-width: 100%;">
                     <img [src]="item.image" [alt]="item.name" class="img-fluid" style="max-height: 100%; max-width: 100%;">
                 </div>
                 <div class="mt-auto">
@@ -36,3 +42,5 @@
         </div>
     </div>
 </div>
+</body>
+
