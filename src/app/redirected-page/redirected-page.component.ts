@@ -9,7 +9,8 @@ import { FaServiceService } from '../services/fa-service.service';
   styleUrls: ['./redirected-page.component.css']
 })
 export class RedirectedPageComponent implements OnInit {
-  receivedValue: any
+  receivedValue: any;
+  receivedSubValue : any;
 
   constructor(
     private route: ActivatedRoute,
@@ -20,6 +21,7 @@ export class RedirectedPageComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.receivedValue = params['value']
+      this.receivedSubValue = params['subvalue'];
     })
     this.setSession();
   }
@@ -46,7 +48,9 @@ export class RedirectedPageComponent implements OnInit {
       this.router.navigate(['/jobs-portal']);
     } else if(this.receivedValue === 'product-list') {
       this.router.navigate(['/product-list/main-page']);
-    }
+    } else if(this.receivedValue === 'product-list-review') {   
+        this.router.navigate([`/product-list-review/${this.receivedSubValue}`]);
+      }
   }
 }
 

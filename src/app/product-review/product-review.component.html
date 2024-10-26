@@ -13,8 +13,9 @@
 <body>
 
   <section id="counts" class="counts" data-aos="fade-right">
+   
     <div class="me-2 ms-3 mb-n2" style="margin-bottom: -20px;">
-      <div class="cur_pointer rounded-circle shadow-sm p2 back-button" (click)="onBack()">
+      <div class="cur_pointer rounded-circle cur_pointer shadow-sm p2 back-button" (click)="onBack()">
         <i class="fas fa-arrow-left"></i>
       </div>
     </div>
@@ -24,32 +25,98 @@
         <!-- Left Side: Product Image and Name -->
         <div class="col-12 col-sm-4 col-md-2 text-center">
           <img [src]="selectedDevice.image" [alt]="selectedDevice.name" class="img-fluid mb-2">
+          <h6>{{ selectedDevice.name }}</h6>
         </div>
 
-
-        <!-- Middle: Star Rating and Review Count -->
         <div class="col-12 col-md-4 text-center d-flex flex-column align-items-center">
           <div class="mb-2 d-flex justify-content-center">
-            <!-- Loop to render full stars -->
             <ng-container *ngFor="let star of fullStars">
               <i class="bi bi-star-fill text-warning"></i>
             </ng-container>
-
+        
             <!-- If there is a half star -->
             <ng-container *ngIf="hasHalfStar">
               <i class="bi bi-star-half text-warning"></i>
             </ng-container>
             <ng-container *ngFor="let empty of emptyStars">
               <i class="bi bi-star text-warning"></i>
-            </ng-container>
+            </ng-container>&nbsp;
           </div>
-          <i class="fa fa-info-circle cur_pointer" (mouseover)="displayRating()"></i>
           <p class="mb-1"><strong>{{ averageRating.toFixed(1) }} OUT OF 5</strong></p>
-          <p>{{ totalRatings }} GLOBAL RATINGS</p>
+        
+          <!-- Container for "GLOBAL RATINGS" and Dropdown -->
+          <div class="d-flex align-items-center">
+            <p class="mb-0 me-2">{{ totalRatings }} GLOBAL RATINGS</p>
+            
+            <div class="dropdown">
+              <i class="btn btn-primary dropdown-toggle" type="button" id="ratingDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              </i>
+              <ul class="dropdown-menu p-3" aria-labelledby="ratingDropdown" style="width: 300px;">
+                <!-- Rating Bar Section -->
+                <div class="container-fluid">
+                  <div class="row justify-content-center">
+                    <div class="col-12">
+                      <div class="container">
+                        <!-- 5 Star Rating -->
+                        <div class="d-flex align-items-center my-1">
+                          <div class="me-2">5 ★</div>
+                          <div class="progress flex-grow-1" style="height: 10px;">
+                            <div class="progress-bar bg-success" role="progressbar"
+                                 [style.width.%]="ratingsMap[5]?.percentage || 0"
+                                 aria-valuenow="ratingsMap[5]?.percentage || 0" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <div class="ms-2">{{ ratingsMap[5]?.count || 0 }}</div>
+                        </div>
+                        <!-- 4 Star Rating -->
+                        <div class="d-flex align-items-center my-1">
+                          <div class="me-2">4 ★</div>
+                          <div class="progress flex-grow-1" style="height: 10px;">
+                            <div class="progress-bar bg-primary" role="progressbar"
+                                 [style.width.%]="ratingsMap[4]?.percentage || 0"
+                                 aria-valuenow="ratingsMap[4]?.percentage || 0" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <div class="ms-2">{{ ratingsMap[4]?.count || 0 }}</div>
+                        </div>
+                        <!-- 3 Star Rating -->
+                        <div class="d-flex align-items-center my-1">
+                          <div class="me-2">3 ★</div>
+                          <div class="progress flex-grow-1" style="height: 10px;">
+                            <div class="progress-bar bg-info" role="progressbar"
+                                 [style.width.%]="ratingsMap[3]?.percentage || 0"
+                                 aria-valuenow="ratingsMap[3]?.percentage || 0" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <div class="ms-2">{{ ratingsMap[3]?.count || 0 }}</div>
+                        </div>
+                        <!-- 2 Star Rating -->
+                        <div class="d-flex align-items-center my-1">
+                          <div class="me-2">2 ★</div>
+                          <div class="progress flex-grow-1" style="height: 10px;">
+                            <div class="progress-bar bg-warning" role="progressbar"
+                                 [style.width.%]="ratingsMap[2]?.percentage || 0"
+                                 aria-valuenow="ratingsMap[2]?.percentage || 0" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <div class="ms-2">{{ ratingsMap[2]?.count || 0 }}</div>
+                        </div>
+                        <!-- 1 Star Rating -->
+                        <div class="d-flex align-items-center my-1">
+                          <div class="me-2">1 ★</div>
+                          <div class="progress flex-grow-1" style="height: 10px;">
+                            <div class="progress-bar bg-danger" role="progressbar"
+                                 [style.width.%]="ratingsMap[1]?.percentage || 0"
+                                 aria-valuenow="ratingsMap[1]?.percentage || 0" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <div class="ms-2">{{ ratingsMap[1]?.count || 0 }}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ul>
+            </div>
+          </div>
         </div>
-
-
-        <!-- Right Side: Review Buttons -->
+        
+      <!-- Right Side: Review Buttons -->
         <div class="col-12 col-md-4 text-center d-flex flex-column align-items-center">
           <h6>REVIEW THIS PRODUCT</h6>
           <p>Share your thoughts with other customers</p>
@@ -67,14 +134,14 @@
 
       <!-- Top Reviews Section -->
       <div *ngIf="!showEmptyProducts">
-        <h6><strong>TOP REVIEWS</strong></h6>
+        <h6><strong>Customer Reviews</strong></h6>
         <div class="row">
           <div class="col-md-12" *ngFor="let review of reviewData">
             <div class="d-flex mb-3">
 
               <!-- Review Image -->
               <div class="flex-shrink-0 me-3">
-                <img [src]="review.imagepath" class="img-fluid rounded-circle" alt="User Image"
+                <img [src]="review.imagepath || 'assets/images/common_Images/user-Icon.png'" class="img-fluid rounded-circle" alt="User Image"
                   style="width: 60px; height: 60px; object-fit: cover;">
               </div>
 
@@ -114,7 +181,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="myModalLabel">Review</h5>
+            <h5 class="modal-title" id="myModalLabel">Share your thoughts</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
               (click)="onClear()"></button>
           </div>
@@ -143,15 +210,15 @@
               <div class="mb-3">
                 <label for="rating" class="form-label">Rating</label>
                 <div class="star-rating cur_pointer">
-                  <i class="bi bi-star-fill fs-2" (click)="setRating(1)" [ngClass]="{'filled': rating >= 1}"
+                  <i class="bi bi-star-fill fs-2" (click)="setRating(1)" [ngClass]="{'red': rating >= 1}"
                     id="star1"></i>
-                  <i class="bi bi-star-fill ms-2 fs-2" (click)="setRating(2)" [ngClass]="{'filled': rating >= 2}"
+                  <i class="bi bi-star-fill ms-2 fs-2" (click)="setRating(2)" [ngClass]="{'blue': rating >= 2}"
                     id="star2"></i>
-                  <i class="bi bi-star-fill ms-2 fs-2" (click)="setRating(3)" [ngClass]="{'filled': rating >= 3}"
+                  <i class="bi bi-star-fill ms-2 fs-2" (click)="setRating(3)" [ngClass]="{'info': rating >= 3}"
                     id="star3"></i>
-                  <i class="bi bi-star-fill ms-2 fs-2" (click)="setRating(4)" [ngClass]="{'filled': rating >= 4}"
+                  <i class="bi bi-star-fill ms-2 fs-2" (click)="setRating(4)" [ngClass]="{'warn': rating >= 4}"
                     id="star4"></i>
-                  <i class="bi bi-star-fill ms-2 fs-2" (click)="setRating(5)" [ngClass]="{'filled': rating >= 5}"
+                  <i class="bi bi-star-fill ms-2 fs-2" (click)="setRating(5)" [ngClass]="{'green': rating >= 5}"
                     id="star5"></i>
                 </div>
                 <div *ngIf="reviewForm.submitted && !rating" class="text-danger">Rating is required</div>

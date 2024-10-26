@@ -2,6 +2,26 @@
   color: green;
 }
 
+.green {
+  color: #57e32c;
+}
+
+.blue {
+  color: #ffa534;
+}
+
+.info {
+  color: #ffe234;
+}
+
+.warn {
+  color: #b7dd29;
+}
+
+.red {
+  color: #ff4545;
+}
+
 .mobile_container {
   margin-top: 0px !important;
 }

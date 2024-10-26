@@ -52,9 +52,13 @@ export class ProductReviewComponent implements OnInit {
     this.emailId = localStorage.getItem('emailId')
     this.userName = localStorage.getItem('userName');
     this.totalRatings = this.ratingsData.reduce((acc, curr) => acc + curr.ratingCount, 0);
+    if(!this.emailId && !this.userName) {
+      this.router.navigate(['login-page/product-list-review/neatBar']);
+    } else {
     this.getRatings();
     this.getProductReview();
-    // this.setStars();    
+    }
+    this.setStars();    
   }
 
   devices = [
