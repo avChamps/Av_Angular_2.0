@@ -8,6 +8,7 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 })
 export class ProductListComponent implements OnInit {
   showOEM: boolean = true;
+  isbackBtn : boolean = false;
   showSelectedOEM: boolean = false;
 
   constructor(private router: Router, private route: ActivatedRoute) { }
@@ -17,6 +18,7 @@ export class ProductListComponent implements OnInit {
       console.log('Route params:', params);
       if (params['value'] === 'sub-page') {
         this.showOEM = false;
+        this.isbackBtn = true;
         this.showSelectedOEM = true;
       }
     });
@@ -36,10 +38,20 @@ export class ProductListComponent implements OnInit {
   showClickedOEM(option: any) {
     this.showSelectedOEM = true;
     this.showOEM = false;
+    this.isbackBtn = true;
   }
 
   showClickedProduct(option: any) {
     this.router.navigate(['product-list-review', option]);
+  }
+
+  onBack() {
+    if(this.isbackBtn) {
+       this.isbackBtn = false;
+    }
+   this.showOEM = true;
+   this.showSelectedOEM = false;
+   
   }
 }
 

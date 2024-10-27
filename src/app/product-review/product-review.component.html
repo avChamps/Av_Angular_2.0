@@ -31,15 +31,15 @@
         <div class="col-12 col-md-4 text-center d-flex flex-column align-items-center">
           <div class="mb-2 d-flex justify-content-center">
             <ng-container *ngFor="let star of fullStars">
-              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning" [ngClass]="getColorClass()"></i>
             </ng-container>
         
             <!-- If there is a half star -->
             <ng-container *ngIf="hasHalfStar">
-              <i class="bi bi-star-half text-warning"></i>
+              <i class="bi bi-star-half text-warning" [ngClass]="getColorClass()"></i>
             </ng-container>
             <ng-container *ngFor="let empty of emptyStars">
-              <i class="bi bi-star text-warning"></i>
+              <i class="bi bi-star text-warning" [ngClass]="getColorClass()"></i>
             </ng-container>&nbsp;
           </div>
           <p class="mb-1"><strong>{{ averageRating.toFixed(1) }} OUT OF 5</strong></p>
@@ -49,9 +49,9 @@
             <p class="mb-0 me-2">{{ totalRatings }} GLOBAL RATINGS</p>
             
             <div class="dropdown">
-              <i class="btn btn-primary dropdown-toggle" type="button" id="ratingDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="btn dropdown-toggle" type="button" id="ratingDropdown" data-bs-toggle="dropdown" aria-expanded="false">
               </i>
-              <ul class="dropdown-menu p-3" aria-labelledby="ratingDropdown" style="width: 300px;">
+              <ul class="dropdown-menu p-3" aria-labelledby="ratingDropdown" style="width: 300px;margin-top: 15px;">
                 <!-- Rating Bar Section -->
                 <div class="container-fluid">
                   <div class="row justify-content-center">
@@ -61,7 +61,7 @@
                         <div class="d-flex align-items-center my-1">
                           <div class="me-2">5 ★</div>
                           <div class="progress flex-grow-1" style="height: 10px;">
-                            <div class="progress-bar bg-success" role="progressbar"
+                            <div class="progress-bar bg-green" role="progressbar"
                                  [style.width.%]="ratingsMap[5]?.percentage || 0"
                                  aria-valuenow="ratingsMap[5]?.percentage || 0" aria-valuemin="0" aria-valuemax="100"></div>
                           </div>
@@ -71,7 +71,7 @@
                         <div class="d-flex align-items-center my-1">
                           <div class="me-2">4 ★</div>
                           <div class="progress flex-grow-1" style="height: 10px;">
-                            <div class="progress-bar bg-primary" role="progressbar"
+                            <div class="progress-bar bg-blue" role="progressbar"
                                  [style.width.%]="ratingsMap[4]?.percentage || 0"
                                  aria-valuenow="ratingsMap[4]?.percentage || 0" aria-valuemin="0" aria-valuemax="100"></div>
                           </div>
@@ -91,7 +91,7 @@
                         <div class="d-flex align-items-center my-1">
                           <div class="me-2">2 ★</div>
                           <div class="progress flex-grow-1" style="height: 10px;">
-                            <div class="progress-bar bg-warning" role="progressbar"
+                            <div class="progress-bar bg-warn" role="progressbar"
                                  [style.width.%]="ratingsMap[2]?.percentage || 0"
                                  aria-valuenow="ratingsMap[2]?.percentage || 0" aria-valuemin="0" aria-valuemax="100"></div>
                           </div>
@@ -101,7 +101,7 @@
                         <div class="d-flex align-items-center my-1">
                           <div class="me-2">1 ★</div>
                           <div class="progress flex-grow-1" style="height: 10px;">
-                            <div class="progress-bar bg-danger" role="progressbar"
+                            <div class="progress-bar bg-red" role="progressbar"
                                  [style.width.%]="ratingsMap[1]?.percentage || 0"
                                  aria-valuenow="ratingsMap[1]?.percentage || 0" aria-valuemin="0" aria-valuemax="100"></div>
                           </div>
@@ -121,7 +121,7 @@
           <h6>REVIEW THIS PRODUCT</h6>
           <p>Share your thoughts with other customers</p>
           <div>
-            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">WRITE REVIEW</button>
+            <button class="btn btn-success" (click)="onLogin()" data-bs-toggle="modal" [disabled]="!displayReviewBtn" data-bs-target="#myModal">WRITE REVIEW</button>
             <button class="btn btn-outline-dark ms-2" data-bs-toggle="modal" data-bs-target="#shareModel">
               <i class="bi bi-share-fill"></i> SHARE
             </button>
@@ -136,7 +136,7 @@
       <div *ngIf="!showEmptyProducts">
         <h6><strong>Customer Reviews</strong></h6>
         <div class="row">
-          <div class="col-md-12" *ngFor="let review of reviewData">
+          <div class="col-md-12" *ngFor="let review of reviewData;let i = index">
             <div class="d-flex mb-3">
 
               <!-- Review Image -->
@@ -147,10 +147,13 @@
 
               <!-- Review Content -->
               <div class="flex-grow-1">
-                <p class="mb-1"><strong>{{ review.displayUserName }}</strong></p>
+                <p class="mb-1"><strong>{{ review.displayUserName }}</strong> <span class="postedDate">{{review.postedDate | date }}</span></p>
                 <div class="d-inline-block">
                   <ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
-                    <i [class]="review.rating > i ? 'bi bi-star-fill text-warning' : 'bi bi-star text-warning'"></i>
+                    <i 
+                    [class]="review.rating > i ? 'bi bi-star-fill' : 'bi bi-star'"
+                    [ngClass]="getIndividualColorClass(review.rating)"> <!-- Pass i + 1 to represent each star's position -->
+                  </i> 
                   </ng-container>
                 </div>
                 <p>{{ review.reviews }}</p>
@@ -175,14 +178,13 @@
       </div>
     </div>
 
-
     <!-- The Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="myModal" #myModal tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="myModalLabel">Share your thoughts</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            <button type="button" class="btn-close" #closeButton data-bs-dismiss="modal" aria-label="Close"
               (click)="onClear()"></button>
           </div>
 
@@ -192,20 +194,23 @@
                 <label for="changeNameQuestion" class="form-label">Do you want to change the display name?</label>
                 <div>
                   <input type="radio" id="yes" name="changeName" value="yes" [(ngModel)]="changeName" required>
-                  <label for="yes" class="ms-1">YES</label>
+                  <label for="yes" class="ms-1 cur_pointer">YES</label>
 
                   <input type="radio" id="no" name="changeName" value="no" class="ms-3" [(ngModel)]="changeName"
                     required>
-                  <label for="no" class="ms-1">NO</label>
+                  <label for="no" class="ms-1 cur_pointer">NO</label>
                 </div>
               </div>
 
               <div class="mb-3" *ngIf="changeName === 'yes'">
                 <label for="nameInput" class="form-label">Enter Name</label>
                 <input type="text" [(ngModel)]="displayUserName" class="form-control" id="nameInput"
-                  placeholder="Enter Name" name="displayUserName" [required]="changeName === 'yes'">
-                <div *ngIf="reviewForm.submitted && reviewForm.controls['displayUserName']?.invalid"
-                  class="text-danger">Name is required</div>
+                  placeholder="Enter Name" name="displayUserName" [required]="changeName === 'yes'" pattern="^(?!\d+$)[a-zA-Z0-9]+$">
+                  <div *ngIf="reviewForm.submitted && reviewForm.controls['displayUserName']?.invalid" class="text-danger errorMsg">
+                    <div *ngIf="reviewForm.controls['displayUserName']?.errors?.['required']">Name is required</div>
+                    <div *ngIf="reviewForm.controls['displayUserName']?.errors?.['pattern']">Name must be alphanumeric.</div>
+                    <div *ngIf="reviewForm.controls['displayUserName']?.errors?.['maxlength']">Name cannot exceed 20 characters</div>
+                  </div>
               </div>
               <div class="mb-3">
                 <label for="rating" class="form-label">Rating</label>
@@ -221,18 +226,18 @@
                   <i class="bi bi-star-fill ms-2 fs-2" (click)="setRating(5)" [ngClass]="{'green': rating >= 5}"
                     id="star5"></i>
                 </div>
-                <div *ngIf="reviewForm.submitted && !rating" class="text-danger">Rating is required</div>
+                <div *ngIf="reviewForm.submitted && !rating" class="text-danger errorMsg">Rating is required</div>
               </div>
               <div class="mb-3">
                 <label for="comments" class="form-label">Comments</label>
                 <textarea class="form-control" [(ngModel)]="reviews" id="comments" rows="3" name="reviews"
                   minlength="20" required></textarea>
                 <div *ngIf="reviewForm.submitted && reviewForm.controls['reviews']?.errors?.['required']"
-                  class="text-danger">
+                  class="text-danger errorMsg">
                   Comments are required.
                 </div>
                 <div *ngIf="reviewForm.submitted && reviewForm.controls['reviews']?.errors?.['minlength']"
-                  class="text-danger">
+                  class="text-danger errorMsg">
                   Comments must be at least 20 characters long.
                 </div>
               </div>
@@ -274,7 +279,7 @@
 
     <button class="btn btn-success" style="display: none;" #showRating data-bs-toggle="modal"
       data-bs-target="#showRating">WRITE REVIEW</button>
-    <div class="modal fade" id="showRating" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="showRating" #myModal tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">

@@ -34,6 +34,7 @@ export class RedirectedPageComponent implements OnInit {
       this.faService.setSession(token, userName, emailId);
       this.redirectedPath()
     })
+    // this.redirectedPath()
   }
 
   redirectedPath() {

@@ -1,43 +1,55 @@
 <!DOCTYPE html>
 <html>
+
 <body>
- <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css"
+        rel="stylesheet">
 
-<div class="container my-5">
-    <!-- Search Bar -->
-    <div class="row justify-content-center mb-4">
-        <div class="col-md-6">
-            <div class="input-group">
-                <span class="input-group-text bg-white border-end-0 border-color">
-                    <i class="bi bi-search"></i>
-                </span>
-                <input type="text" class="form-control border-start-0" placeholder="Search...">
+    <section id="counts" class="counts" data-aos="fade-right">
+
+        <div class="me-2 ms-3" *ngIf="isbackBtn" style="margin-bottom: -20px;">
+            <div class="cur_pointer rounded-circle cur_pointer shadow-sm p2 back-button" (click)="onBack()">
+                <i class="fas fa-arrow-left"></i>
             </div>
         </div>
-    </div>    
-
-    <!-- Dynamic Image Grid -->
-    <div class="row text-center" *ngIf="showOEM">
-        <div class="col-6 col-md-3 mb-4" *ngFor="let item of oemItems">
-            <div class="border p-3 shadow-sm cur_pointer" (click)="showClickedOEM(item.name)">
-                <img [src]="item.imageUrl" [alt]="item.name" class="img-fluid">
-            </div>
-        </div>
-    </div>
-
-    <div class="row text-center" *ngIf="showSelectedOEM">
-        <div class="col-6 col-md-3 mb-4" *ngFor="let item of devices">
-            <div class="p-3 d-flex flex-column align-items-center cur_pointer" 
-                 (click)="showClickedProduct(item.clickOption)" style="height: auto; width: auto; max-width: 100%;">
-                <div class="d-flex align-items-center justify-content-center" style="height: 150px; max-width: 100%;">
-                    <img [src]="item.image" [alt]="item.name" class="img-fluid" style="max-height: 100%; max-width: 100%;">
-                </div>
-                <div class="mt-auto">
-                    {{ item.name }}
+        <div class="container my-4">
+            <!-- Search Bar -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0 border-color">
+                            <i class="bi bi-search"></i>
+                        </span>
+                        <input type="text" class="form-control border-start-0" placeholder="Search...">
+                    </div>
                 </div>
             </div>
+
+            <!-- Dynamic Image Grid -->
+            <div class="row text-center" *ngIf="showOEM">
+                <div class="col-6 col-md-3 mb-4" *ngFor="let item of oemItems">
+                    <div class="border p-3 shadow-sm cur_pointer" (click)="showClickedOEM(item.name)">
+                        <img [src]="item.imageUrl" [alt]="item.name" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row text-center" *ngIf="showSelectedOEM">
+                <div class="col-6 col-md-3 mb-4" *ngFor="let item of devices">
+                    <div class="p-3 d-flex flex-column align-items-center cur_pointer"
+                        (click)="showClickedProduct(item.clickOption)"
+                        style="height: auto; width: auto; max-width: 100%;">
+                        <div class="d-flex align-items-center justify-content-center"
+                            style="height: 150px; max-width: 100%;">
+                            <img [src]="item.image" [alt]="item.name" class="img-fluid"
+                                style="max-height: 100%; max-width: 100%;">
+                        </div>
+                        <div class="mt-auto">
+                            {{ item.name }}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
+    </section>
 </body>
-

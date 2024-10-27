@@ -4,6 +4,7 @@ import { UserServicesService } from '../services/user-services.service';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-product-review',
@@ -14,6 +15,7 @@ export class ProductReviewComponent implements OnInit {
   showSpinner: boolean = false;
   showEmptyProducts: boolean = false;
   linkCopied: boolean = false;
+  displayReviewBtn : boolean = true;
   emailId: any;
   urlLink: any;
   userName: any;
@@ -36,6 +38,7 @@ export class ProductReviewComponent implements OnInit {
   ratingCounts: { [key: number]: number } = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
   @ViewChild('closeButton') closeButton!: ElementRef<HTMLButtonElement>;
   @ViewChild('showRating') showRating!: ElementRef<HTMLButtonElement>;
+  @ViewChild('myModal', { static: true }) myModal!: ElementRef;
 
   constructor(
     private userService: UserServicesService, @Inject(DOCUMENT) private document: Document,
@@ -50,14 +53,11 @@ export class ProductReviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.emailId = localStorage.getItem('emailId')
+    // this.emailId = 'disendra889@gmail.com'
     this.userName = localStorage.getItem('userName');
     this.totalRatings = this.ratingsData.reduce((acc, curr) => acc + curr.ratingCount, 0);
-    if(!this.emailId && !this.userName) {
-      this.router.navigate(['login-page/product-list-review/neatBar']);
-    } else {
     this.getRatings();
     this.getProductReview();
-    }
     this.setStars();    
   }
 
@@ -69,6 +69,34 @@ export class ProductReviewComponent implements OnInit {
 
   setRating(value: number): void {
     this.rating = value;
+  }
+
+  getColorClass(): string {
+    if (this.averageRating >= 4.5) {
+      return 'green';
+    } else if (this.averageRating >= 3.5) {
+      return 'blue';
+    } else if (this.averageRating >= 2.5) {
+      return 'info';
+    } else if (this.averageRating >= 1.5) {
+      return 'warn';
+    } else {
+      return 'red';
+    }
+  }
+
+  getIndividualColorClass(rating :any): string {
+    if (rating >= 4.5) {
+      return 'green';
+    } else if (rating  >= 3.5) {
+      return 'blue';
+    } else if (rating >= 2.5) {
+      return 'info';
+    } else if (rating >= 1.5) {
+      return 'warn';
+    } else {
+      return 'red';
+    }
   }
 
   setStars() {
@@ -96,6 +124,11 @@ export class ProductReviewComponent implements OnInit {
         }
         if (response && response.status) {
           this.reviewData = response.data;
+          this.reviewData.forEach(email =>{
+            if(email.emailId === this.emailId) {
+              this.displayReviewBtn = false;
+            }
+          })
         } else {
           //  this.displayError();
         }
@@ -148,6 +181,7 @@ export class ProductReviewComponent implements OnInit {
 
   insertProductReview(reviewForm: NgForm): void {
     this.showSpinner = true;
+    this.onLogin()
     if (!reviewForm.valid) {
       return;
     }
@@ -187,6 +221,7 @@ export class ProductReviewComponent implements OnInit {
   insertProductFeedback(reviewNumber: any, type: any) {
     const feedbackKey = `productFeedback_${reviewNumber}`;
     const previousFeedback = localStorage.getItem(feedbackKey);
+    this.onLogin()
 
     if (previousFeedback) {
       return;
@@ -293,8 +328,17 @@ export class ProductReviewComponent implements OnInit {
     this.rating = 0;
   }
 
+onLogin() {
+  if(!this.emailId && !this.userName) {
+    localStorage.setItem('navigateFromReview', 'true');
+    this.closeButton.nativeElement.click();
+    this.router.navigate(['login-page/product-list-review/' + this.productName]);
+    this.closeButton.nativeElement.click();
+  }
+}
+
   onBack() {
-    this.showSpinner = true
+    this.showSpinner = true;
     setTimeout(() => {
       this.router.navigate(['product-list/sub-page']);
       this.showSpinner = false;

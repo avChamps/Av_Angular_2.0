@@ -14,6 +14,7 @@ export class LoginPageComponent implements OnInit {
   receivedValue: any
   googleUrl: any
   linkedInUrl: any;
+  receivedSubValue : any;
   baseUrl = 'https://avchamps.com/nodejs';
   // baseUrl : string = 'http://localhost:3000';
   constructor (
@@ -25,7 +26,8 @@ export class LoginPageComponent implements OnInit {
 
   ngOnInit () {
     this.route.params.subscribe(params => {
-      this.receivedValue = params['value']
+      this.receivedValue = params['value'];
+      this.receivedSubValue = params['subValue'];
     })
     if (this.faService.hasSession()) {
       this.redirectedPath()
@@ -33,14 +35,19 @@ export class LoginPageComponent implements OnInit {
   }
 
   onClick (type: any) {
+   let subvalue;
+   if(this.receivedSubValue) {
+    subvalue = this.receivedSubValue
+   }
+
     if (type === 'google') {
-      window.location.href = `${this.baseUrl}/auth/google?destination=${this.receivedValue}`
+      window.location.href = `${this.baseUrl}/auth/google?destination=${this.receivedValue + '/' + subvalue}`
     } else if (type === 'linkedIn') {
-      window.location.href = `${this.baseUrl}/auth/linkedin?destination=${this.receivedValue}`
+      window.location.href = `${this.baseUrl}/auth/linkedin?destination=${this.receivedValue + '/' + subvalue}`
     } else if (type === 'facebook') {
-      window.location.href = `${this.baseUrl}/auth/facebook?destination=${this.receivedValue}`
+      window.location.href = `${this.baseUrl}/auth/facebook?destination=${this.receivedValue + '/' + subvalue}`
     } else if (type === 'microsoft') {
-      window.location.href = `${this.baseUrl}/auth/microsoft?destination=${this.receivedValue}`
+      window.location.href = `${this.baseUrl}/auth/microsoft?destination=${this.receivedValue + '/' + subvalue}`
     }
   }
 

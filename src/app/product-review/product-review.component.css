@@ -3,27 +3,70 @@
 }
 
 .green {
-  color: #57e32c;
+  color: #57e32c !important;
+  ;
+}
+
+.bg-green {
+  background-color: #57e32c !important;
 }
 
 .blue {
-  color: #ffa534;
+  color: #ffa534 !important;
+  ;
+}
+
+.bg-blue {
+  background-color: #ffa534 !important;
+  ;
 }
 
 .info {
-  color: #ffe234;
+  color: #ffe234 !important;
+}
+
+.bg-info {
+  background-color: #ffe234 !important;
+  ;
 }
 
 .warn {
-  color: #b7dd29;
+  color: #b7dd29 !important;
+}
+
+.bg-warn {
+  background-color: #b7dd29 !important;
+  ;
 }
 
 .red {
-  color: #ff4545;
+  color: #ff4545 !important;
+}
+
+.bg-red {
+  background-color: #ff4545 !important;
+  ;
+}
+
+.progress-bar {
+  background-color: unset;
 }
 
 .mobile_container {
   margin-top: 0px !important;
+}
+
+.dropdown {
+  margin-left: -10px;
+}
+
+.postedDate {
+  font-size: 12px;
+  margin-left: 10px;
+}
+
+.errorMsg {
+  font-size: 12px;
 }
 
 @media (max-width: 768px) {
