@@ -28,6 +28,7 @@
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
     "@srexi/purecounterjs": "^1.5.0",
+    "@types/chart.js": "^2.9.41",
     "angularx-qrcode": "^18.0.1",
     "aos": "^2.3.4",
     "bootstrap": "^5.3.3",

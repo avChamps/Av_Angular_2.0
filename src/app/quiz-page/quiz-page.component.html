@@ -21,10 +21,27 @@
             </div>
         </div>
 
-        <!-- Main content area for Questions or "Oops" image -->
-        <div class="col-12 col-md-9 mb-4">
+        <div class="col-12 col-md-9">
             <div *ngIf="questions.length === 0" class="text-center">
-                <img src="assets/images/common_Images/oops.png" alt="" class="img-fluid no-records" style="height: 500px;"/>
+                <!-- <img src="assets/images/common_Images/oops.png" alt="" class="img-fluid no-records" style="height: 500px;"/> -->
+                <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+                    <div class="text-center p-2" style="max-width: 300px;">
+                      <div class="card-body">
+                        <div class="mb-1">
+                          <i class="bi bi-lock" style="font-size: 48px; color: red;"></i>
+                        </div>
+                        <h4>5/5 Completed!</h4>
+                      </div>
+                      <div class="container text-center mt-0">
+                        <p>Questions unlock at</p>
+                        <div class="countdown-timer">
+                          <span>{{ hours }}h : </span>
+                          <span>{{ minutes }}m : </span>
+                          <span>{{ seconds }}s</span>
+                        </div>
+                      </div>                      
+                    </div>
+                  </div>                  
             </div>
 
             <!-- Today's Question Section -->
@@ -35,14 +52,14 @@
                 <form>
                     <div *ngFor="let option of questions[currentQuestionIndex].options" class="form-check mb-2">
                       <input 
-                        class="form-check-input" 
+                        class="form-check-input cur_pointer" 
                         type="radio" 
                         name="question" 
                         [id]="'option' + option.option_id" 
                         [disabled]="optionSelected"
                         (click)="selectOption(option, questions[currentQuestionIndex].question_id)">
                       <label 
-                        class="form-check-label" 
+                        class="form-check-label cur_pointer" 
                         [for]="'option' + option.option_id"
                         [ngClass]="{
                           'text-success': option.is_correct && optionSelected,
@@ -65,3 +82,29 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" id="myDialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" #modalId>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content p-3">
+        <div class="modal-body" style="padding-top: 10px;">
+          <div class="container custom-dialog-container mt-0">
+            <h2 class="text-center">Today's Quiz</h2>
+            <p class="text-center">Test Your Knowledge, Challenge Your Mind!</p>
+            <div class="text-center">
+              <button class="btn btn-success rounded-circle" (click)="startQuiz()">
+                <i class="fas fa-play"></i>
+              </button>
+            </div>
+          </div>
+          <button type="button" class="btn btn-warning d-none me-2" #actionButton data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <app-spinner *ngIf="showSpinner"></app-spinner>   
+  <div *ngIf="isDisplyedCoins">
+    <app-coins-blast [coins]="displayCoins"></app-coins-blast> 
+  </div>
+  

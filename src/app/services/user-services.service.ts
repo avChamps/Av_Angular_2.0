@@ -7,65 +7,65 @@ import { Observable, Subject } from 'rxjs'
   providedIn: 'root'
 })
 export class UserServicesService {
-  // url = 'https://avchamps.com/nodejs';
-  url = 'http://localhost:3000'
+  url = 'https://avchamps.com/nodejs';
+  //  url = 'http://localhost:3000'
   // url = 'http://10.0.0.68:3000';
 
   // url = 'http://192.168.29.47:3000'
 
   private refreshData$ = new Subject<void>()
 
-  constructor (private http: HttpClient, private router : Router) {}
+  constructor(private http: HttpClient, private router: Router) { }
 
-  uploadProfile (data: FormData) {
+  uploadProfile(data: FormData) {
     return this.http.post(`${this.url}/insertProfile`, data)
   }
 
-  updateProfile (data: FormData) {
+  updateProfile(data: FormData) {
     return this.http.post(`${this.url}/updateProfile`, data)
   }
 
-  uploadSocialMedia (data: FormData) {
+  uploadSocialMedia(data: FormData) {
     return this.http.post(`${this.url}/insertSocialMedia`, data)
   }
 
-  updateSocialMedia (data: FormData) {
+  updateSocialMedia(data: FormData) {
     return this.http.post(`${this.url}/updateSocialMedia`, data)
   }
 
-  getProfileImage (emailId: string) {
+  getProfileImage(emailId: string) {
     return this.http.get<any>(`${this.url}/getProfileImage/${emailId}`)
   }
 
-  getUserImages () {
+  getUserImages() {
     return this.http.get(`${this.url}/getProfileImages`)
   }
 
-  getProfileData () {
+  getProfileData() {
     return this.http.get(`${this.url}/getProfile`)
   }
 
-  uploadProfileImage (data: FormData) {
+  uploadProfileImage(data: FormData) {
     return this.http.post(`${this.url}/insertProfileImage`, data)
   }
 
-  updateProfileImage (data: FormData) {
+  updateProfileImage(data: FormData) {
     return this.http.post(`${this.url}/updateProfileImage`, data)
   }
 
-  getProfile (emailId: string) {
+  getProfile(emailId: string) {
     return this.http.get<any>(`${this.url}/getProfile/${emailId}`)
   }
 
-  getSocialMediaProfile (emailId: string) {
+  getSocialMediaProfile(emailId: string) {
     return this.http.get<any>(`${this.url}/getSocialMediaProfile/${emailId}`)
   }
 
-  getProfileWeight (emailId: string) {
+  getProfileWeight(emailId: string) {
     return this.http.get<any>(`${this.url}/getProfileWeight/${emailId}`)
   }
 
-  getCartData (offset: number, searchText: string, productCategory : string,location : string) {
+  getCartData(offset: number, searchText: string, productCategory: string, location: string) {
     const params = new HttpParams()
       .set('offset', offset.toString())
       .set('searchText', searchText)
@@ -74,42 +74,42 @@ export class UserServicesService {
     return this.http.get<any>(`${this.url}/getCartData`, { params })
   }
 
-  getUploadData (emailId: string, offset: any) {
+  getUploadData(emailId: string, offset: any) {
     const params = new HttpParams().set('offset', offset.toString())
     return this.http.get<any>(`${this.url}/getUploadData/${emailId}`, {
       params
     })
   }
 
-onBack() {
-  this.router.navigate(['/profile-dashboard/tools']);
-}
+  onBack() {
+    this.router.navigate(['/profile-dashboard/tools']);
+  }
 
-  insertCart (data: FormData) {
+  insertCart(data: FormData) {
     return this.http.post(`${this.url}/insertCart`, data)
   }
 
-  updateCartData (data: FormData) {
+  updateCartData(data: FormData) {
     return this.http.post(`${this.url}/updateCart`, data)
   }
 
-  soldOut (data: any) {
+  soldOut(data: any) {
     return this.http.post(`${this.url}/soldOutProduct`, data)
   }
 
-  deleteCartData (data: any) {
+  deleteCartData(data: any) {
     return this.http.post(`${this.url}/deleteCartRecords`, data)
   }
 
-  insertProductReview (data: any) {
+  insertProductReview(data: any) {
     return this.http.post(`${this.url}/insertProductReview`, data)
   }
 
-  getProductReview(data : any) {
+  getProductReview(data: any) {
     return this.http.post(`${this.url}/getProductReview`, data)
   }
 
-  getRatings(data : any) {
+  getRatings(data: any) {
     return this.http.post(`${this.url}/getRatings`, data)
   }
 
@@ -117,35 +117,35 @@ onBack() {
     return this.http.get(`${this.url}/getProducts`,)
   }
 
-  insertProductFeedback(data :any) {
+  insertProductFeedback(data: any) {
     return this.http.post(`${this.url}/insertProductFeedback`, data)
   }
 
-  insertFeedback (feedbackData: any) {
+  insertFeedback(feedbackData: any) {
     return this.http.post(`${this.url}/insertFeedBack`, feedbackData)
   }
 
-  getFeedBackData () {
+  getFeedBackData() {
     return this.http.get(`${this.url}/getFeedBackData`)
   }
 
-  getBussinessCard (emailId: string) {
+  getBussinessCard(emailId: string) {
     return this.http.get<any>(`${this.url}/getBussinessCard/${emailId}`)
   }
 
-  insertPoints (data: any) {
+  insertPoints(data: any) {
     return this.http.post(`${this.url}/insertPoints`, data)
   }
 
-  deletePoints(data :any) {
+  deletePoints(data: any) {
     return this.http.post(`${this.url}/deletePoints`, data)
   }
 
-  getPoints (data: any) {
+  getPoints(data: any) {
     return this.http.post(`${this.url}/getPoints`, data)
   }
 
-  getRefreshDataObservable () {
+  getRefreshDataObservable() {
     return this.refreshData$.asObservable()
   }
 
@@ -156,36 +156,36 @@ onBack() {
 
   getPostedJobs(limit: number, offset: number, searchQuery: string, location: string, jobType: string, postedBy: string) {
     let queryParams = `limit=${limit}&offset=${offset}`;
-    
+
     if (searchQuery) {
       queryParams += `&searchQuery=${searchQuery}`;
     }
-  
+
     if (location) {
       queryParams += `&location=${location}`;
     }
-  
+
     if (jobType) {
       queryParams += `&jobType=${jobType}`;
     }
 
-    if(postedBy) {
+    if (postedBy) {
       queryParams += `&postedBy=${postedBy}`;
     }
-  
+
     return this.http.get<any>(`${this.url}/getPostedJobs?${queryParams}`);
   }
-  
-  
+
+
   editJob(job: any): Observable<any> {
     return this.http.post(`${this.url}/editJob`, job);
   }
 
-  deleteJob (data: any) {
+  deleteJob(data: any) {
     return this.http.post(`${this.url}/deleteJob`, data)
   }
 
-  refreshData () {
+  refreshData() {
     this.refreshData$.next()
   }
 }

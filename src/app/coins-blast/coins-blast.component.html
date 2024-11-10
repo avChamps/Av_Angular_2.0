@@ -16,10 +16,29 @@
   </div> -->
   <!-- <div class="confetti-container"></div> -->
   
-  <div class="coins-container">
+  <!-- <div class="coins-container">
     <div class="coin">+{{ coins }} Coins</div>
     <div class="coin">+{{ coins }} Coins</div>
     <div class="coin">+{{ coins }} Coins</div>
     <div class="coin">+{{ coins }} Coins</div>
-  </div>
+  </div> -->
 
+  <div class="modal fade" id="myDialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" #modalElement>
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
+      <div class="modal-content p-4 text-center" style="border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+        <div class="modal-body">
+          <h2 class="text-success fw-bold mb-3">BIG WIN</h2>
+          <div class="d-flex justify-content-center mb-3">
+            <i class="fas fa-coins" style="font-size: 60px; color: #f9ca24;"></i>
+          </div>  
+          <p class="fw-semibold mb-1" style="font-size: 18px; color: #333;">Congratulations!</p>
+          <h3 class="text-primary fw-bold mb-3" style="font-size: 22px;">+ {{ coins }}</h3>
+          <p class="d-flex align-items-center justify-content-center" style="font-size: 16px; color: #333;">
+            <i class="fas fa-check-circle text-success me-2"></i> Posted & Coins added!
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  

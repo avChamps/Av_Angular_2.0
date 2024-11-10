@@ -151,8 +151,7 @@ export class ProductReviewComponent implements OnInit {
   getRatings(): void {
     this.showSpinner = true;
     const data = { productName: this.productName };
-    console.log('getRatings request payload:', data); // Log to check payload
-
+    console.log('getRatings request payload:', data); 
     this.userService.getRatings(data).subscribe(
       (response: any) => {
         console.log(response);
@@ -168,7 +167,6 @@ export class ProductReviewComponent implements OnInit {
             ) / this.totalRatings;
             this.setStars();
           } else {
-            // If there are no records, set totalRatings and averageRating to 0
             this.totalRatings = 0;
             this.averageRating = 0;
           }
@@ -208,7 +206,8 @@ export class ProductReviewComponent implements OnInit {
         if (response && response.status) {
           this.getRatings();
           this.getProductReview();
-          this.setStars();   
+          this.setStars();  
+          this.insertPoints(25);
           this.toastr.success(response.message, 'Success', {
             positionClass: 'toast-custom-position',
             timeOut: 3000,
@@ -256,7 +255,7 @@ export class ProductReviewComponent implements OnInit {
         this.closeButton.nativeElement.click();
         if (response && response.status) {
           console.log(response);
-          // this.insertPoints(25);
+          this.insertPoints(10);
           localStorage.setItem(feedbackKey, type);
           this.getRatings();
           this.getProductReview();
@@ -355,7 +354,6 @@ insertPoints(points : number) {
     this.isDisplyedCoins = false;
     console.log('Form submitted:', response);
       console.log(response);
-      this.insertPoints(50);
       setTimeout(() => {
         this.isDisplyedCoins = true;
       }, 100);
