@@ -48,6 +48,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { CoinsBlastComponent } from './coins-blast/coins-blast.component';
 import { ProductReviewComponent } from './product-review/product-review.component';
 import { ProductListComponent } from './product-list/product-list.component';
+import { QuizPageComponent } from './quiz-page/quiz-page.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -88,7 +89,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     SafePipe,
     CoinsBlastComponent,
     ProductReviewComponent,
-    ProductListComponent
+    ProductListComponent,
+    QuizPageComponent
   ],
   imports: [
     BrowserModule,

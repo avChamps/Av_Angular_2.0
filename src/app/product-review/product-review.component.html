@@ -353,6 +353,11 @@
         </div>
       </div>
     </div>
+
+    <div *ngIf="isDisplyedCoins">
+      <app-coins-blast [coins]="displayCoins"></app-coins-blast>
+    </div>
+
     <app-spinner *ngIf="showSpinner"></app-spinner> 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>

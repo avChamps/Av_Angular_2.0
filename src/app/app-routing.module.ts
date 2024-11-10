@@ -28,6 +28,7 @@ import { BtuCalculatorComponent } from './btu-calculator/btu-calculator.componen
 import { PowerCalculatorComponent } from './power-calculator/power-calculator.component';
 import { ProductReviewComponent } from './product-review/product-review.component';
 import { ProductListComponent } from './product-list/product-list.component';
+import { QuizPageComponent } from './quiz-page/quiz-page.component';
 
 const appRoutes: Routes = [
     { path: '', component: HeaderComponent },
@@ -62,6 +63,7 @@ const appRoutes: Routes = [
             { path: 'tools/audioDelayCalculator', component : AudioDelayComponent, canActivate: [AuthGuardService] },
             { path: 'tools/btuCalculator', component : BtuCalculatorComponent, canActivate: [AuthGuardService] },
             { path: 'tools/powerCalculator', component : PowerCalculatorComponent, canActivate: [AuthGuardService] },
+            { path: 'tools/quiz-page', component : QuizPageComponent, canActivate: [AuthGuardService] },
             { path: 'tools/bussiness-card', component: BussinessCardComponent },
             { path: '', redirectTo: 'feed', pathMatch: 'full' }
         ]

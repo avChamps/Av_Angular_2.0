@@ -10,9 +10,9 @@
     <section id="counts" class="counts" data-aos="fade-right">
         <div class="container mt-4">
           <!-- Adjusted to ensure 2 columns on mobile and up to 4 on larger screens -->
-          <div class="row row-cols-2 row-cols-md-4 g-3"> 
+          <div class="row row-cols-2 row-cols-md-5 g-3"> 
             <div class="col d-flex justify-content-center" *ngFor="let calculator of Tools">
-              <div class="calculator-card cur_pointer" (click)="clickedTool(calculator.value)">
+              <div class="calculator-card shadow-lg cur_pointer" (click)="clickedTool(calculator.value)">
                 <div class="calculator-content">
                   <ng-container *ngIf="calculator.isImage; else defaultIcon">
                     <img [src]="calculator.icon" alt="{{ calculator.title }}" class="img-fluid mb-2 w-50"> <!-- Bootstrap classes -->
@@ -20,7 +20,7 @@
                   <ng-template #defaultIcon>
                     <div class="calculator-icon" [ngClass]="calculator.color">{{ calculator.icon }}</div>
                   </ng-template>
-                  <h5 class="text-center mt-2">{{ calculator.title | translate }}</h5>
+                  <p class="text-center mt-2">{{ calculator.title | translate }}</p>
                 </div>
               </div>
             </div>

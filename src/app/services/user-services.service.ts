@@ -7,8 +7,8 @@ import { Observable, Subject } from 'rxjs'
   providedIn: 'root'
 })
 export class UserServicesService {
-  url = 'https://avchamps.com/nodejs';
-  // url = 'http://localhost:3000'
+  // url = 'https://avchamps.com/nodejs';
+  url = 'http://localhost:3000'
   // url = 'http://10.0.0.68:3000';
 
   // url = 'http://192.168.29.47:3000'
@@ -111,6 +111,10 @@ onBack() {
 
   getRatings(data : any) {
     return this.http.post(`${this.url}/getRatings`, data)
+  }
+
+  getProducts() {
+    return this.http.get(`${this.url}/getProducts`,)
   }
 
   insertProductFeedback(data :any) {

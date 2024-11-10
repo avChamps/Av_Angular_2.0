@@ -31,8 +31,8 @@ export class ProductListComponent implements OnInit {
   devices = [
     { name: 'Neat Frame', image: 'https://avchamps.com/testing/Product-Images/neat_frame.jpg', clickOption: 'neatFrame' },
     { name: 'Neat Bar', image: 'https://avchamps.com/testing/Product-Images/sound_bar.png', clickOption: 'neatBar' },
-    { name: 'Neat Bar Pro', image: 'https://avchamps.com/testing/Product-Images/sound_bar_pro.jpg', clickOption: 'neatBarPro' }
-
+    { name: 'Neat Bar Pro', image: 'https://avchamps.com/testing/Product-Images/sound_bar_pro.jpg', clickOption: 'neatBarPro' },
+    { name: 'Neat Board', image: 'https://avchamps.com/testing/Product-Images/neat_border.jpg', clickOption: 'neatBoard' }
   ];
 
   showClickedOEM(option: any) {

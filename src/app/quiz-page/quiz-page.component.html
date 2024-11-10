@@ -1,0 +1,67 @@
+<div class="container-fluid py-4">
+    <div class="row">
+        <!-- Sidebar for Top Score and My Dashboard -->
+        <div class="col-12 col-md-3">
+            <div class="card p-4 shadow-lg mb-2">
+                <p class="text-center font-weight-bold">Top Score</p><hr class="hr_tag">
+                <div *ngFor="let topScore of topScores"> 
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <img [src]="topScore.imagePath ||  'assets/images/common_Images/user-Icon.png'" alt="Profile" class="rounded-circle profile-image">
+                        <span class="userName cur_pointer" [tooltip]="topScore.name">{{ topScore.userName }}</span> <span>{{ topScore.correct_answers }}</span>
+                    </div>
+                    <div class="progress mb-3 custom-progress">
+                        <div class="progress-bar custom-progress-bar" [style.width.%]="topScore.correct_answers * 10"></div>
+                      </div>                      
+                </div>
+            </div>
+
+            <div class="card p-2 shadow-lg">
+                <p class="text-center font-weight-bold">My Dashboard</p><hr class="hr_tag">
+                <canvas #pieCanvas class="custom-graph" width="400" height="400"></canvas>
+            </div>
+        </div>
+
+        <!-- Main content area for Questions or "Oops" image -->
+        <div class="col-12 col-md-9 mb-4">
+            <div *ngIf="questions.length === 0" class="text-center">
+                <img src="assets/images/common_Images/oops.png" alt="" class="img-fluid no-records" style="height: 500px;"/>
+            </div>
+
+            <!-- Today's Question Section -->
+            <div *ngIf="questions.length > 0" class="card p-4 shadow-lg">
+                <small class="text-muted">Question {{ currentQuestionIndex + 1 }}/{{ questions.length }}</small>
+                <hr>
+                <p class="font-weight-bold">{{ questions[currentQuestionIndex].question_text }}</p>
+                <form>
+                    <div *ngFor="let option of questions[currentQuestionIndex].options" class="form-check mb-2">
+                      <input 
+                        class="form-check-input" 
+                        type="radio" 
+                        name="question" 
+                        [id]="'option' + option.option_id" 
+                        [disabled]="optionSelected"
+                        (click)="selectOption(option, questions[currentQuestionIndex].question_id)">
+                      <label 
+                        class="form-check-label" 
+                        [for]="'option' + option.option_id"
+                        [ngClass]="{
+                          'text-success': option.is_correct && optionSelected,
+                          'text-danger': selectedOptionId === option.option_id && !isCorrect 
+                        }">
+                        {{ option.option_text }}
+                      </label>
+                    </div>
+                  </form>
+                  
+                <div class="d-flex justify-content-center">
+                    <button 
+                        class="btn btn-primary mr-2" 
+                        (click)="nextQuestion()" 
+                        [disabled]="!optionSelected">
+                        Next Question
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

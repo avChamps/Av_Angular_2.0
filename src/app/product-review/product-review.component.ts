@@ -16,8 +16,11 @@ export class ProductReviewComponent implements OnInit {
   showEmptyProducts: boolean = false;
   linkCopied: boolean = false;
   displayReviewBtn : boolean = true;
+  isDisplyedCoins : boolean = false;
   emailId: any;
+  coins : any;
   urlLink: any;
+  displayCoins : any;
   userName: any;
   displayUserName: any;
   productName!: string;
@@ -64,7 +67,9 @@ export class ProductReviewComponent implements OnInit {
   devices = [
     { name: 'Neat Frame', image: 'https://avchamps.com/testing/Product-Images/neat_frame.jpg', clickOption: 'neatFrame' },
     { name: 'Neat Bar', image: 'https://avchamps.com/testing/Product-Images/sound_bar.png', clickOption: 'neatBar' },
-    { name: 'Neat Bar Pro', image: 'https://avchamps.com/testing/Product-Images/sound_bar_pro.jpg', clickOption: 'neatBarPro' }
+    { name: 'Neat Bar Pro', image: 'https://avchamps.com/testing/Product-Images/sound_bar_pro.jpg', clickOption: 'neatBarPro' },
+    { name: 'Neat Board', image: 'https://avchamps.com/testing/Product-Images/neat_border.jpg', clickOption: 'neatBoard' }
+
   ];
 
   setRating(value: number): void {
@@ -200,10 +205,10 @@ export class ProductReviewComponent implements OnInit {
     this.userService.insertProductReview(data).subscribe(
       (response: any) => {
         this.closeButton.nativeElement.click();
-        this.getRatings();
-        this.getProductReview();
         if (response && response.status) {
-          this.userService.refreshData();
+          this.getRatings();
+          this.getProductReview();
+          this.setStars();   
           this.toastr.success(response.message, 'Success', {
             positionClass: 'toast-custom-position',
             timeOut: 3000,
@@ -251,6 +256,7 @@ export class ProductReviewComponent implements OnInit {
         this.closeButton.nativeElement.click();
         if (response && response.status) {
           console.log(response);
+          // this.insertPoints(25);
           localStorage.setItem(feedbackKey, type);
           this.getRatings();
           this.getProductReview();
@@ -335,6 +341,26 @@ onLogin() {
     this.router.navigate(['login-page/product-list-review/' + this.productName]);
     this.closeButton.nativeElement.click();
   }
+}
+
+insertPoints(points : number) {
+  this.showSpinner = true;
+  this.displayCoins = points;
+  const pointsData = {
+    emailId : this.emailId, 
+    userName : this.userName, 
+    points : points
+  };
+  this.userService.insertPoints(pointsData).subscribe((response: any) => {
+    this.isDisplyedCoins = false;
+    console.log('Form submitted:', response);
+      console.log(response);
+      this.insertPoints(50);
+      setTimeout(() => {
+        this.isDisplyedCoins = true;
+      }, 100);
+  });
+  this.showSpinner = false;
 }
 
   onBack() {

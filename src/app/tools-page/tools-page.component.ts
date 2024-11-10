@@ -28,6 +28,7 @@ export class ToolsPageComponent {
     { icon: '🔊', color: 'text-primary', title: 'Audio Delay Calculator', value: 'audioDelayCalculator' },
     { icon: '🔥', color: 'text-primary', title: 'BTU Calculator', value: 'btuCalculator' },
     { icon: '⚡', color: 'text-primary', title: 'Power Calculator', value: 'powerCalculator' },
+    { icon: '💡', color: 'text-primary', title: 'Quiz', value: 'quiz' },
     { icon: 'assets/images/common_Images/hdbt_img.png', color: '', title: 'Certified Product List', value: 'hdBase', isImage: true }
   ];
 
@@ -59,6 +60,8 @@ export class ToolsPageComponent {
       this.router.navigate(['/profile-dashboard/tools/btuCalculator']);
     } else if(value === 'powerCalculator') {
       this.router.navigate(['/profile-dashboard/tools/powerCalculator'])
+    }  else if(value === 'quiz') {
+      this.router.navigate(['/profile-dashboard/tools/quiz-page'])
     } else if (value === 'hdBase') {
       window.open('https://products.hdbaset.org/avcat/ctl18927/index.cfm', '_blank');
     }
