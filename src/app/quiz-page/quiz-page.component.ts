@@ -10,8 +10,10 @@ import { UserServicesService } from '../services/user-services.service';
 })
 export class QuizPageComponent implements OnInit, OnDestroy {
   questions: any[] = [];
-  emailId: string = 'disendra889@gmail.com';
-  userName: string = 'Disendra';
+  // emailId: string = 'disendra889@gmail.com';
+  // userName: string = 'Disendra';
+  emailId : any;
+  userName : any;
   currentQuestionIndex: number = 0;
   topScores: any[] = []
   selectedOptionId: number | null = null;
@@ -37,8 +39,8 @@ export class QuizPageComponent implements OnInit, OnDestroy {
   constructor(private quizService: QuizServiceService, private userService: UserServicesService) { }
 
   ngOnInit(): void {
-    // this.emailId = localStorage.getItem('emailId');
-    // this.userName = localStorage.getItem('userName');
+    this.emailId = localStorage.getItem('emailId');
+    this.userName = localStorage.getItem('userName');
     this.getQuizQuestions();
     this.getTopScores();
     this.getOverallCount()
@@ -324,6 +326,9 @@ export class QuizPageComponent implements OnInit, OnDestroy {
       }, 100);
     });
     this.showSpinner = false;
+  }
+  onBack() {
+    this.userService.onBack();
   }
 }
 

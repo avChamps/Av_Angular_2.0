@@ -1,4 +1,10 @@
-<div class="container-fluid py-4">
+<section id="counts" class="counts" data-aos="fade-right">
+  <div class="me-2">
+      <div class="cur_pointer rounded-circle shadow-sm p-2 back-button" (click)="onBack()">
+          <i class="fas fa-arrow-left"></i>
+      </div>
+  </div>
+<div class="container-fluid mt-2">
     <div class="row">
         <!-- Sidebar for Top Score and My Dashboard -->
         <div class="col-12 col-md-3">
@@ -56,8 +62,7 @@
                         type="radio" 
                         name="question" 
                         [id]="'option' + option.option_id" 
-                        [disabled]="optionSelected"
-                        (click)="selectOption(option, questions[currentQuestionIndex].question_id)">
+                        (click)="!optionSelected && selectOption(option, questions[currentQuestionIndex].question_id)">
                       <label 
                         class="form-check-label cur_pointer" 
                         [for]="'option' + option.option_id"
@@ -107,4 +112,5 @@
   <div *ngIf="isDisplyedCoins">
     <app-coins-blast [coins]="displayCoins"></app-coins-blast> 
   </div>
+  </section>
   

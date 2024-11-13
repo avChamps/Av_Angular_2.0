@@ -69,7 +69,7 @@ sameDigitValidator(control: AbstractControl): { [key: string]: boolean } | null 
           this.scrollToTop();
           setTimeout(() => {
             window.location.reload();
-          }, 3000);
+          }, 2000);
         },
         (error: any) => {
           console.log(error);
@@ -93,11 +93,13 @@ sameDigitValidator(control: AbstractControl): { [key: string]: boolean } | null 
   }
 
   openApplyJobModal() {
-    if (this.modalInstance) {
-      this.modalInstance.show();
-    } else {
-      console.error('Modal instance is not initialized.');
-    }
+    setTimeout(() => {
+      if (this.modalInstance) {
+        this.modalInstance.show();
+      } else {
+        console.error('Modal instance is not initialized.');
+      }
+    }, 0);
   }
 
   validatePhoneNumber(event: any) {

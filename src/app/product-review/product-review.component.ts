@@ -207,7 +207,7 @@ export class ProductReviewComponent implements OnInit {
           this.getRatings();
           this.getProductReview();
           this.setStars();  
-          this.insertPoints(25);
+          this.insertPoints(100);
           this.toastr.success(response.message, 'Success', {
             positionClass: 'toast-custom-position',
             timeOut: 3000,

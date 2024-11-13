@@ -258,7 +258,7 @@ loadMore () {
             this.getQuestions();
             this.userQuestion = '';
             this.selectedFile = '';
-            this.insertPoints(10);
+            this.insertPoints(50);
             // window.location.reload()
           } else {
             alert('An error occurred. Please try again later.')
@@ -283,7 +283,7 @@ loadMore () {
         console.log('Response from server:', response)
         this.showSpinner = false;
         if (response && response.status) {
-          this.insertPoints(5);
+          this.insertPoints(50);
           // alert(response.message)
           this.toastr.success(response.message), 'Success', {
             positionClass: 'toast-right-center'
@@ -468,6 +468,7 @@ performActions(question: any, type: string) {
       this.showContent(question);
       if (type === 'like') {
         question.isLiked = true;
+        this.insertPoints(10);
         this.likedQuestionIds.push(question.qId);
       }
       this.showSpinner = false;

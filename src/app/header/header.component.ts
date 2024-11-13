@@ -187,7 +187,8 @@ scrollToTop() {
     { icon: 'fas fa-gear fa-lg', label: 'AV Tools' },
     { icon: 'fas fa-briefcase fa-lg', label: 'AV Career' },
     { icon: 'fas fa-shopping-cart fa-lg', label: 'AV Kart' },
-    { icon: 'fas fa-comment fa-lg', label: 'AV Community' }
+    { icon: 'fas fa-comment fa-lg', label: 'AV Community' },
+    { icon : 'fas fa-star fa-lg', label : 'Product Review'}
   ];
 
   socialIcons = [

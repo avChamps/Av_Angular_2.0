@@ -207,7 +207,7 @@ export class EkartComponent implements OnInit {
           closeButton: true,
           progressBar: true
         });
-        this.insertPoints(10);
+        this.insertPoints(100);
         this.getCartData(this.offset);
         // window.location.reload();
       } else {

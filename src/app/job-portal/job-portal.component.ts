@@ -216,7 +216,7 @@ export class JobPortalComponent implements OnInit {
             // window.location.reload();
             form.resetForm();
             this.clearInputs();
-            this.insertPoints(10);
+            this.insertPoints(100);
           },
           error => {
             console.error('Error submitting application', error);

@@ -10,8 +10,10 @@ export class FaServiceService {
   // url = 'http://localhost:3000'
   // url = 'http://192.168.29.47:3000'
 
+
   constructor (private http: HttpClient) {}
 
+  
   getSession () {
     return this.http.get<any>(`${this.url}/getSession`)
   }

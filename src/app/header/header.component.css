@@ -356,6 +356,8 @@ li {
 
 .testimonial-card {
 	border: 10px solid;
+	justify-content: space-between;
+	height: 250px;
 	border-image-slice: 1;
 	border-width: 3px;
 	border-image-source: var(--gradient);
@@ -538,7 +540,6 @@ li {
 	margin-top: 0.125rem;
 	margin-bottom: 0.5rem;
 }
-
 
 /*************************/
 /*     Media Queries     */
