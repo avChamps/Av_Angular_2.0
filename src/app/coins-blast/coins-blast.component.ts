@@ -54,7 +54,7 @@ export class CoinsBlastComponent implements AfterViewInit {
 
       setTimeout(() => {
         modal.hide();
-      }, 3000);
+      }, 2000);
     }
   }
 }

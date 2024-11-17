@@ -48,7 +48,7 @@ export class HeaderComponent implements AfterViewInit {
       }
     );
   }
-  
+
   scrollToSection(sectionId: string): void {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -56,7 +56,7 @@ export class HeaderComponent implements AfterViewInit {
     }
   }
 
-  
+
   openApplyJobModal() {
     if (this.modalInstance) {
       this.modalInstance.show();
@@ -81,22 +81,28 @@ export class HeaderComponent implements AfterViewInit {
 
 
   onLogin(option: any) {
-    let value;
-    if (option === 'ekart') {
-      value = 'ekart-page'
-    } else if (option === 'jobPortal') {
-      value = 'jobs-portal'
-    } else if(option === 'profile') {
-       value = 'profile-dashboard'
-    } else if(option === 'productReview') {
-      value = 'product-list'
-    }
-    else {
-      value = 'community'
-    }
+    // let value;
+    // if (option === 'ekart') {
+    //   value = 'ekart-page'
+    // } else if (option === 'jobPortal') {
+    //   value = 'jobs-portal'
+    // } else if(option === 'profile') {
+    //    value = 'profile-dashboard'
+    // } else if(option === 'productReview') {
+    //   value = 'product-list'
+    // }
+    // else {
+    //   value = 'community'
+    // }
 
-    this.router.navigate(['/login-page', value])
+    this.router.navigate(['/login-page', 'profile-dashboard'])
   }
+
+  onNavigate(value: any) {
+    // this.router.navigate([value])
+    this.router.navigate(['/login-page', 'profile-dashboard'])
+  }
+
 
   getRandomQuote(quotes: string[]): string {
     const randomIndex = Math.floor(Math.random() * quotes.length);
@@ -105,7 +111,6 @@ export class HeaderComponent implements AfterViewInit {
 
 
   ngAfterViewInit() {
-    // Initialize modal after the view is initialized
     this.modalInstance = new Modal(this.applyJobModal.nativeElement);
   }
 
@@ -155,45 +160,48 @@ export class HeaderComponent implements AfterViewInit {
   }
 
 
-
   NewsLetterSubscribe() {
+    if (!this.newsLetterEmail || !this.isValidEmail(this.newsLetterEmail)) {
+        alert('Please enter a valid email.');
+        return;
+    }
     const data = {
-      emailId: this.newsLetterEmail
+        emailId: this.newsLetterEmail
     }
     this.faService.newsLetter(data).subscribe(
-      (response: any) => {
-        this.message = response.message;
-        this.showCaptcha = false;
-        this.openApplyJobModal();
-        this.scrollToTop();
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-      },
-      (error: any) => {
-        console.log(error);
-      }
+        (response: any) => {
+            this.message = response.message;
+            this.showCaptcha = false;
+            this.openApplyJobModal();
+            this.scrollToTop();
+            setTimeout(() => {
+                window.location.reload();
+            }, 3000);
+        },
+        (error: any) => {
+            console.log(error);
+        }
     );
-  }
-
-scrollToTop() {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
 }
 
-  headerOptions = [
-    { icon: 'fas fa-gear fa-lg', label: 'AV Tools' },
-    { icon: 'fas fa-briefcase fa-lg', label: 'AV Career' },
-    { icon: 'fas fa-shopping-cart fa-lg', label: 'AV Kart' },
-    { icon: 'fas fa-comment fa-lg', label: 'AV Community' },
-    { icon : 'fas fa-star fa-lg', label : 'Product Review'}
-  ];
+isValidEmail(email: string): boolean {
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return emailPattern.test(email);
+}
 
-  socialIcons = [
-    { url: 'https://www.facebook.com/profile.php?id=61558649983492', iconClass: 'fab fa-facebook-f fa-stack-1x' },
-    { url: 'https://www.linkedin.com/in/avchamps/', iconClass: 'fab fa-linkedin fa-stack-1x' }
+  scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+
+  headerOptions = [
+    { icon: 'fas fa-gear fa-lg', label: 'AV Tools', value: '/login-page/profile-dashboard' },
+    { icon: 'fas fa-briefcase fa-lg', label: 'AV Career', value: '/login-page/jobs-portal' },
+    { icon: 'fas fa-shopping-cart fa-lg', label: 'AV Kart', value: '/login-page/ekart-page' },
+    { icon: 'fas fa-comment fa-lg', label: 'AV Community', value: '/login-page/community' },
+    { icon: 'fas fa-star fa-lg', label: 'Product Review', value: '/login-page/product-list' }
   ];
 
   socialMediaIcons = [
@@ -211,7 +219,7 @@ scrollToTop() {
   ];
 
   usefulLinks = [
-    { label: 'Privacy', url: '#header'},
+    { label: 'Privacy', url: '#header' },
     { label: 'Terms', url: '#header' },
     { label: 'Disclaimer', url: '#header' }
   ];

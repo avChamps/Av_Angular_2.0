@@ -7,8 +7,8 @@ import { Observable, Subject } from 'rxjs'
   providedIn: 'root'
 })
 export class UserServicesService {
-  url = 'https://avchamps.com/nodejs';
-  //  url = 'http://localhost:3000'
+  // url = 'https://avchamps.com/nodejs';
+   url = 'http://localhost:3000'
   // url = 'http://10.0.0.68:3000';
 
   // url = 'http://192.168.29.47:3000'
@@ -188,4 +188,23 @@ export class UserServicesService {
   refreshData() {
     this.refreshData$.next()
   }
+
+ getCountries() {
+  return this.http.get<any>(`${this.url}/getCountries`)
+ }
+
+ getStates(countryCode : any) {
+  return this.http.post(`${this.url}/getStates`, countryCode)
+ }
+
+ getCities(countryCode: string, stateCode: string): Observable<any> {
+  return this.http.post(`${this.url}/getCities`, {
+    countryCode,
+    stateCode,
+  });
 }
+
+
+}
+
+

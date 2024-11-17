@@ -20,28 +20,30 @@
                                 <!-- Search Box Centered on Mobile, Right Aligned on Larger Screens -->
                                 <div class="col-12 d-flex d-md-none justify-content-center mb-3">
                                     <div class="filters">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" [(ngModel)]="searchTitle"
-                                                placeholder="{{'Search by title' | translate}}" />
-                                            <div class="input-group-append">
-                                                <button class="btn btn-outline-secondary" type="button">
-                                                    <i class="fa fa-search"></i>
-                                                </button>
-                                            </div>
-                                        </div>
+                                        <div class="input-group rounded box shadow-lg">
+                                            <span class="input-group-text bg-transparent border-0">
+                                              <i class="bi bi-search"></i>
+                                            </span>
+                                            <input type="text" class="form-control border-0 bg-transparent shadow-none" [(ngModel)]="searchTitle" placeholder="Search by title" />
+                                            <span class="input-group-text bg-transparent border-0 cur_pointer" *ngIf="searchTitle"
+                                              (click)="clearFilter()">
+                                              <i class="bi bi-x-circle"></i>
+                                            </span>
+                                          </div>
                                     </div>
                                 </div>
                                 <div class="col-12 d-none d-md-flex justify-content-md-end mb-3">
                                     <div class="filters">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" [(ngModel)]="searchTitle"
-                                                placeholder="{{'Search by title' | translate}}" />
-                                            <div class="input-group-append">
-                                                <button class="btn btn-outline-secondary" type="button">
-                                                    <i class="fa fa-search"></i>
-                                                </button>
-                                            </div>
-                                        </div>
+                                        <div class="input-group rounded box shadow-lg mb-1">
+                                            <span class="input-group-text bg-transparent border-0">
+                                              <i class="bi bi-search"></i>
+                                            </span>
+                                            <input type="text" class="form-control border-0 shadow-none bg-transparent" [(ngModel)]="searchTitle" placeholder="Search by title" />
+                                            <span class="input-group-text bg-transparent border-0 cur_pointer" *ngIf="searchTitle"
+                                              (click)="clearFilter()">
+                                              <i class="bi bi-x-circle"></i>
+                                            </span>
+                                          </div>
                                     </div>
                                 </div>
     
@@ -119,10 +121,6 @@
                     </div>
                     <div class="card-body text-center">
                         <p>{{'Sponsor us and have your logo featured here' | translate}}.&nbsp;<a class="contactUs_click cur_pointer" (click)="sendContact()">{{'Contact Us' | translate}}</a></p>
-                        <!-- Uncomment this section if you have sponsor images -->
-                        <!-- <div class="d-flex justify-content-center">
-                            <img *ngFor="let logo of images" class="sponsor-logo mx-2" [src]="logo" alt="Logo_Img">  
-                        </div> -->
                     </div>
                 </div>
             </div>

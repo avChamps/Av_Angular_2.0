@@ -42,6 +42,7 @@
     "ng-recaptcha": "^13.2.1",
     "ng2-charts": "^6.0.1",
     "ngx-bootstrap": "^18.0.2",
+    "ngx-device-detector": "^8.0.0",
     "ngx-qrcode2": "^9.0.0",
     "ngx-quill": "^22.1.2",
     "ngx-toastr": "^19.0.0",

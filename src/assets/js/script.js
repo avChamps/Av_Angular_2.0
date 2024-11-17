@@ -136,6 +136,18 @@ document.addEventListener("DOMContentLoaded", function () {
     AOS.init({
         duration: 1000,
         easing: "ease",
-        once: true, // whether animation should happen only once - while scrolling down
+        once: true, 
     });
 });
+
+function allowOnlyNumbers(input) {
+    const regex = /^[0-9]+$/;
+    return regex.test(input);
+}
+
+function validateNumberInput(element) {
+    if (!allowOnlyNumbers(element.value)) {
+        element.value = element.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+    }
+}
+

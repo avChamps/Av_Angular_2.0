@@ -116,9 +116,14 @@ export class ProfileDirectoryComponent {
 
   scrollToTop() {
     window.scrollTo({
-      top : 0,
-      behavior : 'smooth'
+      top: 0,
+      behavior: 'smooth'
     })
+  }
+
+  clearFilter() {
+    this.filterTerm = '';
+    this.applyFilter();
   }
 
   onBack(): void {

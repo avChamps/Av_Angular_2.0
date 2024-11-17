@@ -17,7 +17,7 @@
       
           <!-- Input Column -->
           <div class="col-12 col-sm-auto">
-            <input type="number" id="distance" class="form-control" (keypress)="preventNegative($event, (distance !== undefined ? distance.toString() : ''))"  (focus)="clearDefaultZero()" [(ngModel)]="distance">
+            <input type="number" id="distance" oninput="validateNumberInput(this)" class="form-control" (keypress)="preventNegative($event, (distance !== undefined ? distance.toString() : ''))"  (focus)="clearDefaultZero()" [(ngModel)]="distance">
           </div>
       
           <!-- Refresh Button -->

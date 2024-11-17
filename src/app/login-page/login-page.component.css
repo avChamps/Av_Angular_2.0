@@ -84,6 +84,7 @@ span {
     line-height: 3.2;
     background: white;
     padding: 8px;
+    border-radius: 10px;
 }
 
 img.microsoft-icon {

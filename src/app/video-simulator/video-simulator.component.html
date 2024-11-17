@@ -67,12 +67,12 @@
         <div class="form-group row mb-2 align-items-center">
           <label for="fov" class="col-sm-1 col-form-label">{{'FOV' | translate}}</label>
           <div class="col-sm-2">
-            <input type="number" [disabled]="!make || !model" class="form-control" id="fov" [(ngModel)]="fov">
+            <input type="number" oninput="validateNumberInput(this)" [disabled]="!make || !model" class="form-control" id="fov" [(ngModel)]="fov">
           </div>
           
           <label for="spl" class="col-sm-1 col-form-label">SPL(dB)</label>
           <div class="col-sm-2 input-group">
-            <input type="number" [disabled]="!make || !model" class="form-control" id="spl" [(ngModel)]="spl"
+            <input type="number" oninput="validateNumberInput(this)" [disabled]="!make || !model" class="form-control" id="spl" [(ngModel)]="spl"
               (keypress)="validateInput($event)" (input)="restrictLength('spl')">
           </div>
 
@@ -86,7 +86,7 @@
           
           <label for="spl" class="col-sm-1 col-form-label">{{'Mic' | translate}}</label>
           <div class="col-sm-2 input-group">
-            <input type="number" [disabled]="!make || !model" class="form-control" id="microphone" [(ngModel)]="microphone">
+            <input type="number" oninput="validateNumberInput(this)" [disabled]="!make || !model" class="form-control" id="microphone" [(ngModel)]="microphone">
           </div>
           
           <!-- <div class="col-sm-auto d-flex align-items-center px-1">
@@ -148,7 +148,6 @@
       </ul>
     </div>
 
-    <!-- Modal Structure -->
     <!-- Modal Structure -->
     <div #videoModal class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg" id="downloadGraph">

@@ -125,4 +125,9 @@ export class ProfileFeedComponent implements AfterViewInit{
     })
   }
 
+  clearFilter() {
+    this.searchTitle = '';
+    const filterData = this.filteredEmails;
+  }
+
 }

@@ -6,8 +6,8 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class QuizServiceService {
- url = 'https://avchamps.com/nodejs';
-  // url = 'http://localhost:3000'
+//  url = https://avchamps.com/nodejs';
+  url = 'http://localhost:3000'
 
   constructor (private http: HttpClient, private router : Router) {}
 
@@ -19,7 +19,6 @@ export class QuizServiceService {
     return this.http.post(`${this.url}/insertQuizOptions`, data)
   }
 
-
   getTopScores() {
     return this.http.get(`${this.url}/getTopScores`)
   }
@@ -29,3 +28,4 @@ export class QuizServiceService {
   }
 
 }
+

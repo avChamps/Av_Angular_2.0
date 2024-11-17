@@ -24,7 +24,7 @@
                                 <td class="text-center col-1">{{ i + 1 }}</td>
                                 <td class="col-3"><input type="text" placeholder="{{'Enter Equipment Details' | translate}}" [(ngModel)]="row.equipment"
                                         maxlength="50" (ngModelChange)="calculateTotalWatt()"></td>
-                                <td class="col-1"><input type="number" onKeyPress="if(this.value.length==4) return false;"
+                                <td class="col-1"><input type="number" oninput="validateNumberInput(this)" onKeyPress="if(this.value.length==4) return false;"
                                         [(ngModel)]="row.watt" [disabled]="!row.equipment" maxlength="4" (keypress)="preventNegative($event)"
                                         class="watt-input" (focus)="clearDefaultZero()" (ngModelChange)="calculateTotalWatt()"></td>
                             </tr>

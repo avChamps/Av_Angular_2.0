@@ -34,6 +34,11 @@ export class MacFinderComponent {
       }
     })
   }
+
+  clearFilter() {
+    this.sysAddress = '';
+  }
+
   onBack() {
     this.userService.onBack();
   }

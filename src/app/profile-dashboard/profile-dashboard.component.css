@@ -118,11 +118,13 @@ html {
 }
 
 .Social_theme_bg {
-  background-color: black;
+  /* background-color: black; */
+  border: 1.5px solid white;
 }
 
 .social_dark_theme {
-  background-color: lightslategray;
+  /* background-color: lightslategray; */
+  border: 1.5px solid white;
 }
 
 .social-links a:hover {

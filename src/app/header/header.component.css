@@ -541,6 +541,16 @@ li {
 	margin-bottom: 0.5rem;
 }
 
+.is-invalid {
+	border-color: #dc3545 !important; /* Red border for invalid input */
+  }
+  
+  .invalid-feedback {
+	display: block;
+	color: #dc3545; /* Red text for error message */
+  }
+  
+
 /*************************/
 /*     Media Queries     */
 /*************************/

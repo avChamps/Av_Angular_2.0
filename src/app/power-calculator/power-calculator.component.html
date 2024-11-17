@@ -28,18 +28,18 @@
                                     maxlength="50" (ngModelChange)="calculateTotalWatt()" class="form-control">
                             </td>
                             <td class="col-1">
-                                <input type="number" [(ngModel)]="row.current"
+                                <input type="number" oninput="validateNumberInput(this)" [(ngModel)]="row.current"
                                     onKeyPress="if(this.value.length==4) return false;" [disabled]="!row.equipment"
                                     class="form-control watt-input" (focus)="clearDefaultZero('current')" (ngModelChange)="calculateTotalWatt()">
                             </td>
                             <td class="col-1">
-                                <input type="number" [(ngModel)]="row.voltage"
+                                <input type="number" oninput="validateNumberInput(this)" [(ngModel)]="row.voltage"
                                     onKeyPress="if(this.value.length==3) return false;" max="3"
                                     [disabled]="!row.equipment" class="form-control watt-input" (focus)="clearDefaultZero('watt')"
                                     (ngModelChange)="calculateTotalWatt()">
                             </td>
                             <td class="col-1">
-                                <input type="number" [(ngModel)]="row.watt" readonly [disabled]="!row.equipment"
+                                <input type="number" oninput="validateNumberInput(this)" [(ngModel)]="row.watt" readonly [disabled]="!row.equipment"
                                     class="form-control watt-input final_count" (ngModelChange)="calculateTotalWatt()">
                             </td>
                         </tr>

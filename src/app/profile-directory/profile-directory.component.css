@@ -53,6 +53,9 @@ body {
   display: flex;
   align-items: center;
   cursor: pointer;
+  padding: 15px;
+  border-radius: 60px;
+  box-shadow: 4px 4px 10px #d1d9e6, -4px -4px 10px #f9f9f9;
 }
 
 .list i {
@@ -236,10 +239,10 @@ a {
 
 .btn-lg-square {
   position: fixed;
-    bottom: 25px;
-    right: 25px;
-    width: 48px;
-    height: 48px;
+  bottom: 25px;
+  right: 25px;
+  width: 48px;
+  height: 48px;
 }
 
 .btn-square,

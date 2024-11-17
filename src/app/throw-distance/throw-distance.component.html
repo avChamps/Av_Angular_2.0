@@ -12,13 +12,13 @@
                 <!-- Width Input -->
                 <div class="col-6 col-sm-auto">
                     <label for="width" class="form-label">{{'Width' | translate}}</label>
-                    <input type="number" id="width" class="form-control" (keypress)="preventNegative($event)"  (focus)="clearDefaultZero('width')" [(ngModel)]="width">
+                    <input type="number" oninput="validateNumberInput(this)" id="width" class="form-control" (keypress)="preventNegative($event)"  (focus)="clearDefaultZero('width')" [(ngModel)]="width">
                 </div>
 
                 <!-- Through Ratio Input -->
                 <div class="col-6 col-sm-auto">
                     <label for="throughRatio" class="form-label">{{'Through Ratio' |translate}}</label>
-                    <input type="number" id="throughRatio" class="form-control" (keypress)="preventNegative($event)"  (focus)="clearDefaultZero('throughRatio')" [(ngModel)]="throughRatio">
+                    <input type="number" oninput="validateNumberInput(this)" id="throughRatio" class="form-control" (keypress)="preventNegative($event)"  (focus)="clearDefaultZero('throughRatio')" [(ngModel)]="throughRatio">
                 </div>
 
                 <!-- Reset Icon -->

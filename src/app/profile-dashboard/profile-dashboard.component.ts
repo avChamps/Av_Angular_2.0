@@ -31,7 +31,7 @@ export class ProfileDashboardComponent implements OnInit {
   selectedThemeColor!: string;
   selectedTheme: any;
   selectedLanguage : any;
-  tempSelectedTheme!: string;
+  tempSelectedTheme: string = 'dark';
   tempSelectedLanguage : any;
 
   socialMediaUrls: { [key: string]: string } = {}

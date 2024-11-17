@@ -27,7 +27,7 @@
                   [(ngModel)]="row.equipment" maxlength="50" (ngModelChange)="updateRackConfiguration()">
               </td>
               <td>
-                <input type="number" class="form-control" [(ngModel)]="row.watt" [disabled]="!row.equipment"
+                <input type="number" oninput="validateNumberInput(this)" class="form-control" [(ngModel)]="row.watt" [disabled]="!row.equipment"
                   maxlength="4" (ngModelChange)="updateRackConfiguration()" (focus)="clearDefaultZero()" (keypress)="preventNegative($event)"
                   onkeypress="if(this.value.length==4) return false;">
               </td>

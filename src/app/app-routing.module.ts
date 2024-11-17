@@ -34,6 +34,7 @@ const appRoutes: Routes = [
     { path: '', component: HeaderComponent },
     { path: 'home', component: HeaderComponent },
     { path: 'product-list/:value', component: ProductListComponent },
+    { path: 'product-list', component: ProductListComponent },    
     { path : 'product-list-review/:option', component : ProductReviewComponent },
     { path: 'redirected-page/:value', component: RedirectedPageComponent },
     { path: 'redirected-page/:value/:subvalue', component: RedirectedPageComponent },

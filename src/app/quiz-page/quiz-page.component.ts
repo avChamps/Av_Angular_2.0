@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild, OnInit, OnDestroy } from '@angular/co
 import { QuizServiceService } from '../quiz-service.service';
 import { Modal } from 'bootstrap';
 import { UserServicesService } from '../services/user-services.service';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-quiz-page',
@@ -34,9 +35,10 @@ export class QuizPageComponent implements OnInit, OnDestroy {
   minutes: number = 0;
   seconds: number = 0;
   interval: any;
+  isMobile : boolean = false;
   displayCoins: any = 0;
 
-  constructor(private quizService: QuizServiceService, private userService: UserServicesService) { }
+  constructor(private quizService: QuizServiceService, private userService: UserServicesService, private deviceService: DeviceDetectorService) { }
 
   ngOnInit(): void {
     this.emailId = localStorage.getItem('emailId');
@@ -44,10 +46,6 @@ export class QuizPageComponent implements OnInit, OnDestroy {
     this.getQuizQuestions();
     this.getTopScores();
     this.getOverallCount()
-    setTimeout(() => {
-      const modal = new Modal(this.modalElement.nativeElement);
-      modal.show();
-    }, 0);
     if (this.pieCanvas && this.pieCanvas.nativeElement) {
       this.context = this.pieCanvas.nativeElement.getContext('2d')!;
       this.drawPieChart();
@@ -73,6 +71,9 @@ export class QuizPageComponent implements OnInit, OnDestroy {
       (response: any) => {
         console.log(response);
         if (response && response.status && response.data) {
+          if(response.length != 0) {
+            this.displayStartedPopup()
+          }
           this.questions = this.transformQuizData(response.data);
           this.currentQuestionIndex = 0;
         }
@@ -85,6 +86,10 @@ export class QuizPageComponent implements OnInit, OnDestroy {
     );
   }
 
+  displayStartedPopup() {
+    const modal = new Modal(this.modalElement.nativeElement);
+    modal.show();
+}
 
   getTopScores() {
     this.showSpinner = true;
@@ -296,6 +301,9 @@ export class QuizPageComponent implements OnInit, OnDestroy {
   startQuiz(): void {
     this.actionButton.nativeElement.click();
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (this.isMobile) {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }    
   }
 
   updateCountdown() {

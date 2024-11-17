@@ -1,5 +1,4 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
 import { UserServicesService } from '../services/user-services.service';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -44,8 +43,7 @@ export class ProductReviewComponent implements OnInit {
   @ViewChild('myModal', { static: true }) myModal!: ElementRef;
 
   constructor(
-    private userService: UserServicesService, @Inject(DOCUMENT) private document: Document,
-    private toastr: ToastrService, private route: ActivatedRoute, private router: Router
+    private userService: UserServicesService, @Inject(DOCUMENT) private document: Document, private route: ActivatedRoute, private router: Router
   ) {
     this.route.params.subscribe(params => {
       this.productName = params['option'];
@@ -208,12 +206,6 @@ export class ProductReviewComponent implements OnInit {
           this.getProductReview();
           this.setStars();  
           this.insertPoints(100);
-          this.toastr.success(response.message, 'Success', {
-            positionClass: 'toast-custom-position',
-            timeOut: 3000,
-            closeButton: true,
-            progressBar: true
-          });
         } else {
           //  this.displayError();
         }
@@ -298,15 +290,6 @@ export class ProductReviewComponent implements OnInit {
     const count = this.ratingCounts[star];
     return totalCount ? ((count / totalCount) * 100).toFixed(2) + '%' : '0%';
   }
-
-  // displayError() {
-  //   this.toastr.error('Failed to post product review. Please try again later.', 'Error', {
-  //     positionClass: 'toast-custom-position',
-  //     timeOut: 3000,
-  //     closeButton: true,
-  //     progressBar: true
-  //   });
-  // }
 
   copyToClipboard(): void {
     if (this.urlLink) {
