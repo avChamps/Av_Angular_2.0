@@ -1,12 +1,12 @@
 <section id="counts" class="counts" data-aos="fade-right">
-  <div class="me-2">
+  <div class="me-2 mb-2">
     <div class="cur_pointer rounded-circle shadow-sm p-2 back-button" (click)="onBack()">
         <i class="fas fa-arrow-left"></i>
     </div>
 </div>
 
-<h4 class="text-center mb-4">{{'Budget Calculator' | translate}}</h4>
     <div class="container">
+      <h4 class="mb-2">{{'Budget Calculator' | translate}}</h4>
       <div class="row">
         <!-- Main Form Section -->
         <div class="col-md-8 col-sm-12 mb-4">
@@ -30,7 +30,7 @@
                 </div>
                 <label for="costPerRoom" class="mb-0 mt-2">{{'Cost per Room' | translate}}</label>
                 <input type="number" max="999999999" [disabled]="selectedRoomType === 'Select Room'" (keypress)="preventNegative($event)" 
-                (focus)="clearDefaultZero()"  min="0"  (input)="restrictDigits($event)" (keypress)="preventNegative($event)" id="costPerRoom" class="form-control mt-2" [(ngModel)]="costPerRoom">
+                (focus)="clearDefaultZero()"  min="0"  (input)="restrictDigits($event)" (keypress)="preventNegative($event)" id="costPerRoom" class="form-control mt-2 w-50" [(ngModel)]="costPerRoom">
               </div>
             </div>
           </div>

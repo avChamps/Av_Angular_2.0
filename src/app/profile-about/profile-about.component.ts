@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AuthServiceService } from '../services/auth-service.service';
 import { FaServiceService } from '../services/fa-service.service';
 import { UserServicesService } from '../services/user-services.service';
@@ -12,7 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class ProfileAboutComponent implements OnInit {
   emailId: any
-  workingEmailId : any;
+  workingEmailId: any;
   dateOfBirth: any
   gender: string = '';
   mobileNumber: any
@@ -23,26 +23,35 @@ export class ProfileAboutComponent implements OnInit {
   updatedDate: any;
   userName: any
   imagePath: any;
-  userPoints : any;
-  profileWeight : any;
+  userPoints: any;
+  profileWeight: any;
   emailErrorMessage: string = '';
-  emailWorkingErrorMessage : string = '';
+  emailWorkingErrorMessage: string = '';
   mobileErrorMessage: string = '';
-  profileImageType : string = '';
-  signupDate : any;
-  products: any[] = []
+  profileImageType: string = '';
+  signupDate: any;
+  products: any[] = [];
+  countriesDropDown: any = { countries: [], states: [], cities: [] };
   showSpinner: boolean = false
   editMode: boolean = false;
   isEmailValidated: boolean = true;
-  isWorkingEmailValidated : boolean = true;
+  isWorkingEmailValidated: boolean = true;
   isMobileNumberValidated: boolean = true;
+  selectedCountry: string = "";
+  selectedState: string = "";
+  selectedCity: string = "";
+  address1: any;
+  address2: any;
+  stdCode: any = "91";
+  zipCode: any;
 
   constructor(
     private userService: UserServicesService,
     private authService: AuthServiceService,
     private faService: FaServiceService,
     private datePipe: DatePipe,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private cdr: ChangeDetectorRef
   ) {
     this.emailId = localStorage.getItem('emailId');
     this.userName = localStorage.getItem('userName');
@@ -53,6 +62,17 @@ export class ProfileAboutComponent implements OnInit {
   ngOnInit(): void {
     this.getProfileData();
     this.getProfileWeight();
+    this.getCountries();
+    if (this.selectedCountry) {
+      this.fetchStatesOnLoad();
+    }
+
+    if (this.selectedState) {
+      this.fetchCitiesOnLoad();
+    }
+    if (!this.stdCode) {
+      this.stdCode = "91";
+    }
   }
 
   toggleEditMode() {
@@ -80,6 +100,22 @@ export class ProfileAboutComponent implements OnInit {
         this.userCity = record.location;
         this.jobTitle = record.designation;
         this.gender = record.gender;
+        this.selectedCity = record.selectedCity;
+        this.selectedCountry = record.selectedCountry;
+        this.selectedState = record.selectedState;
+        this.address1 = record.address1;
+        this.address2 = record.address2;
+        this.stdCode = record.stdCode;
+        this.zipCode = record.zipCode;
+
+        // Trigger states and cities API calls after profile data is set
+        if (this.selectedCountry) {
+          this.fetchStatesOnLoad();
+        }
+
+        if (this.selectedState) {
+          this.fetchCitiesOnLoad();
+        }
       }
       this.showSpinner = false;
     })
@@ -87,22 +123,23 @@ export class ProfileAboutComponent implements OnInit {
 
   getProfileWeight() {
     this.userService.getProfileWeight(this.emailId).subscribe((response: any) => {
-      if(response) {
+      if (response) {
         this.profileWeight = response.profileWeight
         console.log(response)
         this.showSpinner = false;
         this.getPoints();
       } else {
         console.log('Error while fectching the profile weight');
-      }})
-      
+      }
+    })
+
   }
 
 
   getPoints() {
     this.showSpinner = true;
     let email = { emailId: this.emailId };
-    
+
     this.userService.getPoints(email).subscribe(
       (response: any) => {
         if (response && response.data && response.data.length > 0) {
@@ -120,7 +157,7 @@ export class ProfileAboutComponent implements OnInit {
       }
     );
   }
-  
+
 
   saveProfileData() {
     this.showSpinner = true;
@@ -135,6 +172,13 @@ export class ProfileAboutComponent implements OnInit {
       profileData.append('dob', this.dateOfBirth || '')
       profileData.append('location', this.userCity || '')
       profileData.append('gender', this.gender || '')
+      profileData.append('selectedCity', this.selectedCity || '')
+      profileData.append('selectedCountry', this.selectedCountry || '')
+      profileData.append('selectedState', this.selectedState || '')
+      profileData.append('address1', this.address1 || '');
+      profileData.append('address2', this.address2 || '');
+      profileData.append('stdCode', this.stdCode || 91);
+      profileData.append('zipCode', this.zipCode || '');
 
       this.userService.updateProfile(profileData).subscribe(
         (response: any) => {
@@ -155,8 +199,8 @@ export class ProfileAboutComponent implements OnInit {
   }
 
   formattedDate() {
-    if(this.updatedDate !== undefined || null || '') {
-    return this.datePipe.transform(this.updatedDate, 'yyyy-MM-dd');
+    if (this.updatedDate !== undefined || null || '') {
+      return this.datePipe.transform(this.updatedDate, 'yyyy-MM-dd');
     } else {
       return this.datePipe.transform(this.signupDate, 'yyyy-MM-dd');
     }
@@ -176,7 +220,7 @@ export class ProfileAboutComponent implements OnInit {
   validateWorkingEmail() {
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     const businessDomainPattern = /@(?!gmail\.com$|yahoo\.com$|hotmail\.com$|outlook\.com$|aol\.com$)[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-  
+
     if (!emailPattern.test(this.workingEmailId)) {
       this.isWorkingEmailValidated = false;
       this.emailWorkingErrorMessage = this.translate.instant('Enter valid Working Email ID');
@@ -188,7 +232,7 @@ export class ProfileAboutComponent implements OnInit {
       this.emailWorkingErrorMessage = '';
     }
   }
-  
+
 
   getImageSource(): string {
     if (this.imagePath) {
@@ -198,22 +242,22 @@ export class ProfileAboutComponent implements OnInit {
     }
   }
 
-  onMobileNumberChange() {
-    const regex = /^(?!([0-9])\1{9})[1-9][0-9]{9}$/;
-    if (!regex.test(this.mobileNumber)) {
-      this.isMobileNumberValidated = false;
-      this.mobileErrorMessage = this.translate.instant('Invalid Mobile Number.');
-    } else {
-      this.isMobileNumberValidated = true;
-      this.mobileErrorMessage = '';
-    }
-  }
+  // onMobileNumberChange() {
+  //   const regex = /^(?!([0-9])\1{9})[1-9][0-9]{9}$/;
+  //   if (!regex.test(this.mobileNumber)) {
+  //     this.isMobileNumberValidated = false;
+  //     this.mobileErrorMessage = this.translate.instant('Invalid Mobile Number.');
+  //   } else {
+  //     this.isMobileNumberValidated = true;
+  //     this.mobileErrorMessage = '';
+  //   }
+  // }
 
   formatDate(dateString: string): string {
     const date = new Date(dateString);
     return `${date.getDate()}${this.getOrdinal(date.getDate())} ${date.toLocaleString('default', { month: 'long' })} ${date.getFullYear()}`;
   }
-  
+
   getOrdinal(day: number): string {
     if (day > 3 && day < 21) return 'th';
     switch (day % 10) {
@@ -232,5 +276,112 @@ export class ProfileAboutComponent implements OnInit {
     }
     return ''
   }
-}
 
+  fetchStatesOnLoad() {
+    if (this.selectedCountry) {
+      const countryCodePayload = { countryCode: this.selectedCountry };
+      this.userService.getStates(countryCodePayload).subscribe(
+        (response: any) => {
+          if (response && response.data) {
+            this.countriesDropDown.states = response.data;
+          } else {
+            console.error('No states found for the selected country.');
+          }
+        },
+        (error) => {
+          console.error('Error fetching states:', error);
+        }
+      );
+    } else {
+      this.countriesDropDown.states = [];
+    }
+  }
+
+  fetchCitiesOnLoad() {
+    if (this.selectedCountry && this.selectedState) {
+      this.userService.getCities(this.selectedCountry, this.selectedState).subscribe(
+        (response: any) => {
+          if (response && response.data) {
+            this.countriesDropDown.cities = response.data;
+          } else {
+            console.error('No cities found for the selected state.');
+          }
+        },
+        (error) => {
+          console.error('Error fetching cities:', error);
+        }
+      );
+    } else {
+      this.countriesDropDown.cities = [];
+    }
+  }
+
+  onMobileNumberChange() {
+    // Perform validation if needed
+    if (this.mobileNumber.length !== 10) {
+      this.mobileErrorMessage = 'Mobile number must be 10 digits.';
+    } else {
+      this.mobileErrorMessage = '';
+    }
+  }
+
+
+  // Fetch countries
+  getCountries() {
+    this.userService.getCountries().subscribe(
+      (response: any) => {
+        if (response && response.data) {
+          this.countriesDropDown.countries = response.data;
+        } else {
+          console.error('Error: No response data received.');
+        }
+      },
+      (error) => {
+        console.error('Error fetching countries:', error);
+      }
+    );
+  }
+
+  onCountryChange() {
+    if (this.selectedCountry) {
+      const countryCodePayload = { countryCode: this.selectedCountry };
+      this.userService.getStates(countryCodePayload).subscribe(
+        (response: any) => {
+          if (response && response.data) {
+            this.countriesDropDown.states = response.data;
+            this.countriesDropDown.cities = []; // Clear cities when country changes
+          } else {
+            console.error('No states found for the selected country.');
+          }
+        },
+        (error) => {
+          console.error('Error fetching states:', error);
+        }
+      );
+    } else {
+      this.countriesDropDown.states = [];
+      this.countriesDropDown.cities = [];
+    }
+  }
+
+  // Fetch cities based on selected state
+  onStateChange() {
+    if (this.selectedState) {
+      this.userService.getCities(this.selectedCountry, this.selectedState).subscribe(
+        (response: any) => {
+          if (response && response.data) {
+            this.countriesDropDown.cities = response.data;
+          } else {
+            console.error('No cities found for the selected state.');
+          }
+        },
+        (error) => {
+          console.error('Error fetching cities:', error);
+        }
+      );
+    } else {
+      this.countriesDropDown.cities = [];
+    }
+  }
+
+}

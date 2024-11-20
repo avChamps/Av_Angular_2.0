@@ -1,12 +1,12 @@
 <section id="counts" class="counts" data-aos="fade-right">
-    <div class="me-2">
+    <div class="me-2 mb-2">
         <div class="cur_pointer rounded-circle shadow-sm p-2 back-button" (click)="onBack()">
             <i class="fas fa-arrow-left"></i>
         </div>
     </div>
 
-    <h4 class="text-center mb-4">{{'Aspect Ratio Calculator' | translate}}</h4>
     <div class="container mb-2">
+    <h4 class="mb-2">{{'Aspect Ratio Calculator' | translate}}</h4>
     <div class="container shadow-lg p-4 rounded mb-2 mt-2">
         <div class="row g-2 align-items-center">
             <!-- Calculate Dropdown -->
@@ -20,27 +20,30 @@
             <!-- Width Input -->
             <div class="col-12 col-sm-2" *ngIf="isShowHeight">
                 <label for="width" class="form-label">{{'Width' | translate}}</label>
-                <input type="number" id="width" class="form-control" (keypress)="preventNegative($event)"  (focus)="clearDefaultZero('width')" [(ngModel)]="width">
+                <input type="number" id="width" oninput="validateNumberInput(this)" class="form-control" (keypress)="preventNegative($event)"  (focus)="clearDefaultZero('width')" [(ngModel)]="width">
             </div>
 
              <!-- height Input -->
              <div class="col-12 col-sm-2" *ngIf="isShowWidth">
                 <label for="width" class="form-label">{{'Height' | translate}}</label>
-                <input type="number" id="width" class="form-control" (keypress)="preventNegative($event)"  (focus)="clearDefaultZero('height')" [(ngModel)]="height">
+                <input type="number" id="width" oninput="validateNumberInput(this)" class="form-control" (keypress)="preventNegative($event)"  (focus)="clearDefaultZero('height')" [(ngModel)]="height">
             </div>
     
             <!-- Aspect Ratio Inputs -->
             <div class="col-12 col-sm-4" *ngIf="isAspectRatio">
                 <label for="aspect-ratio" class="form-label">{{'Aspect Ratio' | translate}}</label>
                 <div class="row g-1">
-                    <div class="col-6">
-                        <input type="number" id="aspectRatio1" class="form-control" 
+                    <div class="col-4">
+                        <input type="number" id="aspectRatio1" class="form-control"  oninput="validateNumberInput(this)"
                                (keypress)="preventNegative($event)" 
                                (focus)="clearDefaultZero('aspectRatio1')" [(ngModel)]="aspectRatio1">
                     </div>
-                    <div class="col-6">
+                    <div class="col-1 text-center">
+                        <b>&#8758;</b>
+                    </div>
+                    <div class="col-4">
                         <input type="number" id="aspectRatio2" class="form-control" 
-                               (keypress)="preventNegative($event)" 
+                               (keypress)="preventNegative($event)"  oninput="validateNumberInput(this)"
                                (focus)="clearDefaultZero('aspectRatio2')" [(ngModel)]="aspectRatio2">
                     </div>
                 </div>
@@ -112,7 +115,7 @@
     <!-- Centered Formula section -->
     <div class="container shadow-lg p-4 rounded mb-2">
         <div class="row">
-            <div class="col-md-4 d-flex flex-column justify-content-center align-items-center">
+            <div class="col-md-4 d-flex flex-column justify-content-center align-items-center borders-right">
                 <h5 class="mb-0 fw-bold">{{'Formula' | translate}}</h5>
                 <span class="px-2 py-1 fw-bold">f(x)</span>
             </div>

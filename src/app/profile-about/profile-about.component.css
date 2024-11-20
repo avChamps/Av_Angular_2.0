@@ -9,3 +9,19 @@ input::placeholder {
 .nav-tabs {
     border-bottom: none;
 }
+
+label {
+    margin-bottom: 3px;
+}
+
+textarea {
+    min-height: 30px;
+    max-height: 55px;
+}
+
+input:disabled,
+select:disabled,
+textarea:disabled {
+    background-color: #e9ecef63;
+    cursor: no-drop;
+}

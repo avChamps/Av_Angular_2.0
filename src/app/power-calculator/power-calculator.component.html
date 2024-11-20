@@ -1,13 +1,13 @@
 <section id="counts" class="counts" data-aos="fade-right">
-    <div class="me-2">
+    <div class="me-2 mb-2">
         <div class="cur_pointer rounded-circle shadow-sm p-2 back-button" (click)="onBack()">
             <i class="fas fa-arrow-left"></i>
         </div>
     </div>
 
     <!-- Budget Table Section -->
-    <h4 class="text-center mb-4">{{'Power Calculator' | translate}}</h4>
     <div class="container mb-2">
+        <h4 class="mb-2">{{ 'Power Calculator' | translate}}</h4>
         <div id="pdfContent" class="row">
             <div class="table-responsive">
                 <table class="table table-bordered">
@@ -81,7 +81,7 @@
         <div class="container mt-4 shadow-lg p-4 rounded">
             <div class="row">
                 <!-- Adjusting the layout for centering f(x) on the left -->
-                <div class="col-md-4 d-flex flex-column justify-content-center align-items-center">
+                <div class="col-md-4 d-flex flex-column justify-content-center align-items-center borders-right">
                     <h5 class="mb-0 fw-bold">{{'Formula' | translate}}</h5>
                     <span class="px-2 py-1 fw-bold">f(x)</span>
                 </div>

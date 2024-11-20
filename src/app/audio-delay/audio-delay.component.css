@@ -1,0 +1,5 @@
+@media (min-width: 576px) {
+    .custom-width-mobile {
+      width: 100px !important;
+    }
+  }

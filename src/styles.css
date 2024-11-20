@@ -39,7 +39,7 @@ body {
 	margin-top: 5px;
 	width: 40px;
 	height: 40px;
-	background-color: #f0f0f0;
+	color: #31344b;
 	border-radius: 50%;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 	transition: background-color 0.3s ease, transform 0.3s ease;
@@ -47,12 +47,7 @@ body {
 }
 
 .back-button:hover {
-	background-color: #e0e0e0;
 	transform: scale(1.1);
-}
-
-.back-button {
-	background-color: #8080805c!important;
 }
 
 .custom-table-header th {
@@ -68,21 +63,25 @@ body {
 	top: 50%;
 	right: 0;
 	transform: translateY(-50%);
-  }
+}
 
 .toast-custom-position {
 	top: 50%;
 	right: 0;
 	transform: translateY(-50%);
-  }
-  
-  .toast-success {
-	background-color: #90EE90 !important; 
-	color: #000 !important; 
-  }
+}
 
-  .fade-out {
-  color: #00000087;
-  }
+.toast-success {
+	background-color: #90EE90 !important;
+	color: #000 !important;
+}
 
-  
+.fade-out {
+	color: #00000087;
+}
+
+@media (min-width: 576px) {
+.borders-right {
+	border-right: 1px solid black;
+}
+}

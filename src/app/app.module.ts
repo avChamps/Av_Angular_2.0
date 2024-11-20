@@ -49,6 +49,7 @@ import { CoinsBlastComponent } from './coins-blast/coins-blast.component';
 import { ProductReviewComponent } from './product-review/product-review.component';
 import { ProductListComponent } from './product-list/product-list.component';
 import { QuizPageComponent } from './quiz-page/quiz-page.component';
+import { SafeFlagPipe } from './safe-flag.pipe';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -90,7 +91,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     CoinsBlastComponent,
     ProductReviewComponent,
     ProductListComponent,
-    QuizPageComponent
+    QuizPageComponent,
+    SafeFlagPipe
   ],
   imports: [
     BrowserModule,

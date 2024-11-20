@@ -6,8 +6,8 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class QuizServiceService {
-//  url = https://avchamps.com/nodejs';
-  url = 'http://localhost:3000'
+ url = 'https://avchamps.com/nodejs';
+  // url = 'http://localhost:3000'
 
   constructor (private http: HttpClient, private router : Router) {}
 
