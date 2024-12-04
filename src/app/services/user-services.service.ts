@@ -7,8 +7,8 @@ import { Observable, Subject } from 'rxjs'
   providedIn: 'root'
 })
 export class UserServicesService {
-  url = 'https://avchamps.com/nodejs';
-  //  url = 'http://localhost:3000'
+  // url = 'https://avchamps.com/nodejs';
+   url = 'http://localhost:3000'
   // url = 'http://10.0.0.68:3000';
 
   // url = 'http://192.168.29.47:3000'
@@ -149,12 +149,11 @@ export class UserServicesService {
     return this.refreshData$.asObservable()
   }
 
-  submitApplication(applicationData: any): Observable<any> {
-    // return this.http.post<any>(`this.apiUrl` + `submitApplication``, applicationData);
-    return this.http.post<any>(`${this.url}/submitApplication`, applicationData);
+  submitApplication(jobData: any): Observable<any> {
+    return this.http.post<any>(`${this.url}/submitApplication`, jobData);
   }
 
-  getPostedJobs(limit: number, offset: number, searchQuery: string, location: string, jobType: string, postedBy: string) {
+  getPostedJobs(limit: any, offset: number, searchQuery: string, location: string, jobType: string, postedBy: string,sortBy : any) {
     let queryParams = `limit=${limit}&offset=${offset}`;
 
     if (searchQuery) {
@@ -171,6 +170,10 @@ export class UserServicesService {
 
     if (postedBy) {
       queryParams += `&postedBy=${postedBy}`;
+    }
+
+    if(sortBy) {
+      queryParams += `&sortBy=${sortBy}`;
     }
 
     return this.http.get<any>(`${this.url}/getPostedJobs?${queryParams}`);

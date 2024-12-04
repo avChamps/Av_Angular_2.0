@@ -1,303 +1,310 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-   <!-- Icon Font Stylesheet -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-</head>
-
 <body>
-  <div class="container-xxl p-0">
-    <!-- Navbar Start -->
-    <nav class="navbar navbar-expand-lg navbar-light shadow sticky-top p-0">
-      <a (click)="refreshPage()" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
-        <img src="./assets/images/logo/av_champs_logo.png" class="custom_logo_img" alt="alternative">
-      </a>
-      <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-        <span class="navbar-toggler-icon"></span>
+  <!-- Header -->
+  <header class="header d-flex justify-content-between shadow-lg align-items-center">
+    <div class="d-flex align-items-center">
+      <span class="logo me-4">AV CHAMPS</span>
+      <nav class="d-flex d-none d-md-flex" (click)="navigateHome()">
+        <a class="nav-link"><i class="fas fa-home me-1"></i> Home</a>
+      </nav>
+    </div>
+    <div class="d-md-none">
+      <button class="btn btn-outline-light text-dark shadow-sm" (click)="toggleMenu()">
+        <i class="fas fa-bars"></i>
       </button>
-      <div class="collapse navbar-collapse" id="navbarCollapse">
-        <div class="navbar-nav ms-auto p-4 p-lg-0">
-          <div class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-              <img [src]="getImageSource() ||  'assets/img/user-Icon.png'" alt="Profile Image" class="profile-image">{{userName}}</a>
-            <div class="dropdown-menu rounded-0 m-0">
-              <a data-bs-toggle="modal" class="dropdown-item" data-bs-target="#applyModal">Post Job</a>
-              <a data-bs-toggle="modal" class="dropdown-item" (click)="myPosts()">My Posts</a>
-              <a data-bs-toggle="modal" class="dropdown-item" (click)="contactForm()">Contact Us</a>
-              <a data-bs-toggle="modal" class="dropdown-item" (click)="logOut()">Logout</a>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </nav>
-    <!-- Navbar End -->
-
-    <div *ngIf="ShowJobPrtal">
-      <!-- Search Start -->
-    <div *ngIf="displayAllPosts" class="container-fluid bg-success mb-5 wow fadeIn" data-wow-delay="0.1s"
-        style="padding: 35px;">
-        <div class="container">
-          <div class="row g-2">
-            <div class="col-md-10">
-              <div class="row g-2">
-                <div class="col-md-4">
-                  <!-- <input type="text" class="form-control border-0" [(ngModel)]="searchKeyword" placeholder="Keyword" /> -->
-                  <select class="form-select border-0" id="type" name="type" [(ngModel)]="searchKeyword">
-                    <option value="" disabled>Select Job Role</option>
-                    <option *ngFor="let roles of jobRoles" [value]="roles.value">{{ roles.label }}</option>
-                  </select>
-                </div>
-                <div class="col-md-4">
-                  <select class="form-select border-0" id="type" name="type" [(ngModel)]="jobType"
-                    (change)="onDropdownChange($event)">
-                    <option value="full-time" disabled>Select Job Type</option>
-                    <option *ngFor="let type of jobTypes" [value]="type.label">{{ type.label }}</option>
-                  </select>
-                </div>
-                <div class="col-md-4">
-                  <select class="form-select border-0" [(ngModel)]="location">
-                    <option value="" disabled>Select location</option>
-                    <option *ngFor="let location of locations" [value]="location.label">{{ location.label }}</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-2">
-              <button class="btn btn-dark border-0 w-100" (click)="getPostedJobs('search')">Search</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Search End -->
-
-      <!-- Category Start -->
-      <div *ngIf="displayAllPosts" class="container-xxl py-5">
-        <div class="container">
-          <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Explore By Category</h1>
-          <div class="row g-4">
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" *ngFor="let category of categories"
-              [attr.data-wow-delay]="category.delay">
-              <a class="cat-item rounded p-4">
-                <i class="fa fa-3x text-primary mb-4" [ngClass]="category.icon"></i>
-                <h6 class="mb-3">{{ getJobRoleDisplayName(category.job_role) }}</h6>
-                <p class="mb-0">{{ category.total }} Vacancy</p>
-              </a>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      <!-- Category End -->
-
-      <!-- Jobs Start -->
-      <div *ngIf="displayAllPosts || displayShowPosts" class="container-xxl py-5">
-        <div class="container">
-          <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Job Listing</h1>
-          <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
-            <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
-              <li class="nav-item" *ngFor="let tab of jobTypes">
-                <a class="d-flex align-items-center text-start mx-3 pb-3" [ngClass]="{'active': tab.active}"
-                  (click)="setActiveTab(tab)">
-                  <h6 class="mt-n1 mb-0">{{ tab.label }}</h6>
-                </a>
-              </li>
-            </ul>
-
-            <div class="tab-content">
-              <div id="tab-1" class="tab-pane fade show p-0 active">
-                <div *ngFor="let job of postedJobs" class="job-item p-4 mb-4">
-                  <div class="row g-4">
-                    <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                      <!-- <img class="flex-shrink-0 img-fluid border rounded" [src]="job.logo" alt="" style="width: 80px; height: 80px;"> -->
-                      <div class="text-start ps-4">
-                        <h5>{{ getJobRoleDisplayName(job.job_role) }}</h5>
-                        <span class="text-truncate me-3"><i class="fa fa-briefcase text-primary me-2"></i>{{ job.company
-                          }}</span>
-                        <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>{{
-                          job.location }}</span>
-                        <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>{{ job.job_type
-                          }}</span>
-                        <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>{{
-                          job.min_salary| number:'1.0-0' }} - {{ job.max_salary| number:'1.0-0'}}</span>
-                      </div>
-                    </div>
-                    <div
-                      class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
-                      <div class="d-flex mb-3">
-                        <!-- <a class="btn btn-light btn-square me-3" href=""><i class="far fa-heart text-primary"></i></a> -->
-                        <div *ngIf="displayShowPosts">
-                          <a class="btn btn-primary" data-bs-toggle="modal" (click)="editJob(job)"
-                            data-bs-target="#applyModal"><i class="fa fa-edit"></i></a>
-                          <a class="btn btn-danger" style="margin-left: 5px;" (click)="deleteJob(job)"><i
-                              class="fa fa-trash"></i></a>
-                        </div>
-                        <div *ngIf="!displayShowPosts">
-                          <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#applyJob"
-                            (click)="applyDetails(job)">Apply Now</a>
-                        </div>
-                      </div>
-                      <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Posted: {{
-                        job.applied_at | date:'dd MMM YYYY' }}</small>
-                    </div>
-                  </div>
-                </div>
-                <a class="btn btn-primary py-3 px-5" (click)="loadMoreJobs()">Browse More Jobs</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Jobs End -->
-
-      <!-- Back to Top -->
-      <a class="btn btn-lg btn-primary btn-lg-square back-to-top" (click)="scrollToTop()"><i class="bi bi-arrow-up"></i></a>
     </div>
+    <div class="profile-info d-none d-md-flex">
+      <button class="btn post-job-btn mr-2" #jobPopup data-bs-toggle="modal" data-bs-target="#jobFormModal">+ Post
+        Job</button>
+      <span class="text-success fs-4 cur_pointer" (click)="onEdit()"><i class='far fa-edit'></i></span>
+      <span class="text-danger fs-4 location_left"><i class="fas fa-sign-out-alt"></i></span>
+    </div>
+  </header>
 
+  <!-- Sidebar and Main Container -->
+  <div class="container-fluid py-4">
+    <div class="row g-4">
+      <!-- Sidebar -->
+      <div class="col-lg-3" [class.d-none]="!isMenuVisible && isMobileView"
+        [class.d-block]="isMenuVisible || !isMobileView">
+        <!-- Mobile Menu Options -->
+        <div *ngIf="isMobileView" class="mobile-menu shadow-lg p-3 mb-3">
+          <a class="d-block mb-2 text-decoration-none text-dark" (click)="navigateHome()"><i
+              class="fas fa-home me-2"></i> Home</a>
+          <button class="btn btn-outline-primary w-100 mb-2">+ Post Job</button>
+          <!-- <span class="text-success fs-4"><i class='far fa-edit'></i>Edit</span> -->
+          <a class="d-block mb-2 text-decoration-none text-dark" (click)="onEdit()"><i class="far fa-edit me-2"></i>
+            Edit</a>
+          <a class="d-block mb-2 text-decoration-none text-danger"><i class="fas fa-sign-out-alt me-2"></i>
+            Logout</a>
+        </div>
 
-    <!-- Modal HTML -->
-    <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="applyModalLabel">{{jobHeadline }}</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-              (click)="clearInputs()"></button>
+        <!-- Profile Box -->
+        <div class="profile-box text-center shadow-lg">
+          <img [src]="profileImg" alt="Profile" class="profile-img">
+          <h5 class="mb-1">{{ profileData.fullName }}</h5>
+          <p class="text-muted">{{ profileData.designation }}</p>
+          <button class="btn btn-outline-primary w-75 mb-4 b-4 edit-profile-btn" (click)="editProfile()">Edit
+            Profile</button>
+        </div>
+
+        <div class="filter-box shadow-lg">
+          <h6>Job Type</h6>
+          <div class="mb-3">
+            <div class="form-check" *ngFor="let jobType of jobTypes">
+              <input class="form-check-input" type="checkbox" [checked]="isChecked(jobType)"
+                (change)="updateSelectedJobTypes(jobType)" id="jobType.label">
+              <label class="form-check-label" for="jobType.label">{{ jobType.label }}</label>
+            </div>
           </div>
-          <div class="modal-body">
-            <form (ngSubmit)="onSubmit(jobForm)" #jobForm="ngForm">
-              <div class="mb-3">
-                <label for="type" class="form-label">Job Role<span class="text-danger">*</span></label>
-                <select class="form-control" id="type" name="type" [(ngModel)]="job_role" required>
-                  <option value="full-time" disabled>Select job Role</option>
-                  <option *ngFor="let type of jobRoles" [value]="type.value">{{ type.label }}</option>
-                </select>
-                <div *ngIf="!job_role && jobForm.submitted" class="text-danger">
-                  Job Role is required.
-                </div>
-              </div>
-              <div class="mb-3">
-                <label for="company" class="form-label">Company<span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="company" name="company" placeholder="Enter Company Name"
-                  [(ngModel)]="company" required>
-                <div *ngIf="!company && jobForm.submitted" class="text-danger">
-                  Company is required.
-                </div>
-              </div>
-              <div class="mb-3">
-                <label for="location" class="form-label">Location<span class="text-danger">*</span></label>
-                <!-- <input type="text" class="form-control" id="location" placeholder="Enter Location" name="location" [(ngModel)]="location" required> -->
-                <select class="form-select" [(ngModel)]="location" id="location" name="location">
-                  <option value="" disabled>Select location</option>
-                  <option *ngFor="let location of locations" [value]="location.label">{{ location.label }}</option>
-                </select>
-
-                <div *ngIf="!location && jobForm.submitted" class="text-danger">
-                  Location is required.
-                </div>
-              </div>
-              <div class="mb-3">
-                <label for="type" class="form-label">Job Type<span class="text-danger">*</span></label>
-                <select class="form-control" id="type" name="type" [(ngModel)]="jobType" required>
-                  <option value="full-time" disabled>Select job type</option>
-                  <option *ngFor="let type of jobTypes" [value]="type.label">{{ type.label }}</option>
-                </select>
-                <div *ngIf="!jobType && jobForm.submitted" class="text-danger">
-                  Job Type is required.
-                </div>
-              </div>
-              <div class="row">
-                <label for="salary" class="form-label col-12">Salary Range</label>
-                <div class="col-12 col-sm-6 mb-3">
-                  <input type="number" class="form-control" id="minSalary" name="minSalary" placeholder="Enter Min Salary"
-                    [(ngModel)]="minSalary" required>
-                  <div *ngIf="!minSalary && jobForm.submitted" class="text-danger">
-                    Min Salary is required.
-                  </div>
-                </div>
-                <div class="col-12 col-sm-6 mb-3">
-                  <input type="number" class="form-control" id="maxSalary" name="maxSalary" [(ngModel)]="maxSalary"
-                    placeholder="Enter Max Salary" required>
-                  <div *ngIf="!maxSalary && jobForm.submitted" class="text-danger">
-                    Max Salary is required.
-                  </div>
-                </div>
-              </div>
-              
-              <div class="row">
-                <div class="col-12 col-sm-6 mb-3">
-                  <label for="email" class="form-label">Email<span class="text-danger">*</span></label>
-                  <input type="email" class="form-control" id="email" placeholder="Enter Email" name="email"
-                    [(ngModel)]="email" required email>
-                  <div *ngIf="jobForm.controls['email']?.invalid && jobForm.controls['email']?.touched"
-                    class="text-danger">
-                    Valid Email is required.
-                  </div>
-                </div>
-
-                <div class="col-12 col-sm-6 mb-3">
-                  <label for="phone" class="form-label">Phone<span class="text-danger">*</span></label>
-                  <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter Phone Number"
-                    [(ngModel)]="phone" required pattern="^[0-9]{10}$">
-                  <div *ngIf="jobForm.controls['phone']?.invalid && jobForm.controls['phone']?.touched"
-                    class="text-danger">
-                    Valid Phone number is required.
-                  </div>
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <label for="companyUrl" class="form-label">Company URL</label>
-                <input type="url" class="form-control" id="companyUrl" name="companyUrl" placeholder="Enter companyUrl"
-                  [(ngModel)]="companyUrl" pattern="https?://.+">
-                <div *ngIf="jobForm.controls['companyUrl']?.invalid && jobForm.controls['companyUrl']?.touched"
-                  class="text-danger">
-                  Valid Company URL is required if provided.
-                </div>
-              </div>
-
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                  (click)="clearInputs()" #actionButton>Close</button>
-                <button type="submit" class="btn btn-primary">{{buttonType }}</button>
-              </div>
-            </form>
-
-
+          <div>
+            <h6>Job Location</h6>
+            <div class="dropdown">
+              <button class="btn btn-outline-light text-dark dropdown-toggle shadow-sm w-100 text-start" type="button"
+                id="jobLocationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                Select Location
+              </button>
+              <ul class="dropdown-menu w-100" aria-labelledby="jobLocationDropdown">
+                <li *ngFor="let location of uniqueLocations" class="cur_pointer" (click)="getPostedJobs('',location)"><a
+                    class="dropdown-item">{{ location | titleCase }}</a></li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="modal fade" id="applyJob" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="applyModalLabel">Get in touch with Recruiter</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-              (click)="clearInputs()"></button>
+      <!-- Job Section -->
+      <div class="col-lg-9 scrollable-section">
+        <div class="bg-white rounded p-4 mb-4 shadow-lg">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="input-group">
+              <span class="input-group-text bg-light border-0"><i class="fas fa-search text-muted"></i></span>
+              <input type="text" class="form-control shadow-none border-0 bg-light shadow-none"
+                [(ngModel)]="searchQuery" (input)="getPostedJobs()" placeholder="Enter Keyword ...">
+            </div>
+            <div class="dropdown ms-3">
+              <button class="btn btn-outline-light text-dark dropdown-toggle shadow-sm" type="button"
+                id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                Newest
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li><a class="dropdown-item cur_pointer" (click)="getPostedJobs('newest')">Newest</a></li>
+                <li><a class="dropdown-item cur_pointer" (click)="getPostedJobs('oldest')">Oldest</a></li>
+                <li><a class="dropdown-item cur_pointer" (click)="getPostedJobs('most releavant')">Most Relevant</a>
+                </li>
+              </ul>
+            </div>
           </div>
-          <div class="modal-body">
-            <p>Mail ID : {{contactInfo.email}}</p>
-            <p>Contact Number : {{ contactInfo.phone }}</p>
-            <p *ngIf="contactInfo.companyUrl">Website : <a [href]="contactInfo.companyUrl" target="_blank">{{
-                contactInfo.companyUrl }}</a></p>
+          <div class="bg-light text-center rounded mt-2 p-2">
+            <span class="text-muted">{{totalRecords}} jobs found</span>
           </div>
         </div>
-      </div>
-    </div>
 
-    <div *ngIf=isContact>
-      <app-contact></app-contact>
+        <div class="row">
+          <div class="col-md-6" *ngFor="let job of postedJobs">
+            <div class="card card-custom">
+              <div class="card-body d-flex flex-column">
+                <!-- Job Title and Location -->
+                <div class="d-flex justify-content-between">
+                  <h6 class="card-title mb-1">{{ job.jobRole || 'Role not specified' }}</h6>
+                  <span>
+                    {{ job.location || 'Location not specified' }}
+                    <i class="fas fa-map-marker-alt text-danger location_left"></i>
+                  </span>
+                </div>
+
+                <!-- Company Name -->
+                <p class="text-muted small mb-2">{{ job.companyName || 'Company not specified' }}</p>
+
+                <!-- Description -->
+                <p *ngIf="job.description" [title]="job.description" container="body" placement="top"
+                  tooltipClass="custom-tooltip">
+                  {{ job.description }}
+                </p>
+                <p *ngIf="!job.description" class="text-muted small">Description not available</p>
+
+                <!-- Job Type and Buttons -->
+                <div class="d-flex justify-content-between align-items-center mt-auto">
+                  <!-- Job Type Badges -->
+                  <div>
+                    <span *ngIf="job.type" class="badge bg-success badge-custom">{{ job.type }}</span>
+                    <span *ngIf="job.jobType" class="badge bg-secondary badge-custom">{{ job.jobType }}</span>
+                  </div>
+
+                  <!-- Action Buttons -->
+                  <div class="button-group">
+                    <button class="btn btn-warning btn-sm me-2 btn-custom" *ngIf="buttonType === 'Apply Now'"
+                      (click)="editJob(job)">
+                      {{ buttonType }}
+                    </button>
+                    <button class="btn btn-warning btn-sm me-2 btn-custom action-items"
+                      *ngIf="buttonType !== 'Apply Now'" (click)="editJob(job)">
+                      <i class="far fa-edit"></i>
+                    </button>
+                    <button *ngIf="displayDeleteBtn" class="btn btn-danger btn-custom action-items btn-sm"
+                      (click)="deleteJob(job)">
+                      <i class="fas fa-trash-alt text-white"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
     </div>
   </div>
 
-  <div *ngIf="isDisplyedCoins">
+  <div class="modal fade" id="jobFormModal" tabindex="-1" aria-labelledby="jobFormModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-height: 80vh; overflow-y: auto;max-width: 400px;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="jobFormModalLabel">{{ msgType }}</h5>
+          <button type="button" class="btn-close shadow-none" #cancelPopup data-bs-dismiss="modal"
+            aria-label="Close"></button>
+        </div>
+        <form [formGroup]="jobForm" (ngSubmit)="onJobApply()">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="jobRole" class="form-label">Job Role</label>
+              <select id="jobRole" class="form-select shadow-none" formControlName="jobRole" required>
+                <option value="" class="default-option">Select Job Role</option>
+                <option *ngFor="let role of jobRoles" [value]="role.label">{{ role.label }}</option>
+              </select>
+              <div *ngIf="jobForm.get('jobRole')?.touched && jobForm.get('jobRole')?.invalid"
+                class="text-danger error-msg">
+                Job role is required.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="Discription" class="form-label">Discription</label>
+              <textarea type="text" id="location" class="form-control shadow-none"
+                formControlName="description"></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="companyName" class="form-label">Company Name</label>
+              <input type="text" id="companyName" class="form-control shadow-none" formControlName="companyName"
+                required>
+              <div *ngIf="jobForm.get('companyName')?.touched && jobForm.get('companyName')?.invalid"
+                class="text-danger error-msg">
+                Company name is required.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="companyUrl" class="form-label">Company Website URL</label>
+              <input type="text" id="companyUrl" class="form-control shadow-none" formControlName="companyUrl">
+              <div *ngIf="jobForm.get('companyUrl')?.touched && jobForm.get('companyUrl')?.invalid"
+                class="text-danger error-msg">
+                <span *ngIf="jobForm.get('companyUrl')?.hasError('pattern')">Enter a valid URL.</span>
+              </div>
+            </div>
+
+
+            <div class="mb-3">
+              <label for="location" class="form-label">Location</label>
+              <input type="text" id="location" class="form-control shadow-none" formControlName="location">
+              <div *ngIf="jobForm.get('location')?.touched && jobForm.get('location')?.invalid"
+                class="text-danger error-msg">
+                Location is required.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="jobType" class="form-label">Job Type</label>
+              <select id="jobType" class="form-select shadow-none" formControlName="jobType">
+                <option value="" class="default-option">Select Job Type</option>
+                <option *ngFor="let type of jobTypes" [value]="type.label">{{ type.label }}</option>
+              </select>
+              <div *ngIf="jobForm.get('jobType')?.touched && jobForm.get('jobType')?.invalid"
+                class="text-danger error-msg">
+                Job Type is required.
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col">
+                <label for="minSalary" class="form-label">Min Salary</label>
+                <input type="number" id="minSalary" class="form-control shadow-none" formControlName="minSalary" />
+              </div>
+              <div class="col">
+                <label for="maxSalary" class="form-label">Max Salary</label>
+                <input type="number" id="maxSalary" class="form-control shadow-none" formControlName="maxSalary" />
+              </div>
+              <div *ngIf="jobForm.hasError('salaryRange') && jobForm.touched" class="text-danger error-msg">
+                Max value should be greater than Min value.
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col">
+                <label for="companyEmail" class="form-label">Email</label>
+                <input type="companyEmail" id="companyEmail" class="form-control shadow-none"
+                  formControlName="companyEmail" required>
+                <div *ngIf="jobForm.get('companyEmail')?.touched && jobForm.get('companyEmail')?.invalid"
+                  class="text-danger error-msg">
+                  Valid email is required.
+                </div>
+              </div>
+              <div class="col">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="tel" id="phone" class="form-control shadow-none" formControlName="phone" required
+                  maxlength="10">
+                <div *ngIf="jobForm.get('phone')?.touched && jobForm.get('phone')?.invalid"
+                  class="text-danger error-msg">
+                  <span *ngIf="jobForm.get('phone')?.hasError('required')">Phone number is required.</span>
+                  <span *ngIf="jobForm.get('phone')?.hasError('pattern')">Enter a valid 10-digit phone number.</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Post</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="jobDetais" #jobDetais tabindex="-1" aria-labelledby="jobDetais" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="jobFormModalLabel">{{ msgType }}</h5>
+          <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row mb-3" *ngIf="selectedJob?.companyName">
+            <div class="col-4 fw-bold">Organisation :</div>
+            <div class="col-8">{{ selectedJob?.companyName }}</div>
+          </div>
+          <div class="row mb-3" *ngIf="selectedJob?.companyEmail">
+            <div class="col-4 fw-bold">Email ID :</div>
+            <div class="col-8">{{ selectedJob?.companyEmail }}</div>
+          </div>
+          <div class="row mb-3" *ngIf="selectedJob?.phone">
+            <div class="col-4 fw-bold">Contact :</div>
+            <div class="col-8">{{ selectedJob?.phone }}</div>
+          </div>
+          <div class="row mb-3" *ngIf="selectedJob?.companyUrl">
+            <div class="col-4 fw-bold">Company URL :</div>
+            <div class="col-8">{{ selectedJob?.companyUrl }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isDisplayCoins">
     <app-coins-blast [coins]="displayCoins"></app-coins-blast>
-</div>
+  </div>
+
+  <app-spinner *ngIf="showSpinner"></app-spinner>
 
 </body>
-
-</html>

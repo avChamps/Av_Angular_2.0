@@ -50,6 +50,8 @@ import { ProductReviewComponent } from './product-review/product-review.componen
 import { ProductListComponent } from './product-list/product-list.component';
 import { QuizPageComponent } from './quiz-page/quiz-page.component';
 import { SafeFlagPipe } from './safe-flag.pipe';
+import { MaterialGatepassComponent } from './material-gatepass/material-gatepass.component';
+import { RoomConfiguratorComponent } from './room-configurator/room-configurator.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -92,7 +94,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     ProductReviewComponent,
     ProductListComponent,
     QuizPageComponent,
-    SafeFlagPipe
+    SafeFlagPipe,
+    MaterialGatepassComponent,
+    RoomConfiguratorComponent
   ],
   imports: [
     BrowserModule,

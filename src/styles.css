@@ -80,6 +80,10 @@ body {
 	color: #00000087;
 }
 
+.fs-12 {
+	font-size: 12px;
+}
+
 @media (min-width: 576px) {
 .borders-right {
 	border-right: 1px solid black;

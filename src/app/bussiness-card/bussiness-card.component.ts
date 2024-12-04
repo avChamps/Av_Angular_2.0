@@ -141,33 +141,53 @@ export class BussinessCardComponent {
     const buttons = document.querySelectorAll('.disabled_Button');
 
     if (element) {
-      buttons.forEach(button => {
-        (button as HTMLElement).style.display = 'none';
-      });
-
-      html2canvas(element).then((canvas) => {
-        const dataURL = canvas.toDataURL('image/png');
-
-        const link = document.createElement('a');
-        link.href = dataURL;
-        link.download = `${this.userName + '_Card'}.png`;
-        link.click();
-
+        // Temporarily hide interactive buttons for download
         buttons.forEach(button => {
-          (button as HTMLElement).style.display = '';
+            (button as HTMLElement).style.display = 'none';
         });
 
-        // Close the modal after download
-        const modalElement = document.getElementById('myModal');
-        if (modalElement) {
-          const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
-          modalInstance.hide();
-        }
-      });
+        // Set a fixed style for the element during capture
+        element.style.width = '320px'; // Fixed width for mobile view
+        element.style.margin = '0 auto'; // Center the card
+
+        html2canvas(element, {
+            scale: 3, // Higher scale for better resolution
+            useCORS: true, // Ensure cross-origin resources are captured
+            logging: false,
+            width: element.offsetWidth,
+            height: element.offsetHeight
+        }).then((canvas) => {
+            const dataURL = canvas.toDataURL('image/png');
+
+            // Trigger file download
+            const link = document.createElement('a');
+            link.href = dataURL;
+            link.download = `${this.userName}_Card.png`;
+            link.click();
+
+            // Restore button visibility
+            buttons.forEach(button => {
+                (button as HTMLElement).style.display = '';
+            });
+
+            // Restore original element styles
+            element.style.width = '';
+            element.style.margin = '';
+
+            // Close the modal if open
+            const modalElement = document.getElementById('myModal');
+            if (modalElement) {
+                const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+                modalInstance.hide();
+            }
+        }).catch((error) => {
+            console.error('Error generating canvas:', error);
+        });
     } else {
-      console.error('Element not found');
+        console.error('Element not found');
     }
-  }
+}
+
 
   onBack() {
     this.userService.onBack();

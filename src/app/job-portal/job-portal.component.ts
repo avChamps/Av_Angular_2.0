@@ -1,9 +1,11 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { UserServicesService } from '../services/user-services.service';
 import { Router } from '@angular/router';
 import { FaServiceService } from '../services/fa-service.service';
 import { ToastrService } from 'ngx-toastr';
+import * as bootstrap from 'bootstrap';
+import { salaryRangeValidator } from 'src/custom-validators/salaryValidators';
 
 @Component({
   selector: 'app-job-portal',
@@ -11,56 +13,90 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./job-portal.component.css']
 })
 export class JobPortalComponent implements OnInit {
-  jobType: string = 'full-time';
-  filteredJobType : any;
-  job_role: string = '';
-  minSalary: number | null = null;
-  maxSalary: number | null = null;
-  email!: string;
-  phone!: number;
+  jobForm!: FormGroup;
+  showSpinner: boolean = true;
+  isDisplayCoins: boolean = false;
+  isMenuVisible: boolean = false;
+  isMobileView: boolean = false;
+  displayDeleteBtn: boolean = false;
+  searchQuery: string = '';
+  jobType: string = '';
   location: string = '';
-  company!: string
-  pageSize: number = 10;
-  currentPage: number = 1;
-  searchKeyword: string = '';
-  companyUrl!: string;
-  postedJobs: any[] = []
-  categories: any[] = []
-  contactInfo: any = {};
-  displayShowPosts: boolean = false;
-  displayAllPosts: boolean = true;
+  limit: number = 10;
+  offset: number = 0;
+  totalRecords: number = 0;
   postedBy: string = '';
-  buttonType: string = 'Upload';
-  userName : any;
-  emailId : any;
-  displayCoins : any;
-  profileImg: any[] = [];
-  jobHeadline: string = 'Post A Job'
-  slNo: any;
-  isContact: boolean = false;
-  ShowJobPrtal: boolean = true;
-  showSpinner : boolean = false;
-  isMaxSalaryValid: boolean = true;
-  isDisplyedCoins : boolean = false;
-  @ViewChild('actionButton') actionButton!: ElementRef;
+  sortBy: string = 'newest'
+  emailId: string = 'disendra889@gmail.com';
+  userName: string = 'Disendra';
+  profileImg: any;
+  profileData: any = [];
+  postedJobs: any = [];
+  displayCoins: number = 0;
+  selectedJob: any;
+  buttonType: string = 'Apply Now';
+  msgType: string = 'Post Job';
+  uniqueLocations: any;
+  @ViewChild('cancelPopup') cancelPopup!: ElementRef<HTMLButtonElement>;
+  @ViewChild('jobPopup') jobPopup!: ElementRef<HTMLButtonElement>;
+  @ViewChild('jobDetais') jobDetailsModal!: ElementRef;
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    this.isMobileView = window.innerWidth < 768;
+    if (!this.isMobileView) {
+      this.isMenuVisible = false;
+    }
+  }
+
+  jobs = [
+    {
+      title: 'Junior UI/UX Designer',
+      company: 'Slack Technologies, LLC',
+      description: 'We are looking for a talented designer to create beautiful and functional interfaces...',
+      type: 'Fulltime',
+      location: 'Hyderabad',
+    },
+    {
+      title: 'Mobile UI Designer',
+      company: 'LINE Corporation',
+      description: 'A UI Designer is a technical role that focuses on product development in a way...',
+      type: 'Fulltime',
+      location: 'Pune',
+    },
+    {
+      title: 'Junior UI/UX Designer',
+      company: 'Slack Technologies, LLC',
+      description: 'We are looking for a talented designer to create beautiful and functional interfaces...',
+      type: 'Fulltime',
+      location: 'Chennai',
+    },
+    {
+      title: 'Mobile UI Designer',
+      company: 'LINE Corporation',
+      description: 'A UI Designer is a technical role that focuses on product development in a way...',
+      type: 'Fulltime',
+      location: 'Hyderabad',
+    }
+  ];
 
 
-  jobRoles= [] = [
-    { label: "Live Events", value: "live_events" },
-    { label: "Installation Professionals", value: "installation_professionals" },
-    { label: "Sales & Marketing", value: "sales_marketing" },
-    { label: "Project Engineer", value: "project_engineer" },
-    { label: "Design Engineer", value: "design_engineer" },
-    { label: "CAD Engineer", value: "cad_engineer" },
-    { label: "AV Engineer", value: "av_engineer" },
-    { label: "Others", value: "others" }
+  jobRoles = [] = [
+    { label: "Live Events" },
+    { label: "Installation Professionals" },
+    { label: "Sales & Marketing" },
+    { label: "Project Engineer" },
+    { label: "Design Engineer" },
+    { label: "CAD Engineer" },
+    { label: "AV Engineer" },
+    { label: "Others" }
   ];
 
   jobTypes = [] = [
-    { label: 'Full-Time', value: 'full-time', active: true },
-    { label: 'Part-Time', value: 'part-time', active: false },
-    { label: 'Contract', value: 'contract', active: false },
-    { label: 'Internship', value: 'internship', active: false }
+    { label: 'Full-Time' },
+    { label: 'Part-Time' },
+    { label: 'Contract' },
+    { label: 'Internship' }
   ]
 
   locations = [
@@ -77,15 +113,112 @@ export class JobPortalComponent implements OnInit {
 
 
   constructor(private jobPortaService: UserServicesService, private faService: FaServiceService, private cdr: ChangeDetectorRef, private userService: UserServicesService,
-    private router: Router,private toastr: ToastrService) { }
+    private router: Router, private toastr: ToastrService, private fb: FormBuilder) {
+    this.generateForm();
+  }
+
   ngOnInit(): void {
-    this.emailId = localStorage.getItem('emailId')
-    this.userName = localStorage.getItem('userName');
-    this.getProfileImage()
-    this.getPostedJobs('search');
-    setTimeout(() => {
-      this.scrollToTop();
-    }, 180);
+    this.isMobileView = window.innerWidth < 768;
+    // this.emailId = localStorage.getItem('emailId')
+    // this.userName = localStorage.getItem('userName');
+    this.getProfileImage();
+    this.getPostedJobs();
+  }
+
+  generateForm() {
+    this.jobForm = this.fb.group({
+      id: [],
+      jobRole: ['', Validators.required],
+      companyName: ['', [Validators.pattern(/^[a-zA-Z\s]+$/), Validators.required, Validators.maxLength(50)]], // Max length validation for company name
+      description: [''],
+      location: ['', Validators.required],
+      companyUrl: ['', [Validators.pattern(/^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\-]*)*$/),],],
+      jobType: ['', Validators.required],
+      minSalary: [''],
+      maxSalary: [''],
+      companyEmail: ['', [Validators.required, Validators.email]],
+      phone: ['', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]],
+      email: [this.emailId],
+      userName: [this.userName],
+    },
+      { validators: salaryRangeValidator });
+  }
+
+
+  onJobApply(): void {
+    if (this.jobForm.invalid) {
+      this.jobForm.markAllAsTouched();
+      return;
+    }
+    this.showSpinner = true;
+
+    if (this.buttonType === 'Update Job') {
+      // Update job logic
+      this.userService.editJob(this.jobForm.value)
+        .subscribe((response: any) => {
+          console.log('Job updated:', response);
+          this.cancelPopup.nativeElement.click();
+          this.jobForm.reset();
+          this.getPostedJobs();
+          this.showSpinner = false;
+        });
+    } else {
+      // Add new job logic
+      this.userService.submitApplication(this.jobForm.value)
+        .subscribe((response: any) => {
+          console.log('Job added:', response);
+          this.cancelPopup.nativeElement.click();
+          this.isDisplayCoins = true;
+          this.displayCoins = 50;
+          this.getPostedJobs();
+          this.jobForm.reset();
+          this.showSpinner = false;
+        });
+    }
+  }
+
+
+  onEdit() {
+    this.buttonType = 'Update Job';
+    this.msgType = 'Edit Job';
+    this.displayDeleteBtn = true;
+  }
+
+  editJob(job: any): void {
+    if (this.buttonType == 'Apply Now') {
+      this.selectedJob = job;
+      const modalElement = this.jobDetailsModal.nativeElement;
+      const modalInstance = new bootstrap.Modal(modalElement);
+      modalInstance.show();
+    } else {
+      this.jobPopup.nativeElement.click();
+      this.jobForm.patchValue({
+        jobRole: job.jobRole,
+        id: job.id,
+        companyName: job.companyName,
+        description: job.description,
+        location: job.location,
+        companyUrl: job.companyUrl || '',
+        jobType: job.jobType,
+        minSalary: job.minSalary ? parseInt(job.minSalary) : '',
+        maxSalary: job.maxSalary ? parseInt(job.maxSalary) : '',
+        companyEmail: job.companyEmail || '',
+        phone: job.phone || '',
+        email: [this.emailId],
+        userName: [this.userName]
+      });
+    }
+  }
+
+
+  allowNumbersOnly(event: KeyboardEvent): boolean {
+    const charCode = event.key.charCodeAt(0);
+    // Allow only numbers (0-9)
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+      return false;
+    }
+    return true;
   }
 
 
@@ -96,290 +229,62 @@ export class JobPortalComponent implements OnInit {
       .subscribe((response: any) => {
         console.log(response)
         this.showSpinner = false
-        this.profileImg = response.records
-      })
-  }
-
-  getImageSource(): string {
-    if (this.profileImg && this.profileImg.length > 0) {
-      return this.profileImg[0].imagePath
-    } else {
-      return '../assets/img/blank-user-directory.png'
-    }
-  }
-
-  loadMoreJobs() {
-    this.currentPage++
-    this.getPostedJobs('more')
-  }
-
-
-  getPostedJobs(type: any) {
-    if (type === 'search') {
-      this.postedJobs = [];
-    }
-    this.jobPortaService.getPostedJobs(this.pageSize, (this.currentPage - 1) * this.pageSize, this.searchKeyword, this.location, this.jobType , this.postedBy)
-      .subscribe((response: any) => {
-        let jobsResponse = response.records;
-        this.postedJobs = [...this.postedJobs, ...jobsResponse];
-        this.categories = response.jobRolesCount;
-        console.log(response);
-        this.scrollToBottom();
+        this.profileImg = response.records[0].imagePath;
+        this.profileData = response.records[0];
+        if (!this.profileImg && this.profileImg.length == 0) {
+          this.profileImg = '../assets/img/blank-user-directory.png';
+        }
       })
   }
 
 
-  myPosts() {
-    this.displayShowPosts = true;
-    this.displayAllPosts = false;
-    this.ShowJobPrtal = true;
-    this.isContact = false;
-    this.postedJobs = [];
-    this.postedBy = this.emailId;
-    this.jobPortaService.getPostedJobs(this.pageSize, (this.currentPage - 1) * this.pageSize, this.searchKeyword, this.location, this.jobType, this.postedBy)
+  getPostedJobs(sortBy: string = 'newest', location: string = '') {
+    this.showSpinner = true
+    this.userService.getPostedJobs(this.limit, this.offset, this.searchQuery, location, this.jobType, this.postedBy, sortBy)
       .subscribe((response: any) => {
+        console.log(response)
+        this.showSpinner = false;
+        this.totalRecords = response.totalRecords;
         this.postedJobs = response.records;
+        if (!this.uniqueLocations || this.uniqueLocations.length === 0) {
+          this.uniqueLocations = Array.from(
+            new Set(
+              response.records.map((job: { location: string }) => job.location.toLowerCase())
+            )
+          );
+        }
+
       })
   }
 
-  getJobRoleDisplayName(job_role: string): string {
-    const displayNames: { [key: string]: string } = {
-      live_events: 'Live Events',
-      installation_professionals: 'Installation Professionals',
-      sales_marketing: 'Sales & Marketing',
-      project_engineer: 'Project Engineer',
-      design_engineer: 'Design Engineer',
-      cad_engineer: 'CAD Engineer',
-      av_engineer: 'AV Engineer',
-      others: 'Others'
-    };
 
-    return displayNames[job_role] || job_role;
+  updateSelectedJobTypes(type: any) {
+    this.jobType = type.label;
+    this.getPostedJobs();
   }
-
-
-  setActiveTab(selectedTab: any) {
-    this.jobTypes.forEach(tab => tab.active = false);
-    selectedTab.active = true;
-    this.jobType = selectedTab.value;
-    this.currentPage = 1;
-    this.getPostedJobs('search');
-    this.cdr.detectChanges();
-  }
-
-  onDropdownChange(event: any) {
-    const selectedValue = event.target.value;
-  
-  this.jobTypes.forEach(tab => {
-    if (tab.value === selectedValue) {
-      tab.active = true;
-    } else {
-      tab.active = false;
-    }
-  });
-    this.jobType = selectedValue;
-    this.currentPage = 1;
-    // this.getPostedJobs('search');
-}
-
-  onSubmit(form: NgForm) {
-    if (this.buttonType === 'Upload') {
-      if (form.valid) {
-        const applicationData = {
-          job_role: this.job_role,
-          jobType: this.jobType,
-          minSalary: this.minSalary,
-          maxSalary: this.maxSalary,
-          email: this.email,
-          phone: this.phone,
-          company: this.company,
-          location: this.location,
-          companyUrl: this.companyUrl,
-          postedBy: this.emailId
-        };
-
-        this.actionButton.nativeElement.click();
-        this.jobPortaService.submitApplication(applicationData).subscribe(
-          response => {
-            // alert(response.message);
-            console.log('Application submitted successfully', response);
-            this.getPostedJobs('search');
-            this.scrollToTop();
-            this.clearInputs(); 
-            this.toastr.success(response.message, 'Success', {
-              positionClass: 'toast-custom-position',
-              timeOut: 3000, 
-              closeButton: true,
-              progressBar: true
-            });
-            this.actionButton.nativeElement.click();
-            // window.location.reload();
-            form.resetForm();
-            this.clearInputs();
-            this.insertPoints(100);
-          },
-          error => {
-            console.error('Error submitting application', error);
-            this.toastr.success('Error submitting application', 'Failed', {
-              positionClass: 'toast-custom-position',
-              timeOut: 3000, 
-              closeButton: true,
-              progressBar: true
-            });
-          }
-        );
-      } else {
-        Object.keys(form.controls).forEach(field => {
-          const control = form.control.get(field);
-          control?.markAsTouched({ onlySelf: true });
-        });
-      }
-    }
-    else {
-      this.uploadEditJob()
-    }
-  }
-
-  validateSalaryRange(): boolean {
-    if (this.minSalary !== null && this.maxSalary !== null) {
-      this.isMaxSalaryValid = this.maxSalary > this.minSalary;
-    } else {
-      this.isMaxSalaryValid = true; // Valid when one or both fields are empty
-    }
-    return this.isMaxSalaryValid;
-  }
-
-  applyDetails(details: any) {
-    console.log(details);
-    this.contactInfo = details;
-  }
-
-  editJob(job: any) {
-    console.log(job);
-    this.buttonType = 'Save';
-    this.job_role = job.job_role;
-    this.company = job.company;
-    this.location = job.location,
-      this.jobType = job.job_type;
-    this.minSalary = job.min_salary;
-    this.maxSalary = job.max_salary;
-    this.email = job.email;
-    this.phone = job.phone;
-    this.companyUrl = job.companyUrl;
-    this.slNo = job.slNo;
-    this.cdr.detectChanges();
-  }
-
-  
-  insertPoints(points : number) {
-    this.showSpinner = true;
-    this.displayCoins = points;
-    const pointsData = {
-      emailId : this.emailId, 
-      userName : this.userName, 
-      points : points
-    };
-    this.userService.insertPoints(pointsData).subscribe((response: any) => {
-      this.isDisplyedCoins = false;
-      console.log('Form submitted:', response);
-        console.log(response);
-        setTimeout(() => {
-          this.isDisplyedCoins = true;
-        }, 100);
-    });
-    this.showSpinner = false;
-  }
-
-  deletePoints(points : number) {
-    this.showSpinner = true;
-    this.displayCoins = points;
-    const pointsData = {
-      emailId : this.emailId, 
-      userName : this.userName, 
-      points : points
-    };
-    this.userService.deletePoints(pointsData).subscribe((response: any) => {
-      console.log('Form submitted:', response);
-        console.log(response);
-    });
-    this.showSpinner = false;
-  }
-  
-
-
-  uploadEditJob() {
-    const applicationData = {
-      job_role: this.job_role,
-      jobType: this.jobType,
-      minSalary: this.minSalary,
-      maxSalary: this.maxSalary,
-      email: this.email,
-      phone: this.phone,
-      company: this.company,
-      location: this.location,
-      companyUrl: this.companyUrl,
-      postedBy: this.emailId,
-      slNo: this.slNo
-    };
-    this.actionButton.nativeElement.click();
-    this.jobPortaService.editJob(applicationData).subscribe(
-      response => {
-        this.toastr.success(response.message, 'Success', {
-          positionClass: 'toast-custom-position',
-          timeOut: 3000, 
-          closeButton: true,
-          progressBar: true
-        });
-        console.log('Application submitted successfully', response);
-        this.getPostedJobs('search');
-      },
-      error => {
-        console.error('Error submitting application', error);
-      }
-    );
-  }
-
-
 
   deleteJob(job: any) {
-    this.showSpinner = true;
-    this.actionButton.nativeElement.click();
-    const applicationData = {
-      job_role: job.job_role,
-      company: job.company,
-      slNo: job.slNo
-    };
-    const confirmation = confirm('Are you sure you want to delete the Post?')
-    if (!confirmation) {
-      return
-    }
-    this.jobPortaService.deleteJob(applicationData).subscribe((response: any) => {
-      console.log('Response from server:', response)
-      this.showSpinner = false
-      if (response && response.status) {
-        this.toastr.success(response.message, 'Success', {
-          positionClass: 'toast-custom-position',
-          timeOut: 3000, 
-          closeButton: true,
-          progressBar: true
-        });
-         this.deletePoints(10);
-        this.getPostedJobs('search');
-      } else {
-        alert('An error occurred. Please try again later.')
-      }
-    })
-  }
-
-  clearInputs() {
-    this.jobType = '';
-    this.job_role = '';
-    this.minSalary = null;
-    this.maxSalary = 0;
-    this.email = '';
-    this.phone = 0;
-    this.location = '';
-    this.companyUrl = '';
+    this.jobForm.patchValue({
+      jobRole: job.jobRole,
+      id: job.id,
+      companyName: job.companyName,
+      description: job.description,
+      location: job.location,
+      companyUrl: job.companyUrl || '',
+      jobType: job.jobType,
+      minSalary: job.minSalary || '',
+      maxSalary: job.maxSalary || '',
+      companyEmail: job.companyEmail || '',
+      phone: job.phone || ''
+    });
+    this.userService.deleteJob(this.jobForm.value)
+      .subscribe((response: any) => {
+        console.log('Job updated:', response);
+        this.cancelPopup.nativeElement.click();
+        this.getPostedJobs();
+        this.showSpinner = false;
+        this.jobForm.reset();
+      });
   }
 
   logOut() {
@@ -388,27 +293,20 @@ export class JobPortalComponent implements OnInit {
     window.location.reload();
   }
 
-  contactForm() {
-    this.isContact = true;
-    this.ShowJobPrtal = false;
+  toggleMenu(): void {
+    this.isMenuVisible = !this.isMenuVisible;
   }
 
-  refreshPage() {
-    window.location.reload();
+  editProfile() {
+    window.open('/profile-dashboard/about', '_blank');
   }
 
-  scrollToBottom() {
-    window.scrollTo({
-      top: document.body.scrollHeight,
-      behavior: 'smooth'
-    });
+  navigateHome() {
+    window.open('/profile-dashboard/feed', '_blank');
   }
 
-  scrollToTop() {
-    window.scrollTo({
-      top : 0,
-      behavior : 'smooth'
-    })
+  isChecked(jobType: { label: string }): boolean {
+    return this.jobType === jobType.label;
   }
 
 }

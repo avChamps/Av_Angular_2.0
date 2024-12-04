@@ -23,7 +23,7 @@
     <div class="coin">+{{ coins }} Coins</div>
   </div> -->
 
-  <div class="modal fade" id="myDialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" #modalElement>
+  <!-- <div class="modal fade" id="myDialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" #modalElement>
     <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
       <div class="modal-content p-4 text-center">
         <div class="modal-body">
@@ -39,6 +39,22 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   
+  <!-- Bootstrap Modal -->
+  <div class="modal fade" id="myDialog" tabindex="-1" aria-labelledby="congratulationsModalLabel" aria-hidden="true" #modalElement>
+    <div class="modal-dialog modal-sm"> <!-- Use modal-sm for a smaller modal -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="congratulationsModalLabel" style="color: green;">Congratulations!</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+          <img src="./assets/images/dollar.svg" height="30px" width="30px" alt="Coin" /> <!-- Adjust image size -->
+          <h5 class="my-3" style="color: blue;">50 Coins</h5> <!-- Smaller heading -->
+          <p style="color: #777; font-size: 0.9rem;">Boost your coin balance by posting more jobs.</p> <!-- Smaller text -->
+        </div>
+      </div>
+    </div>
+  </div>
   

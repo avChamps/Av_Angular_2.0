@@ -1,0 +1,79 @@
+.fw-bold {
+    font-weight: bold;
+}
+
+.form-control {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.table-custom {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table-custom th,
+.table-custom td {
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.header {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.border-right {
+    border-right: 1px solid #000;
+}
+
+.middle-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    display: block;
+}
+
+input[type="radio"] {
+  border: 1px solid;
+}   
+
+.table {
+    white-space: nowrap;
+}
+
+.border-section {
+border-bottom: 1px solid black!important;
+padding : 8px!important;
+}
+
+.tool-border {
+border: 1px solid black!important;
+}
+
+.border-right {
+  border-right: 1px solid black!important;
+}
+
+.table-textarea {
+min-height : 160px;
+max-height : 160px
+}
+
+@media (max-width: 768px) {
+.border-right {
+    border-right: none!important;
+}
+
+.mobile_qty {
+    width: 60px;
+}
+}

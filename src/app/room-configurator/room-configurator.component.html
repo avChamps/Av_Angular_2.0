@@ -1,0 +1,137 @@
+  <div *ngIf="currentTab === DisplaySection.First">
+  <div class="container py-5">
+    <div class="row justify-content-center mb-5">
+      <div class="col-md-8 d-flex justify-content-center align-items-center">
+        <div class="d-flex align-items-center justify-content-center w-100">
+          <div class="rounded-circle bg-success"></div>
+          <div class="border-top border-dark mx-2"></div>
+          <div class="rounded-circle border border-dark"></div>
+          <div class="border-top border-dark mx-2"></div>
+          <div class="rounded-circle border border-dark"></div>
+          <div class="border-top border-dark mx-2"></div>
+          <div class="rounded-circle border border-dark"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="row text-center">
+      <div class="col-12">
+        <h4>Room Configurator</h4>
+        <p class="fs-6 mt-3 mb-5">
+          Design your modern collaboration space effortlessly with flexible video and audio device options, and easily download the solution.
+        </p>
+        <button class="btn btn-success btn-lg px-5 py-3" (click)="onSelect('first')">
+          GET STARTED <span class="ms-2">&#8594;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+  <div class="container py-5">
+    <!-- Step Indicator -->
+    <div class="row justify-content-center mb-4">
+      <div class="col-md-10">
+        <div class="d-flex align-items-center justify-content-between">
+          <!-- Step 1 -->
+          <div class="d-flex flex-column align-items-center">
+            <div class="rounded-circle bg-success" style="width: 30px; height: 30px;"></div>
+          </div>
+          <div class="flex-grow-1 border-top border-dark mx-1"></div>
+          <!-- Step 2 -->
+          <div class="d-flex flex-column align-items-center">
+            <div class="rounded-circle border border-dark" style="width: 30px; height: 30px;"></div>
+          </div>
+          <div class="flex-grow-1 border-top border-dark mx-1"></div>
+          <!-- Step 3 -->
+          <div class="d-flex flex-column align-items-center">
+            <div class="rounded-circle border border-dark" style="width: 30px; height: 30px;"></div>
+          </div>
+          <div class="flex-grow-1 border-top border-dark mx-1"></div>
+          <!-- Step 4 -->
+          <div class="d-flex flex-column align-items-center">
+            <div class="rounded-circle border border-dark" style="width: 30px; height: 30px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Heading -->
+    <div class="row text-center">
+      <div class="col-12">
+        <h4 class="fw-bold">Please select your video conferencing service provider</h4>
+      </div>
+    </div>
+
+    <!-- Service Provider Options -->
+    <div class="row justify-content-center mt-4">
+      <!-- Card 1 -->
+      <div class="col-6 col-md-2">
+        <div class="card text-center p-3 border rounded shadow-sm">
+          <img src="https://via.placeholder.com/60" class="card-img-top mx-auto" alt="Microsoft Teams">
+          <div class="card-body">
+            <h6 class="card-title">Microsoft Teams</h6>
+            <input type="radio" name="provider" class="form-check-input mt-2" />
+          </div>
+        </div>
+      </div>
+      <!-- Card 2 -->
+      <div class="col-6 col-md-2">
+        <div class="card text-center p-3 border rounded shadow-sm">
+          <img src="https://via.placeholder.com/60" class="card-img-top mx-auto" alt="Zoom Rooms">
+          <div class="card-body">
+            <h6 class="card-title">Zoom Rooms</h6>
+            <input type="radio" name="provider" class="form-check-input mt-2" />
+          </div>
+        </div>
+      </div>
+      <!-- Card 3 -->
+      <div class="col-6 col-md-2">
+        <div class="card text-center p-3 border rounded shadow-sm">
+          <img src="https://via.placeholder.com/60" class="card-img-top mx-auto" alt="Google Meet">
+          <div class="card-body">
+            <h6 class="card-title">Meet</h6>
+            <input type="radio" name="provider" class="form-check-input mt-2" />
+          </div>
+        </div>
+      </div>
+      <!-- Card 4 -->
+      <div class="col-6 col-md-2">
+        <div class="card text-center p-3 border rounded shadow-sm">
+          <img src="https://via.placeholder.com/60" class="card-img-top mx-auto" alt="BYOD">
+          <div class="card-body">
+            <h6 class="card-title">BYOD</h6>
+            <input type="radio" name="provider" class="form-check-input mt-2" />
+          </div>
+        </div>
+      </div>
+      <!-- Card 5 -->
+      <div class="col-6 col-md-2">
+        <div class="card text-center p-3 border rounded shadow-sm">
+          <img src="https://via.placeholder.com/60" class="card-img-top mx-auto" alt="All">
+          <div class="card-body">
+            <h6 class="card-title">ALL</h6>
+            <input type="radio" name="provider" class="form-check-input mt-2" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="row justify-content-center mt-4">
+      <div class="col-auto">
+        <button class="btn btn-outline-dark px-4">BACK</button>
+      </div>
+      <div class="col-auto">
+        <button class="btn btn-success px-4">NEXT</button>
+      </div>
+    </div>
+  </div>

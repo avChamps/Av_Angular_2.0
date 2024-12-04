@@ -1,0 +1,99 @@
+<div class="container tool-border shadow-lg p-3 mt-3">
+    <!-- Header Section -->
+    <div class="row border-section" style="margin-top: -10px;">
+        <div class="col-md-6 col-12 border-right">
+            <label for="address" class="form-label fw-bold mb-0">Address</label>
+            <textarea id="address" class="form-control shadow-none" rows="4" placeholder="Enter Address"></textarea>
+        </div>
+        <div class="col-md-6 col-12">
+            <div class="middle-box border-box">
+                MATERIAL GATE PASS
+            </div>
+        </div>
+    </div>
+    <!-- Person and Company Section -->
+    <div class="row border-section">
+        <div class="col-md-6 col-12 border-right">
+            <label for="personName" class="form-label mb-0">Person Name</label>
+            <input type="text" id="personName" class="form-control shadow-none" placeholder="Enter Person Name">
+        </div>
+        <div class="col-md-3 col-12">
+            <label for="date" class="form-label mb-0">Date</label>
+            <input type="datetime-local" id="date" class="form-control shadow-none">
+        </div>
+    </div>
+    <div class="row border-section">
+        <div class="col-md-6 col-12">
+            <label class="form-label mb-0">Gatepass Type</label>
+            <div class="d-flex align-items-center mt-1">
+                <div class="form-check me-3">
+                    <input type="radio" id="returnable" selected checked name="gatepassType" class="form-check-input shadow-none">
+                    <label for="returnable" class="form-check-label">Return</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" id="nonReturnable" name="gatepassType" class="form-check-input shadow-none">
+                    <label for="nonReturnable" class="form-check-label">Non-Return</label>
+                </div>
+            </div>
+        </div>
+             
+        <div class="col-md-6 col-12">
+            <label for="companyName" class="form-label mb-0">Company Name</label>
+            <input type="text" id="companyName" class="form-control shadow-none" placeholder="Enter Vendor Company Name">
+        </div>
+    </div>
+    <!-- Table Section -->
+    <div class="row p-2 border-section">
+        <div class="table-responsive">
+            <table class="table table-custom p-2">
+                <thead class="custom-table-header table-bordered">
+                    <tr>
+                        <th>SN</th>
+                        <th>Particulars</th>
+                        <th>Qty</th>
+                        <th>Issue With Hardware</th>
+                    </tr> 
+                </thead>
+                <tbody>
+                    <tr *ngFor="let row of tableRows; let i = index">
+                        <td>{{ i + 1 }}</td>
+                        <td><input type="text" class="form-control shadow-none" placeholder="Enter Device Description" [(ngModel)]="row.desc">
+                            <input type="text" class="form-control shadow-none mt-1" placeholder="Enter Device Make" [(ngModel)]="row.make">
+                            <input type="text" class="form-control shadow-none mt-1" placeholder="Enter Device Model" [(ngModel)]="row.model">
+                            <input type="text" class="form-control shadow-none mt-1" placeholder="Enter Device SlNO" [(ngModel)]="row.slNo"></td>
+                        <td style="width: 130px;"><input type="number" class="form-control shadow-none mobile_qty" oninput="validateNumberInput(this)" placeholder="Qty" [(ngModel)]="row.quantity"></td>
+                        <td><textarea type="text" class="form-control table-textarea shadow-none" placeholder="Enter Problem" [(ngModel)]="row.problem"></textarea></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="text-right disabled_Button">
+            <i class="bi bi-dash-circle text-danger ml-2 cur_pointer" (click)="deleteRow(2)"></i>
+            <i class="bi bi-plus-circle ml-2 text-success cur_pointer" (click)="addRow()"></i>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="row p-2">
+        <div class="col-md-6 col-12 border-right">
+            <label for="preparedBy" class="form-label mb-0">Prepared by</label>
+            <input type="text" id="preparedBy" class="form-control mb-3 shadow-none" placeholder="Enter Name">
+            Signature:
+        </div>
+        <div class="col-md-6 col-12">
+            <label for="receivedBy" class="form-label mb-0">Received by</label>
+            <input type="text" id="receivedBy" class="form-control mb-3 shadow-none" placeholder="Enter Name">
+            Signature:
+        </div>
+    </div>
+</div>
+
+ <!-- Buttons -->
+ <div class="row justify-content-center mb-2 mt-3 disabled_Button">
+    <div class="col-md-4 text-center">
+        <button class="btn btn-warning mr-2" (click)="refreshValues()">{{'Cancel' | translate}}</button>
+        <button class="btn btn-success" (click)="downloadForm()">{{'Save' | translate}}</button>
+    </div>
+</div>
+
+

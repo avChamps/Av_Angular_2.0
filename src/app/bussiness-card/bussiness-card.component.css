@@ -6,3 +6,33 @@ a {
 .margin-right {
 	margin-right: -10px;
 }
+
+
+#downloadCardId {
+	padding: 20px;
+	background: #fff;
+	border-radius: 15px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 576px) {
+	#downloadCardId {
+		width: 90%;
+		padding: 15px;
+	}
+}
+
+.icon.arrow {
+	top: 10px;
+	left: 10px;
+}
+
+.qrcode {
+	width: 100px;
+	height: 100px;
+}
+
+.card p,
+.card i {
+	font-size: 14px;
+}
