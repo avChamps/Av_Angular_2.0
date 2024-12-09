@@ -70,18 +70,7 @@ body {
     font-size: 12px;
     padding: 5px 10px;
     border-radius: 15px;
-}
-
-.btn-custom {
-    background-color: orange;
-    color: #fff;
-    font-size: 14px;
-    /* padding: 8px 15px; */
-    border-radius: 5px;
-}
-
-.btn-custom:hover {
-    background-color: green;
+    font-weight: unset;
 }
 
 .btn-danger {
@@ -93,16 +82,10 @@ body {
     background-color: red;
 }
 
-.scrollable-section {
-    overflow-y: auto;
-    height: calc(100vh - 90px);
-    /* Adjust height minus header height */
-}
-
 .dropdown-toggle {
     padding: 5px 15px;
     font-size: 14px;
-    font-weight: 500;
+    /* font-weight: 500; */
     border-radius: 8px;
 }
 
@@ -124,8 +107,9 @@ body {
 }
 
 .post-job-btn {
-    background-color: #6f42c1;
-    color: white;
+    /* background-color: #6f42c1; */
+    /* color: white; */
+    border: 1px solid green;
     margin-right: 15px;
     border-radius: 25px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -136,11 +120,12 @@ body {
 }
 
 .btn-close:hover {
-    background-color: red;
+    color: red !important;
 }
 
 .error-msg {
     font-size: 12px;
+    margin-top: 5px;
 }
 
 .location_left {
@@ -178,6 +163,7 @@ textarea {
 /* Target only the default option */
 select option.default-option {
     opacity: 0.6;
+    font-size: 14px !important;
     /* Adjust opacity as needed */
 }
 
@@ -192,6 +178,12 @@ select option.default-option {
     /* Adjust based on line height */
     line-height: 1.8em;
     /* Adjust based on the font size */
+}
+
+.card-btn {
+    border: 1px solid #00000026;
+    border-radius: 6px;
+    padding: 8px;
 }
 
 /* Customize the tooltip */
@@ -230,6 +222,72 @@ select option.default-option {
     width: 35px;
 }
 
+.fa-exclamation-circle {
+    color: grey;
+}
+
+.scrollable-container {
+    height: 60vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    /* For Firefox */
+    -ms-overflow-style: none;
+
+}
+
+.modal-body {
+    line-height: 12px;
+}
+
+.bg-red {
+    background-color: #ff000085 !important;
+}
+
+.bg-green {
+    background-color: #0080008f !important;
+}
+
+.bg-blue {
+    background-color: #0000ff85 !important;
+}
+
+.bg-teal {
+    background-color: teal !important;
+}
+
+#deletejobConfirmation .modal-dialog {
+    max-width: 375px;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* #jobFormModal .modal-dialog {
+max-height: 80vh; 
+overflow-y: auto;
+max-width: 400px;
+} */
+
+.fa-suitcase {
+    color: darkslateblue;
+}
+
+.form-label {
+    font-size: 14px;
+}
+
+.popup-btn {
+    margin-top: -30px;
+}
+
+.form-control,
+textarea {
+    font-size: 14px !important;
+}
+
+
 @media (max-width: 768px) {
     .col-lg-3 {
         max-width: 100%;
@@ -244,8 +302,24 @@ select option.default-option {
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
+    /* .card-custom {
+        min-height: 300px;
+        max-height: 300px;
+    } */
+
+    .card-btn {
+        flex-direction: column !important;
+    }
+
+    .card-btn .badge-custom {
+        margin-bottom: 5px;
+    }
+
+    .card-btn .button-group {
+        margin-top: 10px;
+    }
+
     .scrollable-section {
         margin-left: 0;
     }
 }
-

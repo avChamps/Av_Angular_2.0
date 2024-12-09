@@ -84,8 +84,40 @@ body {
 	font-size: 12px;
 }
 
+.fs-14 {
+	font-size: 14px!important;
+}
+
+.fs-16 {
+	font-size: 16px;
+}
+
+.fs-12 {
+	font-size: 12px!important;
+}
+
+::placeholder {
+	font-size: 14px;
+}
+
+.text-green {
+	color: green;
+}
+
+.text-truncate {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: block;
+  }
+
+/* .btn-close {
+	font-size: 12px;
+} */
+
 @media (min-width: 576px) {
 .borders-right {
 	border-right: 1px solid black;
 }
+
 }

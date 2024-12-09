@@ -7,8 +7,8 @@ import { Observable, Subject } from 'rxjs'
   providedIn: 'root'
 })
 export class UserServicesService {
-  // url = 'https://avchamps.com/nodejs';
-   url = 'http://localhost:3000'
+  url = 'https://avchamps.com/nodejs';
+  //  url = 'http://localhost:3000'
   // url = 'http://10.0.0.68:3000';
 
   // url = 'http://192.168.29.47:3000'
@@ -84,9 +84,9 @@ export class UserServicesService {
   onBack() {
     this.router.navigate(['/profile-dashboard/tools']);
   }
-
-  insertCart(data: FormData) {
-    return this.http.post(`${this.url}/insertCart`, data)
+  
+  insertCart(jobData: any): Observable<any> {
+    return this.http.post<any>(`${this.url}/insertCart`, jobData);
   }
 
   updateCartData(data: FormData) {
@@ -153,7 +153,7 @@ export class UserServicesService {
     return this.http.post<any>(`${this.url}/submitApplication`, jobData);
   }
 
-  getPostedJobs(limit: any, offset: number, searchQuery: string, location: string, jobType: string, postedBy: string,sortBy : any) {
+  getPostedJobs(limit: any, offset: number, searchQuery: string, location: string, jobType: string, postedBy: string,sortBy : any,email : any) {
     let queryParams = `limit=${limit}&offset=${offset}`;
 
     if (searchQuery) {
@@ -172,6 +172,10 @@ export class UserServicesService {
       queryParams += `&postedBy=${postedBy}`;
     }
 
+    if (email) {
+      queryParams += `&email=${email}`;
+    }
+
     if(sortBy) {
       queryParams += `&sortBy=${sortBy}`;
     }
@@ -180,12 +184,50 @@ export class UserServicesService {
   }
 
 
+  getPostedproducts(limit: any, offset: number, searchQuery: string, location: string, category: string, postedBy: string,sortBy : any,email : any) {
+    let queryParams = `limit=${limit}&offset=${offset}`;
+
+    if (searchQuery) {
+      queryParams += `&searchQuery=${searchQuery}`;
+    }
+
+    if (location) {
+      queryParams += `&location=${location}`;
+    }
+
+    if (category) {
+      queryParams += `&category=${category}`;
+    }
+
+    if (postedBy) {
+      queryParams += `&postedBy=${postedBy}`;
+    }
+
+    if (email) {
+      queryParams += `&email=${email}`;
+    }
+
+    if(sortBy) {
+      queryParams += `&sortBy=${sortBy}`;
+    }
+
+    return this.http.get<any>(`${this.url}/getPostedproducts?${queryParams}`);
+  }
+
   editJob(job: any): Observable<any> {
     return this.http.post(`${this.url}/editJob`, job);
   }
 
+  editProduct(job: any): Observable<any> {
+    return this.http.post(`${this.url}/editProduct`, job);
+  }
+
   deleteJob(data: any) {
     return this.http.post(`${this.url}/deleteJob`, data)
+  }
+
+  deleteProduct(data: any) {
+    return this.http.post(`${this.url}/deleteProduct`, data)
   }
 
   refreshData() {

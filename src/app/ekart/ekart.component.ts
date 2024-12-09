@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthGuardService } from '../services/auth-guard.service';
 import { AuthServiceService } from '../services/auth-service.service';
@@ -6,68 +6,63 @@ import { FaServiceService } from '../services/fa-service.service';
 import { UserServicesService } from '../services/user-services.service';
 import * as bootstrap from 'bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { salaryRangeValidator } from 'src/custom-validators/salaryValidators';
 
 @Component({
   selector: 'app-ekart',
   templateUrl: './ekart.component.html',
-  styleUrls: ['./ekart.component.css']
+  styleUrls: ['../job-portal/job-portal.component.css', './ekart.component.css',]
 })
 export class EkartComponent implements OnInit {
-
-  userName: any;
-  emailId : any;
-  title!: string;
-  description!: string;
+  itemForm!: FormGroup;
+  showSpinner: boolean = true;
+  isDisplayCoins: boolean = false;
+  isMenuVisible: boolean = false;
+  isMobileView: boolean = false;
+  displayDeleteBtn: boolean = false;
+  searchQuery: string = '';
+  category: string = '';
   location: string = '';
-  selectedFile: any;
-  mobileNumber!: number;
-  selectedFileName: string = '';
-  slNo!: number;
-  price!: number;
-  products: any[] = [];
-  uploadProducts: any[] = [];
-  profileImg: any[] = [];
-  showUpload: boolean = false;
-  showSpinner: boolean = false;
-  showContact: boolean = false;
-  showFile: boolean = true;
-  showCart: boolean = false;
-  showProducts: boolean = true;
-  showSearchBox: boolean = true;
-  showContactForm: boolean = false;
-  displayCoins : any;
-  isDisplyedCoins : boolean = false;
-  showViewMore: boolean = true;
-  viewMoreButton: boolean = false;
-  showEmptyImg: boolean = false;
-  isValid : boolean = true;
-  displayScrollIcon : boolean = true;
-  selectedItem: any;
+  limit: number = 1000;
   offset: number = 0;
-  searchKeyword: string = '';
-  sellerButton: string = 'Upload';
-  productCategory: string = '';
+  totalRecords: number = 0;
+  postedBy: string = '';
+  selectedLocation: string = '';
+  sortBy: string = 'newest'
+  emailId: string = 'disendra889@gmail.com';
+  userName: string = 'Disendra';
+  profileImg: any;
+  profileData: any = [];
+  postedJobs: any = [];
+  displayCoins: number = 0;
+  selectedProduct: any;
+  msgType: string = 'Post Job';
+  btnType: string = 'apply'
+  uniqueLocations: any;
+  selectedFile: any;
+  @ViewChild('cancelPopup') cancelPopup!: ElementRef<HTMLButtonElement>;
+  @ViewChild('jobPopup') jobPopup!: ElementRef<HTMLButtonElement>;
+  @ViewChild('jobDetais') jobDetailsModal!: ElementRef;
 
-  @ViewChild('seller') sellerForm!: TemplateRef<any>;
-  @ViewChild('contact', { static: true }) contactModal!: ElementRef;
-  @ViewChild('actionButton') actionButton!: ElementRef;
-  insertionType: any;
-
-  constructor(
-    private userService: UserServicesService,
-    private router: Router,
-    private faService: FaServiceService,
-    private authService: AuthServiceService,
-    private authGuard: AuthGuardService,
-    private toastr: ToastrService
-  ) {}
-
-  ngOnInit(): void {
-    this.emailId = localStorage.getItem('emailId')
-    this.userName = localStorage.getItem('userName');
-    this.getCartData(this.offset);
-    this.getProfileImage();
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    this.isMobileView = window.innerWidth < 768;
+    if (!this.isMobileView) {
+      this.isMenuVisible = false;
+    }
   }
+
+  jobRoles = [] = [
+    { label: "Live Events" },
+    { label: "Installation Professionals" },
+    { label: "Sales & Marketing" },
+    { label: "Project Engineer" },
+    { label: "Design Engineer" },
+    { label: "CAD Engineer" },
+    { label: "AV Engineer" },
+    { label: "Others" }
+  ];
 
   itemCategory = [
     { label: 'Audio', value: 'audio' },
@@ -87,319 +82,290 @@ export class EkartComponent implements OnInit {
     { label: "Ahmadabad", value: "Ahmadabad" },
     { label: "Kolkata", value: "Kolkata" },
     { label: "Goa", value: "Goa" }
-  ];
+  ]
 
-  loadMoreCartData() {
-    this.offset += 5;
-    this.getCartData(this.offset);
+
+  constructor(private jobPortaService: UserServicesService, private faService: FaServiceService, private cdr: ChangeDetectorRef, private userService: UserServicesService,
+    private router: Router, private toastr: ToastrService, private fb: FormBuilder) {
+    this.generateForm();
   }
 
-  loadMoreUploadData() {
-    this.offset += 5;
-    this.getUploadProducts(this.offset);
+  ngOnInit(): void {
+    this.isMobileView = window.innerWidth < 768;
+    // this.emailId = localStorage.getItem('emailId')
+    // this.userName = localStorage.getItem('userName');
+    this.getProfileImage();
+    this.getPostedJobs();
   }
 
-  onSelect(option: string): void {
-    // this.products = [];
-    if (option === 'myPosts') {
-      this.location = '';
-      this.productCategory = '';
-      this.searchKeyword = '';
-      this.showCart = true;
-      this.showProducts = false;
-      this.showContactForm = false;
-      this.displayScrollIcon = true;
-      this.getUploadProducts(0);
-    } else if (option === 'products') {
-      window.location.reload();
-    } else if (option === 'contact') {
-      this.showSearchBox = false;
-      this.showContactForm = true;
-      this.displayScrollIcon = false;
-      this.showCart = false;
-      this.showProducts = false;
+  generateForm() {
+    this.itemForm = this.fb.group({
+      id: [],
+      title: ['', [Validators.required, Validators.maxLength(100)]],
+      description: ['', [Validators.maxLength(500)]],
+      category: ['', Validators.required],
+      location: ['', [Validators.required, Validators.maxLength(100)]],
+      mobile: ['', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]],
+      price: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
+      image: [''],
+      email: [this.emailId],
+      userName: [this.userName],
+    });
+    this.updateImageValidation();
+  }
+  
+  updateImageValidation() {
+    if (this.btnType == 'apply') {
+      this.itemForm.get('image')?.setValidators([Validators.required]);
     } else {
-      this.logOut();
+      this.itemForm.get('image')?.clearValidators(); 
+    }
+    this.itemForm.get('image')?.updateValueAndValidity();
+  }
+
+  onFileChange(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
     }
   }
 
-  getUploadProducts(offset: number) {
-    this.showSpinner = true;
-    this.isValid = true;
-    this.userService.getUploadData(this.emailId, offset).subscribe(response => {
-      this.uploadProducts = this.uploadProducts.concat(response.records);
-      this.getRecords(response);
-      this.showSpinner = false;
-    });
-  }
-
-  getCartData(offset: number) {
-    this.showSpinner = true;
-    this.userService.getCartData(offset, this.searchKeyword, this.productCategory, this.location)
-      .subscribe((response: any) => {
-        this.products = this.products.concat(response.records);
-        this.getRecords(response);
-        this.showSpinner = false;
-      });
-  }
-
-  getProfileImage() {
-    this.showSpinner = true;
-    this.userService.getProfileImage(this.emailId).subscribe((response: any) => {
-      this.profileImg = response.records;
-      this.showSpinner = false;
-    });
-  }
-
-  onSearch() {
-    this.products = [];
-    this.getCartData(0);
-  }
-
-  getImageSource(): string {
-    return this.profileImg.length > 0 ? this.profileImg[0].imagePath : '../assets/img/blank-user-directory.png';
-  }
-
-  selectFile(): void {
-    const fileInput = document.getElementById('fileInput');
+  clearFileInput(): void {
+    const fileInput = document.getElementById('image') as HTMLInputElement;
     if (fileInput) {
-      fileInput.click();
-    } else {
-      console.error('File input element not found.');
+      fileInput.value = ''; // Clear the file input
     }
   }
 
-  onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
-    this.selectedFileName = this.selectedFile ? this.selectedFile.name : '';
-  }
-
-  onUpload() {
-    if (this.insertionType === 'insertProduct') {
-      this.uploadProduct();
-    } else {
-      this.updateProducts();
-    }
-  }
-
-  uploadProduct() {
-    this.showSpinner = true;
-    this.actionButton.nativeElement.click()
-    const formData = new FormData();
-    formData.append('emailId', this.emailId);
-    formData.append('title', this.title);
-    formData.append('description', this.description);
-    formData.append('location', this.location);
-    formData.append('productCategory', this.productCategory);
-    formData.append('mobileNumber', this.mobileNumber.toString());
-    formData.append('price', this.price.toString());
-    formData.append('image', this.selectedFile);
-    formData.append('userName', this.userName);
-
-    this.userService.insertCart(formData).subscribe((response: any) => {
-      this.showSpinner = false;
-      if (response && response.status) {
-        this.userService.refreshData();
-        // alert(response.message);
-        this.toastr.success(response.message, 'Success', {
-          positionClass: 'toast-custom-position',
-          timeOut: 3000, 
-          closeButton: true,
-          progressBar: true
-        });
-        this.insertPoints(100);
-        this.getCartData(this.offset);
-        // window.location.reload();
-      } else {
-        alert('An error occurred. Please try again later.');
-      }
-    });
-  }
-
-  updateProducts() {
-    this.showSpinner = true;
-    const formData = new FormData();
-    formData.append('emailId', this.emailId);
-    formData.append('title', this.title);
-    formData.append('description', this.description);
-    formData.append('productCategory', this.productCategory);
-    formData.append('location', this.location);
-    formData.append('mobileNumber', this.mobileNumber.toString());
-    formData.append('price', this.price.toString());
-    formData.append('image', this.selectedFile);
-    formData.append('slNo', this.slNo.toString());
-
-    this.userService.updateCartData(formData).subscribe((response: any) => {
-      this.showSpinner = false;
-      if (response && response.status) {
-        this.userService.refreshData();
-        alert(response.message);
-        this.getUploadProducts(this.offset);
-        window.location.reload();
-      } else {
-        alert('An error occurred. Please try again later.');
-      }
-    });
-  }
-
-  toggleChanged(event: Event, item: any) {
-    const inputElement = event.target as HTMLInputElement;
-    if (inputElement.checked) {
-      const confirmation = confirm('Are you sure that product is Sold Out?');
-      if (!confirmation) {
-        inputElement.checked = false;
-        return;
-      }
-      const soldOutData = { slNo: item.slNo, productStatus: 'soldOut' };
-      this.userService.soldOut(soldOutData).subscribe((response: any) => {
-        this.userService.refreshData();
-        alert(response.message);
-        window.location.reload();
-      });
-    }
-  }
-
-  deleteItem(item: any) {
-    this.showSpinner = true;
-    const productData = {
-      emailId: item.emailId,
-      postedDate: item.postedDate,
-      title: item.title
-    };
-    const confirmation = confirm('Are you sure you want to delete the Product?');
-    if (!confirmation) {
+  onItemSubmit(): void {
+    this.isMenuVisible = false;
+    if (this.itemForm.invalid) {
+      this.itemForm.markAllAsTouched();
       return;
     }
-    this.userService.deleteCartData(productData).subscribe((response: any) => {
-      this.showSpinner = false;
-      if (response && response.status) {
-        this.userService.refreshData();
-        this.toastr.success(response.message, 'success', {
-          positionClass: 'toast-custom-position',
-          timeOut: 3000, 
-          closeButton: true,
-          progressBar: true
-        });
-        this.deletePoints(10);
-        this.getCartData(this.offset);
-        window.location.reload();
-      } else {
-        this.toastr.error('An error occurred. Please try again later.', 'error', {
-          positionClass: 'toast-custom-position',
-          timeOut: 3000, 
-          closeButton: true,
-          progressBar: true
-        });
+
+    const formData = new FormData();
+    formData.append('title', this.itemForm.get('title')?.value);
+    formData.append('description', this.itemForm.get('description')?.value);
+    formData.append('category', this.itemForm.get('category')?.value);
+    formData.append('location', this.itemForm.get('location')?.value);
+    formData.append('mobile', this.itemForm.get('mobile')?.value);
+    formData.append('price', this.itemForm.get('price')?.value);
+    formData.append('email', this.emailId);
+    formData.append('userName', this.userName);
+
+    // Attach the file
+    if (this.selectedFile) {
+      formData.append('image', this.selectedFile, this.selectedFile.name);
+    } else {
+      console.error('No file selected.');
+    }
+
+    this.showSpinner = true;
+    if (this.btnType === 'apply') {
+    this.userService.insertCart(formData).subscribe(
+      (response: any) => {
+        console.log('Job added:', response);
+        this.cancelPopup.nativeElement.click();
+        this.isDisplayCoins = true;
+        this.displayCoins = 50;
+        this.totalRecords = 0;
+        this.postedJobs = [];
+        this.getPostedJobs();
+        this.itemForm.reset();
+        this.clearFileInput();
+        this.showSpinner = false;
+      },
+      (error: any) => {
+        console.error('Error:', error);
+        this.showSpinner = false;
       }
+    );
+  } else {
+    this.userService.editProduct(this.itemForm.value)
+    .subscribe((response: any) => {
+      console.log('Job updated:', response);
+      this.cancelPopup.nativeElement.click();
+      this.totalRecords = 0;
+      this.postedJobs =  [];
+      this.itemForm.reset();
+      this.getPostedJobs();
+      this.showSpinner = false;
     });
   }
+}
 
-  editItem(item: any) {
-    this.sellerButton = 'Update';
-    this.emailId = item.emailId;
-    this.title = item.title;
-    this.description = item.description;
-    this.location = item.location;
-    this.mobileNumber = item.mobileNumber;
-    this.price = item.price;
-    this.slNo = item.slNo;
-    this.onCart('updateProduct');
+
+
+  onEdit() {
+    this.isMenuVisible = false;
+    this.btnType = 'Edit'
+    this.msgType = 'Edit Job';
+    this.displayDeleteBtn = true;
+    this.getPostedJobs('', '', this.emailId)
   }
 
-  selectedProduct(index: any) {
-    this.selectedItem = [index];
+  onfilter() {
+    this.btnType = 'apply'
+    this.displayDeleteBtn = false;
   }
 
-  onCart(type: string) {
-    this.insertionType = type;
-    if (type === 'insertProduct') {
-      this.sellerButton = 'Upload';
-      this.clearInputs();
+
+  editJob(job: any, btnType: any): void {
+    debugger;
+    if (this.btnType === 'apply') {
+      this.selectedProduct = job;
+      const modalElement = this.jobDetailsModal.nativeElement;
+      const modalInstance = new bootstrap.Modal(modalElement);
+      modalInstance.show();
     } else {
-      this.sellerButton = 'Update';
+      this.jobPopup.nativeElement.click();
+      this.itemForm.patchValue({
+        id: job.id,
+        title: job.title,
+        description: job.description,
+        category: job.category,
+        location: job.location,
+        mobile: job.mobile || '',
+        price: job.price || '',
+        image: '',
+        email: this.emailId,
+        userName: this.userName
+      });
+      this.updateImageValidation();
     }
   }
 
-  isValidMobileNumber(): void {
-    if (this.mobileNumber) {
-      const mobileStr = this.mobileNumber.toString();
-      if (mobileStr.length > 10) {
-        this.mobileNumber = parseInt(mobileStr.substring(0, 10), 10);
-      }      
-      const repeatedPattern = /(\d)\1{9}/;
-      this.isValid = mobileStr.length === 10 && !repeatedPattern.test(mobileStr);
-    } else {
-      this.isValid = false;
+
+  allowNumbersOnly(event: KeyboardEvent): boolean {
+    const charCode = event.key.charCodeAt(0);
+    // Allow only numbers (0-9)
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+      return false;
     }
-  } 
-
-  scrollToTop() {
-    window.scrollTo({
-      top : 0,
-      behavior : 'smooth'
-    })
+    return true;
   }
 
-  getRecords(response: any) {
-    this.viewMoreButton = response.records.length === 5;
-    this.showEmptyImg = response.records.length === 0;
+
+  getProfileImage() {
+    this.showSpinner = true
+    this.userService
+      .getProfileImage(this.emailId)
+      .subscribe((response: any) => {
+        console.log(response)
+        this.showSpinner = false
+        this.profileImg = response.records[0].imagePath;
+        this.profileData = response.records[0];
+        if (!this.profileImg && this.profileImg.length == 0) {
+          this.profileImg = '../assets/img/blank-user-directory.png';
+        }
+      })
   }
 
-  insertPoints(points : number) {
+
+  getPostedJobs(sortBy: string = 'newest', location: string = '', email = '') {
     this.showSpinner = true;
-    this.displayCoins = points;
-    const pointsData = {
-      emailId : this.emailId, 
-      userName : this.userName, 
-      points : points
-    };
-    this.userService.insertPoints(pointsData).subscribe((response: any) => {
-      this.isDisplyedCoins = false;
-      console.log('Form submitted:', response);
-        console.log(response);
-        setTimeout(() => {
-          this.isDisplyedCoins = true;
-        }, 100);
+    this.selectedLocation = location;
+    this.userService.getPostedproducts(this.limit, this.offset, this.searchQuery, location, this.category, this.postedBy, sortBy, email)
+      .subscribe((response: any) => {
+        console.log(response)
+        this.showSpinner = false;
+        this.totalRecords = response.totalRecords;
+        this.postedJobs = response.records;
+        if (!this.uniqueLocations || this.uniqueLocations.length === 0) {
+          this.uniqueLocations = Array.from(
+            new Set(
+              response.records.map((job: { location: string }) => job.location.toLowerCase())
+            )
+          );
+        }
+      })
+  }
+
+
+  updateSelectedJobTypes(event: Event, type: any) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    if (isChecked) {
+      this.category = type.label;
+    } else {
+      this.category = '';
+    }
+
+    this.isMenuVisible = false;
+    this.onfilter();
+    this.getPostedJobs();
+  }
+
+  deleteJob(job: any) {
+    debugger;
+    this.itemForm.patchValue({
+      id: job.id,
+      title: job.title,
+      description: job.description,
+      category: job.category,
+      location: job.location,
+      mobile: job.mobile || '',
+      price: job.price || '',
+      image: '',
+      email: this.emailId,
+      userName: this.userName
     });
-    this.showSpinner = false;
+    this.userService.deleteProduct(this.itemForm.value)
+      .subscribe((response: any) => {
+        console.log('Job updated:', response);
+        this.cancelPopup.nativeElement.click();
+        this.totalRecords = 0;
+        this.postedJobs = [];
+        this.getPostedJobs();
+        this.showSpinner = false;
+        this.itemForm.reset();
+      });
   }
 
-  deletePoints(points : number) {
-    this.showSpinner = true;
-    this.displayCoins = points;
-    const pointsData = {
-      emailId : this.emailId, 
-      userName : this.userName, 
-      points : points
-    };
-    this.userService.deletePoints(pointsData).subscribe((response: any) => {
-      console.log('Form submitted:', response);
-        console.log(response);
-    });
-    this.showSpinner = false;
-  }
+  // onScroll(event: any): void {
+  //   const element = event.target;
+  //   if (element.scrollLeft !== 0) {
+  //     return;
+  //   }
+  //   if (Math.ceil(element.scrollTop + element.clientHeight) >= element.scrollHeight) {
+  //     console.log('Scrolled to bottom'); 
+  //     this.offset++; 
+  //     this.getPostedJobs();
+  //   }
+  // }
 
 
-  clearInputs() {
-    this.title = '';
-    this.description = '';
-    this.price = 0;
-    this.mobileNumber = 0;
-    this.location = '';
-    this.selectedFileName = '';
-  }
-
-  onBack() {
-    window.location.reload();
-  }
-
-  reloadPage() {
-    window.location.reload();
-  }
 
   logOut() {
     this.faService.clearSession();
     this.router.navigate(['']);
     window.location.reload();
   }
+
+  toggleMenu(): void {
+    this.isMenuVisible = !this.isMenuVisible;
+  }
+
+  editProfile() {
+    window.open('/profile-dashboard/about', '_blank');
+  }
+
+  navigateHome() {
+    window.open('/profile-dashboard/feed', '_blank');
+  }
+
+  isChecked(category: { label: string }): boolean {
+    return this.category === category.label;
+  }
+
+  setSelectedJob(job: any): void {
+    this.selectedProduct = job; // Set the selected job
+  }
+
+  onReload() {
+    this.onfilter();
+    this.getPostedJobs();
+  }
 }
+
