@@ -25,3 +25,40 @@ textarea:disabled {
     background-color: #e9ecef63;
     cursor: no-drop;
 }
+
+.tabs {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid #ddd;
+}
+
+.tab {
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    position: relative;
+}
+
+.tab-number {
+    background-color: #f0f0f0;
+    color: #333;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 8px;
+}
+
+.tab.active {
+    color: #28a745;
+    /* Green color for the active tab */
+}
+
+.tab.active .tab-number {
+    background-color: #28a745;
+    /* Green color for the active tab number */
+    color: white;
+}
+

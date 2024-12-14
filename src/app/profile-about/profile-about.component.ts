@@ -44,6 +44,8 @@ export class ProfileAboutComponent implements OnInit {
   address2: any;
   stdCode: any = "91";
   zipCode: any;
+  activeTab = 1;
+  // activeTab: string = 'personal-details';
 
   constructor(
     private userService: UserServicesService,
@@ -84,6 +86,7 @@ export class ProfileAboutComponent implements OnInit {
   getProfileData() {
     this.showSpinner = true;
     this.userService.getProfile(this.emailId).subscribe((response: any) => {
+      this.showSpinner = false;
       console.log(response);
       if (response.records.length !== 0) {
         const record = response.records[0]
@@ -119,6 +122,7 @@ export class ProfileAboutComponent implements OnInit {
       }
       this.showSpinner = false;
     })
+    this.showSpinner = false;
   }
 
   getProfileWeight() {
@@ -129,10 +133,11 @@ export class ProfileAboutComponent implements OnInit {
         this.showSpinner = false;
         this.getPoints();
       } else {
+        this.showSpinner = false;
         console.log('Error while fectching the profile weight');
       }
     })
-
+    this.showSpinner = false;
   }
 
 
@@ -143,6 +148,7 @@ export class ProfileAboutComponent implements OnInit {
     this.userService.getPoints(email).subscribe(
       (response: any) => {
         if (response && response.data && response.data.length > 0) {
+          this.showSpinner = false;
           let userPoints = response.data[0].points;
           this.userPoints = userPoints + this.profileWeight;
         } else {
@@ -156,6 +162,7 @@ export class ProfileAboutComponent implements OnInit {
         this.showSpinner = false;
       }
     );
+    this.showSpinner = false;
   }
 
 
@@ -382,6 +389,10 @@ export class ProfileAboutComponent implements OnInit {
     } else {
       this.countriesDropDown.cities = [];
     }
+  }
+
+  setActiveTab(tabIndex: number) {
+    this.activeTab = tabIndex;
   }
 
 }

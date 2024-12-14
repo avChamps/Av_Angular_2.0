@@ -2,7 +2,7 @@
     <div class="d-block d-md-none d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3">
         <h4>About</h4>
     </div>
-    <div class="container mt-3">
+    <div class="container shadow-lg p-2 mt-3">
         <form method="post">
             <div class="row">
                 <div class="col-lg-4 col-md-6 col-sm-12">
@@ -42,7 +42,7 @@
                 <div class="col-lg-2 col-md-12 col-sm-12 text-right mb-3">
                     <button type="button" class="btn btn-success theme_bg mt-2 mt-lg-0" (click)="toggleEditMode()"
                         [class.save-mode]="editMode" [class.edit-mode]="!editMode"
-                        [disabled]="!isMobileNumberValidated || !isEmailValidated || !isWorkingEmailValidated || companyNameInput.value?.length > 24 || jobTitleInput.value?.length > 24">{{
+                        [disabled]="!isMobileNumberValidated || !isEmailValidated || !isWorkingEmailValidated">{{
                         editMode ? ('Save' | translate) : ('Edit' | translate) }}
                     </button>
                 </div>
@@ -50,18 +50,34 @@
 
 
 
-            <div class="row mt-4 shadow-lg mt-2 p-2 mb-2">
+            <div class="row mt-4 mt-2 p-2 mb-2">
                 <div class="col-md-12">
-                    <div class="tab-content profile-tab" id="myTabContent">
-                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                            <h6 class="fade-out">Personal Details</h6>
+                    <!-- Tabs Navigation -->
+                    <div class="tabs">
+                        <div class="tab" [class.active]="activeTab === 1" (click)="setActiveTab(1)">
+                            <span class="tab-number">1</span> Personal Details
+                        </div>
+                        <div class="tab" [class.active]="activeTab === 2" (click)="setActiveTab(2)">
+                            <span class="tab-number">2</span> Professional Info
+                        </div>
+                        <div class="tab" [class.active]="activeTab === 3" (click)="setActiveTab(3)">
+                            <span class="tab-number">3</span> Address
+                        </div>
+                    </div>
+
+                    <!-- Tabs Content -->
+                    <div class="tab-content" id="myTabContent">
+                        <!-- Personal Details Tab -->
+                        <div class="tab-pane fade" [ngClass]="{'show': activeTab === 1, 'active': activeTab === 1}"
+                            id="personal" role="tabpanel" aria-labelledby="personal-tab">
+                            <h6 class="fade-out mt-2">Personal Details</h6>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12 fs-6 mb-3">
-                                    <label>{{"Email Id" | translate }}</label>
+                                    <label>{{"Email Id" | translate}}</label>
                                     <input type="email" [(ngModel)]="emailId" [disabled]="!editMode"
                                         (ngModelChange)="validateEmail()" placeholder="{{'Enter emailId' | translate}}"
                                         name="emailIdInput" class="form-control shadow-none">
-                                    <p *ngIf="emailErrorMessage" class="text-danger fs"> {{ emailErrorMessage }} </p>
+                                    <p *ngIf="emailErrorMessage" class="text-danger fs">{{ emailErrorMessage }}</p>
                                 </div>
 
                                 <!-- Country Code Section -->
@@ -84,12 +100,9 @@
                                         (ngModelChange)="onMobileNumberChange()" [disabled]="!editMode"
                                         placeholder="{{'Enter Mobile Number' | translate}}" name="mobileNumberInput"
                                         class="form-control shadow-none" />
-                                    <p *ngIf="mobileErrorMessage" class="text-danger fs">
-                                        {{ mobileErrorMessage }}
-                                    </p>
+                                    <p *ngIf="mobileErrorMessage" class="text-danger fs">{{ mobileErrorMessage }}</p>
                                 </div>
                             </div>
-
 
                             <div class="row">
                                 <div class="col-lg-3 col-md-3 col-sm-12 mb-3 fs-6">
@@ -114,38 +127,38 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <hr>
+                        <!-- Professional Info Tab -->
+                        <div class="tab-pane fade" [ngClass]="{'show': activeTab === 2, 'active': activeTab === 2}"
+                            id="professional" role="tabpanel" aria-labelledby="professional-tab">
                             <h6 class="fade-out mt-2">Professional Information</h6>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3 fs-6">
                                     <label>{{"Company Name" | translate}}</label>
                                     <input type="text" maxlength="25" [disabled]="!editMode" [(ngModel)]="companyName"
-                                        name="companyNameInput" #companyNameInput="ngModel"
-                                        placeholder="{{'Enter Company Name' | translate}}"
+                                        name="companyNameInput" placeholder="{{'Enter Company Name' | translate}}"
                                         class="form-control shadow-none">
-                                    <p *ngIf="companyNameInput.value?.length > 24" class="text-danger fs">{{"Max 24
-                                        Characters are allowed" | translate}}</p>
+                                    <!-- <p *ngIf="companyNameInput.value?.length > 24" class="text-danger fs">{{"Max 24 Characters are allowed" | translate}}</p> -->
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3 fs-6">
                                     <label>{{"Designation" | translate}}</label>
                                     <input type="text" maxlength="25" [disabled]="!editMode" [(ngModel)]="jobTitle"
-                                        name="jobTitleInput" #jobTitleInput="ngModel"
-                                        placeholder="{{'Enter jobTitle' | translate}}" class="form-control shadow-none">
-                                    <p *ngIf="jobTitleInput.value?.length > 24" class="text-danger fs">{{"Max 24
-                                        Characters are allowed" | translate}}</p>
+                                        name="jobTitleInput" placeholder="{{'Enter jobTitle' | translate}}"
+                                        class="form-control shadow-none">
+                                    <!-- <p *ngIf="jobTitleInput.value?.length > 24" class="text-danger fs">{{"Max 24 Characters are allowed" | translate}}</p> -->
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3 fs-6">
-                                    <label>{{"Company Email Id" | translate }}</label>
+                                    <label>{{"Company Email Id" | translate}}</label>
                                     <input type="email" [(ngModel)]="workingEmailId" [disabled]="!editMode"
                                         (ngModelChange)="validateWorkingEmail()"
                                         placeholder="{{'Enter Working emailId' | translate}}" name="workingEmailIdInput"
                                         class="form-control shadow-none">
-                                    <p *ngIf="emailWorkingErrorMessage" class="text-danger fs"> {{
-                                        emailWorkingErrorMessage }} </p>
+                                    <p *ngIf="emailWorkingErrorMessage" class="text-danger fs">{{
+                                        emailWorkingErrorMessage }}</p>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3 fs-6">
                                     <label>{{"Location" | translate}}</label>
@@ -154,8 +167,11 @@
                                         name="userCityInput" class="form-control shadow-none">
                                 </div>
                             </div>
+                        </div>
 
-                            <hr>
+                        <!-- Address Tab -->
+                        <div class="tab-pane fade" [ngClass]="{'show': activeTab === 3, 'active': activeTab === 3}"
+                            id="address" role="tabpanel" aria-labelledby="address-tab">
                             <h6 class="fade-out mt-2">Address</h6>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3 fs-6">
@@ -198,7 +214,6 @@
                                                 {{ state.name }}
                                             </option>
                                         </select>
-
                                         <div class="input-group-append">
                                             <span class="input-group-text"><i class="fas fa-caret-down"></i></span>
                                         </div>
@@ -215,7 +230,6 @@
                                                 {{ city.name }}
                                             </option>
                                         </select>
-
                                         <div class="input-group-append">
                                             <span class="input-group-text"><i class="fas fa-caret-down"></i></span>
                                         </div>
@@ -225,15 +239,15 @@
                                 <div class="col-lg-3 col-md-3 col-sm-12 mb-3 fs-6">
                                     <label>{{"ZipCode" | translate}}</label>
                                     <input type="text" maxlength="30" [(ngModel)]="zipCode"
-                                        placeholder="{{'Enter UserCity' | translate}}" [disabled]="!editMode"
-                                        name="userCityInput" class="form-control shadow-none">
+                                        placeholder="{{'Enter ZipCode' | translate}}" [disabled]="!editMode"
+                                        name="zipCodeInput" class="form-control shadow-none">
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
+
         </form>
     </div>
 </section>
