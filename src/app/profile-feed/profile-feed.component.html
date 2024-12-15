@@ -9,22 +9,22 @@
 
     <section id="counts" class="counts" data-aos="fade-right">
         <div class="d-block d-md-none d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3">
-            <h4>Feed</h4>
+            <h4 class="fs-16">Feed</h4>
         </div> 
-        <div class="header-boxs mt-3" *ngIf="showMails">
+        <div class="header-boxs mt-2" *ngIf="showMails">
             <div class="row">
-                <div class="col-12">
+                <div class="col-12 center-flex global-border">
                     <div class="grid email">
                         <div class="grid-body">
                             <div class="row">
                                 <!-- Search Box Centered on Mobile, Right Aligned on Larger Screens -->
                                 <div class="col-12 d-flex d-md-none justify-content-center mb-3">
                                     <div class="filters">
-                                        <div class="input-group rounded box shadow-lg">
+                                        <div class="input-group rounded box border-box">
                                             <span class="input-group-text bg-transparent border-0">
                                               <i class="bi bi-search"></i>
                                             </span>
-                                            <input type="text" class="form-control border-0 bg-transparent shadow-none" [(ngModel)]="searchTitle" placeholder="Search by title" />
+                                            <input type="text" class="form-control border-0 fs-14 bg-transparent shadow-none" [(ngModel)]="searchTitle" placeholder="Search by title" />
                                             <span class="input-group-text bg-transparent border-0 cur_pointer" *ngIf="searchTitle"
                                               (click)="clearFilter()">
                                               <i class="bi bi-x-circle"></i>
@@ -34,7 +34,7 @@
                                 </div>
                                 <div class="col-12 d-none d-md-flex justify-content-md-end mb-3">
                                     <div class="filters">
-                                        <div class="input-group rounded box shadow-lg mb-1">
+                                        <div class="input-group rounded box border-box mb-1">
                                             <span class="input-group-text bg-transparent border-0">
                                               <i class="bi bi-search"></i>
                                             </span>
@@ -49,24 +49,41 @@
     
                                 <!-- Email Listing -->
                                 <div class="col-12">
-                                    <div class="table-responsive mt-4">
+                                    <!-- <div class="table-responsive">
                                         <table class="table">
                                             <tbody>
-                                                <tr *ngFor="let email of filteredEmails" class="cur_pointer" (click)="selectEmail(email)"
+                                                
+                                                <tr *ngFor="let email of filteredEmails" class="cur_pointer email-row" (click)="selectEmail(email)"
                                                     [class.unopened]="!email.opened">
                                                     <td class="subject">
-                                                        <a [class.unopened]="!email.opened" class="title-text">
-                                                            <i [class]="getRandomIcon()" [style.color]="getRandomColor()"></i>&nbsp;&nbsp;{{ email.title }}
-                                                        </a>
+                                                        <div class="d-flex align-items-center">
+                                                            <input type="checkbox" class="checkbox me-2">
+                                                            <i class="bi bi-star star me-2"></i>
+                                                            <span class="title-text fs-14">{{ email.title }}</span>
+                                                        </div>
                                                     </td>
+                                                    
                                                     <td>
                                                         <img *ngIf="!email.opened" src="./assets/images/feed/feed_new.gif"
                                                             alt="New Email" class="new-email-icon">
                                                     </td>
-                                                    <td class="time">{{ email.createdDate | date:'hh:mm a' }} {{ email.createdDate | date:'MMM dd' }}</td>
+                                                     {{ email.createdDate | date:'hh:mm a' }} --
+                                                    <td class="time fs-14"></td>
                                                 </tr>                                            </tbody>
                                         </table>
-                                    </div>
+                                    </div> -->
+
+
+                                    <div class="email-item fs-14" *ngFor="let email of filteredEmails" (click)="selectEmail(email)"
+                                    [class.unopened]="!email.opened">
+                                        <input type="checkbox" class="checkbox">
+                                        <i class="bi bi-star star"></i>
+                                        <span class="sender"> {{ email.title }}</span>
+                                        <div class="attachments">
+                                        </div>
+                                        <span class="timestamp">{{ email.createdDate | date:'MMM dd' }}</span>
+                                      </div>
+
                                 </div>
                             </div>
                         </div>
@@ -96,18 +113,21 @@
             <div class="col-12">
                 <div class="card">
                     <div *ngFor="let email of clickedemails">
-                        <div class="card-header">
-                            <h2>{{ email.title }}</h2>
+                        <div class="card-header d-flex align-items-center" style="height: 60px;">
+                            <h2 class="fs-16 m-0 text-center w-100">{{ email.title }}</h2>
                         </div>
+                        
                         <div class="card-body">
-                            <p>{{'Dear User' | translate}},</p><br>
-                            <p [innerHTML]="email.description"></p>
-                            <div *ngIf="email.link">
-                                <p>{{'Source' | translate}}:</p>
-                                <p class="website_links"><a class="links" href="{{ email.link }}" target="_blank">{{ email.link }}</a></p>
+                            <p class="fs-14">{{'Dear AV Champ' | translate}},</p>
+                            <p class="fs-14" [innerHTML]="email.description"></p>
+                            <div *ngIf="email.link" class="fs-14" style="display: flex; align-items: center;">
+                                <p class="fs-14" style="margin: 0;">{{ 'Source' | translate }}:</p>
+                                <p class="website_links" style="margin: 0; margin-left: 8px;">
+                                    <a class="links" href="{{ email.link }}" target="_blank">Click here for more details</a>
+                                </p>
                             </div>
-                            <p>{{'Best Regards' | translate}},<br>
-                                <img src="./assets/images/logo/av_champs_logo.png" class="custom_logo_img" alt="alternative">
+                            <p class="fs-14 mt-2">{{'Best Regards' | translate}},<br>
+                                <img src="./assets/images/logo/av_champs_logo.png" class="custom_logo_img mt-1" alt="alternative">
                         </div>
                     </div>
                 </div>
@@ -117,10 +137,10 @@
             <div class="col-12">
                 <div class="card bg-dark text-white">
                     <div class="card-header text-center">
-                        <h4>{{'Our Sponsors' | translate}}</h4>
+                        <h4 class="fs-16">{{'Our Sponsors' | translate}}</h4>
                     </div>
                     <div class="card-body text-center">
-                        <p>{{'Sponsor us and have your logo featured here' | translate}}.&nbsp;<a class="contactUs_click cur_pointer" (click)="sendContact()">{{'Contact Us' | translate}}</a></p>
+                        <p class="fs-14">{{'Sponsor us and have your logo featured here' | translate}}.&nbsp;<a class="contactUs_click cur_pointer" (click)="sendContact()">{{'Contact Us' | translate}}</a></p>
                     </div>
                 </div>
             </div>

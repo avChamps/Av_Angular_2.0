@@ -1,10 +1,10 @@
 <section id="counts" class="counts" data-aos="fade-right">
     <div class="d-block d-md-none d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3">
-        <h4>About</h4>
+        <h4 class="fs-14">About</h4>
     </div>
-    <div class="container mt-3">
+    <div class="container shadow-lg mt-2">
         <form method="post">
-            <div class="row">
+            <div class="row p-3">
                 <div class="col-lg-4 col-md-6 col-sm-12">
                     <div class="profile-img text-center">
                         <img [src]="getImageSource() || 'assets/images/common_Images/user-Icon.png'" alt="" width="200"
@@ -13,17 +13,17 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3 text-center text-md-left">
                     <div class="profile-head">
-                        <h3>{{ userName | titleCase }}</h3>
-                        <h6>{{ jobTitle | titleCase }}</h6>
-                        <p class="proile-rating">{{ "Last Login:" | translate }} <span>{{ formatDate(updatedDate)
+                        <h3 class="fs-16">{{ userName | titleCase }}</h3>
+                        <h6 class="fs-14">{{ jobTitle | titleCase }}</h6>
+                        <p class="proile-rating fs-14">{{ "Last Login:" | translate }} <span>{{ formatDate(updatedDate)
                                 }}</span></p>
                         <ul class="nav nav-tabs border-bottom-none;" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link text-left active text-white theme_bg" id="home-tab" data-toggle="tab"
+                            <!-- <li class="nav-item">
+                                <a class="nav-link text-left active fs-14 text-white theme_bg" id="home-tab" data-toggle="tab"
                                     role="tab" aria-controls="home" aria-selected="true">{{"About" | translate }}</a>
-                            </li>
+                            </li> -->
                             <li class="nav-item">
-                                <a class="nav-link text-left active text-white theme_bg"
+                                <a class="nav-link text-left active fs-14 text-white theme_bg"
                                     routerLink="/profile-dashboard/tools/bussiness-card" id="home-tab" data-toggle="tab"
                                     role="tab" aria-controls="home" aria-selected="true">{{"Bussiness Card" |
                                     translate}}</a>
@@ -31,7 +31,7 @@
 
                             <li class="nav-item cur_pointer"
                                 tooltip="Collect 10,000 coins and unlock an exciting gift!">
-                                <a class="nav-link text-left active text-white theme_bg" id="home-tab" data-toggle="tab"
+                                <a class="nav-link text-left active fs-14 text-white theme_bg" id="home-tab" data-toggle="tab"
                                     role="tab" aria-controls="home" aria-selected="true"><i
                                         class="fa fa-coins text-warning"></i>&nbsp;{{ userPoints || 0}}</a>
                             </li>
@@ -40,7 +40,7 @@
                 </div>
 
                 <div class="col-lg-2 col-md-12 col-sm-12 text-right mb-3">
-                    <button type="button" class="btn btn-success theme_bg mt-2 mt-lg-0" (click)="toggleEditMode()"
+                    <button type="button" class="btn btn-success shadow-none fs-14 theme_bg mt-2 mt-lg-0" (click)="toggleEditMode()"
                         [class.save-mode]="editMode" [class.edit-mode]="!editMode"
                         [disabled]="!isMobileNumberValidated || !isEmailValidated || !isWorkingEmailValidated || companyNameInput.value?.length > 24 || jobTitleInput.value?.length > 24">{{
                         editMode ? ('Save' | translate) : ('Edit' | translate) }}
@@ -50,24 +50,24 @@
 
 
 
-            <div class="row mt-4 shadow-lg mt-2 p-2 mb-2">
+            <div class="row mt-4 mt-2 p-2 mb-2">
                 <div class="col-md-12">
                     <div class="tab-content profile-tab" id="myTabContent">
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                            <h6 class="fade-out">Personal Details</h6>
+                            <h6 class="fade-out fs-14">Personal Details</h6>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12 fs-6 mb-3">
-                                    <label>{{"Email Id" | translate }}</label>
+                                    <label class="fs-14">{{"Email Id" | translate }}</label>
                                     <input type="email" [(ngModel)]="emailId" [disabled]="!editMode"
                                         (ngModelChange)="validateEmail()" placeholder="{{'Enter emailId' | translate}}"
-                                        name="emailIdInput" class="form-control shadow-none">
-                                    <p *ngIf="emailErrorMessage" class="text-danger fs"> {{ emailErrorMessage }} </p>
+                                        name="emailIdInput" class="form-control fs-14 shadow-none">
+                                    <p *ngIf="emailErrorMessage" class="text-danger fs fs-14"> {{ emailErrorMessage }} </p>
                                 </div>
 
                                 <!-- Country Code Section -->
                                 <div class="col-lg-2 col-md-3 col-sm-6 mb-3 fs-6">
-                                    <label>{{"Code" | translate}}</label>
-                                    <select [(ngModel)]="stdCode" [disabled]="!editMode" class="form-select shadow-none"
+                                    <label class="fs-14">{{"Code" | translate}}</label>
+                                    <select [(ngModel)]="stdCode" [disabled]="!editMode" class="form-select fs-14 shadow-none"
                                         (change)="onCountryChange()" name="countryCodeInput">
                                         <option value="">Select Code</option>
                                         <option *ngFor="let country of countriesDropDown.countries"
@@ -78,13 +78,13 @@
                                 </div>
 
                                 <!-- Mobile Number Section -->
-                                <div class="col-lg-4 col-md-3 col-sm-6 mb-3 fs-6">
-                                    <label>{{"Mobile Number" | translate}}</label>
+                                <div class="col-lg-4 col-md-3 fs-14 col-sm-6 mb-3 fs-6">
+                                    <label class="fs-14">{{"Mobile Number" | translate}}</label>
                                     <input type="number" maxlength="10" [(ngModel)]="mobileNumber"
                                         (ngModelChange)="onMobileNumberChange()" [disabled]="!editMode"
                                         placeholder="{{'Enter Mobile Number' | translate}}" name="mobileNumberInput"
-                                        class="form-control shadow-none" />
-                                    <p *ngIf="mobileErrorMessage" class="text-danger fs">
+                                        class="form-control shadow-none fs-14" />
+                                    <p *ngIf="mobileErrorMessage" class="text-danger fs fs-14">
                                         {{ mobileErrorMessage }}
                                     </p>
                                 </div>
@@ -92,89 +92,89 @@
 
 
                             <div class="row">
-                                <div class="col-lg-3 col-md-3 col-sm-12 mb-3 fs-6">
+                                <div class="col-lg-3 col-md-3 col-sm-12 mb-3 fs-14 fs-6">
                                     <label>{{"DOB" | translate}}</label>
                                     <input type="date" [ngModel]="formatDOB(dateOfBirth)"
                                         (ngModelChange)="dateOfBirth = $event" [disabled]="!editMode"
-                                        name="dateOfBirthInput" class="form-control shadow-none">
+                                        name="dateOfBirthInput" class="form-control fs-14 shadow-none">
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-sm-12 mb-3 fs-6">
-                                    <label>{{"Gender" | translate}}</label>
+                                    <label class="fs-14">{{"Gender" | translate}}</label>
                                     <div class="input-group">
                                         <select [(ngModel)]="gender" name="genderInput" [disabled]="!editMode"
-                                            class="form-control shadow-none">
+                                            class="form-control fs-14 shadow-none">
                                             <option value="">Select Gender</option>
                                             <option value="male">Male</option>
                                             <option value="female">Female</option>
                                             <option value="other">Other</option>
                                         </select>
                                         <div class="input-group-append">
-                                            <span class="input-group-text"><i class="fas fa-caret-down"></i></span>
+                                            <span class="input-group-text fs-14"><i class="fas fa-caret-down"></i></span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <hr>
-                            <h6 class="fade-out mt-2">Professional Information</h6>
+                            <h6 class="fade-out mt-2 fs-14 ">Professional Information</h6>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3 fs-6">
-                                    <label>{{"Company Name" | translate}}</label>
+                                    <label class="fs-14">{{"Company Name" | translate}}</label>
                                     <input type="text" maxlength="25" [disabled]="!editMode" [(ngModel)]="companyName"
                                         name="companyNameInput" #companyNameInput="ngModel"
                                         placeholder="{{'Enter Company Name' | translate}}"
-                                        class="form-control shadow-none">
-                                    <p *ngIf="companyNameInput.value?.length > 24" class="text-danger fs">{{"Max 24
+                                        class="form-control fs-14 shadow-none">
+                                    <p *ngIf="companyNameInput.value?.length > 24" class="text-danger fs fs-14">{{"Max 24
                                         Characters are allowed" | translate}}</p>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3 fs-6">
-                                    <label>{{"Designation" | translate}}</label>
+                                    <label class="fs-14">{{"Designation" | translate}}</label>
                                     <input type="text" maxlength="25" [disabled]="!editMode" [(ngModel)]="jobTitle"
                                         name="jobTitleInput" #jobTitleInput="ngModel"
-                                        placeholder="{{'Enter jobTitle' | translate}}" class="form-control shadow-none">
-                                    <p *ngIf="jobTitleInput.value?.length > 24" class="text-danger fs">{{"Max 24
+                                        placeholder="{{'Enter jobTitle' | translate}}" class="form-control fs-14 shadow-none">
+                                    <p *ngIf="jobTitleInput.value?.length > 24" class="text-danger fs fs-14">{{"Max 24
                                         Characters are allowed" | translate}}</p>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3 fs-6">
-                                    <label>{{"Company Email Id" | translate }}</label>
+                                    <label class="fs-14">{{"Company Email Id" | translate }}</label>
                                     <input type="email" [(ngModel)]="workingEmailId" [disabled]="!editMode"
                                         (ngModelChange)="validateWorkingEmail()"
                                         placeholder="{{'Enter Working emailId' | translate}}" name="workingEmailIdInput"
-                                        class="form-control shadow-none">
-                                    <p *ngIf="emailWorkingErrorMessage" class="text-danger fs"> {{
+                                        class="form-control shadow-none fs-14">
+                                    <p *ngIf="emailWorkingErrorMessage" class="text-danger fs fs-14"> {{
                                         emailWorkingErrorMessage }} </p>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12 mb-3 fs-6">
+                                <div class="col-lg-6 col-md-6 col-sm-12 mb-3 fs-14">
                                     <label>{{"Location" | translate}}</label>
                                     <input type="text" maxlength="30" [(ngModel)]="userCity"
                                         placeholder="{{'Enter UserCity' | translate}}" [disabled]="!editMode"
-                                        name="userCityInput" class="form-control shadow-none">
+                                        name="userCityInput" class="form-control shadow-none fs-14">
                                 </div>
                             </div>
 
                             <hr>
-                            <h6 class="fade-out mt-2">Address</h6>
+                            <h6 class="fade-out mt-2 fs-14">Address</h6>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3 fs-6">
-                                    <label>{{ "Address1" | translate }}</label>
-                                    <textarea class="form-control shadow-none" [disabled]="!editMode"
+                                    <label class="fs-14">{{ "Address1" | translate }}</label>
+                                    <textarea class="form-control fs-14 shadow-none" [disabled]="!editMode"
                                         [(ngModel)]="address1" name="address1"></textarea>
                                 </div>
 
                                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3 fs-6">
-                                    <label>{{ "Address2" | translate }}</label>
-                                    <textarea class="form-control shadow-none" [disabled]="!editMode"
+                                    <label class="fs-14">{{ "Address2" | translate }}</label>
+                                    <textarea class="form-control shadow-none fs-14" [disabled]="!editMode"
                                         [(ngModel)]="address2" name="address2"></textarea>
                                 </div>
 
                                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3 fs-6">
-                                    <label>{{ "Country" | translate }}</label>
+                                    <label class="fs-14">{{ "Country" | translate }}</label>
                                     <div class="input-group">
                                         <select [(ngModel)]="selectedCountry" (change)="onCountryChange()"
-                                            name="countryInput" [disabled]="!editMode" class="form-control shadow-none">
+                                            name="countryInput" [disabled]="!editMode" class="form-control fs-14 shadow-none">
                                             <option value="null" disabled selected>Select Country</option>
                                             <option *ngFor="let country of countriesDropDown.countries"
                                                 [value]="country.isoCode">
@@ -188,10 +188,10 @@
                                 </div>
 
                                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3 fs-6">
-                                    <label>{{ "State" | translate }}</label>
+                                    <label class="fs-14">{{ "State" | translate }}</label>
                                     <div class="input-group">
                                         <select [(ngModel)]="selectedState" (change)="onStateChange()" name="stateInput"
-                                            [disabled]="!editMode || !selectedCountry" class="form-control shadow-none">
+                                            [disabled]="!editMode || !selectedCountry" class="form-control fs-14 shadow-none">
                                             <option value="null" disabled selected>Select State</option>
                                             <option *ngFor="let state of countriesDropDown.states"
                                                 [value]="state.isoCode">
@@ -206,10 +206,10 @@
                                 </div>
 
                                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3 fs-6">
-                                    <label>{{ "City" | translate }}</label>
+                                    <label class="fs-14">{{ "City" | translate }}</label>
                                     <div class="input-group">
                                         <select [(ngModel)]="selectedCity" name="cityInput"
-                                            [disabled]="!editMode || !selectedState" class="form-control shadow-none">
+                                            [disabled]="!editMode || !selectedState" class="form-control fs-14 shadow-none">
                                             <option value="null" disabled selected>Select City</option>
                                             <option *ngFor="let city of countriesDropDown.cities" [value]="city.name">
                                                 {{ city.name }}
@@ -223,10 +223,10 @@
                                 </div>
 
                                 <div class="col-lg-3 col-md-3 col-sm-12 mb-3 fs-6">
-                                    <label>{{"ZipCode" | translate}}</label>
+                                    <label class="fs-14">{{"ZipCode" | translate}}</label>
                                     <input type="text" maxlength="30" [(ngModel)]="zipCode"
                                         placeholder="{{'Enter UserCity' | translate}}" [disabled]="!editMode"
-                                        name="userCityInput" class="form-control shadow-none">
+                                        name="userCityInput" class="form-control fs-14 shadow-none">
                                 </div>
                             </div>
 

@@ -1,203 +1,223 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    </head>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
 <body>
 
-    <nav class="navbar navbar-expand-md navbar-dark d-md-none"  [ngClass]="selectedTheme === 'default' ? 'theme_bg' : 'dark_theme'">
-        <a class="navbar-brand" routerLink="profile-dashboard">AVCHAMPS</a>
-        <button class="navbar-toggler" type="button" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation" (click)="toggleSidebar()">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </nav>
+  <nav class="navbar navbar-expand-md navbar-dark d-md-none"
+    [ngClass]="selectedTheme === 'default' ? 'theme_bg' : 'dark_theme'">
+    <a class="navbar-brand fs-14" routerLink="profile-dashboard">AVCHAMPS</a>
+    <button class="navbar-toggler" type="button" aria-controls="sidebarMenu" aria-expanded="false"
+      aria-label="Toggle navigation" (click)="toggleSidebar()">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </nav>
 
-    <div class="collapse d-md-block sidebar" [ngClass]="selectedTheme === 'default' ? 'theme_bg' : 'dark_theme'" id="sidebarMenu" #sidebarMenu>
-        <div class="container">
-            <div class="row justify-content-center">
-              <div class="col-md-8 d-flex flex-column align-items-center">
-                <div class="profile-container position-relative">
-                  <!-- <img [src]="getImageSource() || 'assets/data-toggle="collapse" data-target="#sidebarMenu" img/user-Icon.png'" -->
-                   <img [src]="getImageSource() || 'assets/img/user-Icon.png'" alt="" class="img-fluid profile-image rounded-circle"
-                    [ngStyle]="{'border': profileWeight <= 40 ? '2px solid red' : (profileWeight > 40 && profileWeight <= 80 ? '2px solid blue' : '2px solid green')}">
-                  <button class="btn profile_Weight position-absolute"
-                          style="top: 100%; left: 50%; transform: translate(-50%, -50%); padding: 2px 8px; font-size: 12px; border-radius: 12px;"
-                          [ngClass]="{'btn-danger': profileWeight <= 40, 'btn-primary': profileWeight > 40 && profileWeight <= 80, 'btn-success': profileWeight > 80}">
-                    {{ profileWeight }}%{{'completed'  | translate}}
-                  </button>
-                </div>
-                <p class="user-name mt-2 text-white font-weight-500" style="font-size: 1.5rem;"> {{ userName | titleCase }} </p>
-              </div>
-            </div>
+  <div class="collapse d-md-block sidebar" [ngClass]="selectedTheme === 'default' ? 'theme_bg' : 'dark_theme'"
+    id="sidebarMenu" #sidebarMenu>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8 d-flex flex-column align-items-center">
+          <div class="profile-container position-relative">
+            <!-- <img [src]="getImageSource() || 'assets/data-toggle="collapse" data-target="#sidebarMenu" img/user-Icon.png'" -->
+            <img [src]="getImageSource() || 'assets/img/user-Icon.png'" alt=""
+              class="img-fluid profile-image rounded-circle"
+              [ngStyle]="{'border': profileWeight <= 40 ? '2px solid red' : (profileWeight > 40 && profileWeight <= 80 ? '2px solid blue' : '2px solid green')}">
+            <button class="btn profile_Weight fs-14 position-absolute"
+              style="top: 100%; left: 50%; transform: translate(-50%, -50%); padding: 2px 8px; font-size: 12px; border-radius: 12px;"
+              [ngClass]="{'btn-danger': profileWeight <= 40, 'btn-primary': profileWeight > 40 && profileWeight <= 80, 'btn-success': profileWeight > 80}">
+              {{ profileWeight }}%{{'completed' | translate}}
+            </button>
           </div>
-
-        <!-- Logout Button -->
-        <div class="logout-container text-right">
-            <button class="btn btn-link text-white" (click)="logOut()">
-                <i class="bi bi-box-arrow-right fs-5"></i></button>
+          <p class="user-name mt-2 text-white fs-16 font-weight-500" style="font-size: 1.5rem;"> {{ userName | titleCase
+            }} </p>
         </div>
-
-        <div class="social-links text-center cur_pointer" data-bs-toggle="modal" data-bs-target="#showSocialMedia">
-          <a (click)="shareOnSocialMedia('twitter')" [ngClass]="getSocialClass('twitter')" class="twitter"><i class="bi bi-twitter-x"></i></a>
-          <a (click)="shareOnSocialMedia('facebook')" [ngClass]="getSocialClass('facebook')" class="facebook"><i class="bi bi-facebook"></i></a>
-          <a (click)="shareOnSocialMedia('instagram')" [ngClass]="getSocialClass('instagram')" class="instagram"><i class="bi bi-instagram"></i></a>
-          <a (click)="shareOnSocialMedia('linkedin')" [ngClass]="getSocialClass('linkedin')" class="linkedin"><i class="bi bi-linkedin"></i></a>
-          <a class="linkedin" data-bs-toggle="modal" [ngClass]="getSocialClass('settings')" data-bs-target="#myModal"><i class="bi bi-gear"></i></a>
       </div>
+    </div>
 
-          <ul class="nav flex-column text-center nav-row">
-            <li class="nav-item cur_pointer" routerLink="about" routerLinkActive="active-link" >
-              <a class="nav-link" (click)="closeSidebar()">
-                <i class="bi bi-person"></i> {{'About'  | translate}}
-              </a>
-            </li>
-            <li class="nav-item cur_pointer" routerLink="feed" routerLinkActive="active-link">
-              <a class="nav-link" (click)="closeSidebar()">
-                <i class="bi bi-envelope"></i> {{'Feed'  | translate}}
-              </a>
-            </li>
-            <li class="nav-item cur_pointer" routerLink="directory" routerLinkActive="active-link">
-              <a class="nav-link" (click)="closeSidebar()">
-                <i class="bi bi-person-check"></i> {{'Directory'  | translate}}
-              </a>
-            </li>
-            <li class="nav-item cur_pointer" routerLink="tools" routerLinkActive="active-link">
-              <a class="nav-link" (click)="closeSidebar()">
-                <i class="bi bi-tools"></i> {{'Tools'  | translate}}
-              </a>
-            </li>
-            <li class="nav-item cur_pointer">
-              <a class="nav-link" href="/jobs-portal" routerLinkActive="active-link" target="_blank" (click)="closeSidebar()">
-                <i class="bi bi-briefcase"></i> {{'Careers'  | translate}}
-              </a>
-            </li>
-            <li class="nav-item cur_pointer">
-              <a class="nav-link" href="/ekart-page" target="_blank" routerLinkActive="active-link" (click)="closeSidebar()">
-                <i class="bi bi-cart"></i> {{'Ekart'  | translate}}
-              </a>
-            </li>
-            <li class="nav-item cur_pointer">
-              <a class="nav-link" href="/community" target="_blank" routerLinkActive="active-link" (click)="closeSidebar()">
-                <i class="bi bi-people"></i> {{'Community' | translate}}
-              </a>
-            </li>
-            <li class="nav-item cur_pointer">
-              <a class="nav-link" href="/product-list" target="_blank" routerLinkActive="active-link" (click)="closeSidebar()">
-                <i class="bi bi-star"></i> {{'Reviews' | translate}}
-              </a>
-            </li>
-            <!-- <li class="nav-item cur_pointer" *ngIf="showAdminPanel">
+    <!-- Logout Button -->
+    <div class="logout-container text-right">
+      <button class="btn btn-link text-white" (click)="logOut()">
+        <i class="bi bi-box-arrow-right fs-5"></i></button>
+    </div>
+
+    <div class="social-links text-center cur_pointer" data-bs-toggle="modal" data-bs-target="#showSocialMedia">
+      <a (click)="shareOnSocialMedia('twitter')" [ngClass]="getSocialClass('twitter')" class="twitter"><i
+          class="bi bi-twitter-x"></i></a>
+      <a (click)="shareOnSocialMedia('facebook')" [ngClass]="getSocialClass('facebook')" class="facebook"><i
+          class="bi bi-facebook"></i></a>
+      <a (click)="shareOnSocialMedia('instagram')" [ngClass]="getSocialClass('instagram')" class="instagram"><i
+          class="bi bi-instagram"></i></a>
+      <a (click)="shareOnSocialMedia('linkedin')" [ngClass]="getSocialClass('linkedin')" class="linkedin"><i
+          class="bi bi-linkedin"></i></a>
+      <a class="linkedin" data-bs-toggle="modal" [ngClass]="getSocialClass('settings')" data-bs-target="#myModal"><i
+          class="bi bi-gear"></i></a>
+    </div>
+
+    <ul class="nav flex-column text-center nav-row">
+      <li class="nav-item cur_pointer" routerLink="about" routerLinkActive="active-link">
+        <a class="nav-link fs-14" routerLinkActive="active-link" (click)="closeSidebar()">
+          <i class="bi bi-person"></i> {{'About' | translate}}
+        </a>
+      </li>
+      <li class="nav-item cur_pointer" routerLink="feed" routerLinkActive="active-link">
+        <a class="nav-link fs-14" routerLinkActive="active-link" (click)="closeSidebar()">
+          <i class="bi bi-envelope"></i> {{'Feed' | translate}}
+        </a>
+      </li>
+      <li class="nav-item cur_pointer" routerLink="directory" routerLinkActive="active-link">
+        <a class="nav-link fs-14" routerLinkActive="active-link" (click)="closeSidebar()">
+          <i class="bi bi-person-check"></i> {{'Directory' | translate}}
+        </a>
+      </li>
+      <li class="nav-item cur_pointer" routerLink="tools" routerLinkActive="active-link">
+        <a class="nav-link fs-14" routerLinkActive="active-link" (click)="closeSidebar()">
+          <i class="bi bi-tools"></i> {{'Tools' | translate}}
+        </a>
+      </li>
+      <li class="nav-item cur_pointer">
+        <a class="nav-link fs-14" href="/jobs-portal" routerLinkActive="active-link" target="_blank"
+          (click)="closeSidebar()">
+          <i class="bi bi-briefcase"></i> {{'Careers' | translate}}
+        </a>
+      </li>
+      <li class="nav-item cur_pointer">
+        <a class="nav-link fs-14" href="/ekart-page" target="_blank" routerLinkActive="active-link"
+          (click)="closeSidebar()">
+          <i class="bi bi-cart"></i> {{'Ekart' | translate}}
+        </a>
+      </li>
+      <li class="nav-item cur_pointer">
+        <a class="nav-link fs-14" href="/community" target="_blank" routerLinkActive="active-link"
+          (click)="closeSidebar()">
+          <i class="bi bi-people"></i> {{'Community' | translate}}
+        </a>
+      </li>
+      <li class="nav-item cur_pointer">
+        <a class="nav-link fs-14" href="/product-list" target="_blank" routerLinkActive="active-link"
+          (click)="closeSidebar()">
+          <i class="bi bi-star"></i> {{'Reviews' | translate}}
+        </a>
+      </li>
+      <!-- <li class="nav-item cur_pointer" *ngIf="showAdminPanel">
               <a class="nav-link" href="/admin-page" target="_blank" routerLinkActive="active-link" (click)="closeSidebar()">
                 <i class="bi bi-gear-fill"></i> {{'Admin Page' | translate}}
               </a>
             </li> -->
-          </ul>
-          
-        <div class="version-tag text-center text-white mt-auto">
-            v3.0.0
-        </div>
+    </ul>
+
+    <div class="version-tag text-center text-white mt-auto">
+      v3.0.0
     </div>
+  </div>
 
-    <main role="main" class="main-content col-md-9 ml-sm-auto col-lg-10 px-4">       
-        <section>
-            <router-outlet></router-outlet>
-        </section>
-    </main>
+  <main role="main" class="main-content col-md-9 ml-sm-auto col-lg-10 px-4">
+    <section>
+      <router-outlet></router-outlet>
+    </section>
+  </main>
 
-    <div class="modal fade" id="showSocialMedia" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="myDialogTitle">{{'Social Media Links' | translate}}</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="socialMediaInput">{{'Add' | translate}} {{ CickedsocialMedia | translate}} {{'URL'}}*</label>
-                        <input type="text" class="form-control" id="socialMediaInput" [(ngModel)]="inputValue">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal">{{'Cancel' | translate}}</button>
-                    <button type="button" class="btn btn-success" (click)="saveSocialMediaUrl()">{{'Save' | translate}}</button>
-                </div>
-            </div>
+  <div class="modal fade" id="showSocialMedia" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fs-14" id="myDialogTitle">{{'Social Media Links' | translate}}</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group fs-14">
+            <label for="socialMediaInput">{{'Add' | translate}} {{ CickedsocialMedia | translate}} {{'URL'}}*</label>
+            <input type="text" class="form-control" id="socialMediaInput" [(ngModel)]="inputValue">
+          </div>
+        </div>
+        <div class="modal-footer fs-14">
+          <button type="button" class="btn btn-warning" data-bs-dismiss="modal">{{'Cancel' | translate}}</button>
+          <button type="button" class="btn btn-success" (click)="saveSocialMediaUrl()">{{'Save' | translate}}</button>
         </div>
       </div>
+    </div>
+  </div>
 
-    <!-- The Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">{{'Settings' | translate}}</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-    
-          <div class="modal-body">
-            <div class="container">
-              <div class="row">
-                <div class="col-12">
-                  <h6>{{'Select Theme' | translate}}</h6>
-                </div>
-                <!-- Themes in two columns for larger screens -->
-                <div class="col-12 col-md-6 d-flex align-items-center mb-3">
-                  <input type="radio" id="defaultTheme" name="theme" value="default" 
-                         [(ngModel)]="tempSelectedTheme" (change)="selectTheme('default')">
-                  <label for="defaultTheme" class="form-check-label ml-2">{{'Default' | translate}}</label>
-                </div>
-                <div class="col-12 col-md-6 d-flex align-items-center mb-3">
-                  <input type="radio" id="darkTheme" name="theme" value="dark" 
-                         [(ngModel)]="tempSelectedTheme" (change)="selectTheme('dark')">
-                  <label for="darkTheme" class="form-check-label ml-2">{{'Dark' | translate}}</label>
-                </div>
+  <!-- The Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title  fs-14" id="exampleModalLabel">{{'Settings' | translate}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="container">
+            <div class="row">
+              <div class="col-12">
+                <h6 class="fs-14">{{'Select Theme' | translate}}</h6>
               </div>
+              <!-- Themes in two columns for larger screens -->
+              <div class="col-12 col-md-6 d-flex align-items-center mb-3">
+                <input type="radio" id="defaultTheme" name="theme" value="default" [(ngModel)]="tempSelectedTheme"
+                  (change)="selectTheme('default')">
+                <label for="defaultTheme" class="form-check-label fs-14 ml-2">{{'Default' | translate}}</label>
+              </div>
+              <div class="col-12 col-md-6 d-flex align-items-center mb-3">
+                <input type="radio" id="darkTheme" name="theme" value="dark" [(ngModel)]="tempSelectedTheme"
+                  (change)="selectTheme('dark')">
+                <label for="darkTheme" class="form-check-label ml-2 fs-14">{{'Dark' | translate}}</label>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-12">
+                <h6 class="fs-14">{{'Select Language' | translate}}</h6>
+              </div>
+              <div class="col-12 col-md-4 d-flex align-items-center mb-3">
+                <input type="radio" id="englishLang" name="language" value="english" [(ngModel)]="tempSelectedLanguage"
+                  (change)="selectLanguage('english')">
+                <label for="englishLang" class="form-check-label ml-2">{{'English' | translate}}</label>
+              </div>
+              <div class="col-12 col-md-4 d-flex align-items-center mb-3">
+                <input type="radio" id="teluguLang" name="language" value="telugu" [(ngModel)]="tempSelectedLanguage"
+                  (change)="selectLanguage('telugu')">
+                <label for="teluguLang" class="form-check-label ml-2">{{'Telugu' | translate}}</label>
+              </div>
+              <div class="col-12 col-md-4 d-flex align-items-center mb-3">
+                <input type="radio" id="hindiLang" name="language" value="hindi" [(ngModel)]="tempSelectedLanguage"
+                  (change)="selectLanguage('hindi')">
+                <label for="hindiLang" class="form-check-label ml-2">{{'Hindi' | translate}}</label>
+              </div>
+            </div>
+            <div *ngIf="showAdminPanel">
               <hr>
               <div class="row">
-                <div class="col-12">
-                  <h6>{{'Select Language' | translate}}</h6>
-                </div>
-                <div class="col-12 col-md-4 d-flex align-items-center mb-3">
-                  <input type="radio" id="englishLang" name="language" value="english" 
-                         [(ngModel)]="tempSelectedLanguage" (change)="selectLanguage('english')">
-                  <label for="englishLang" class="form-check-label ml-2">{{'English' | translate}}</label>
-                </div>
-                <div class="col-12 col-md-4 d-flex align-items-center mb-3">
-                  <input type="radio" id="teluguLang" name="language" value="telugu" 
-                         [(ngModel)]="tempSelectedLanguage" (change)="selectLanguage('telugu')">
-                  <label for="teluguLang" class="form-check-label ml-2">{{'Telugu' | translate}}</label>
-                </div>
-                <div class="col-12 col-md-4 d-flex align-items-center mb-3">
-                  <input type="radio" id="hindiLang" name="language" value="hindi" 
-                         [(ngModel)]="tempSelectedLanguage" (change)="selectLanguage('hindi')">
-                  <label for="hindiLang" class="form-check-label ml-2">{{'Hindi' | translate}}</label>
-                </div>
-              </div>
-              <div *ngIf="showAdminPanel"><hr>
-              <div class="row">
-                  <a href="/admin-page" target="_blank" class="text-blue text-center" routerLinkActive="active-link" (click)="closeSidebar()">
-                    {{'Admin Page' | translate}}
-                  </a>
-              </div>
+                <a href="/admin-page" target="_blank" class="text-blue text-center" routerLinkActive="active-link"
+                  (click)="closeSidebar()">
+                  {{'Admin Page' | translate}}
+                </a>
               </div>
             </div>
-    
-            <div class="modal-footer" [ngStyle]="{'background-color': selectedThemeColor}">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{'Close' | translate}}</button>
-              <button type="button" class="btn btn-primary" (click)="applyThemeAndLanguage()" data-bs-dismiss="modal">{{'Apply' | translate}}</button>
-            </div>
+          </div>
+
+          <div class="modal-footer" [ngStyle]="{'background-color': selectedThemeColor}">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{'Close' | translate}}</button>
+            <button type="button" class="btn btn-primary" (click)="applyThemeAndLanguage()"
+              data-bs-dismiss="modal">{{'Apply' | translate}}</button>
           </div>
         </div>
       </div>
     </div>
-    
-      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
+
 </html>

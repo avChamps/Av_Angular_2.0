@@ -24,6 +24,8 @@ export class ProfileDirectoryComponent {
   totalRecords: number = 0;
   currentPage: number = 1;
   totalPages: number = 0;
+  pageInput: number = 1;
+  maxVisiblePages: number = 5;
   visiblePages: number[] = [];
   companyName!: string;
   profileImage: any[] = [];
@@ -62,36 +64,63 @@ export class ProfileDirectoryComponent {
     this.getData(0, this.pageSize);
   }
 
+
   changePage(page: number): void {
-    if (page < 1 || page > this.totalPages) {
-      return;
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.pageInput = page; // Sync the input with the current page
+      this.getData((page - 1) * this.pageSize, this.pageSize);
+      this.updateVisiblePages(); // Update the visible pages
     }
-    this.currentPage = page;
-    this.getData((page - 1) * this.pageSize, this.pageSize);
   }
 
-  updateVisiblePages(): void {
-    const pages = [];
 
-    if (this.currentPage <= 3) {
-      // Show the first few pages
-      for (let i = 2; i <= Math.min(4, this.totalPages - 1); i++) {
-        pages.push(i);
-      }
-    } else if (this.currentPage > 3 && this.currentPage < this.totalPages - 2) {
-      // Show the pages around the current page
-      pages.push(this.currentPage - 1);
-      pages.push(this.currentPage);
-      pages.push(this.currentPage + 1);
-    } else {
-      // Show the last few pages
-      for (let i = this.totalPages - 3; i < this.totalPages; i++) {
-        if (i > 1) pages.push(i);
-      }
+
+  goToPage(): number[] {
+    const pages: number[] = [];
+    const startPage = Math.max(this.currentPage - Math.floor(this.maxVisiblePages / 2), 1);
+    const endPage = Math.min(startPage + this.maxVisiblePages - 1, this.totalPages);
+
+    // Adjust startPage if the endPage goes beyond totalPages
+    const adjustedStartPage = Math.max(1, endPage - this.maxVisiblePages + 1);
+
+    for (let i = adjustedStartPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+
+    return pages;
+  }
+
+
+  goToPageInput(): void {
+    if (this.pageInput >= 1 && this.pageInput <= this.totalPages) {
+      this.changePage(this.pageInput);
+    }
+  }
+
+
+  updateVisiblePages(): void {
+    const pages: number[] = [];
+    const maxVisible = this.maxVisiblePages;
+
+    // Calculate the start and end of the visible range
+    let startPage = Math.max(this.currentPage - Math.floor(maxVisible / 2), 1);
+    let endPage = startPage + maxVisible - 1;
+
+    // Adjust if endPage exceeds totalPages
+    if (endPage > this.totalPages) {
+      endPage = this.totalPages;
+      startPage = Math.max(endPage - maxVisible + 1, 1);
+    }
+
+    // Generate the visible pages
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
     }
 
     this.visiblePages = pages;
   }
+
 
   showDetails(item: any): void {
     this.searchBox = false;
@@ -114,12 +143,12 @@ export class ProfileDirectoryComponent {
     this.clickedUserData = [item];
   }
 
-  scrollToTop() {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    })
-  }
+  // scrollToTop() {
+  //   window.scrollTo({
+  //     top: 0,
+  //     behavior: 'smooth'
+  //   })
+  // }
 
   clearFilter() {
     this.filterTerm = '';

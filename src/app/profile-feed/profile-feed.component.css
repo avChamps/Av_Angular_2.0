@@ -31,3 +31,84 @@
 .input-group-append :hover {
   background-color: #00B074;;
 }
+
+.email-list-container {
+  padding: 20px;
+  background: #f6f8fa;
+  height: 100%;
+  overflow-y: auto;
+}
+.email-item {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  background-color: #fff;
+  transition: background-color 0.2s ease;
+}
+.email-item:hover {
+  background-color: #f1f3f4;
+}
+
+.email-item .checkbox {
+  margin-right: 15px;
+}
+.email-item .star {
+  margin-right: 15px;
+  font-size: 1.2rem;
+  color: #ffc107;
+  cursor: pointer;
+}
+.email-item .star:hover {
+  color: #ffa000;
+}
+.email-item .sender {
+  margin-right: 15px;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.email-item .subject {
+  flex: 2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.email-item .attachments {
+  display: flex;
+  gap: 5px;
+  margin-left: auto;
+}
+.email-item .attachments span {
+  display: inline-block;
+  padding: 5px 8px;
+  background: #e8f0fe;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  color: #1a73e8;
+  cursor: pointer;
+}
+
+.email-item .timestamp {
+  margin-left: 15px;
+  font-size: 0.85rem;
+  color: #6b6b6b;
+  white-space: nowrap;
+}
+.email-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+@media (min-width: 768px) {
+    .center-flex {
+      display: flex!important;
+      justify-content: center!important;
+      align-items: center!important;
+    }
+  }
+  

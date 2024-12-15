@@ -25,3 +25,93 @@ textarea:disabled {
     background-color: #e9ecef63;
     cursor: no-drop;
 }
+
+.btn-success {
+    background: #007bff !important;
+    border-radius: 33px;
+    border: none;
+}
+
+.save-mode {
+    background-color: green!important;
+}
+
+
+
+.profile-container {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    max-width: 900px;
+    margin: auto;
+  }
+  .profile-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .profile-header img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #28a745;
+    color: #fff;
+    font-size: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+  }
+  .profile-header h2 {
+    margin-top: 15px;
+    font-size: 1.8rem;
+  }
+  .profile-header h5 {
+    margin-top: 5px;
+    color: #666;
+  }
+
+  
+  .stepper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+  }
+  .stepper .step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+  .stepper .step.active {
+    color: #28a745;
+    font-weight: bold;
+  }
+
+  .stepper .step span {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: #ddd;
+    text-align: center;
+    line-height: 25px;
+    font-size: 0.9rem;
+  }
+  .stepper .step.active span {
+    background-color: #28a745;
+    color: #fff;
+  }
+  .form-section {
+    display: none;
+  }
+  .form-section.active {
+    display: block;
+  }
+
+  .form-control, .form-select {
+    border-radius: 5px;
+  }
