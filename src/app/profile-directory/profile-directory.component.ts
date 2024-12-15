@@ -3,6 +3,7 @@ import { AuthServiceService } from '../services/auth-service.service';
 import { FaServiceService } from '../services/fa-service.service';
 import { UserServicesService } from '../services/user-services.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-profile-directory',
@@ -38,10 +39,17 @@ export class ProfileDirectoryComponent {
     private faService: FaServiceService,
     private userService: UserServicesService,
     private authService: AuthServiceService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe((params: any) => {
+      if (params['search']) {
+        this.filterTerm = params['search'];
+        console.log(this.filterTerm);
+      }
+    });
     this.getData(0, this.pageSize);
     let language = localStorage.getItem('selectedLanguage') || 'english';
     this.translate.setDefaultLang(language);

@@ -3,6 +3,7 @@ import { QuizServiceService } from '../quiz-service.service';
 import { Modal } from 'bootstrap';
 import { UserServicesService } from '../services/user-services.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-quiz-page',
@@ -13,8 +14,8 @@ export class QuizPageComponent implements OnInit, OnDestroy {
   questions: any[] = [];
   // emailId: string = 'disendra889@gmail.com';
   // userName: string = 'Disendra';
-  emailId : any;
-  userName : any;
+  emailId: any;
+  userName: any;
   currentQuestionIndex: number = 0;
   topScores: any[] = []
   selectedOptionId: number | null = null;
@@ -35,10 +36,12 @@ export class QuizPageComponent implements OnInit, OnDestroy {
   minutes: number = 0;
   seconds: number = 0;
   interval: any;
-  isMobile : boolean = false;
+  isMobile: boolean = false;
   displayCoins: any = 0;
+  displayDirectory : boolean = false;
+  searchWord : string = '';
 
-  constructor(private quizService: QuizServiceService, private userService: UserServicesService, private deviceService: DeviceDetectorService) { }
+  constructor(private quizService: QuizServiceService,private router : Router , private userService: UserServicesService, private deviceService: DeviceDetectorService) { }
 
   ngOnInit(): void {
     this.emailId = localStorage.getItem('emailId');
@@ -71,7 +74,7 @@ export class QuizPageComponent implements OnInit, OnDestroy {
       (response: any) => {
         console.log(response);
         if (response && response.status && response.data) {
-          if(response.length != 0) {
+          if (response.length != 0) {
             this.displayStartedPopup()
           }
           this.questions = this.transformQuizData(response.data);
@@ -89,7 +92,7 @@ export class QuizPageComponent implements OnInit, OnDestroy {
   displayStartedPopup() {
     const modal = new Modal(this.modalElement.nativeElement);
     modal.show();
-}
+  }
 
   getTopScores() {
     this.showSpinner = true;
@@ -145,6 +148,9 @@ export class QuizPageComponent implements OnInit, OnDestroy {
   drawPieChart(): void {
     const total = this.data.reduce((sum, value) => sum + value, 0);
 
+    // Clear the canvas before rendering
+    this.context.clearRect(0, 0, this.pieCanvas.nativeElement.width, this.pieCanvas.nativeElement.height);
+
     if (total === 0) {
       // Display the "No Records Found" image when there are no records
       this.pieCanvas.nativeElement.classList.add('no-records');
@@ -155,11 +161,9 @@ export class QuizPageComponent implements OnInit, OnDestroy {
         const ctx = this.context;
         ctx.clearRect(0, 0, this.pieCanvas.nativeElement.width, this.pieCanvas.nativeElement.height);
 
-        // Adjust canvas dimensions to match image aspect ratio
         const canvasWidth = this.pieCanvas.nativeElement.width;
         const canvasHeight = this.pieCanvas.nativeElement.height;
 
-        // Calculate image dimensions to fit within the canvas
         const scale = Math.min(canvasWidth / img.width, canvasHeight / img.height);
         const imgWidth = img.width * scale;
         const imgHeight = img.height * scale;
@@ -170,31 +174,54 @@ export class QuizPageComponent implements OnInit, OnDestroy {
       };
     } else {
       this.pieCanvas.nativeElement.classList.remove('no-records');
+
       let startAngle = 0;
       const centerX = this.pieCanvas.nativeElement.width / 2;
       const centerY = this.pieCanvas.nativeElement.height / 2;
       const radius = Math.min(centerX, centerY) - 10;
 
+      // Adjust the inner radius for donut thickness
+      const innerRadius = radius * 0.7;
+
       this.data.forEach((value, index) => {
         if (value === 0) return;
         const sliceAngle = (value / total) * 2 * Math.PI;
         const endAngle = startAngle + sliceAngle;
-        this.drawSlice(centerX, centerY, radius, startAngle, endAngle, this.colors[index]);
 
-        const labelAngle = startAngle + sliceAngle / 2;
-        const labelX = centerX + (radius / 1.5) * Math.cos(labelAngle);
-        const labelY = centerY + (radius / 1.5) * Math.sin(labelAngle);
-        const percentage = ((value / total) * 100).toFixed(1);
-        const labelText = `${this.labels[index]} ${value} (${percentage}%)`;
-
-        this.context.fillStyle = "#000";
-        this.context.font = "24px sans-serif";
-        this.context.textAlign = "center";
-        this.context.fillText(labelText, labelX, labelY);
+        this.drawDonutSlice(centerX, centerY, radius, innerRadius, startAngle, endAngle, this.colors[index]);
 
         startAngle = endAngle;
       });
+
+      // Calculate the percentage to display in the center
+      const correctPercentage = ((this.data[0] / total) * 100).toFixed(1); // Assuming the first slice is the correct value
+
+      // Add the percentage text to the center of the donut
+      this.context.fillStyle = "#000"; // Black text color
+      this.context.font = "24px sans-serif"; // Font size and style
+      this.context.textAlign = "center"; // Center-align the text
+      this.context.textBaseline = "middle"; // Middle-align the text vertically
+      this.context.fillText(`${correctPercentage}%`, centerX, centerY);
     }
+  }
+
+
+
+  drawDonutSlice(
+    centerX: number,
+    centerY: number,
+    outerRadius: number,
+    innerRadius: number,
+    startAngle: number,
+    endAngle: number,
+    color: string
+  ): void {
+    this.context.beginPath();
+    this.context.arc(centerX, centerY, outerRadius, startAngle, endAngle);
+    this.context.arc(centerX, centerY, innerRadius, endAngle, startAngle, true);
+    this.context.closePath();
+    this.context.fillStyle = color;
+    this.context.fill();
   }
 
 
@@ -303,7 +330,7 @@ export class QuizPageComponent implements OnInit, OnDestroy {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     if (this.isMobile) {
       window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    }    
+    }
   }
 
   updateCountdown() {
@@ -335,6 +362,14 @@ export class QuizPageComponent implements OnInit, OnDestroy {
     });
     this.showSpinner = false;
   }
+
+
+  onSelection(type : any) {
+    this.searchWord = type.userName;
+    this.router.navigate(['/profile-dashboard/directory'], { queryParams: { search: this.searchWord } });
+    this.displayDirectory = true;
+   }
+
   onBack() {
     this.userService.onBack();
   }

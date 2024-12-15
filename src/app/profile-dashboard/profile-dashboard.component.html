@@ -126,25 +126,39 @@
   <div class="modal fade" id="showSocialMedia" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title fs-14" id="myDialogTitle">{{'Social Media Links' | translate}}</h5>
-          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+        <!-- Header -->
+        <div class="modal-header text-white" style="background-color: #007bff;">
+          <h5 class="modal-title fs-16 mx-auto" id="myDialogTitle">{{ 'Social Media Links' | translate }}</h5>
         </div>
-        <div class="modal-body">
-          <div class="form-group fs-14">
-            <label for="socialMediaInput">{{'Add' | translate}} {{ CickedsocialMedia | translate}} {{'URL'}}*</label>
-            <input type="text" class="form-control" id="socialMediaInput" [(ngModel)]="inputValue">
+
+        <!-- Body -->
+        <div class="modal-body" style="margin-bottom: -20px;">
+          <div class="form-group">
+            <label for="socialMediaInput" class="fs-14 mb-2">
+              {{ 'Add LinkedIn URL' | translate }} <span class="text-danger">*</span>
+            </label>
+            <input type="text" class="form-control px-3 py-2 rounded-pill" id="socialMediaInput"
+              placeholder="https://www.linkedin.com/in/your-profile" [(ngModel)]="inputValue"
+              style="font-size: 1rem; border: 1px solid #ddd;" />
           </div>
         </div>
-        <div class="modal-footer fs-14">
-          <button type="button" class="btn btn-warning" data-bs-dismiss="modal">{{'Cancel' | translate}}</button>
-          <button type="button" class="btn btn-success" (click)="saveSocialMediaUrl()">{{'Save' | translate}}</button>
+
+        <!-- Footer -->
+        <div class="modal-footer justify-content-around border-0">
+          <button type="button" class="btn rounded-pill"
+            style="background-color: #f8d7da; color: #d9534f; width: 100px;" data-bs-dismiss="modal">
+            {{ 'Cancel' | translate }}
+          </button>
+          <button type="button" class="btn rounded-pill"
+            style="background-color: #d4edda; color: #28a745; width: 100px;" (click)="saveSocialMediaUrl()">
+            {{ 'Save' | translate }}
+          </button>
         </div>
       </div>
     </div>
   </div>
+
+
 
   <!-- The Modal -->
   <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

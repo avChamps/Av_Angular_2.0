@@ -36,8 +36,6 @@ textarea:disabled {
     background-color: green!important;
 }
 
-
-
 .profile-container {
     background: #fff;
     border-radius: 8px;
@@ -151,3 +149,12 @@ textarea:disabled {
     color: white;
 }
 
+.nav-link {
+  padding: 5px;
+}
+
+@media (max-width: 576px) {
+ .row.mob-mt-0 {
+    margin-top: 0px !important;
+  }
+}

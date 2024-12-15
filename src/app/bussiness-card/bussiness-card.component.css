@@ -15,11 +15,19 @@ a {
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-@media (max-width: 576px) {
-	#downloadCardId {
-		width: 90%;
-		padding: 15px;
-	}
+
+.card-footer {
+	background: #f9f9f9;
+}
+
+.icon-footer {
+	font-size: 18px;
+	color: #007bff;
+	transition: color 0.3s ease;
+}
+
+.icon-footer:hover {
+	color: #0056b3;
 }
 
 .icon.arrow {
@@ -35,4 +43,65 @@ a {
 .card p,
 .card i {
 	font-size: 14px;
+}
+
+
+
+#downloadCardId {
+	min-width: 260px;
+	max-width: 320px;
+	border-radius: 15px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+	background: linear-gradient(to right, #007bff, #00c6ff);
+	height: 150px;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.card-body p {
+	font-size: 16px;
+}
+
+.icon-style {
+	font-size: 20px;
+	color: #555;
+}
+
+.card-footer .icon-footer {
+	font-weight: normal;
+}
+
+.card-body p,
+.card-body span,
+.card-body i {
+	font-weight: normal !important;
+}
+
+.card-footer .icon-footer,
+.card-footer .btn-link {
+	font-weight: normal !important;
+	font-size: 16px;
+}
+
+#downloadCardId * {
+	font-weight: normal !important;
+}
+
+.card-header,
+.card-body,
+.card-footer {
+	font-weight: normal !important;
+}
+
+@media (max-width: 576px) {
+	#downloadCardId {
+		width: 90%;
+		padding: 15px;
+	}
 }
