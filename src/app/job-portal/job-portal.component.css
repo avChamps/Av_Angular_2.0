@@ -117,6 +117,7 @@ body {
 
 .post-job-btn:hover {
     background-color: green;
+    color: white;
 }
 
 .btn-close:hover {
@@ -287,6 +288,41 @@ textarea {
     font-size: 14px !important;
 }
 
+@keyframes multicolor-flash {
+    0% {
+        color: #ff5733;
+        /* Red */
+    }
+
+    25% {
+        color: #33ff57;
+        /* Green */
+    }
+
+    50% {
+        color: #3357ff;
+        /* Blue */
+    }
+
+    75% {
+        color: #f4d03f;
+        /* Yellow */
+    }
+
+    100% {
+        color: #ff5733;
+        /* Back to Red */
+    }
+}
+
+.flashing-text {
+    font-size: 2.5rem;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+    text-transform: uppercase;
+    animation: multicolor-flash 2s infinite ease-in-out;
+}
 
 @media (max-width: 768px) {
     .col-lg-3 {

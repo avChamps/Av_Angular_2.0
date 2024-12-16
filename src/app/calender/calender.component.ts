@@ -199,7 +199,8 @@ export class CalenderComponent {
     this.endDate = '';
     this.eventName = '';
     this.eventUrl = '';
-    this.selectedEventType = ''
+    this.selectedEventType = '';
+    this.isUrlInvalid = false;
   }
 
   onBack() {

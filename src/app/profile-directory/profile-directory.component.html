@@ -16,7 +16,7 @@
     <div class="container mt-2" *ngIf="searchBox">
       <div class="row justify-content-center mt-2">
         <div class="col-md-5">
-          <div class="card">
+          <div class="card mb-2">
             <div class="input-group rounded box border-box mb-1">
               <span class="input-group-text bg-transparent border-0 d-flex">
                 <i class="bi bi-search"></i>
@@ -24,26 +24,29 @@
               <input type="text"
                 class="form-control border-0 shadow-none bg-transparent ng-untouched ng-pristine ng-valid"
                 [(ngModel)]="filterTerm" (input)="applyFilter()" (keyup.enter)="getData(0, pageSize)"
-                placeholder="Search" />
+                placeholder="Search Contact ..." />
               <span class="input-group-text bg-transparent border-0 cur_pointer" *ngIf="filterTerm"
                 (click)="clearFilter()">
                 <i class="bi bi-x-circle"></i>
               </span>
             </div>
 
-            <div *ngFor="let item of pagedUserData" class="row align-items-center border rounded p-2 mt-2 user-card card-move cur_pointer"
+            <div *ngFor="let item of pagedUserData" class="card border box-shadow cur_pointer card-move mt-1 p-2"
               (click)="showDetails(item)">
-              <div class="col-auto">
-                <img class="rounded-circle" [src]="item.imagePath || 'assets/images/common_Images/user-Icon.png'"
-                  alt="User Image" width="40" height="40" />
-              </div>
-              <div class="col">
-                <div class="d-flex flex-column">
-                  <span class="user-name fs-16 text-dark">{{ item.fullName | titleCase }}</span>
-                  <span class="user-company fs-14 text-muted">{{ item.companyName | titleCase }}</span>
+              <div class="d-flex align-items-center">
+                <div class="col-auto">
+                  <img class="rounded-circle" [src]="item.imagePath || 'assets/images/common_Images/user-Icon.png'"
+                    alt="User Image" width="40" height="40" />
+                </div>
+                <div class="col">
+                  <div class="d-flex flex-column">
+                    <span class="user-name fs-16 text-dark">{{ item.fullName | titleCase }}</span>
+                    <span class="user-company fs-14 text-muted">{{ item.companyName | titleCase }}</span>
+                  </div>
                 </div>
               </div>
             </div>
+
             <div *ngIf="pagedUserData.length === 0 && filterTerm !== ''">
               <div class="text-center">
                 <img src="assets/images/common_Images/oops.png" alt="" class="img-fluid no-records" height="250px" />
@@ -56,33 +59,30 @@
                   <ul class="pagination justify-content-center">
                     <!-- Back Button -->
                     <li class="page-item" [ngClass]="{ disabled: currentPage === 1 }">
-                      <button class="page-link" (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Back</button>
+                      <button class="page-link" (click)="changePage(currentPage - 1)"
+                        [disabled]="currentPage === 1">Back</button>
                     </li>
-            
+
                     <!-- Numbered Pagination -->
-                    <li
-                      *ngFor="let page of goToPage(); let i = index"
-                      class="page-item"
-                      [ngClass]="{ active: page === currentPage }"
-                    >
+                    <li *ngFor="let page of goToPage(); let i = index" class="page-item"
+                      [ngClass]="{ active: page === currentPage }">
                       <button class="page-link" (click)="changePage(page)">{{ page }}</button>
                     </li>
-            
+
                     <!-- '...' and Last Page -->
-                    <li *ngIf="totalPages > maxVisiblePages && currentPage + maxVisiblePages < totalPages" class="page-item">
+                    <li *ngIf="totalPages > maxVisiblePages && currentPage + maxVisiblePages < totalPages"
+                      class="page-item">
                       <button class="page-link" disabled>...</button>
                     </li>
-                    <li
-                      *ngIf="totalPages > maxVisiblePages"
-                      class="page-item"
-                      [ngClass]="{ active: currentPage === totalPages }"
-                    >
+                    <li *ngIf="totalPages > maxVisiblePages" class="page-item"
+                      [ngClass]="{ active: currentPage === totalPages }">
                       <button class="page-link" (click)="changePage(totalPages)">{{ totalPages }}</button>
                     </li>
-            
+
                     <!-- Next Button -->
                     <li class="page-item" [ngClass]="{ disabled: currentPage === totalPages }">
-                      <button class="page-link" (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">
+                      <button class="page-link" (click)="changePage(currentPage + 1)"
+                        [disabled]="currentPage === totalPages">
                         Next
                       </button>
                     </li>
@@ -90,14 +90,14 @@
                 </nav>
               </div>
             </div>
-            
+
 
           </div>
         </div>
       </div>
     </div>
 
-    <div class="wrapper text-center" *ngIf="showClickedData">
+    <div class="wrapper text-center card-move" *ngIf="showClickedData">
       <div class="img-area mx-auto">
         <div class="inner-area">
           <!-- <img [src]="imagePath || 'assets/images/common_Images/user-Icon.png'" alt=""> -->

@@ -29,8 +29,10 @@ export class JobPortalComponent implements OnInit {
   postedBy: string = '';
   selectedLocation: string = '';
   sortBy: string = 'newest'
-  emailId: string = 'disendra889@gmail.com';
-  userName: string = 'Disendra';
+  // emailId: string = 'disendra889@gmail.com';
+  // userName: string = 'Disendra';
+  emailId : any;
+  userName : any;
   profileImg: any;
   profileData: any = [];
   postedJobs: any = [];
@@ -51,37 +53,6 @@ export class JobPortalComponent implements OnInit {
     }
   }
 
-  jobs = [
-    {
-      title: 'Junior UI/UX Designer',
-      company: 'Slack Technologies, LLC',
-      description: 'We are looking for a talented designer to create beautiful and functional interfaces...',
-      type: 'Fulltime',
-      location: 'Hyderabad',
-    },
-    {
-      title: 'Mobile UI Designer',
-      company: 'LINE Corporation',
-      description: 'A UI Designer is a technical role that focuses on product development in a way...',
-      type: 'Fulltime',
-      location: 'Pune',
-    },
-    {
-      title: 'Junior UI/UX Designer',
-      company: 'Slack Technologies, LLC',
-      description: 'We are looking for a talented designer to create beautiful and functional interfaces...',
-      type: 'Fulltime',
-      location: 'Chennai',
-    },
-    {
-      title: 'Mobile UI Designer',
-      company: 'LINE Corporation',
-      description: 'A UI Designer is a technical role that focuses on product development in a way...',
-      type: 'Fulltime',
-      location: 'Hyderabad',
-    }
-  ];
-
 
   jobRoles = [] = [
     { label: "Live Events" },
@@ -101,18 +72,6 @@ export class JobPortalComponent implements OnInit {
     { label: 'Internship' }
   ]
 
-  locations = [
-    { label: "Hyderabad", value: "Hyderabad" },
-    { label: "Pune", value: "Pune" },
-    { label: "Delhi", value: "Delhi" },
-    { label: "Chennai", value: "Chennai" },
-    { label: "Bangalore", value: "Bangalore" },
-    { label: "Mumbai", value: "Mumbai" },
-    { label: "Ahmadabad", value: "Ahmadabad" },
-    { label: "Kolkata", value: "Kolkata" },
-    { label: "Goa", value: "Goa" }
-  ]
-
 
   constructor(private jobPortaService: UserServicesService, private faService: FaServiceService, private cdr: ChangeDetectorRef, private userService: UserServicesService,
     private router: Router, private toastr: ToastrService, private fb: FormBuilder) {
@@ -121,8 +80,8 @@ export class JobPortalComponent implements OnInit {
 
   ngOnInit(): void {
     this.isMobileView = window.innerWidth < 768;
-    // this.emailId = localStorage.getItem('emailId')
-    // this.userName = localStorage.getItem('userName');
+    this.emailId = localStorage.getItem('emailId')
+    this.userName = localStorage.getItem('userName');
     this.getProfileImage();
     this.getPostedJobs();
   }
@@ -136,8 +95,8 @@ export class JobPortalComponent implements OnInit {
       location: ['', Validators.required],
       companyUrl: ['', [Validators.pattern(/^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\-]*)*$/),],],
       jobType: ['', Validators.required],
-      experience: ['',  [Validators.pattern(/^\d{1,2}$/)]],
-      package : [''],
+      experience: ['', [Validators.pattern(/^\d{1,2}$/)]],
+      package: [''],
       companyEmail: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]],
       email: [this.emailId],
@@ -162,7 +121,8 @@ export class JobPortalComponent implements OnInit {
           console.log('Job updated:', response);
           this.cancelPopup.nativeElement.click();
           this.totalRecords = 0;
-          this.postedJobs =  [];
+          this.postedJobs = [];
+          this.onReload();
           this.jobForm.reset();
           this.getPostedJobs();
           this.showSpinner = false;
@@ -176,7 +136,8 @@ export class JobPortalComponent implements OnInit {
           this.isDisplayCoins = true;
           this.displayCoins = 50;
           this.totalRecords = 0;
-          this.postedJobs =  [];
+          this.postedJobs = [];
+          this.onReload()
           this.getPostedJobs();
           this.jobForm.reset();
           this.showSpinner = false;
@@ -216,8 +177,8 @@ export class JobPortalComponent implements OnInit {
         location: job.location,
         companyUrl: job.companyUrl || '',
         jobType: job.jobType,
-        experience : job.experience,
-        package : job.package,
+        experience: job.experience,
+        package: job.package,
         companyEmail: job.companyEmail || '',
         phone: job.phone || '',
         email: [this.emailId],
@@ -262,7 +223,7 @@ export class JobPortalComponent implements OnInit {
         console.log(response)
         this.showSpinner = false;
         this.totalRecords = response.totalRecords;
-        this.postedJobs = response.records; 
+        this.postedJobs = response.records;
         if (!this.uniqueLocations || this.uniqueLocations.length === 0) {
           this.uniqueLocations = Array.from(
             new Set(
@@ -277,11 +238,11 @@ export class JobPortalComponent implements OnInit {
   updateSelectedJobTypes(event: Event, type: any) {
     const isChecked = (event.target as HTMLInputElement).checked;
     if (isChecked) {
-      this.jobType = type.label; 
+      this.jobType = type.label;
     } else {
       this.jobType = '';
     }
-  
+
     this.isMenuVisible = false;
     this.onfilter();
     this.getPostedJobs();
@@ -297,19 +258,20 @@ export class JobPortalComponent implements OnInit {
       location: job.location,
       companyUrl: job.companyUrl || '',
       jobType: job.jobType,
-      experience : job.experience,
+      experience: job.experience,
       package: job.package,
       companyEmail: job.companyEmail || '',
       phone: job.phone || '',
-      email : job.email,
-      userName : job.userName
+      email: job.email,
+      userName: job.userName
     });
     this.userService.deleteJob(this.jobForm.value)
       .subscribe((response: any) => {
         console.log('Job updated:', response);
         this.cancelPopup.nativeElement.click();
         this.totalRecords = 0;
-        this.postedJobs =  [];
+        this.postedJobs = [];
+        this.onReload();
         this.getPostedJobs();
         this.showSpinner = false;
         this.jobForm.reset();
@@ -327,14 +289,6 @@ export class JobPortalComponent implements OnInit {
   //     this.getPostedJobs();
   //   }
   // }
-
-
-
-  logOut() {
-    this.faService.clearSession();
-    this.router.navigate(['']);
-    window.location.reload();
-  }
 
   toggleMenu(): void {
     this.isMenuVisible = !this.isMenuVisible;
@@ -361,12 +315,17 @@ export class JobPortalComponent implements OnInit {
     this.getPostedJobs();
   }
 
-  sendContact(email : any) {
+  sendContact(email: any) {
     window.location.href = `mailto:${email}`;
   }
 
   formReset() {
     this.jobForm.reset()
+  }
+
+  logOut() {
+    this.faService.clearSession()
+    this.router.navigate([''])
   }
 
 }

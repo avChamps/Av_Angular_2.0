@@ -24,20 +24,23 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-md-8 d-flex flex-column align-items-center">
-          <div class="profile-container position-relative">
-            <!-- <img [src]="getImageSource() || 'assets/data-toggle="collapse" data-target="#sidebarMenu" img/user-Icon.png'" -->
-            <img [src]="getImageSource() || 'assets/img/user-Icon.png'" alt=""
-              class="img-fluid profile-image rounded-circle"
-              [ngStyle]="{'border': profileWeight <= 40 ? '2px solid red' : (profileWeight > 40 && profileWeight <= 80 ? '2px solid blue' : '2px solid green')}">
-            <button class="btn profile_Weight fs-14 position-absolute"
-              style="top: 100%; left: 50%; transform: translate(-50%, -50%); padding: 2px 8px; font-size: 12px; border-radius: 12px;"
-              [ngClass]="{'btn-danger': profileWeight <= 40, 'btn-primary': profileWeight > 40 && profileWeight <= 80, 'btn-success': profileWeight > 80}">
-              {{ profileWeight }}%{{'completed' | translate}}
-            </button>
-          </div>
-          <p class="user-name mt-2 text-white fs-16 font-weight-500" style="font-size: 1.5rem;"> {{ userName | titleCase
-            }} </p>
+          <div class="profile-container position-relative text-center">
+            <div class="avatar-container">
+                <div
+                    class="circular-progress"
+                    [style.background]="getProgressGradient(profileWeight)">
+                    <div class="inner-circle"></div>
+                    <img
+                        [src]="getImageSource() || 'assets/img/user-Icon.png'"
+                        alt=""
+                        class="avatar-image">
+                </div>
+                <div class="percentage-text fs-14">{{ profileWeight }}%</div>
+            </div>
+            <p class="mt-4 text-white fs-6">{{ userName | titleCase }}</p>
         </div>
+        
+  </div>
       </div>
     </div>
 
@@ -48,13 +51,13 @@
     </div>
 
     <div class="social-links text-center cur_pointer" data-bs-toggle="modal" data-bs-target="#showSocialMedia">
-      <a (click)="shareOnSocialMedia('twitter')" [ngClass]="getSocialClass('twitter')" class="twitter"><i
+      <a (click)="shareOnSocialMedia('Twitter')" [ngClass]="getSocialClass('twitter')" class="twitter"><i
           class="bi bi-twitter-x"></i></a>
-      <a (click)="shareOnSocialMedia('facebook')" [ngClass]="getSocialClass('facebook')" class="facebook"><i
+      <a (click)="shareOnSocialMedia('Facebook')" [ngClass]="getSocialClass('facebook')" class="facebook"><i
           class="bi bi-facebook"></i></a>
-      <a (click)="shareOnSocialMedia('instagram')" [ngClass]="getSocialClass('instagram')" class="instagram"><i
+      <a (click)="shareOnSocialMedia('Instagram')" [ngClass]="getSocialClass('instagram')" class="instagram"><i
           class="bi bi-instagram"></i></a>
-      <a (click)="shareOnSocialMedia('linkedin')" [ngClass]="getSocialClass('linkedin')" class="linkedin"><i
+      <a (click)="shareOnSocialMedia('Linkedin')" [ngClass]="getSocialClass('linkedin')" class="linkedin"><i
           class="bi bi-linkedin"></i></a>
       <a class="linkedin" data-bs-toggle="modal" [ngClass]="getSocialClass('settings')" data-bs-target="#myModal"><i
           class="bi bi-gear"></i></a>
@@ -113,7 +116,7 @@
     </ul>
 
     <div class="version-tag text-center text-white mt-auto">
-      v3.0.0
+      v4.0.0
     </div>
   </div>
 
@@ -127,25 +130,21 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <!-- Header -->
-        <div class="modal-header text-white" style="background-color: #007bff;">
+        <!-- <div class="modal-header text-white" style="background-color: #007bff;">
           <h5 class="modal-title fs-16 mx-auto" id="myDialogTitle">{{ 'Social Media Links' | translate }}</h5>
-        </div>
-
+        </div> -->
         <!-- Body -->
-        <div class="modal-body" style="margin-bottom: -20px;">
+        <div class="modal-body" style="margin-bottom: -34px;">
           <div class="form-group">
             <label for="socialMediaInput" class="fs-14 mb-2">
-              {{ 'Add LinkedIn URL' | translate }} <span class="text-danger">*</span>
-            </label>
-            <input type="text" class="form-control px-3 py-2 rounded-pill" id="socialMediaInput"
-              placeholder="https://www.linkedin.com/in/your-profile" [(ngModel)]="inputValue"
+              Add {{ CickedsocialMedia }} URL</label>
+            <input type="text" class="form-control px-3 py-2 rounded-pill" id="socialMediaInput" [(ngModel)]="inputValue"
               style="font-size: 1rem; border: 1px solid #ddd;" />
           </div>
         </div>
-
         <!-- Footer -->
-        <div class="modal-footer justify-content-around border-0">
-          <button type="button" class="btn rounded-pill"
+        <div class="modal-footer d-flex justify-content-end border-0">
+          <button type="button" class="btn rounded-pill me-2"
             style="background-color: #f8d7da; color: #d9534f; width: 100px;" data-bs-dismiss="modal">
             {{ 'Cancel' | translate }}
           </button>

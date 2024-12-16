@@ -171,10 +171,149 @@ hr {
   transform: scale(1.05);
 }
 
+.profile-container {
+  width: 120px;
+  /* Adjust size of the entire container */
+  margin: 0 auto;
+  /* Center the container */
+  text-align: center;
+  /* Align content in the center */
+  position: relative;
+  /* For positioning child elements */
+}
+
+.progress-circle {
+  position: relative;
+  width: 100px;
+  /* Width of the circular progress bar */
+  height: 100px;
+  /* Height of the circular progress bar */
+  background: conic-gradient(green calc(var(--profileWeight, 85) * 1%),
+      /* Green for progress */
+      #d3d3d3 calc(var(--profileWeight, 85) * 1%)
+      /* Grey for remaining */
+    );
+  border-radius: 50%;
+  /* Makes it a perfect circle */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-circle-content {
+  position: absolute;
+  width: 80px;
+  /* Inner circle width */
+  height: 80px;
+  /* Inner circle height */
+  background: #ffffff;
+  /* Inner circle background */
+  border-radius: 50%;
+  /* Makes it circular */
+  overflow: hidden;
+  /* Ensures image fits inside */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* Subtle shadow for depth */
+}
+
+.profile-image {
+  width: 70%;
+  /* Profile image size */
+  height: 70%;
+  /* Keep the aspect ratio */
+  border-radius: 50%;
+  /* Ensures the image remains circular */
+  object-fit: cover;
+  /* Ensures the image fits properly without distortion */
+}
+
+.progress-circle-overlay {
+  position: absolute;
+  font-size: 1.2rem;
+  /* Size of the percentage text */
+  font-weight: bold;
+  color: green;
+  /* Match the progress bar color */
+  z-index: 2;
+  /* Ensures it appears above other content */
+}
+
+.social-icons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 15px;
+}
+
+.social-icons img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: white;
+  padding: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  /* Add subtle shadow for aesthetics */
+}
+
+.avatar-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: auto;
+}
+
+.circular-progress {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(#4caf50 85%, rgba(255, 255, 255, 0.2) 85%);
+  box-shadow:
+    inset 0 0 8px rgba(255, 255, 255, 0.6),
+    0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  backdrop-filter: blur(5px);
+}
+
+.inner-circle {
+  width: 90%;
+  height: 90%;
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 1;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.avatar-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.percentage-text {
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #4caf50;
+  font-size: 1.2rem;
+  /* font-weight: bold; */
+  text-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
 
 @media (min-width: 768px) {
   .sidebar {
-  display: flex!important;
+    display: flex !important;
   }
 }
 

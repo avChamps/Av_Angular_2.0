@@ -28,7 +28,6 @@ textarea:disabled {
 
 .btn-success {
     background: #007bff !important;
-    border-radius: 33px;
     border: none;
 }
 
@@ -130,8 +129,8 @@ textarea:disabled {
     background-color: #f0f0f0;
     color: #333;
     border-radius: 50%;
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -151,6 +150,11 @@ textarea:disabled {
 
 .nav-link {
   padding: 5px;
+}
+ 
+.theme_bg {
+  background-color: rgba(0, 128, 0, 0.934);
+  color: white;
 }
 
 @media (max-width: 576px) {

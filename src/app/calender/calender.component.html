@@ -83,7 +83,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title mb-0 fs-16" id="eventInfoModalLabel">{{'Event Information' | translate}}</h4>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" (click)="clearPopup()" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 
         <div class="modal-body">
@@ -132,7 +132,7 @@
 
         <!-- Modal Footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary fs-14" #closeButton data-bs-dismiss="modal">{{'Close' |
+          <button type="button" class="btn btn-secondary fs-14" #closeButton data-bs-dismiss="modal" (click)="clearPopup()">{{'Close' |
             translate}}</button>
           <button type="button" class="btn btn-primary fs-14"
             [disabled]="!startDate || !endDate || !eventName || !eventUrl || isUrlInvalid || !selectedEventType"

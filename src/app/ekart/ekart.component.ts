@@ -21,6 +21,7 @@ export class EkartComponent implements OnInit {
   isMenuVisible: boolean = false;
   isMobileView: boolean = false;
   displayDeleteBtn: boolean = false;
+  isLoading : boolean = false;
   searchQuery: string = '';
   category: string = '';
   location: string = '';
@@ -30,8 +31,10 @@ export class EkartComponent implements OnInit {
   postedBy: string = '';
   selectedLocation: string = '';
   sortBy: string = 'newest'
-  emailId: string = 'disendra889@gmail.com';
-  userName: string = 'Disendra';
+  // emailId: string = 'disendra889@gmail.com';
+  // userName: string = 'Disendra';
+  emailId : any;
+  userName : any;
   profileImg: any;
   profileData: any = [];
   postedJobs: any = [];
@@ -72,19 +75,6 @@ export class EkartComponent implements OnInit {
     { label: 'Accessors', value: 'accessors' }
   ];
 
-  locations = [
-    { label: "Hyderabad", value: "Hyderabad" },
-    { label: "Pune", value: "Pune" },
-    { label: "Delhi", value: "Delhi" },
-    { label: "Chennai", value: "Chennai" },
-    { label: "Bangalore", value: "Bangalore" },
-    { label: "Mumbai", value: "Mumbai" },
-    { label: "Ahmadabad", value: "Ahmadabad" },
-    { label: "Kolkata", value: "Kolkata" },
-    { label: "Goa", value: "Goa" }
-  ]
-
-
   constructor(private jobPortaService: UserServicesService, private faService: FaServiceService, private cdr: ChangeDetectorRef, private userService: UserServicesService,
     private router: Router, private toastr: ToastrService, private fb: FormBuilder) {
     this.generateForm();
@@ -92,8 +82,8 @@ export class EkartComponent implements OnInit {
 
   ngOnInit(): void {
     this.isMobileView = window.innerWidth < 768;
-    // this.emailId = localStorage.getItem('emailId')
-    // this.userName = localStorage.getItem('userName');
+    this.emailId = localStorage.getItem('emailId')
+    this.userName = localStorage.getItem('userName');
     this.getProfileImage();
     this.getPostedJobs();
   }
@@ -162,15 +152,18 @@ export class EkartComponent implements OnInit {
     }
 
     this.showSpinner = true;
+    this.isLoading = true;
     if (this.btnType === 'apply') {
     this.userService.insertCart(formData).subscribe(
       (response: any) => {
         console.log('Job added:', response);
         this.cancelPopup.nativeElement.click();
         this.isDisplayCoins = true;
+        this.isLoading = false;
         this.displayCoins = 50;
         this.totalRecords = 0;
         this.postedJobs = [];
+        this.onReload()
         this.getPostedJobs();
         this.itemForm.reset();
         this.clearFileInput();
@@ -179,15 +172,19 @@ export class EkartComponent implements OnInit {
       (error: any) => {
         console.error('Error:', error);
         this.showSpinner = false;
+        this.isLoading = false;        
       }
     );
   } else {
+    this.isLoading = true;
     this.userService.editProduct(this.itemForm.value)
     .subscribe((response: any) => {
+      this.isLoading = false;
       console.log('Job updated:', response);
       this.cancelPopup.nativeElement.click();
       this.totalRecords = 0;
       this.postedJobs =  [];
+      this.onReload()
       this.itemForm.reset();
       this.getPostedJobs();
       this.showSpinner = false;
@@ -298,7 +295,6 @@ export class EkartComponent implements OnInit {
   }
 
   deleteJob(job: any) {
-    debugger;
     this.itemForm.patchValue({
       id: job.id,
       title: job.title,
@@ -317,6 +313,7 @@ export class EkartComponent implements OnInit {
         this.cancelPopup.nativeElement.click();
         this.totalRecords = 0;
         this.postedJobs = [];
+        this.onReload()
         this.getPostedJobs();
         this.showSpinner = false;
         this.itemForm.reset();
@@ -334,14 +331,6 @@ export class EkartComponent implements OnInit {
   //     this.getPostedJobs();
   //   }
   // }
-
-
-
-  logOut() {
-    this.faService.clearSession();
-    this.router.navigate(['']);
-    window.location.reload();
-  }
 
   toggleMenu(): void {
     this.isMenuVisible = !this.isMenuVisible;
@@ -361,6 +350,11 @@ export class EkartComponent implements OnInit {
 
   setSelectedJob(job: any): void {
     this.selectedProduct = job; // Set the selected job
+  }
+
+  logOut() {
+    this.faService.clearSession()
+    this.router.navigate([''])
   }
 
   onReload() {

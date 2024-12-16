@@ -147,7 +147,7 @@ export class BussinessCardComponent {
         });
 
         // Set a fixed style for the element during capture
-        element.style.width = '320px'; // Fixed width for mobile view
+        element.style.width = '225px'; // Fixed width for mobile view
         element.style.margin = '0 auto'; // Center the card
 
         html2canvas(element, {

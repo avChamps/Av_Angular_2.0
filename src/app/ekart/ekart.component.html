@@ -12,12 +12,15 @@
         <i class="fas fa-bars"></i>
       </button>
     </div>
+    <div class="text-center d-none d-md-block">
+      <h1 class="flashing-text">Welcome to AV Champs</h1>
+  </div>
     <div class="profile-info d-none d-md-flex">
       <button class="btn post-job-btn mr-2" #jobFormModal data-bs-toggle="modal" #jobPopup
         data-bs-target="#jobFormModal">+ Post
         Ad</button>
       <span class="text-success fs-4 cur_pointer" (click)="onEdit()"><i class='far fa-edit'></i></span>
-      <span class="text-danger fs-4 location_left"><i class="fas fa-sign-out-alt"></i></span>
+      <span class="text-danger fs-4 location_left cur_pointer" (click)="logOut()"><i class="fas fa-sign-out-alt"></i></span>
     </div>
   </header>
 
@@ -37,7 +40,7 @@
           <a class="d-block mb-2 text-decoration-none text-dark" (click)="onEdit()"><i
               class="far fa-edit fs-14 me-2"></i>
             Edit</a>
-          <a class="d-block mb-2 text-decoration-none text-danger"><i class="fas fa-sign-out-alt me-2"></i>
+          <a class="d-block mb-2 text-decoration-none text-danger cur_pointer" (click)="logOut()"><i class="fas fa-sign-out-alt me-2"></i>
             Logout</a>
         </div>
 
@@ -241,7 +244,11 @@
           </div>
           <div class="modal-footer popup-btn border-top-0">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Post</button>
+            <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+              <span *ngIf="!isLoading">Post</span>
+              <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            </button>
+          
           </div>
         </form>
       </div>

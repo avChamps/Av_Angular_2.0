@@ -177,13 +177,13 @@ export class ProfileDashboardComponent implements OnInit {
 
   shareOnSocialMedia(media: string) {
     this.CickedsocialMedia = media;
-    if (this.CickedsocialMedia === 'twitter') {
+    if (this.CickedsocialMedia === 'Titter') {
       this.inputValue = this.twitterUrl
-    } else if (this.CickedsocialMedia === 'facebook') {
+    } else if (this.CickedsocialMedia === 'Facebook') {
       this.inputValue = this.facebookUrl
-    } else if (this.CickedsocialMedia === 'instagram') {
+    } else if (this.CickedsocialMedia === 'Instagram') {
       this.inputValue = this.instagramUrl
-    } else if (this.CickedsocialMedia === 'linkedin') {
+    } else if (this.CickedsocialMedia === 'Linkedin') {
       this.inputValue = this.linkedInUrl
     }
   }
@@ -191,18 +191,18 @@ export class ProfileDashboardComponent implements OnInit {
   saveSocialMediaUrl() {
     let urlRegex: RegExp
     switch (this.CickedsocialMedia) {
-      case 'twitter':
+      case 'Twitter':
         urlRegex =
           /^(https?:\/\/)?(www\.)?x\.com\/[a-zA-Z0-9_]{1,15}(\/\w+)*\/?$/
         break
-      case 'facebook':
+      case 'Facebook':
         urlRegex = /^(https?:\/\/)?(www\.)?facebook\.com\/(?:[^/]+|pages\/\w+)$/
         break
-      case 'instagram':
+      case 'Instagram':
         urlRegex =
           /^(https?:\/\/)?(www\.)?instagram\.com\/[a-zA-Z0-9_.\-]+(\/\w+)*\/?$/
         break
-      case 'linkedin':
+      case 'Linkedin':
         urlRegex =
           /^(https?:\/\/)?(www\.)?linkedin\.com\/in\/[a-zA-Z0-9\-_.]+(\/\w+)*\/?$/
         break
@@ -221,13 +221,13 @@ export class ProfileDashboardComponent implements OnInit {
       case 'twitter':
         this.twitterUrl = this.inputValue
         break
-      case 'facebook':
+      case 'Facebook':
         this.facebookUrl = this.inputValue
         break
-      case 'instagram':
+      case 'Instagram':
         this.instagramUrl = this.inputValue
         break
-      case 'linkedin':
+      case 'Linkedin':
         this.linkedInUrl = this.inputValue
         break
     }
@@ -274,6 +274,13 @@ export class ProfileDashboardComponent implements OnInit {
     this.getProfile()
   }
 
+  getProgressGradient(weight: number): string {
+    // Ensure weight is between 0 and 100
+    const validWeight = Math.min(100, Math.max(0, weight));
+    return `conic-gradient(#4caf50 ${validWeight}%, rgba(255, 255, 255, 0.2) ${validWeight}%)`;
+  }
+  
+  
   logOut() {
     this.faService.clearSession()
     this.router.navigate([''])

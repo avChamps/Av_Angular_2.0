@@ -4,53 +4,59 @@
     </div>
     <div class="container p-2 mt-3">
         <form method="post">
-            <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-12">
-                    <div class="profile-img text-center">
-                        <img [src]="getImageSource() || 'assets/images/common_Images/user-Icon.png'" alt="" width="200"
-                            class="img-fluid rounded-circle border border-secondary shadow-sm" />
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-12 mb-3 text-center text-md-left">
-                    <div class="profile-head">
-                        <h3 class="fs-16">{{ userName | titleCase }}</h3>
-                        <h6 class="fade-out fs-14">{{ jobTitle | titleCase }}</h6>
-                        <p class="proile-rating">{{ "Last Login:" | translate }} <span>{{ formatDate(updatedDate)
-                                }}</span></p>
-                        <ul class="nav nav-tabs border-bottom-none;" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link text-left active text-white theme_bg" id="home-tab" data-toggle="tab"
-                                    role="tab" aria-controls="home" aria-selected="true">{{"About" | translate }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-left active text-white theme_bg"
-                                    routerLink="/profile-dashboard/tools/bussiness-card" id="home-tab" data-toggle="tab"
-                                    role="tab" aria-controls="home" aria-selected="true">{{"Bussiness Card" |
-                                    translate}}</a>
-                            </li>
-
-                            <li class="nav-item cur_pointer"
-                                tooltip="Collect 10,000 coins and unlock an exciting gift!">
-                                <a class="nav-link text-left active text-white theme_bg" id="home-tab" data-toggle="tab"
-                                    role="tab" aria-controls="home" aria-selected="true"><i
-                                        class="fa fa-coins text-warning"></i>&nbsp;{{ userPoints || 0}}</a>
-                            </li>
-                        </ul>
-                    </div>
+            <div class="row align-items-center p-3 box-shadow bg-white rounded">
+                <!-- Profile Image -->
+                <div class="col-lg-2 col-md-3 col-sm-12 text-center mb-2 mb-md-0">
+                    <img [src]="getImageSource() || 'assets/images/common_Images/user-Icon.png'" alt="Profile Image"
+                        class="img-fluid rounded-circle border border-secondary shadow-sm" width="120" height="120">
                 </div>
 
-                <div class="col-lg-2 col-md-12 col-sm-12 text-right mb-3">
-                    <button type="button" class="btn btn-success theme_bg mt-2 mt-lg-0" (click)="toggleEditMode()"
-                        [class.save-mode]="editMode" [class.edit-mode]="!editMode"
-                        [disabled]="!isMobileNumberValidated || !isEmailValidated || !isWorkingEmailValidated">{{
-                        editMode ? ('Save' | translate) : ('Edit' | translate) }}
-                    </button>
+                <!-- Profile Details and Buttons -->
+                <div class="col-lg-7 col-md-6 col-sm-12">
+                    <h3 class="fs-20 font-weight-bold">{{ userName | titleCase }}</h3>
+                    <h6 class="fs-14">{{ jobTitle | titleCase }}</h6>
+                    <p class="small fs-12 mb-2 text-muted">{{ "Last Login:" | translate }}
+                        <span>{{ formatDate(updatedDate) }}</span>
+                    </p>
+
+                    <!-- Buttons Section (Business Card, Coins, and Edit) -->
+                    <div class="d-flex align-items-center flex-wrap">
+                        <!-- Business Card -->
+                        <button class="btn btn-success px-3 mr-2 mb-2"
+                            routerLink="/profile-dashboard/tools/bussiness-card">
+                            <i class="fa fa-address-card  text-white"></i> {{ "Business Card" | translate }}
+                        </button>
+                        <!-- <a routerLink="/profile-dashboard/tools/business-card" 
+                           class="btn btn-success px-3 mr-2 mb-2">{{ "Business Card" | translate }}</a> -->
+
+                        <!-- Coins Button -->
+                        <button class="btn btn-success px-3 mr-2 mb-2"
+                            tooltip="Collect 10k coins and unlock an exciting gift!">
+                            <i class="fa fa-coins text-white"></i> {{ userPoints || 0 }}
+                        </button>
+
+                        <!-- Edit Button -->
+                        <button type="button" class="btn d-flex align-items-center mb-2" [ngClass]="{
+                                    'theme_bg': editMode, 
+                                    'btn-primary': !editMode
+                                }" (click)="toggleEditMode()"
+                            [disabled]="!isMobileNumberValidated || !isEmailValidated || !isWorkingEmailValidated">
+                            <!-- Icon (Always Visible) -->
+                            <i class="fa" [ngClass]="editMode ? 'fa-save' : 'fa-pencil-alt'"></i>
+
+                            <!-- Text (Hidden in Mobile View) -->
+                            <span class="d-none d-md-inline ml-2">
+                                {{ editMode ? ('Save' | translate) : ('Edit' | translate) }}
+                            </span>
+                        </button>
+                    </div>
                 </div>
             </div>
 
 
 
-            <div class="row mt-4 shadow-lg mob-mt-0 p-2 mb-2">
+
+            <div class="row mt-4 box-shadow mob-mt-0 p-2 mb-2">
                 <div class="col-md-12">
                     <!-- Tabs Navigation -->
                     <div class="tabs">

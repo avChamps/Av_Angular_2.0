@@ -1,6 +1,7 @@
 html,
 body {
 	font-family: 'Poppins', sans-serif !important;
+	/* background-color: grey !important; */
 }
 
 :root {
@@ -23,7 +24,7 @@ body {
 	background-color: black;
 }
 
-.cur_pointer {
+.cur_pointer, a, button {
 	cursor: pointer;
 }
 
@@ -146,6 +147,10 @@ select {
 button {
 	box-shadow: none !important;
 }
+
+.box-shadow {
+	box-shadow: 0 1px 10px #00000014;
+  }
 
 @media (min-width: 576px) {
 	.borders-right {
