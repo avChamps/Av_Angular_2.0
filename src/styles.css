@@ -149,7 +149,8 @@ button {
 }
 
 .box-shadow {
-	box-shadow: 0 1px 10px #00000014;
+	/* box-shadow: 0 1px 10px #00000014; */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 
 @media (min-width: 576px) {

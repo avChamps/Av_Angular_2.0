@@ -66,6 +66,7 @@ export class QuizPageComponent implements OnInit, OnDestroy {
   }
 
   getQuizQuestions() {
+    debugger;
     this.showSpinner = true;
     const data = {
       emailId: this.emailId
@@ -269,6 +270,7 @@ export class QuizPageComponent implements OnInit, OnDestroy {
       this.selectedOptionId = option.option_id;
       this.isCorrect = option.is_correct;
       this.optionSelected = true;
+      debugger;
       this.insertQuizOptions(option, question_id);
       if (option.is_correct) {
         this.insertPoints(50);
@@ -289,6 +291,7 @@ export class QuizPageComponent implements OnInit, OnDestroy {
   }
 
   insertQuizOptions(option: any, question_id: number): void {
+    debugger;
     this.showSpinner = true;
     const data = {
       emailId: this.emailId,

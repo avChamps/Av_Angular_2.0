@@ -113,9 +113,9 @@
             <div class="col-12">
                 <div class="card">
                     <div *ngFor="let email of clickedemails">
-                        <div class="card-header d-flex align-items-center" style="height: 60px;">
-                            <h2 class="fs-16 m-0 text-center w-100">{{ email.title }}</h2>
-                        </div>
+                        <div class="card-header d-flex align-items-center justify-content-center"[title]="email.title" style="height: 60px; overflow: hidden;">
+                            <h2 class="fs-16 m-0 text-center w-100 text-truncate">{{ email.title }}</h2>
+                        </div>                        
                         
                         <div class="card-body">
                             <p class="fs-14">{{'Dear AV Champ' | translate}},</p>
