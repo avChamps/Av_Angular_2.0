@@ -7,7 +7,7 @@
 
 <div class="container mb-2">
     <h4 class="mb-2">{{'Bandwidth Calculator' | translate}}</h4>
-    <div class="border p-3 rounded shadow-lg">
+    <div class="border p-3 rounded box-shadow">
         <div class="row">
             <!-- Resolution and pixel inputs -->
             <div class="col-md-4 mb-3">
@@ -77,13 +77,13 @@
         <div class="text-center mt-3" *ngIf="showResult">
             <div class="row justify-content-center">
                 <div class="col-md-4 mb-2">
-                    <div class="p-3 rounded text-center shadow-lg border border-warning">
+                    <div class="p-3 rounded text-center box-shadow border border-warning">
                         <p>{{'Bandwidth per Channel' | translate}}:</p>
                         <p class="h5">{{ resultPerChannel | number: '1.2-2' }} Gbps</p>
                     </div>
                 </div>
                 <div class="col-md-4 mb-2">
-                    <div class="p-3 rounded text-center shadow-lg border border-warning">
+                    <div class="p-3 rounded text-center box-shadow border border-warning">
                         <p>{{'Total signal Bandwidth' | translate}}:</p>
                         <p class="h5">{{ finalResult | number: '1.2-2' }} Gbps</p>
                     </div>
@@ -101,11 +101,11 @@
     </div>
 
 <!-- Centered Formula section -->
-<div class="container mt-4 shadow-lg p-4 rounded">
+<div class="container mt-4 box-shadow p-4 rounded">
     <div class="row">
         <div class="col-md-4 d-flex flex-column justify-content-center align-items-center borders-right">
             <h5 class="mb-0 fw-bold">{{'Formula' | translate}}</h5>
-            <span class="px-2 py-1 fw-bold">f(x)</span>
+            <span class="px-2 py-1 text-muted">f(x)</span>
         </div>
         <div class="col-md-8">
             <p>{{'The formula for estimating video bandwidth is' | translate}}:</p>

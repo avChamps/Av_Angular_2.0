@@ -261,6 +261,10 @@ a {
   border-radius: 2px;
 }
 
+.border-box {
+  border: 1px solid;
+}
+
 @media only screen and (max-width: 999px) {
   .btn-lg-square {
     bottom: 55px;

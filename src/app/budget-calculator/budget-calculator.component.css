@@ -1,0 +1,42 @@
+.calculator-container {
+    margin: 40px auto;
+    max-width: 900px;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+.section-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #343a40;
+    margin-bottom: 20px;
+}
+.form-control, .form-select {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.summary-card {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.summary-title {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #6c757d;
+}
+.summary-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #343a40;
+}
+.btn-custom {
+    background-color: #007bff;
+    color: #ffffff;
+    font-weight: bold;
+    width: 100%;
+    border-radius: 10px;
+}
+.btn-custom:hover {
+    background-color: #0056b3;
+}

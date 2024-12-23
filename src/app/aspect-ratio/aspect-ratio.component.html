@@ -7,9 +7,9 @@
 
     <div class="container mb-2">
     <h4 class="mb-2">{{'Aspect Ratio Calculator' | translate}}</h4>
-    <div class="container shadow-lg p-4 rounded mb-2 mt-2">
+    <div class="container box-shadow p-4 rounded mb-2 mt-2">
         <div class="row g-2 align-items-center">
-            <!-- Calculate Dropdown -->
+            <!-- Calculate Dropdow -->
             <div class="col-12 col-sm-3">
                 <label for="calculate" class="form-label">{{'Calculate' | translate}}</label>
                 <select id="calculate" class="form-select" [(ngModel)]="selectedCalculateOptions" (ngModelChange)="onOptionChange($event)">
@@ -73,7 +73,7 @@
       
         <div class="text-center mt-4" *ngIf="showResult">
             <div class="container">
-                <div class="row justify-content-center p-2 rounded shadow-lg border border-warning">
+                <div class="row justify-content-center p-2 rounded box-shadow border border-warning">
                     <!-- Use flexbox for layout changes based on screen size -->
                     <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-around w-100">
                         <div class="p-2 d-flex flex-lg-row align-items-center">
@@ -113,11 +113,11 @@
     </div>
 
     <!-- Centered Formula section -->
-    <div class="container shadow-lg p-4 rounded mb-2">
+    <div class="container box-shadow p-4 rounded mb-2">
         <div class="row">
             <div class="col-md-4 d-flex flex-column justify-content-center align-items-center borders-right">
                 <h5 class="mb-0 fw-bold">{{'Formula' | translate}}</h5>
-                <span class="px-2 py-1 fw-bold">f(x)</span>
+                <span class="px-2 py-1 text-muted">f(x)</span>
             </div>
             <div class="col-md-8">
                 <p>{{'Aspect ratio Formula' | translate}}</p>
@@ -129,7 +129,7 @@
                     <li><b>H</b> {{'is the height of the displayed image' | translate}}</li>
                 </ul>
                 <p>{{'Note that W and H are measured in inches or millimeters' | translate}}.</p>
-                <a (click)="openPdf()" class="cur_pointer text-blue">{{'For more' |  translate}} ...</a>
+                <!-- <a (click)="openPdf()" class="cur_pointer text-blue">{{'For more' |  translate}} ...</a> -->
             </div>
         </div>
     </div> 

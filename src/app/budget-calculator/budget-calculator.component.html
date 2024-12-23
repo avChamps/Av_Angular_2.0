@@ -6,50 +6,57 @@
 </div>
 
     <div class="container">
-      <h4 class="mb-2">{{'Budget Calculator' | translate}}</h4>
-      <div class="row">
-        <!-- Main Form Section -->
-        <div class="col-md-8 col-sm-12 mb-4">
-          <div class="card shadow-lg">
-            <div class="card-body">
-              <div class="form-group">
-                <label for="roomType">{{'Select Room Type' | translate}}</label>
-                <select id="roomType" class="form-select" [(ngModel)]="selectedRoomType">
-                  <option *ngFor="let room of roomTypes" [value]="room.type">{{ room.type }}</option>
-                </select>
-              </div>
-              <div class="form-group mt-3">
-                <div class="row">
-                  <div class="col-6">
-                    <label for="roomQuantity">{{'Quantity of Rooms' | translate}}</label>
-                    <input type="range"  [disabled]="selectedRoomType === 'Select Room'" id="roomQuantity" class="form-range" min="0" max="100" [(ngModel)]="roomQuantity">
-                  </div>
-                  <div class="col-6">
-                    <input type="number"  min="0" max="100" (keypress)="preventNegative($event)" (input)="validateMaxValue($event)"  [disabled]="selectedRoomType === 'Select Room'" class="form-control mt-2" [(ngModel)]="roomQuantity">
-                  </div>
+      <h4>{{'Budget Calculator' | translate}}</h4>
+      <div class="calculator-container mt-4">
+          <div class="row">
+            <!-- Input Section -->
+            <div class="col-lg-8">
+                <div>
+                    <p class="section-title">Input Details</p>
+                    <div class="mb-3">
+                        <label for="roomType" class="form-label">Select Room Type</label>
+                        <select class="form-select" id="roomType" [(ngModel)]="selectedRoomType">
+                            <option *ngFor="let room of roomTypes" [value]="room.type">{{ room.type }}</option>
+                        </select>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <!-- <label for="roomQuantity" class="form-label">Quantity of Rooms</label> -->
+                            <!-- <input type="range" class="form-range" id="roomQuantity" min="0" max="100" [(ngModel)]="roomQuantity" [disabled]="selectedRoomType === 'Select Room'"> -->
+                            <label for="costPerRoom" class="form-label">Cost per Room</label>
+                            <input type="number" id="costPerRoom" class="form-control" max="999999999" [(ngModel)]="costPerRoom" [disabled]="selectedRoomType === 'Select Room'" (keypress)="preventNegative($event)" (focus)="clearDefaultZero()" (input)="restrictDigits($event)">    
+                          </div>
+                        <div class="col-md-6">
+                            <label for="roomQuantityNumber" class="form-label">Number of Rooms</label>
+                            <input type="number" class="form-control" id="roomQuantityNumber" min="0" max="100" [(ngModel)]="roomQuantity" [disabled]="selectedRoomType === 'Select Room'" (keypress)="preventNegative($event)" (input)="validateMaxValue($event)">
+                        </div>
+                    </div>
+                    <!-- <div class="mt-3">
+                        <label for="costPerRoom" class="form-label">Cost per Room</label>
+                        <input type="number" id="costPerRoom" class="form-control" max="999999999" [(ngModel)]="costPerRoom" [disabled]="selectedRoomType === 'Select Room'" (keypress)="preventNegative($event)" (focus)="clearDefaultZero()" (input)="restrictDigits($event)">
+                    </div> -->
                 </div>
-                <label for="costPerRoom" class="mb-0 mt-2">{{'Cost per Room' | translate}}</label>
-                <input type="number" max="999999999" [disabled]="selectedRoomType === 'Select Room'" (keypress)="preventNegative($event)" 
-                (focus)="clearDefaultZero()"  min="0"  (input)="restrictDigits($event)" (keypress)="preventNegative($event)" id="costPerRoom" class="form-control mt-2 w-50" [(ngModel)]="costPerRoom">
-              </div>
             </div>
-          </div>
-        </div>
-        
-        <!-- Summary Section -->
-        <div class="col-md-4 col-sm-12">
-          <div class="card shadow-lg">
-            <div class="card-body">
-              <h5 class="card-title">{{'Room Quantity' | translate}}</h5>
-              <p class="card-text">{{ roomQuantity }}</p>
-              <h5 class="card-title">{{'Cost per Room' | translate}}</h5>
-              <p class="card-text">{{ costPerRoom  ? costPerRoom : 0 | currency:'INR':'symbol' }}</p>
-              <h3>{{'Total' | translate}}</h3>
-              <h2>{{ totalCost  ? totalCost : 0 | currency:'INR':'symbol' }}</h2>
+            <!-- Summary Section -->
+            <div class="col-lg-4 mt-4">
+                <div class="card summary-card p-3">
+                    <h5 class="summary-title">Results</h5>
+                    <div class="mb-2">
+                        <span>Room Quantity:</span>
+                        <span class="summary-value">{{ roomQuantity }}</span>
+                    </div>
+                    <div class="mb-2">
+                        <span>Cost per Room:</span>
+                        <span class="summary-value">{{ costPerRoom ? costPerRoom : 0 | currency:'INR':'symbol' }}</span>
+                    </div>
+                    <div>
+                        <span>Total Cost:</span>
+                        <span class="summary-value">{{ totalCost ? totalCost : 0 | currency:'INR':'symbol' }}</span>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+    </div>
   
       <!-- Add Button -->
       <div class="d-flex justify-content-center mt-3">

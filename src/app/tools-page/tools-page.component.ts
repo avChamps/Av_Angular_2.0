@@ -30,7 +30,7 @@ export class ToolsPageComponent {
     { icon: '⚡', color: 'text-primary', title: 'Power Calculator', value: 'powerCalculator' },
     // { icon: '⚡', color: 'text-primary', title: 'Material Gatepass', value: 'materialGatepass' },
     // { icon: '⚡', color: 'text-primary', title: 'Room Configurator', value: 'roomConfigurator' },
-    // { icon: '💡', color: 'text-primary', title: 'Quiz', value: 'quiz' },
+    { icon: '💡', color: 'text-primary', title: 'Quiz', value: 'quiz' },
     // { icon: '💡', color: 'text-primary', title: 'Coming Soon' },
     { icon: 'assets/images/common_Images/hdbt_img.png', color: '', title: 'Certified Product List', value: 'hdBase', isImage: true },
     { icon: 'assets/images/common_Images/AVIXA_LogoMark_Color_RGB.png', color: '', title: 'Certified List', value: 'certifiedList', isImage: true },

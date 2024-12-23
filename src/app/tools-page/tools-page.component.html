@@ -12,7 +12,7 @@
       <!-- Adjusted to ensure 2 columns on mobile and up to 4 on larger screens -->
       <div class="row row-cols-2 row-cols-md-5 g-3">
         <div class="col d-flex justify-content-center" *ngFor="let calculator of Tools">
-          <div class="calculator-card card-move border-box cur_pointer" (click)="clickedTool(calculator.value)">
+          <div class="calculator-card box-shadow card-move border-box cur_pointer" (click)="clickedTool(calculator.value)">
             <div class="calculator-content">
               <ng-container *ngIf="calculator.isImage; else defaultIcon">
                 <img [src]="calculator.icon" alt="{{ calculator.title }}" class="img-fluid mb-2 w-50">

@@ -11,21 +11,24 @@ export class QuizServiceService {
 
   constructor (private http: HttpClient, private router : Router) {}
 
-  getQuizQestions(data : any) {
-    return this.http.post(`${this.url}/getQuizQestions`,data)
+  getQuizQuestions(data : any) {
+    return this.http.post(`${this.url}/getQuizQuestions`,data)
   }
 
-  insertQuizOptions (data: any) {
-    return this.http.post(`${this.url}/insertQuizOptions`, data)
+  submitResponse(data: { emailId: string; userName: string; question_id: number; is_correct: boolean }) {
+    return this.http.post(`${this.url}/submitResponse`, data);
   }
 
   getTopScores() {
-    return this.http.get(`${this.url}/getTopScores`)
+    return this.http.get(`${this.url}/getTopScores`);
   }
+  
 
-  getOverallCount(data :any) {
-    return this.http.post(`${this.url}/getOverallCount`, data)
+  getQuizStats(emailId: string) {
+    return this.http.post(`${this.url}/getQuizStats`, { emailId });
   }
+  
+  
 
 }
 
