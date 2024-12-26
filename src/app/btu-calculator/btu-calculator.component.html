@@ -6,29 +6,51 @@
     </div>
 
     <div class="container mb-2">
-        <h4 class="mb-2">{{'BTU Calculator' | translate}}</h4>
+        <h4 class="mb-2 text-center">{{'BTU Calculator' | translate}}</h4>
         <div id="pdfContent" class="row">
             <div class="col-12 col-md-8 offset-md-2">
-                <div class="table-responsive">
-                    <table class="table table-bordered" #tableContainer>
-                        <thead class="custom-table-header text-center">
+                <div class="table-container">
+                    <table class="table table-hover">
+                        <thead>
                             <tr>
-                                <th scope="col">{{'Sl.No' | translate}}</th>
-                                <th scope="col">{{'Equipment' | translate}}</th>
-                                <th scope="col">{{'Watts' | translate}}</th>
+                                <th scope="col">Sl.No</th>
+                                <th scope="col">Equipment</th>
+                                <th scope="col" class="watt-width">Watts</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let row of btuRows; let i = index">
-                                <td class="text-center col-1">{{ i + 1 }}</td>
-                                <td class="col-3"><input type="text" placeholder="{{'Enter Equipment Details' | translate}}" [(ngModel)]="row.equipment"
-                                        maxlength="50" (ngModelChange)="calculateTotalWatt()"></td>
-                                <td class="col-1"><input type="number" oninput="validateNumberInput(this)" onKeyPress="if(this.value.length==4) return false;"
-                                        [(ngModel)]="row.watt" [disabled]="!row.equipment" maxlength="4" (keypress)="preventNegative($event)"
-                                        class="watt-input" (focus)="clearDefaultZero()" (ngModelChange)="calculateTotalWatt()"></td>
+                                <td>{{ i + 1 }}</td>
+                                <td>
+                                    <input 
+                                        type="text" 
+                                        class="form-control equipment-input" 
+                                        placeholder="Enter Equipment Details" 
+                                        [(ngModel)]="row.equipment"
+                                        maxlength="50" 
+                                        (ngModelChange)="calculateTotalWatt()" 
+                                    />
+                                </td>
+                                <td>
+                                    <input 
+                                        type="number" 
+                                        class="form-control watt-input" 
+                                        [(ngModel)]="row.watt"
+                                        oninput="validateNumberInput(this)"
+                                        onKeyPress="if(this.value.length==4) return false;" 
+                                        [disabled]="!row.equipment" 
+                                        maxlength="4" 
+                                        (keypress)="preventNegative($event)" 
+                                        (focus)="clearDefaultZero()" 
+                                        (ngModelChange)="calculateTotalWatt()" 
+                                    />
+                                </td>
                             </tr>
                         </tbody>
                     </table>
+                    <!-- <div class="add-row-btn">
+                        <button class="btn-add" (click)="addRow()">+ Add Row</button>
+                    </div> -->
                 </div>
                  <!-- Add/Remove Icons -->
                  <div class="text-right disabled_Button">

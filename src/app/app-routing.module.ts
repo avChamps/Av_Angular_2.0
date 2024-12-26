@@ -66,7 +66,7 @@ const appRoutes: Routes = [
             { path: 'tools/audioDelayCalculator', component : AudioDelayComponent, canActivate: [AuthGuardService] },
             { path: 'tools/btuCalculator', component : BtuCalculatorComponent, canActivate: [AuthGuardService] },
             { path: 'tools/powerCalculator', component : PowerCalculatorComponent, canActivate: [AuthGuardService] },
-            // { path: 'tools/quiz-page', component : QuizPageComponent, canActivate: [AuthGuardService] },
+            { path: 'tools/quiz-page', component : QuizPageComponent, canActivate: [AuthGuardService] },
             { path: 'tools/material-gatepass', component : MaterialGatepassComponent, canActivate: [AuthGuardService] },
             { path: 'tools/room-configurator', component : RoomConfiguratorComponent, canActivate: [AuthGuardService] },
             { path: 'tools/bussiness-card', component: BussinessCardComponent },

@@ -16,8 +16,10 @@ export class QuizPageComponent implements OnInit, OnDestroy {
   isCountdownActive: boolean = false;
   isAnswerCorrect: boolean = false;
   displayCoins: any = 0;
-  emailId = 'disendra889@gmail.com';
-  userName: string = 'Disendra';
+  emailId: any;
+  userName: any;
+  // emailId = 'disendra889@gmail.com';
+  // userName: string = 'Disendra';
   quizQuestions: any[] = [];
   userAnswers: { [key: number]: string } = {};
   currentIndex: number = 0;
@@ -25,15 +27,18 @@ export class QuizPageComponent implements OnInit, OnDestroy {
   hours: number = 0;
   minutes: number = 0;
   seconds: number = 0;
+  totalRecords: number = 0;
   private intervalId: any;
   optionLetters: string[] = ['A', 'B', 'C', 'D'];
   topScores: any;
   stats: any;
   selectedOption: any;
 
-  constructor(private quizService: QuizServiceService, private router: Router) { }
+  constructor(private quizService: QuizServiceService, private router: Router, private userService: UserServicesService) { }
 
   ngOnInit(): void {
+    this.emailId = localStorage.getItem('emailId');
+    this.userName = localStorage.getItem('userName');
     this.getQuizQuestions();
     this.startCountdown();
     this.getTopScores()
@@ -50,7 +55,9 @@ export class QuizPageComponent implements OnInit, OnDestroy {
             options: [q.option_a, q.option_b, q.option_c, q.option_d],
             correct_answer: q.correct_answer
           }));
+          debugger;
           this.currentQuestion = this.quizQuestions[this.currentIndex];
+          this.totalRecords = res?.questions?.length;
         } else {
           this.isCountdownActive = true;
           // If no questions are available, start the countdown
@@ -78,7 +85,7 @@ export class QuizPageComponent implements OnInit, OnDestroy {
 
   onAnswerSelected(selectedOption: string, option: any) {
     this.selectedOption = selectedOption.trim();
-    this.isAnswerCorrect = option === this.currentQuestion.correct_answer.trim();
+    this.isAnswerCorrect = option.trim() === this.currentQuestion.correct_answer.trim();
     const isCorrect = option === this.currentQuestion.correct_answer;
     const response = {
       emailId: this.emailId,
@@ -97,9 +104,9 @@ export class QuizPageComponent implements OnInit, OnDestroy {
         }
         this.getTopScores()
         this.getQuizStats()
-
+        // this.totalRecords = this.currentIndex + 1;
         setTimeout(() => {
-          this.moveToNextQuestion()
+          this.moveToNextQuestion();
         }, 1500);
       },
       (err) => {
@@ -113,6 +120,7 @@ export class QuizPageComponent implements OnInit, OnDestroy {
     if (this.currentIndex < this.quizQuestions.length) {
       this.currentQuestion = this.quizQuestions[this.currentIndex];
     } else {
+      this.isCountdownActive = true;
       this.currentQuestion = null; // No more questions
     }
   }
@@ -168,7 +176,7 @@ export class QuizPageComponent implements OnInit, OnDestroy {
   }
 
   onBack() {
-
+    this.userService.onBack();
   }
 
 

@@ -131,13 +131,15 @@ export class ProfileDirectoryComponent {
 
 
   showDetails(item: any): void {
+    debugger;
     this.searchBox = false;
     this.showSpinner = true;
     this.showClickedData = true;
     console.log('Clicked Item Details:', item);
     const emailId = item.emailId;
+    const fullName = item.fullName;
     this.imagePath = item.imagePath;
-    this.userService.getSocialMediaProfile(emailId).subscribe((response: any) => {
+    this.userService.getSocialMediaProfile(fullName).subscribe((response: any) => {
       this.showSpinner = false;
       if (response.records.length !== 0) {
         const records = response.records[0];

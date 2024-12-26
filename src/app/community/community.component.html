@@ -1,244 +1,307 @@
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"> <!-- Added Bootstrap Icons CSS -->
-</head>
-
-
 <body>
-  <!-- ======= Header ======= -->
-  <header id="header" class="header fixed-top d-flex align-items-center">
+  <!-- Header -->
+  <header class="header d-flex justify-content-between shadow-lg align-items-center">
+    <div class="d-flex align-items-center">
+      <span class="logo me-4 cur_pointer" (click)="onReload()">AV CHAMPS</span>
+      <nav class="d-flex d-none d-md-flex" (click)="navigateHome()">
+        <a class="nav-link"><i class="fas fa-home me-1"></i> Home</a>
+      </nav>
+    </div>
+    <div class="d-md-none">
+      <button class="btn btn-outline-light text-dark shadow-sm" (click)="toggleMenu()">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    <div class="text-center d-none d-md-block">
+      <h1 class="flashing-text">Welcome to AV Champs</h1>
+    </div>
+    <div class="profile-info d-none d-md-flex">
+      <button class="btn post-job-btn mr-2" #jobFormModal (click)="openPostModal()" data-bs-toggle="modal" #jobPopup
+        data-bs-target="#jobFormModal">+ Post
+        Ad</button>
+      <span class="text-success fs-4 cur_pointer" (click)="onEdit()"><i class='far fa-edit'></i></span>
+      <span class="text-danger fs-4 location_left cur_pointer" (click)="logOut()"><i
+          class="fas fa-sign-out-alt"></i></span>
+    </div>
+  </header>
 
-    <div class="d-flex align-items-center justify-content-between">
-      <a *ngIf="!isSearchActive" class="logo d-flex align-items-center"  (click)="onBack()">
-        <img src="./assets/images/logo/av_champs_logo.png" class="custom_logo_img" alt="alternative">
-      </a>
-    
-      <!-- Only one search icon/button, removed the first icon -->
-      <div class="search-bar-container w-100 d-flex justify-content-center">
-        <div class="search-bar w-50" *ngIf="showSearchBox">
-          <form class="search-form d-flex align-items-center w-100">
-            <input type="text" class="form-control me-2" name="query" [(ngModel)]="searchQuetion" 
-                   (input)="getSearchQuestions()" placeholder="Search" title="Enter search keyword">
-            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-          </form>
+  <!-- Sidebar and Main Container -->
+  <div class="container-fluid py-4">
+    <div class="row g-4">
+      <!-- Sidebar -->
+      <div class="col-lg-3" [class.d-none]="!isMenuVisible && isMobileView"
+        [class.d-block]="isMenuVisible || !isMobileView">
+        <!-- Mobile Menu Options -->
+        <div *ngIf="isMobileView" class="mobile-menu shadow-lg p-3 mb-3">
+          <a class="d-block mb-2 text-decoration-none text-dark" (click)="navigateHome()"><i
+              class="fas fa-home me-2 fs-14"></i> Home</a>
+          <button class="btn btn-outline-primary w-100 mb-2 fs-14" (click)="openPostModal()" #jobPopup
+            data-bs-toggle="modal" data-bs-target="#jobFormModal">+ Post Ad</button>
+          <!-- <span class="text-success fs-4"><i class='far fa-edit'></i>Edit</span> -->
+          <a class="d-block mb-2 text-decoration-none text-dark" (click)="onEdit()"><i
+              class="far fa-edit fs-14 me-2"></i>
+            Edit</a>
+          <a class="d-block mb-2 text-decoration-none text-danger cur_pointer" (click)="logOut()"><i
+              class="fas fa-sign-out-alt me-2"></i>
+            Logout</a>
+        </div>
+
+        <!-- Profile Box -->
+        <div class="profile-box text-center shadow-lg">
+          <img [src]="profileImg" alt="Profile" class="profile-img">
+          <h5 class="mb-1 fs-16">{{ profileData.fullName }}</h5>
+          <p class="text-muted fs-14">{{ profileData.designation }}</p>
+          <button class="btn btn-outline-primary w-75 mb-4 fs-14 b-4 edit-profile-btn" (click)="editProfile()">Edit
+            Profile</button>
+        </div>
+
+        <div class="filter-box shadow-lg">
+          <h6 class="fs-14">Category</h6>
+          <div class="mb-3">
+            <div class="form-check" *ngFor="let category of itemCategory; let i = index">
+              <input class="form-check-input" type="checkbox" [checked]="isChecked(category)"
+                (change)="updateSelectedJobTypes($event, category)" [id]="'category-' + i">
+              <label class="form-check-label fs-14" [for]="'category-' + i">
+                {{ category.label }}
+              </label>
+            </div>
+
+          </div>
         </div>
       </div>
-    </div>
 
-    <nav class="header-nav ms-auto">
-      <ul class="d-flex align-items-center">
-
-        <li class="nav-item d-block d-lg-none">
-          <a class="nav-link nav-icon search-bar-toggle" (click)="toggleSearch()">
-            <i class="bi bi-search"></i>
-          </a>
-        </li>
-        
-        <div *ngIf="showSearch" class="search-box">
-          <form class="search-form d-flex align-items-center">
-            <input type="text" name="query" [(ngModel)]="searchQuetion" placeholder="Search" title="Enter search keyword">
-            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-          </form>
-        </div>
-
-        <li class="nav-item dropdown" *ngIf="showSearchBox">
-          <a class="nav-link nav-icon" data-bs-toggle="modal" data-bs-target="#myDialog">
-            <i class="bi bi-pencil-square"></i>
-          </a><!-- End Notification Icon -->
-          </li>
-
-        <li class="nav-item dropdown pe-3 header_Icons">
-
-          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img [src]="getImageSource() ||  'assets/images/common_Images/user-Icon.png'" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2"> {{ userName | titleCase }} </span>
-          </a><!-- End Profile Iamge Icon -->
-
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-            <li>
-              <a class="dropdown-item d-flex align-items-center" (click)="onSelect('myPosts')">
-                <i class="bi bi-file-text"></i>
-                <span>My Posts</span>
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item d-flex align-items-center" (click)="onSelect('contact')">
-                <i class="bi bi-question-circle"></i>
-                <span>Help</span>
-              </a>
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" (click)="onSelect('logout')">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
-              </a>
-            </li>
-
-          </ul>
-        </li>
-
-      </ul>
-    </nav>
-  </header><!-- End Header -->
-
-<div *ngIf="showHomepage || showMyposts">
-<div class="container">
-  <div class="row">
-    <div class="col-md-12 col-xs-12">
-      <div id="content" class="content content-full-width">
-        <div class="profile-content">
-          <div class="tab-content p-0">
-            <div class="tab-pane fade active show"  id="profile-post">
-              <ul class="timeline">
-                <li *ngFor="let item of mainQuestions">
-                  <div class="timeline-time">
-                    <span class="date">{{ formatDOB(item.question_posted_date) }}</span>
-                    <!-- <span class="time">{{ item.time }}</span> -->
-                  </div>
-                  <div class="timeline-icon">
-                    <a href="javascript:;">&nbsp;</a>
-                  </div>
-                  <div class="timeline-body" *ngFor="let feedback of item.feedbackInfo">
-                    <div class="timeline-header">
-                      <span class="userimage"><img [src]="item.question_owner_imagePath || 'assets/images/common_Images/user-Icon.png' " alt=""></span>
-                      <span class="username"><a>{{ item.question_userName_name }}</a></span>
-                      <span class="pull-right text-muted">{{ feedback.total_views }} Views</span>
-                    </div>
-                    <div class="timeline-content cur_pointer" (click)="toggleShowFullQuestion(item)">
-                      <p>{{ (item.question.length > 60 || item.imagePath || (item.urlLink !== 'undefined' && item.urlLink !== null && item.urlLink.trim() !== '')) && !questionStates[item.qId] ? (item.question | slice:0:50) + '....' : item.question }}</p>
-                    </div>                              
-                    
-                  <div *ngIf="isQuestionOpen(item)">
-                       <div *ngIf="item.imagePath" class="timeline-content image-container">
-                      <img [src]="item.imagePath" alt="Image">
-                    </div>
-                    <div *ngIf="item.urlLink !== 'undefined' && item.urlLink !== null && item.urlLink.trim() !== ''" class="timeline-content">
-                      <a target="_blank" [href]="item.urlLink">{{ item.urlLink }}</a>
-                  </div>                              
-                  
-                  </div> 
-                    <div class="timeline-likes">
-                      <div class="stats-right">
-                        <!-- <span class="stats-text">{{ item.shares }} Shares</span> -->
-                        <span class="stats-text">{{ feedback.total_comments }} Comments</span>
-                      </div>
-                      <div class="stats">
-                        <!-- <span class="fa-stack fa-fw stats-icon">
-                          <i class="fa fa-circle fa-stack-2x text-danger"></i>
-                          <i class="fa fa-heart fa-stack-1x fa-inverse t-plus-1"></i>
-                        </span> -->
-                        <span class="fa-stack fa-fw stats-icon">
-                          <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                          <i class="fa fa-thumbs-up fa-stack-1x fa-inverse"></i>
-                        </span>
-                        <span class="stats-total">{{ feedback.total_likes }}</span>
-                      </div>
-                    </div>
-                    <div class="timeline-footer">
-                      <a (click)="performActions(item,'like')" [ngClass]="{'liked': item.isLiked}" class="text-inverse-lighter"><i class="fa fa-thumbs-up fa-fw fa-lg display-left"></i> Like</a>
-                      <a *ngIf="item.answer" (click)="showAdditionalAnswers(item)" class="text-inverse-lighter"><i class="fa fa-comments fa-fw fa-lg display-left"></i> Comments</a>
-                      <a *ngIf="showMyposts" data-bs-toggle="modal" data-bs-target="#myDialog" (click)="editQuestion(item)" class="text-inverse-lighter display-left"><i class="fa fa-edit fa-fw fa-lg"></i> Edit</a>
-                      <a *ngIf="showMyposts" (click)="deleteQuestion(item)" class="text-inverse-lighter"><i class="fa fa-trash-o fa-fw fa-lg display-left"></i> Delete</a>
-                      <!-- <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-share fa-fw fa-lg m-r-3"></i> Share</a> -->
-                    </div>
-
-                    <div class="comments">
-                      <ul *ngIf="additionalAnswersVisibility[item.qId] && additionalAnswersData[item.qId] && additionalAnswersData[item.qId].length > 0" class="mt-1">
-                          <li *ngFor="let addAnswer of additionalAnswersData[item.qId]">
-                              <div class="profile_Info">
-                                <img [src]="addAnswer.answer_owner_imagePath ? addAnswer.answer_owner_imagePath : 'assets/images/common_Images/user-Icon.png'" alt="Profile Picture">
-                                  <div class="username">{{ addAnswer.answer_userName }}</div>
-                                  <!-- <span><i class="fa fa-ellipsis-v"></i></span> -->
-                                  <p class="answer_posted_date mb-0">{{ addAnswer.answer_posted_date | date }}</p>
-                              </div>
-                              <p class="answer_text" [innerHTML]="addAnswer.answer | linkifyPipe">{{ addAnswer.answer }}</p>
-                          </li>
-                      </ul>
-                  </div>                  
-
-                    <div class="timeline-comment-box">
-                      <div class="user"><img [src]="getImageSource() || 'assets/images/common_Images/user-Icon.png'"></div>
-                      <div class="input">
-                        <form action="">
-                          <div class="input-group">
-                            <input type="text" class="form-control rounded-corner" name="replyAnswer" [(ngModel)]="item.replyAnswer" placeholder="Share your Answer here...">
-                            <div class="input-group-append p-l-10">
-                              <button class="btn btn-primary f-s-12 rounded-corner send_button" [disabled]="!item.replyAnswer" (click)="uploadAnswer(item.qId,item)" type="button">
-                                <i class="fas fa-arrow-alt-circle-right"></i>
-                              </button>
-                          </div>                          
-                        </div>
-                        
-                          </form>
-                      </div>
-                    </div>
-                  </div>
+      <!-- Job Section -->
+      <div class="col-lg-9 scrollable-section">
+        <div class="bg-white rounded p-4 mb-4 shadow-lg">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="input-group">
+              <span class="input-group-text bg-light border-0"><i class="fas fa-search text-muted"></i></span>
+              <input type="text" class="form-control shadow-none border-0 bg-light shadow-none"
+                [(ngModel)]="searchQuery" (input)="getPostedJobs()" placeholder="Enter Keyword ...">
+            </div>
+            <div class="dropdown ms-3">
+              <button class="btn btn-outline-light text-dark dropdown-toggle shadow-sm fs-14" type="button"
+                id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                Newest
+              </button>
+              <ul class="dropdown-menu fs-14" aria-labelledby="dropdownMenuButton">
+                <li><a class="dropdown-item fs-14 cur_pointer" (click)="getPostedJobs('newest')">Newest</a></li>
+                <li><a class="dropdown-item fs-14 cur_pointer" (click)="getPostedJobs('oldest')">Oldest</a></li>
+                <li><a class="dropdown-item fs-14 cur_pointer" (click)="getPostedJobs('most releavant')">Most
+                    Relevant</a>
                 </li>
               </ul>
             </div>
           </div>
+          <div class="bg-light text-center rounded mt-2 p-2">
+            <span class="text-muted fs-14">{{totalRecords}} questions found</span>
+          </div>
         </div>
+
+        <div class="scrollable-container">
+          <div class="row">
+
+            <div class="container mt-4">
+              <!-- Job Cards -->
+              <div *ngFor="let job of postedJobs" class="card mb-3 shadow-sm">
+                <div class="card-body">
+                  <div class="d-flex align-items-start">
+                    <img [src]="job.userImagePath || 'https://via.placeholder.com/50'" alt="User Avatar"
+                      class="rounded-circle me-3" style="width: 50px; height: 50px;" />
+                    <div>
+                      <h6 class="mb-0">{{ job.userName }}</h6>
+                      <small class="text-muted">{{ job.postedDate | date: 'longDate' }}</small>
+                    </div>
+                  </div>
+                  <p class="mt-3">{{ job.questionText }}</p>
+                  <p *ngIf="job.imagePath" (click)="openImageModal(job.imagePath)"><i class="fa fa-paperclip"></i></p>
+                  <div class="d-flex justify-content-between align-items-center flex-wrap">
+                    <div class="d-flex align-items-center">
+                      <span class="text-decoration-none me-3 cur_pointer" (click)="likeItem(job.questionId)">
+                        <i class="fas fa-thumbs-up" [ngClass]="{ 'liked-button': job.alreadyLiked }"></i>
+                        Like ({{ job.questionLikes }})
+                      </span>
+                      <span class="text-decoration-none me-3 cur_pointer" (click)="getComments(job.questionId)">
+                        <i class="fas fa-comment"></i>
+                        Comment ({{ job.totalComments }})
+                      </span>
+                      <span *ngIf="displayDeleteBtn" class="text-decoration-none me-3 cur_pointer"
+                        data-bs-toggle="modal" data-bs-target="#jobFormModal" (click)="openEditModal(job)">
+                        <i class="far fa-edit"></i>
+                        Edit
+                      </span>
+                      <span *ngIf="displayDeleteBtn" class="text-decoration-none me-3 cur_pointer"
+                        data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"
+                        (click)="openDeleteModal(job.questionId)">
+                        <i class="fas fa-trash-alt"></i>
+                        Delete
+                      </span>
+                    </div>
+
+                    <small class="text-muted">{{ job.views }} Views</small>
+                  </div>
+                  <!-- Comments Section -->
+                  <div *ngIf="selectedQuestionId === job.questionId">
+                    <div *ngFor="let comment of comments" class="card mt-2">
+                      <div class="card-body">
+                        <div class="d-flex align-items-start">
+                          <img [src]="comment.userImagePath || 'https://via.placeholder.com/50'" alt="User Avatar"
+                            class="rounded-circle me-3" />
+                          <div>
+                            <h6 class="mb-0">{{ comment.userName }}</h6>
+                            <small class="text-muted">{{ comment.postedDate | date: 'short' }}</small>
+                          </div>
+                        </div>
+                        <p class="mt-2">{{ comment.commentText }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mt-3">
+                    <textarea class="form-control" [(ngModel)]="newCommentText"
+                      placeholder="Write a comment..."></textarea>
+                    <button class="btn btn-primary mt-2" (click)="addComment(job.questionId, newCommentText)">
+                      Add Comment
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
       </div>
     </div>
+
   </div>
-</div>
 
-<div class="btn_box" *ngIf="mainQuestions.length !== 0">
-  <a class="view_more-link" (click)="loadMore()">View More</a>
-</div>
-</div>
-
-<div class="row justify-content-center align-items-center w-100" *ngIf="mainQuestions.length === 0 && !showContactForm" style="height: 70vh;">
-  <div class="col-sm-6 col-lg-3 text-center">
-    <img src="assets/images/ekart/empty_produts.png" class="img-fluid" alt="No products">
-  </div>
-</div>
-
-<!-- Bootstrap Modal -->
-<!-- Bootstrap Modal -->
-<div class="modal fade" id="myDialog" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" #modalId>
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content p-3">
-      <div class="modal-body" style="padding-top: 10px;">
-        <div class="container custom-dialog-container mt-0">
-          <textarea cols="100" class="form-control input-sm mb-3" name="userQuestion" [(ngModel)]="userQuestion" placeholder="Share here..." style="resize: none; min-height: 120px; margin-top: 0;"></textarea>
-          <div class="d-flex justify-content-between align-items-center">
-            <div>
-              <i class="fas fa-image txt_Icons me-2" (click)="selectPhoto()" style="font-size: 1.5rem; cursor: pointer;"></i>
-              <input type="file" accept="image/*" style="display: none;" #fileInput (change)="onFileSelected($event)">
-              <i class="fas fa-link txt_Icons" (click)="urlExpand()" style="font-size: 1.5rem; cursor: pointer;"></i>
-            </div>
-            <div class="url_box" *ngIf="showUrlBox">
-              <input type="text" class="form-control input-sm" name="questionURl" [(ngModel)]="questionURl" placeholder="Enter URL">
+  <!-- <div class="modal fade" id="jobFormModal" tabindex="-1" aria-labelledby="jobFormModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header border-bottom-0" style="margin-bottom: -20px;">
+          <h5 class="modal-title fs-16" id="jobFormModal">Post your question</h5>
+          <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form (ngSubmit)="postQuestion()">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="questionText" class="form-label">Your Question</label>
+              <textarea id="questionText" class="form-control" [(ngModel)]="newQuestion.questionText" name="questionText"
+                rows="4" placeholder="Type your question here..." required></textarea>
             </div>
           </div>
-          <p *ngIf="selectedFile" class="mt-2">{{ selectedFile.name }}</p>
-        </div>
+          <div class="modal-footer d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary shadow-none" data-bs-dismiss="modal">
+              Post Question
+            </button>
+            <button type="button" class="btn btn-outline-secondary shadow-none ms-2" data-bs-dismiss="modal">
+              Cancel
+            </button>
+          </div>
+        </form>
       </div>
-      <div class="modal-footer justify-content-end">
-        <button type="button" class="btn btn-warning me-2" #actionButton data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-success button_left" [disabled]="!userQuestion" (click)="onUpload()">Save</button>
+    </div>
+  </div> -->
+
+  <div class="modal fade" id="jobFormModal" tabindex="-1" aria-labelledby="jobFormModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header border-bottom-0">
+          <h5 class="modal-title fs-16">{{ isEditing ? 'Edit your question' : 'Post your question' }}</h5>
+          <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form #questionForm="ngForm" (ngSubmit)="isEditing ? updateQuestion() : postQuestion()"
+          enctype="multipart/form-data">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="questionText" class="form-label">Your Question</label>
+              <textarea id="questionText" class="form-control" [(ngModel)]="newQuestion.questionText"
+                name="questionText" rows="4" placeholder="Type your question here..." required
+                #questionText="ngModel"></textarea>
+              <div *ngIf="questionText.invalid && questionText.touched" class="text-danger fs-14">
+                Your question is required.
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="questionType" class="form-label">Question Type</label>
+              <select id="questionType" class="form-select fs-14" [(ngModel)]="newQuestion.questionType"
+                name="questionType" required #questionType="ngModel">
+                <option value="" disabled>Select a type</option>
+                <option value="error">Error</option>
+                <option value="audio">Audio</option>
+                <option value="video">Video</option>
+                <option value="control">Control</option>
+                <option value="hardware">Hardware</option>
+              </select>
+              <div *ngIf="questionType.invalid && questionType.touched" class="text-danger fs-14">
+                Please select a question type.
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="fileInput" class="form-label">Attach a File</label>
+              <input type="file" id="fileInput" class="form-control" (change)="onFileChange($event)" name="file" />
+            </div>
+          </div>
+          <div class="modal-footer d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary shadow-none" [disabled]="questionForm.invalid"
+              data-bs-dismiss="modal">
+              {{ isEditing ? 'Update Question' : 'Post Question' }}
+            </button>
+            <button type="button" class="btn btn-outline-secondary shadow-none ms-2" data-bs-dismiss="modal">
+              Cancel
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
-</div>
 
-  <div *ngIf="showContactForm">
-    <app-contact></app-contact>
+
+
+  <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModal"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header border-bottom-0">
+          <h5 class="modal-title fs-16">Confirmation</h5>
+          <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+          <p class="fs-14">Are you sure you want to delete this question?</p>
+        </div>
+        <div class="modal-footer d-flex justify-content-end">
+          <button type="button" class="btn btn-primary shadow-none" (click)="deleteQuestion()" data-bs-dismiss="modal">
+            Yes
+          </button>
+          <button type="button" class="btn btn-outline-secondary shadow-none ms-2" data-bs-dismiss="modal">
+            No
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div *ngIf="isDisplyedCoins">
-      <app-coins-blast [coins]="displayCoins"></app-coins-blast>
+
+  <!-- Image Modal -->
+  <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="imageModalLabel">Attachment</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+          <img [src]="selectedImagePath" alt="Attachment" class="img-fluid popup-img" />
+        </div>
+      </div>
+    </div>
   </div>
 
-     <app-spinner *ngIf="showSpinner"></app-spinner>
+  <div *ngIf="isDisplayCoins">
+    <app-coins-blast [coins]="displayCoins"></app-coins-blast>
+  </div>
+
+  <app-spinner *ngIf="showSpinner"></app-spinner>
+
 </body>
-
-</html>

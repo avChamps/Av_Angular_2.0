@@ -6,7 +6,7 @@
     </div>
 
     <div class="container mb-2">
-    <h4 class="mb-2">{{'Aspect Ratio Calculator' | translate}}</h4>
+    <h4 class="mb-2 text-center">{{'Aspect Ratio Calculator' | translate}}</h4>
     <div class="container box-shadow p-4 rounded mb-2 mt-2">
         <div class="row g-2 align-items-center">
             <!-- Calculate Dropdow -->
@@ -70,37 +70,37 @@
                 <button class="btn btn-primary w-100" (click)="calculateAspectRatio()">{{'Calculate' | translate}}</button>
             </div>
         </div>
-      
-        <div class="text-center mt-4" *ngIf="showResult">
-            <div class="container">
-                <div class="row justify-content-center p-2 rounded box-shadow border border-warning">
-                    <!-- Use flexbox for layout changes based on screen size -->
-                    <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-around w-100">
-                        <div class="p-2 d-flex flex-lg-row align-items-center">
-                            <span class="d-flex display_result" ><b>{{'Aspect Ratio' | translate}}:&nbsp; </b></span>
-                            <span>{{ aspectRatio }}</span>
-                        </div>
-                        <div class="p-2 d-flex flex-lg-row align-items-center">
-                            <span class="d-flex display_result"><b>Dimensions:&nbsp; </b></span>
-                            <span>{{ dimensions }}</span>
-                        </div>
-                        <div class="p-2 d-flex flex-lg-row align-items-center">
-                            <span class="d-flex display_result"><b>{{'Mode' | translate}}: &nbsp;</b></span>
-                            <span>{{ mode }}</span>
-                        </div>
-                        <div class="p-2 d-flex flex-lg-row align-items-center">
-                            <span class="d-flex display_result"><b>{{'Width' | translate}}: &nbsp;</b></span>
-                            <span>{{ width | number: '1.0-0'}} {{ selectedUnits }}</span>
-                        </div>
-                        <div class="p-2 d-flex flex-lg-row align-items-center">
-                            <span class="d-flex display_result"><b>{{ 'Height' | translate }}:&nbsp; </b></span>
-                            <span>{{ height  | number: '1.0-0'}} {{ selectedUnits }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div> 
-            
+
+
+     <!-- Summary Section -->
+     <div class="d-flex justify-content-center align-items-center mt-4"  *ngIf="showResult">
+        <div class="card summary-card p-3">
+          <h5 class="summary-title text-center">Results</h5>
+          <div class="mb-2">
+            <span>{{ 'Aspect Ratio' | translate }}:</span>
+            <span class="summary-value">{{ aspectRatio }}</span>
+          </div>
+          <div class="mb-2">
+            <span>Dimensions</span>
+            <span class="summary-value">{{ dimensions }}</span>
+          </div>
+          <div class="mb-2">
+            <span>{{ 'Mode' | translate }}</span>
+            <span class="summary-value">{{ mode }}</span>
+          </div>
+          <div class="mb-2">
+            <span>{{ 'Width' | translate }}</span>
+            <span class="summary-value">{{ width | number: '1.0-0' }} {{ selectedUnits }}</span>
+          </div>
+          <div class="mb-2">
+            <span>{{ 'Height' | translate }}</span>
+            <span class="summary-value">{{ height | number: '1.0-0' }} {{ selectedUnits }}</span>
+          </div>
         </div>
+      </div>
+    
+
+
     </div>
 
     <!-- Explanation and formula section -->

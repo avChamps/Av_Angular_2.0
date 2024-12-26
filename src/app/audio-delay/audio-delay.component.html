@@ -1,71 +1,91 @@
 <section id="counts" class="counts" data-aos="fade-right">
   <div class="me-2 mb-2">
     <div class="cur_pointer rounded-circle shadow-sm p-2 back-button" (click)="onBack()">
-        <i class="fas fa-arrow-left"></i>
+      <i class="fas fa-arrow-left"></i>
     </div>
-</div>
+  </div>
 
-    <div class="container mb-2">
-    <h4 class="mb-2">{{'Audio Delay Calculator' | translate}}</h4>
+  <div class="container mb-2">
+    <h4 class="mb-2 text-center">{{'Audio Delay Calculator' | translate}}</h4>
     <div class="container box-shadow p-4 rounded mb-2">
-        <div class="row g-2 justify-content-center align-items-center">
-      
-          <!-- Label Column -->
-          <div class="col-12 mt-3 col-sm-auto text-center">
-            <label for="distance" class="form-label fw-bold">{{'Distance' | translate}}(mts/ft) :</label>
-          </div>
-      
-          <!-- Input Column -->
-          <div class="col-12 col-sm-auto custom-width-mobile">
-            <input type="number" class="custom-width-mobile" id="distance" oninput="validateNumberInput(this)" class="form-control" (keypress)="preventNegative($event, (distance !== undefined ? distance.toString() : ''))"  (focus)="clearDefaultZero()" [(ngModel)]="distance">
-          </div>
-      
-          <!-- Refresh Button -->
-          <div class="col-12 col-sm-auto text-center">
-            <button class="btn btn-warning w-100 text-white" (click)="onReset()">
-              <i class="bi bi-arrow-clockwise"></i> {{'Refresh' | translate}}
-            </button>
-          </div>
-      
-          <!-- Calculate Button -->
-          <div class="col-12 col-sm-auto text-center">
-            <button class="btn btn-primary w-100" (click)="calculateAudio()" [disabled]="!distance">{{'Calculate' | translate}}</button>
-          </div>
+      <div class="row g-2 justify-content-center align-items-center">
+
+        <!-- Label Column -->
+        <div class="col-12 mt-3 col-sm-auto text-center">
+          <label for="distance" class="form-label fw-bold">{{'Distance' | translate}}(mts/ft) :</label>
         </div>
-      
-        <!-- Result Display -->
-        <div class="text-center mt-3 fw-bold">
-          <p>{{'Delay Needed' | translate}}(mtr):  {{ delayNeededInFeet | number: '1.2-2' }} {{'milliseconds' | translate}}</p>
-          <p>{{'Delay Needed' | translate}}(fts):  {{ delayNeededInMtr | number: '1.2-2' }} {{'milliseconds' | translate}}</p>
+
+        <!-- Input Column -->
+        <div class="col-12 col-sm-auto custom-width-mobile">
+          <input type="number" class="custom-width-mobile" id="distance" oninput="validateNumberInput(this)"
+            class="form-control"
+            (keypress)="preventNegative($event, (distance !== undefined ? distance.toString() : ''))"
+            (focus)="clearDefaultZero()" [(ngModel)]="distance">
+        </div>
+
+        <!-- Refresh Button -->
+        <div class="col-12 col-sm-auto text-center">
+          <button class="btn btn-warning w-100 text-white" (click)="onReset()">
+            <i class="bi bi-arrow-clockwise"></i> {{'Refresh' | translate}}
+          </button>
+        </div>
+
+        <!-- Calculate Button -->
+        <div class="col-12 col-sm-auto text-center">
+          <button class="btn btn-primary w-100" (click)="calculateAudio()" [disabled]="!distance">{{'Calculate' |
+            translate}}</button>
         </div>
       </div>
-      
+
+      <!-- Summary Section -->
+      <div class="d-flex justify-content-center align-items-center mt-4">
+        <div class="card summary-card p-3">
+          <h5 class="summary-title text-center">Results</h5>
+          <div class="mb-2">
+            <span>{{'Delay Needed' | translate}}(mtr):</span>
+            <span class="summary-value">{{ delayNeededInFeet | number: '1.2-2' }} {{'ms' | translate}}</span>
+          </div>
+          <div class="mb-2">
+            <span>{{'Delay Needed' | translate}}(fts):</span>
+            <span class="summary-value"> {{ delayNeededInMtr | number: '1.2-2' }} {{'ms' | translate}}</span>
+          </div>
+        </div>
+      </div>
+
+
+
+    </div>
+
     <!-- Explanation and formula section -->
     <div class="mt-5">
-        <h6>{{'What It Is' | translate}}</h6>
-        <p>{{"Whether you're setting up a professional audio system or fine-tuning your home theater, an Audio Delay Calculator can be an invaluable tool for achieving precise time alignment and delivering a superior audio experience." | translate}}</p>
-        </div>
+      <h6>{{'What It Is' | translate}}</h6>
+      <p>{{"Whether you're setting up a professional audio system or fine-tuning your home theater, an Audio Delay
+        Calculator can be an invaluable tool for achieving precise time alignment and delivering a superior audio
+        experience." | translate}}</p>
+    </div>
 
     <!-- Centered Formula section -->
     <div class="container box-shadow p-4 rounded mb-2">
-        <div class="row">
-            <div class="col-md-4 d-flex flex-column justify-content-center align-items-center borders-right">
-                <h5 class="mb-0 fw-bold">{{'Formula' | translate}}</h5>
-                <span class="px-2 py-1 text-muted">f(x)</span>
-            </div>
-            <div class="col-md-8">
-                <p>{{'To calculate milliseconds, use the following formula' | translate}}:</p>
-                <p>{{'Where' | translate}}</p>
-                <ul>
-                    <li>{{'Meters' | translate}} / {{'Speed of sound' | translate}} (343 m/s {{'in room temperature' | translate}}) * 1000 = {{'delay in milliseconds' | translate}}.</li>
-                    <li>{{'Feet' | translate}} / {{'Speed of sound' | translate}} (1125 f/s {{'in room temperature' | translate}}) * 1000 = {{'delay in milliseconds' | translate}}.</li>
-                 </ul>
-                 <p>{{"Refer to the owner's manual of your project and lens combination to find an accurate formula for your specific project" | translate}}.</p>
-            </div>
+      <div class="row">
+        <div class="col-md-4 d-flex flex-column justify-content-center align-items-center borders-right">
+          <h5 class="mb-0 fw-bold">{{'Formula' | translate}}</h5>
+          <span class="px-2 py-1 text-muted">f(x)</span>
         </div>
-    </div>  
-  </div> 
+        <div class="col-md-8">
+          <p>{{'To calculate milliseconds, use the following formula' | translate}}:</p>
+          <p>{{'Where' | translate}}</p>
+          <ul>
+            <li>{{'Meters' | translate}} / {{'Speed of sound' | translate}} (343 m/s {{'in room temperature' |
+              translate}}) * 1000 = {{'delay in milliseconds' | translate}}.</li>
+            <li>{{'Feet' | translate}} / {{'Speed of sound' | translate}} (1125 f/s {{'in room temperature' |
+              translate}}) * 1000 = {{'delay in milliseconds' | translate}}.</li>
+          </ul>
+          <p>{{"Refer to the owner's manual of your project and lens combination to find an accurate formula for your
+            specific project" | translate}}.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <app-spinner *ngIf="showSpinner"></app-spinner>
-

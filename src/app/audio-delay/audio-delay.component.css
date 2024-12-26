@@ -3,3 +3,22 @@
       width: 100px !important;
     }
   }
+
+  .summary-card {
+    border-radius: 15px;
+    border: none;
+    max-width: 265px;
+    min-width: 265px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.summary-title {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #6c757d;
+}
+.summary-value {
+    font-size: 1.5rem;
+    margin-left: 7px;
+    font-weight: bold;
+    color: #343a40;
+}

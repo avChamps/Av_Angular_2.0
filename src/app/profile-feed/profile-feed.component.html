@@ -13,14 +13,14 @@
         </div> 
         <div class="header-boxs mt-2" *ngIf="showMails">
             <div class="row">
-                <div class="col-12 center-flex global-border">
+                <div class="col-12 center-flex">
                     <div class="grid email">
                         <div class="grid-body">
                             <div class="row">
                                 <!-- Search Box Centered on Mobile, Right Aligned on Larger Screens -->
                                 <div class="col-12 d-flex d-md-none justify-content-center mb-3">
                                     <div class="filters">
-                                        <div class="input-group rounded box border-box">
+                                        <div class="input-group rounded box border-box box-shadow">
                                             <span class="input-group-text bg-transparent border-0">
                                               <i class="bi bi-search"></i>
                                             </span>
@@ -111,7 +111,7 @@
     <div class="container mt-2" style="margin-bottom: 10px;">
         <div class="row">
             <div class="col-12">
-                <div class="card">
+                <div class="card box-shadow">
                     <div *ngFor="let email of clickedemails">
                         <div class="card-header d-flex align-items-center justify-content-center"[title]="email.title" style="height: 60px; overflow: hidden;">
                             <h2 class="fs-16 m-0 text-center w-100 text-truncate">{{ email.title }}</h2>

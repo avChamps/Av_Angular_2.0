@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthGuardService } from '../services/auth-guard.service';
 import { AuthServiceService } from '../services/auth-service.service';
@@ -9,519 +9,477 @@ import { UserServicesService } from '../services/user-services.service';
 import * as bootstrap from 'bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Modal } from 'bootstrap';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
   selector: 'app-community',
   templateUrl: './community.component.html',
-  styleUrls: ['./community.component.css']
+  styleUrls: ['../job-portal/job-portal.component.css', './community.component.css']
 })
-export class CommunityComponent {
-  expandedQuestion: any
-  searchQuetion: any
-  userQuestion: any
-  replyAnswer: any
-  emailId: any;
-  feedbackInfo : any;
-  pageType : any; 
-  userName: any
-  currentPage : any;
-  pageSize : any;
-  selectedFile: any
-  selectedFileName: any;
-  likedQuestion : any;
-  questionURl: any;
-  displayCoins : any;
-  profileImg: any[] = []
-  mainQuestions: any[] = []
-  additionalAnswers: any[] = []
-  likedQuestionIds: number[] = [];
-  expanded: boolean = false;
-  isDisplyedCoins : boolean = false;
-  searchKeyword : string = '';
-  productCategory : string = '';
-  location : any;
-  showUrlBox: boolean = false
-  showSearch: boolean = false;
-  isSearchActive : boolean = false;
-  isHeader : boolean = true;
-  showContactForm: boolean = false
-  additionalAnswersVisible: boolean = false;
-  showHomepage: boolean = false;
-  showMyposts: boolean = false;
-  showFullQuestion : boolean = false;
-  showSearchBox : boolean = true;
-  updateQid: any;
-  buttonType: string = 'Save'
-  showSpinner: boolean = false;
-  @ViewChild('myDialog') myDialog!: ElementRef;
-  @ViewChild('fileInput') fileInput!: ElementRef;
-  @ViewChild('actionButton') actionButton!: ElementRef;
-  additionalAnswersVisibility: { [key: string]: boolean } = {}
-  additionalAnswersData: { [key: string]: any[] } = {}
-  showFullContent : { [key: string]: boolean } = {}
-  questionStates: {[key: string]: boolean} = {};
+export class CommunityComponent implements OnInit {
+  itemForm!: FormGroup;
+  showSpinner: boolean = true;
+  isDisplayCoins: boolean = false;
+  isMenuVisible: boolean = false;
+  isMobileView: boolean = false;
+  displayDeleteBtn: boolean = false;
+  isLoading: boolean = false;
+  searchQuery: string = '';
+  questionType: string = '';
+  location: string = '';
+  limit: number = 1000;
+  offset: number = 0;
+  totalRecords: number = 0;
+  postedBy: string = '';
+  selectedLocation: string = '';
+  sortBy: string = 'newest'
+  emailId: string = 'disendra889@gmail.com';
+  userName: string = 'Disendra';
+  isEditing: boolean = false;
+  selectedFile: File | null = null;
+  selectedImagePath: string | null = null;
+  //  emailId : any;
+  //  userName : any;
+  profileImg: any;
+  profileData: any = [];
+  postedJobs: any = [];
+  displayCoins: number = 0;
+  selectedProduct: any;
+  msgType: string = 'Post Job';
+  btnType: string = 'apply'
+  uniqueLocations: any;
+  selectedQuestionId: any;
+  comments: any;
+  newCommentText: any;
+  //  selectedQuestionId: number | null = null; // To store the selected question ID for deletion
+  newQuestion: {
+    questionId: number;
+    emailId: string;
+    userName: string;
+    questionText: string;
+    questionType: string; // Add questionType property
+  } = {
+      questionId: 0, // Default to 0 when no question is selected
+      emailId: this.emailId,
+      userName: this.userName,
+      questionText: '',
+      questionType: '', // Default to an empty string
+    };
 
-  constructor (
-    private router: Router,
-    private authService: AuthServiceService,
-    private commintyService: CommunityService,
-    private faService : FaServiceService,
-    private userService: UserServicesService,
-    private datePipe: DatePipe,
-    private toastr: ToastrService,
-    private authGuard : AuthGuardService
-  ) {}
 
-  ngOnInit (): void {
-    this.emailId = localStorage.getItem('emailId');
-    this.userName = localStorage.getItem('userName');
-    this.getProfileImage()
-    this.onSelect('homePage');
+
+  @ViewChild('cancelPopup') cancelPopup!: ElementRef<HTMLButtonElement>;
+  @ViewChild('jobPopup') jobPopup!: ElementRef<HTMLButtonElement>;
+  @ViewChild('jobDetais') jobDetailsModal!: ElementRef;
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    this.isMobileView = window.innerWidth < 768;
+    if (!this.isMobileView) {
+      this.isMenuVisible = false;
+    }
+  }
+
+  itemCategory = [
+    { label: 'Error', value: 'audio' },
+    { label: 'Audio', value: 'video' },
+    { label: 'Video', value: 'ucc' },
+    { label: 'Control', value: 'control' },
+    { label: 'Hardware', value: 'accessors' }
+  ];
+
+  //  newQuestion: { emailId: string; userName: string; questionText: string } = {
+  //   emailId: '',
+  //   userName: '',
+  //   questionText: '',
+  // };
+
+  constructor(private communityService: CommunityService, private faService: FaServiceService, private cdr: ChangeDetectorRef, private userService: UserServicesService,
+    private router: Router, private toastr: ToastrService, private fb: FormBuilder) {
+  }
+
+  ngOnInit(): void {
+    this.isMobileView = window.innerWidth < 768;
+    //  this.emailId = localStorage.getItem('emailId')
+    //  this.userName = localStorage.getItem('userName');
+    this.getProfileImage();
+    this.getPostedJobs();
+  }
+
+  updateImageValidation() {
+    if (this.btnType == 'apply') {
+      this.itemForm.get('image')?.setValidators([Validators.required]);
+    } else {
+      this.itemForm.get('image')?.clearValidators();
+    }
+    this.itemForm.get('image')?.updateValueAndValidity();
+  }
+
+  onFileChange(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+    }
+  }
+
+  clearFileInput(): void {
+    const fileInput = document.getElementById('image') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = ''; // Clear the file input
+    }
   }
 
 
-  onSelect(option: any): void {
-    this.showHomepage = false;
-    this.showMyposts = false;
-    this.showContactForm = false;
-    this.pageType = option;
-    this.currentPage = 1;
-    this.pageSize = 5;
-    if (option === 'homePage') {
-        this.mainQuestions = [];
-        this.showHomepage = true;
-        this.getQuestions();
-        this.getLikesInfo();
-    } else if (option === 'contact') {
-        this.showSearchBox = false;
-        this.showContactForm = true;        
-    } else if (option === 'myPosts') {
-        this.mainQuestions = [];
-        this.getUploadedQuestions();
-        this.showMyposts = true;
-    } else {
-        this.logOut();
+  addComment(questionId: number, commentText: string) {
+    if (!commentText.trim()) {
+      alert('Comment text cannot be empty');
+      return;
     }
-}
 
-  //Image
-  getProfileImage () {
+    const newComment = {
+      questionId: questionId,
+      emailId: this.emailId,
+      userName: this.userName,
+      commentText: commentText,
+    };
+
+    this.communityService.addComment(newComment).subscribe(
+      (response: any) => {
+        console.log(response);
+        if (response.status) {
+          // Refresh the comments after adding
+          this.getComments(questionId);
+          this.getPostedJobs();
+          this.newCommentText = ''; // Clear the input field
+        }
+      },
+      (error: any) => {
+        console.error('Error adding comment:', error);
+      }
+    );
+  }
+
+
+  likeItem(questionId?: number, commentId?: number) {
+    const payload = {
+      questionId: questionId || undefined,
+      commentId: commentId || undefined,
+      emailId: this.emailId,
+    };
+
+    this.communityService.addLike(payload).subscribe(
+      (response: any) => {
+        if (response.status) {
+          this.getPostedJobs();
+          // Update the like count dynamically
+          if (questionId) {
+            const likedQuestion = this.postedJobs.find((job: { questionId: number; }) => job.questionId === questionId);
+            if (likedQuestion) {
+              likedQuestion.questionLikes++;
+              likedQuestion.alreadyLiked = true;
+            }
+
+          } else if (commentId) {
+            const likedComment = this.comments.find((comment: { commentId: number; }) => comment.commentId === commentId);
+            if (likedComment) {
+              likedComment.likes++;
+              likedComment.alreadyLiked = true;
+            }
+          }
+        }
+      },
+      (error: any) => {
+        if (error.status === 400 && error.error.error === 'You have already liked this item') {
+          console.log('User has already liked this item.');
+        } else {
+          console.error('Error liking item:', error);
+        }
+      }
+    );
+  }
+
+  postQuestion(): void {
+    const formData = new FormData();
+    formData.append('emailId', this.newQuestion.emailId);
+    formData.append('userName', this.newQuestion.userName);
+    formData.append('questionText', this.newQuestion.questionText);
+    formData.append('questionType', this.newQuestion.questionType);
+    if (this.selectedFile) {
+      formData.append('file', this.selectedFile); // Attach the file
+    }
+    this.showSpinner = true;
+
+    this.communityService.postQuestion(formData).subscribe(
+      (response: any) => {
+        if (response.status) {
+          console.log('Question posted successfully:', response);
+          this.getPostedJobs(); // Refresh the questions list
+          this.newQuestion = { questionId: 0, emailId: this.emailId, userName: this.userName, questionText: '', questionType: '' };
+          this.selectedFile = null; // Reset the file input
+          this.isDisplayCoins = true;
+          this.displayCoins = 50;
+          this.showSpinner = false;
+        }
+      },
+      (error: any) => {
+        console.error('Error posting question:', error);
+        this.showSpinner = false;
+      }
+    );
+  }
+
+
+
+  onEdit() {
+    this.isMenuVisible = false;
+    this.btnType = 'Edit'
+    this.msgType = 'Edit Job';
+    this.displayDeleteBtn = true;
+    this.getPostedJobs('', '', this.emailId)
+  }
+
+  openPostModal() {
+    this.isEditing = false; // Set the posting mode
+    this.newQuestion = { questionId: 0, emailId: this.emailId, userName: this.userName, questionText: '', questionType: '' };
+  }
+
+  onfilter() {
+    this.btnType = 'apply'
+    this.displayDeleteBtn = false;
+  }
+
+
+  editJob(job: any, btnType: any): void {
+    debugger;
+    if (this.btnType === 'apply') {
+      this.selectedProduct = job;
+      const modalElement = this.jobDetailsModal.nativeElement;
+      const modalInstance = new bootstrap.Modal(modalElement);
+      modalInstance.show();
+    } else {
+      this.jobPopup.nativeElement.click();
+      this.itemForm.patchValue({
+        id: job.id,
+        title: job.title,
+        description: job.description,
+        category: job.category,
+        location: job.location,
+        mobile: job.mobile || '',
+        price: job.price || '',
+        image: '',
+        email: this.emailId,
+        userName: this.userName
+      });
+      this.updateImageValidation();
+    }
+  }
+
+
+  allowNumbersOnly(event: KeyboardEvent): boolean {
+    const charCode = event.key.charCodeAt(0);
+    // Allow only numbers (0-9)
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+      return false;
+    }
+    return true;
+  }
+
+
+  getProfileImage() {
     this.showSpinner = true
     this.userService
       .getProfileImage(this.emailId)
       .subscribe((response: any) => {
         console.log(response)
         this.showSpinner = false
-        this.profileImg = response.records
-      })
-  }
-
-  getImageSource (): string {
-    if (this.profileImg && this.profileImg.length > 0) {
-      return this.profileImg[0].imagePath
-    } else {
-      return '../assets/img/blank-user-directory.png'
-    }
-  }
-  
-
-  getSearchQuestions() {
-    this.currentPage = 1
-    this.pageSize = 5
-    this.mainQuestions = [];
-    if(this.pageType === 'homePage') {
-    this.getQuestions();
-    } else if (this.pageType === 'myPosts') {
-     this.getUploadedQuestions();
-    }
-  }
-
-
-  //Questions
- getQuestions() {
-  this.showSpinner = true;
-  this.commintyService.getCommunityQuestions(this.pageSize, (this.currentPage - 1) * this.pageSize, this.searchQuetion)
-    .subscribe((response: any) => {
-      const newRecords = response.records.filter((record: any) => 
-        !this.mainQuestions.some((question: any) => question.qId === record.qId)
-      );
-
-      this.mainQuestions = [...this.mainQuestions, ...newRecords];
-      console.log(response);
-      this.mainQuestions.forEach(question => {
-        question.isLiked = this.likedQuestionIds.includes(question.qId);
-        this.showContent(question);
-      });
-      
-      this.showSpinner = false;
-    },
-    (error: any) => {
-      console.error('Error fetching questions:', error);
-      this.showSpinner = false;
-    });
-}
-
-loadMore () {
-    if (this.showHomepage) {
-      this.currentPage++
-      this.getQuestions()
-    } else {
-      this.currentPage++
-      this.getUploadedQuestions()
-    }
-  }
-  //uplaod Questions
-  getUploadedQuestions () {
-    this.showSpinner = true
-    this.commintyService.getUploadedCommunityQuestions(this.emailId,
-        this.pageSize,
-        (this.currentPage - 1) * this.pageSize,
-        this.searchQuetion
-      )
-      .subscribe((response: any) => {
-        this.mainQuestions = [...this.mainQuestions, ...response.records];
-        console.log(response);
-        this.showSpinner = false;
-        response.records.forEach((question: any) => {
-          this.showContent(question); // Pass the entire question object
-        });
-      })
-  }
-
-  //Update Question
-  updateCommunity () {
-    this.showSpinner = true
-    const formData = new FormData()
-    formData.append('emailId', this.emailId)
-    formData.append('question', this.userQuestion)
-    formData.append('image', this.selectedFile)
-    formData.append('qId', this.updateQid)
-    // Check if questionURl exists and is not undefined
-    if (this.questionURl && this.questionURl.trim() !== '') {
-      formData.append('urlLink', this.questionURl);
-  }
-    this.commintyService
-      .updateCommunity(formData)
-      .subscribe((response: any) => {
-        console.log('Response from server:', response)
-        if (response && response.status) {
-          this.userService.refreshData()
-          this.showSpinner = false;
-          this.toastr.success(response.message, 'Success', {
-            positionClass: 'toast-custom-position',
-            timeOut: 3000, 
-            closeButton: true,
-            progressBar: true
-          });
-          this.onSelect('myPosts');
-          // window.location.reload()
-        } else {
-          alert('An error occurred. Please try again later.')
+        this.profileImg = response.records[0].imagePath;
+        this.profileData = response.records[0];
+        if (!this.profileImg && this.profileImg.length == 0) {
+          this.profileImg = '../assets/img/blank-user-directory.png';
         }
       })
   }
 
-  selectPhoto () {
-    this.fileInput.nativeElement.click()
-  }
 
-  onFileSelected (event: any) {
-    const file = event.target.files[0]
-    console.log('Selected file:', file)
-    this.selectedFile = file;
-  }
-
-  // Upload
-  onUpload () {
-    this.actionButton.nativeElement.click();
-    if (this.buttonType === 'Save') {
-      this.showSpinner = true
-      const formData = new FormData()
-      formData.append('emailId', this.emailId)
-      formData.append('question', this.userQuestion)
-      formData.append('image', this.selectedFile)
-      formData.append('userName', this.userName)
-      if (this.questionURl) {
-        formData.append('urlLink', this.questionURl)
-      }
-      this.commintyService
-        .insertCommunity(formData)
-        .subscribe((response: any) => {
-          console.log('Response from server:', response)
-          this.showSpinner = false;
-          if (response && response.status) {
-            // alert(response.message)
-            this.toastr.success(response.message), 'Success', {
-              positionClass: 'toast-right-center'
-            };
-            this.getQuestions();
-            this.userQuestion = '';
-            this.selectedFile = '';
-            this.insertPoints(50);
-            // window.location.reload()
-          } else {
-            alert('An error occurred. Please try again later.')
-          }
-        })
-
-    } else {
-      this.updateCommunity()
-    }
-  }
-  
-  uploadAnswer (qId:any,item :any) {
+  getPostedJobs(sortBy: string = 'newest', location: string = '', email = '') {
     this.showSpinner = true;
-    const formData = new FormData()
-    formData.append('emailId', this.emailId)
-    formData.append('answer', item.replyAnswer)
-    formData.append('userName', this.userName)
-    formData.append('qId', qId)
-    this.commintyService
-      .insertCommunityAnswer(formData)
+    this.selectedLocation = location;
+    this.communityService.getCommunityData(this.limit, this.offset, this.searchQuery, location, this.questionType, this.postedBy, sortBy, email)
       .subscribe((response: any) => {
-        console.log('Response from server:', response)
+        console.log(response)
         this.showSpinner = false;
-        if (response && response.status) {
-          this.insertPoints(50);
-          // alert(response.message)
-          this.toastr.success(response.message), 'Success', {
-            positionClass: 'toast-right-center'
-          };
-              item.replyAnswer = '';
-          this.getQuestions();
-        } else {
-          alert('An error occurred. Please try again later.')
-        }
+        this.totalRecords = response.totalRecords;
+        this.postedJobs = response.records;
       })
   }
 
-  //ViewMore
-  showAdditionalAnswers(question: any) {
+  getComments(questionId: number) {
+    this.selectedQuestionId = questionId;
     this.showSpinner = true;
-    this.additionalAnswersVisibility[question.qId] = !this.additionalAnswersVisibility[question.qId];
-    if (!this.additionalAnswersData[question.qId]) {
-        console.log(question);
-        this.commintyService.getMoreCommunityAnswers(question.qId).subscribe((response: any) => {
-            console.log(response);
-            this.additionalAnswersData[question.qId] = response.records;
-            console.log( this.additionalAnswersData[question.qId]);
-            this.performActions(question, 'view');
-            this.showSpinner = false;
-        });
-    } else {
-        // this.performActions(question, 'view');
-        this.showSpinner = false;
-    }
-}
 
-  showContent(question: any) {
-    this.commintyService.getFeedback(question.qId)
-      .subscribe((response: any) => {
-        console.log(response);
-        question.feedbackInfo = response.records;
-        this.showSpinner = false;
-        // this.performActions(question.qId, 'view');
-      });
-  }
-  
-  //like operations
-
-  getLikesInfo() {
-    this.showSpinner = true;
-    this.commintyService.getLikesInfo(this.emailId).subscribe(
+    this.communityService.getComments(questionId).subscribe(
       (response: any) => {
         console.log(response);
-        // Map the liked question IDs from the response
-        this.likedQuestionIds = response.records.map((record: any) => record.qId) || [];
         this.showSpinner = false;
-        // Fetch questions only after likes information is retrieved
-        this.getQuestions();
+        this.comments = response.comments; // Assign fetched comments to the local array
       },
       (error: any) => {
-        console.error('Error fetching likes info:', error);
-        this.likedQuestionIds = [];
         this.showSpinner = false;
+        console.error('Error fetching comments:', error);
       }
     );
   }
 
-  insertPoints(points : number) {
-    this.showSpinner = true;
-    this.displayCoins = points;
-    const pointsData = {
-      emailId : this.emailId, 
-      userName : this.userName, 
-      points : points
-    };
-    this.userService.insertPoints(pointsData).subscribe((response: any) => {
-      this.isDisplyedCoins = false;
-      console.log('Form submitted:', response);
-        console.log(response);
-        setTimeout(() => {
-          this.isDisplyedCoins = true;
-        }, 100);
-    });
-    this.showSpinner = false;
-  }
 
-  deletePoints(points : number) {
-    this.showSpinner = true;
-    this.displayCoins = points;
-    const pointsData = {
-      emailId : this.emailId, 
-      userName : this.userName, 
-      points : points
-    };
-    this.userService.deletePoints(pointsData).subscribe((response: any) => {
-      console.log('Form submitted:', response);
-        console.log(response);
-    });
-    this.showSpinner = false;
-  }
 
-  toggleSearch () {
-    this.showSearch = !this.showSearch;
-    this.isSearchActive = !this.isSearchActive; 
-  }
-
-  //Expand
-  toggleShowFullQuestion(item:any) {
-    this.questionStates[item.qId] = !this.questionStates[item.qId];
-  }  
-
-  isQuestionOpen(item: any) {
-    return this.questionStates[item.qId];
-  }
-
-  urlExpand () {
-    this.showUrlBox = !this.showUrlBox
-  }
-
-  postQuetion () {
-    // this.popup.openDialogWithTemplateRef(this.myDialog)
-  }
-
-  openModal() {
-    const modalElement = new bootstrap.Modal(this.myDialog.nativeElement);
-    modalElement.show();
-  }
-  //edit
-
-  editQuestion (question: any) {
-    this.buttonType = 'update'
-    console.log('question', question)
-    this.userQuestion = question.question
-    this.questionURl = question.urlLink
-    this.updateQid = question.qId;
-    // this.popup.openDialogWithTemplateRef(this.myDialog)
-  }
-
-  //delete
-  deleteQuestion(question: any) {
-    console.log(question);
-    this.showSpinner = true;
-    const questionData = {
-        emailId: question.question_owner_email,
-        qId: question.qId,
-        imagePath: question.question_owner_imagePath
-    };
-    const confirmation = confirm('Are you sure you want to delete the Post?');
-    if (confirmation) {
-        this.commintyService
-            .deleteCommunity(questionData)
-            .subscribe((response: any) => {
-                console.log('Response from server:', response);
-                this.showSpinner = false;
-                if (response && response.status) {
-                    // alert(response.message);
-                    this.toastr.success(response.message), 'Success', {
-                      positionClass: 'toast-right-center'
-                    };
-                    this.deletePoints(10);
-                    this.onSelect('myPosts');
-                } else {
-                    alert('An error occurred. Please try again later.');
-                }
-            });
+  updateSelectedJobTypes(event: Event, type: any) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    if (isChecked) {
+      this.questionType = type.label;
     } else {
+      this.questionType = '';
+    }
+
+    this.isMenuVisible = false;
+    this.onfilter();
+    this.getPostedJobs();
+  }
+
+
+  updateQuestion(): void {
+    if (!this.newQuestion.questionId || this.newQuestion.questionId === 0) {
+      this.toastr.error('Invalid question ID for update.');
+      return;
+    }
+    this.showSpinner = true;
+    const formData = new FormData();
+    formData.append('questionId', this.newQuestion.questionId.toString());
+    formData.append('questionText', this.newQuestion.questionText);
+    formData.append('emailId', this.newQuestion.emailId);
+    formData.append('userName', this.newQuestion.userName);
+    formData.append('questionType', this.newQuestion.questionType);
+
+    if (this.selectedFile) {
+      formData.append('file', this.selectedFile); // Attach the file if selected
+    }
+
+    console.log('Payload for update:', this.newQuestion); // Debug log
+
+    this.communityService.updateQuestion(formData).subscribe(
+      (response: any) => {
+        if (response.status) {
+          this.showSpinner = false;
+          this.toastr.success('Question updated successfully.');
+          this.getPostedJobs(); // Refresh the question list
+          this.newQuestion = { questionId: 0, emailId: this.emailId, userName: this.userName, questionText: '', questionType: '' }; // Reset the form
+          this.selectedFile = null; // Reset the file input
+        }
+      },
+      (error: any) => {
         this.showSpinner = false;
-    }
-}
-
-//Like and Dislikes operations
-performActions(question: any, type: string) {
-  this.showSpinner = true;
-  const data = {
-    "qId": question.qId,
-    "emailId": this.emailId,
-    "action": type
-  };
-  if (type === 'like' && this.likedQuestionIds.includes(question.qId)) {
-    this.showSpinner = false;
-    return;
-  }
-  let serviceCall;
-  serviceCall = this.commintyService.postFeedback(data);
-  serviceCall.subscribe((response:any) => {
-      console.log('Response from server:', response);
-      this.showContent(question);
-      if (type === 'like') {
-        question.isLiked = true;
-        this.insertPoints(10);
-        this.likedQuestionIds.push(question.qId);
+        this.toastr.error('Error updating question.');
+        console.error('Error updating question:', error);
       }
-      this.showSpinner = false;
-    },
-    (error:any) => {
-      this.handleError(error);
+    );
+  }
+
+
+
+  openDeleteModal(questionId: number) {
+    this.selectedQuestionId = questionId;
+  }
+
+
+  deleteQuestion() {
+    if (!this.selectedQuestionId) {
+      this.toastr.error('Invalid question ID for deletion.');
+      return;
     }
-  );
+
+    this.communityService.deleteQuestion(this.selectedQuestionId).subscribe(
+      (response: any) => {
+        if (response.status) {
+          this.toastr.success('Question deleted successfully.');
+          this.getPostedJobs(); // Refresh the question list
+        }
+      },
+      (error: any) => {
+        this.toastr.error('Error deleting question.');
+        console.error('Error deleting question:', error);
+      }
+    );
+  }
+
+
+
+  openEditModal(job: { questionId: number; questionText: string, questionType: string }) {
+    debugger;
+    this.isEditing = true;
+    this.newQuestion = {
+      questionId: job.questionId,
+      emailId: this.emailId,
+      userName: this.userName,
+      questionText: job.questionText,
+      questionType: job.questionType
+    };
+  }
+
+
+  // onScroll(event: any): void {
+  //   const element = event.target;
+  //   if (element.scrollLeft !== 0) {
+  //     return;
+  //   }
+  //   if (Math.ceil(element.scrollTop + element.clientHeight) >= element.scrollHeight) {
+  //     console.log('Scrolled to bottom'); 
+  //     this.offset++; 
+  //     this.getPostedJobs();
+  //   }
+  // }
+
+  toggleMenu(): void {
+    this.isMenuVisible = !this.isMenuVisible;
+  }
+
+  editProfile() {
+    window.open('/profile-dashboard/about', '_blank');
+  }
+
+  navigateHome() {
+    window.open('/profile-dashboard/feed', '_blank');
+  }
+
+  isChecked(questionType: { label: string }): boolean {
+    return this.questionType === questionType.label;
+  }
+
+  setSelectedJob(job: any): void {
+    this.selectedProduct = job; // Set the selected job
+  }
+
+  logOut() {
+    this.faService.clearSession()
+    this.router.navigate([''])
+  }
+
+  onReload() {
+    this.onfilter();
+    this.getPostedJobs();
+  }
+
+  openImageModal(imagePath: string): void {
+    this.selectedImagePath = imagePath;
+    const modalElement = document.getElementById('imageModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement); // Safe because we've ensured modalElement is not null
+      modal.show();
+    } else {
+      console.error('Modal element not found');
+    }
+  }
+
+
 }
 
-
-private handleError(error: any) {
-  console.error('Error:', error);
-  this.showSpinner = false;
-}
-
-
-  closePopup () {
-    // this.popup.closeDialog()
-    this.showUrlBox = false
-  }
-
-  get filteredquestions (): any[] {
-    if (!this.searchQuetion || this.searchQuetion.trim() === '') {
-      return this.mainQuestions // Return all questions directly
-    }
-    return this.mainQuestions.filter(
-      question =>
-        question.question
-          .toLowerCase()
-          .includes(this.searchQuetion.toLowerCase()) ||
-        (question.answer &&
-          question.answer
-            .toLowerCase()
-            .includes(this.searchQuetion.toLowerCase()))
-    )
-  }
-
-  onBack () {
-   window.location.reload();
-  }
-
-  formatDOB (dob: any) {
-    if (dob) {
-      return this.datePipe.transform(dob, 'dd MMMM yyyy')
-    }
-    return ''
-  }
-
-  
-  logOut () {
-    this.faService.clearSession();
-    this.router.navigate(['']);
-    window.location.reload();
-  }
-}

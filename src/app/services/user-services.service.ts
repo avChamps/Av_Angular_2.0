@@ -57,8 +57,8 @@ export class UserServicesService {
     return this.http.get<any>(`${this.url}/getProfile/${emailId}`)
   }
 
-  getSocialMediaProfile(emailId: string) {
-    return this.http.get<any>(`${this.url}/getSocialMediaProfile/${emailId}`)
+  getSocialMediaProfile(fullName: string) {
+    return this.http.get<any>(`${this.url}/getSocialMediaProfile/${fullName}`)
   }
 
   getProfileWeight(emailId: string) {

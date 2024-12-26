@@ -1,0 +1,18 @@
+.summary-card {
+    border-radius: 15px;
+    border: none;
+    min-width: 280px;
+    max-width: 280px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.summary-title {
+    font-size: 1rem;
+    text-align: center;
+    font-weight: bold;
+    color: #6c757d;
+}
+.summary-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #343a40;
+}

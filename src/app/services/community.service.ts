@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,56 +15,61 @@ export class CommunityService {
 
   constructor(private http: HttpClient) { }
 
-  private refreshData$ = new Subject<void>();
-
-  getCommunityQuestions(limit: number, offset: number, searchQuery: string) {
+  getCommunityData(limit: any, offset: number, searchQuery: string, location: string, questionType: string, postedBy: string,sortBy : any,email : any) {
     let queryParams = `limit=${limit}&offset=${offset}`;
+
     if (searchQuery) {
       queryParams += `&searchQuery=${searchQuery}`;
     }
-    return this.http.get<any>(`${this.url}/getCommunityQuestions?${queryParams}`);
-  }
 
-  getUploadedCommunityQuestions(emailId: string, limit: number, offset: number, searchQuery: string) {
-    let queryParams = `limit=${limit}&offset=${offset}&emailId=${emailId}`; // Add emailId parameter
-    if (searchQuery) {
-      queryParams += `&searchQuery=${searchQuery}`;
+    if (location) {
+      queryParams += `&location=${location}`;
     }
-    return this.http.get<any>(`${this.url}/getUploadedCommunityQuestions?${queryParams}`);
+
+    if (questionType) {
+      queryParams += `&questionType=${questionType}`;
+    }
+
+    if (postedBy) {
+      queryParams += `&postedBy=${postedBy}`;
+    }
+
+    if (email) {
+      queryParams += `&email=${email}`;
+    }
+
+    if(sortBy) {
+      queryParams += `&sortBy=${sortBy}`;
+    }
+
+    return this.http.get<any>(`${this.url}/getCommunityData?${queryParams}`);
   }
 
-
-  getMoreCommunityAnswers(qId: any) {
-    return this.http.get<any>(`${this.url}/getMoreCommunityAnswers/${qId}`);
+  getComments(questionId: number) {
+    return this.http.get(`${this.url}/getComments`, { params: { questionId } });
+  }
+  
+  addComment(comment: { questionId: number; emailId: string; userName: string; commentText: string }) {
+    return this.http.post(`${this.url}/addComment`, comment);
+  }
+  
+  addLike(payload: { questionId?: number; commentId?: number }) {
+    return this.http.post(`${this.url}/addLike`, payload);
+  }
+  
+  postQuestion(formData: FormData): Observable<any> {
+    return this.http.post(`${this.url}/postQuestion`, formData);
   }
 
-  getFeedback(qId: any) {
-    return this.http.get<any>(`${this.url}/getFeedback/${qId}`);
+  updateQuestion(formData: FormData): Observable<any> {
+    return this.http.put(`${this.url}/updateQuestion`, formData);
   }
-
-  getLikesInfo(emailId: any) {
-    return this.http.get<any>(`${this.url}/getLikesInfo/${emailId}`);
+  
+  
+  deleteQuestion(questionId: number) {
+    return this.http.delete(`${this.url}/deleteQuestion/${questionId}`);
   }
-
-  insertCommunity(data: FormData) {
-    return this.http.post(`${this.url}/insertCommunity`, data)
-  }
-
-  insertCommunityAnswer(data: FormData) {
-    return this.http.post(`${this.url}/insertCommunityAnswer`, data)
-  }
-
-
-  updateCommunity(data: FormData) {
-    return this.http.post(`${this.url}/updateCommunity`, data)
-  }
-
-  deleteCommunity(data: any) {
-    return this.http.post(`${this.url}/deleteCommunityRecords`, data)
-  }
-
-  postFeedback(data: any) {
-    return this.http.post(`${this.url}/feedback`, data);
-  }
-
+  
+  
 }
+

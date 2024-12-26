@@ -1,7 +1,11 @@
-html,
+ html,
 body {
-	/* font-family: 'Poppins', sans-serif !important; */
 	font-family: Arial, sans-serif;
+	background-color: #EEE !important;
+}
+
+.main-content {
+  height: 100vh;
 }
 
 :root {
@@ -10,7 +14,19 @@ body {
 	--secondary: #0ee951;
 	--tertiary: #00dabf;
 	--gradient: linear-gradient(to right, #0ee951, #00dabf);
-}
+} 
+
+/* :root {
+	--font-primary: 'Poppins', sans-serif;
+	--font-secondary: 'Roboto', sans-serif;
+	--heading-color: #007bff;
+	--paragraph-color: #495057;
+  }
+  
+  body, html {
+	font-family: var(--font-primary);
+  } */
+
 
 .theme_green {
 	color: #00B074;
@@ -160,9 +176,14 @@ button {
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.main-content {
-	background-color: #f8f9fa !important;
+
+.watt-width {
+	width: 100px;
 }
+
+/* .main-content {
+	background-color: #f8f9fa !important;
+} */
 
 @media (min-width: 576px) {
 	.borders-right {

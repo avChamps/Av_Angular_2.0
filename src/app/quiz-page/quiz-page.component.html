@@ -65,18 +65,22 @@
         <div class="bg-white rounded shadow-sm p-4 text-center">
           <div *ngIf="currentQuestion" class="text-start mb-4">
             <h5>Question {{ currentIndex + 1 }}:</h5>
-            <p>{{ currentQuestion.question_text }}</p>
+            <p class="fw-bold">{{ currentQuestion.question_text }}</p>
             <div *ngFor="let option of currentQuestion.options; let optIndex = index" class="form-check">
               <input class="form-check-input" type="radio" [name]="'question' + currentIndex" [id]="'option' + optIndex"
                 [value]="option" (change)="onAnswerSelected(option,optionLetters[optIndex])" />
-              <label class="form-check-label" [for]="'option' + optIndex">
+              <label class="form-check-label" [for]="'option' + optIndex" [ngClass]="{
+                  'text-success': selectedOption === option && isAnswerCorrect,
+                  'text-danger': selectedOption === option && !isAnswerCorrect
+                }">
                 {{ option }}
               </label>
             </div>
           </div>
+          <!-- <label class="fs-12">{{ totalRecords }} Question out of 5</label> -->
 
-          <div class="fs-1 text-danger mb-3" *ngIf="isCountdownActive">
-            <i class="bi bi-lock" style="font-size: 48px; color: red;"></i>
+          <div class="fs-1 mb-3" *ngIf="isCountdownActive">
+            <i class="bi bi-lock" style="font-size: 48px; color: gold"></i>
             <h4>5/5 Completed!</h4>
             <p>Questions unlock at</p>
             <h4 class="fw-bold">{{ hours }}h : {{ minutes }}m : {{ seconds }}s</h4>

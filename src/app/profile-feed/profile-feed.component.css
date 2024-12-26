@@ -104,6 +104,10 @@
   margin-bottom: 15px;
 }
 
+.border-box  {
+  border: 1px solid;
+}
+
 @media (min-width: 768px) {
     .center-flex {
       display: flex!important;

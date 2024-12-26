@@ -6,7 +6,7 @@
     </div>
 
 <div class="container mb-2">
-    <h4 class="mb-2">{{'Bandwidth Calculator' | translate}}</h4>
+    <h4 class="mb-2 text-center">{{'Bandwidth Calculator' | translate}}</h4>
     <div class="border p-3 rounded box-shadow">
         <div class="row">
             <!-- Resolution and pixel inputs -->
@@ -74,7 +74,7 @@
         </div>
 
         <!-- Result display -->
-        <div class="text-center mt-3" *ngIf="showResult">
+        <!-- <div class="text-center mt-3" *ngIf="showResult">
             <div class="row justify-content-center">
                 <div class="col-md-4 mb-2">
                     <div class="p-3 rounded text-center box-shadow border border-warning">
@@ -89,7 +89,25 @@
                     </div>
                 </div>
             </div>
+        </div> -->
+
+<!-- Summary Section -->
+<div class="d-flex justify-content-center align-items-center mt-4" *ngIf="showResult">
+    <div class="card summary-card p-3 w-100">
+        <h5 class="summary-title">Results</h5>
+        <div class="mb-2">
+            <span>{{'Bandwidth per Channel' | translate}}:</span>
+            <span class="summary-value">{{ resultPerChannel | number: '1.2-2' }} Gbps</span>
         </div>
+        <div class="mb-2">
+            <span>{{'Total signal Bandwidth' | translate}}:</span>
+            <span class="summary-value">{{ finalResult | number: '1.2-2' }} Gbps</span>
+        </div>
+    </div>
+</div>
+
+
+
     </div>
 
     <!-- Explanation and formula section -->
