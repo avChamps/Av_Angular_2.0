@@ -1,22 +1,34 @@
-
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-</head>
-
-<body>
-<div class="signup">
-	<div class="signup-connect">
-	  <h2 class="text-center">Sign in to your Account</h2>
-	  <a (click)="onClick('google')" class="btn btn-social btn-microsoft" style="background: #dd4b39;border: 1px solid;color: white; border: 1px solid;"> <img src="assets/images/common_Images/google-icon.png" alt="Microsoft Logo" class="microsoft-icon"> Sign in with Google</a>
-	  <a (click)="onClick('linkedIn')" class="btn btn-social btn-microsoft" style="background: #007bb5;border: 1px solid;color: white; border: 1px solid;"><img src="assets/images/common_Images/linkedIn-Icon.png" alt="Microsoft Logo" class="microsoft-icon"> Sign in with Linkedin</a>
-	  <a (click)="onClick('microsoft')" style="background: black;border: 1px solid;color: white; border: 1px solid;" class="btn btn-social btn-microsoft">
-        <img src="assets/images/common_Images/window_Icon.png" alt="Microsoft Logo" class="microsoft-icon"> Sign in with Microsoft
-    </a>
-	<p>By logging in,you agree to our <span>terms of use</span> and <span>Privacy policy</span></p>
+<div class="container d-flex justify-content-center align-items-center vh-100">
+	<div class="row justify-content-center">
+		<div class="col-md-10 col-sm-12">
+			<div class="box-shadow p-4">
+				<h3 class="text-center">Sign in to your Account</h3>
+				<div class="text-center mt-4">
+					<a (click)="onClick('google')"
+						class="btn btn-block d-flex align-items-center justify-content-center mb-3"
+						style="background: #dd4b39; color: white; border: 1px solid;">
+						<img src="assets/images/common_Images/google-icon.png" alt="Google Icon" class="me-2"
+							style="width: 20px; height: 20px;" /> Sign in with Google
+					</a>
+					<a (click)="onClick('linkedIn')"
+						class="btn btn-block d-flex align-items-center justify-content-center mb-3"
+						style="background: #007bb5; color: white; border: 1px solid;">
+						<img src="assets/images/common_Images/linkedIn-Icon.png" alt="LinkedIn Icon" class="me-2"
+							style="width: 20px; height: 20px;" /> Sign in with LinkedIn
+					</a>
+					<a (click)="onClick('microsoft')"
+						class="btn btn-block d-flex align-items-center justify-content-center"
+						style="background: black; color: white; border: 1px solid;">
+						<img src="assets/images/common_Images/window_Icon.png" alt="Microsoft Icon" class="me-2"
+							style="width: 20px; height: 20px;" /> Sign in with Microsoft
+					</a>
+				</div>
+				<div class="text-center mt-3">
+					<p class="mb-0" style="font-size: 14px;">By logging in, you agree to our <a href="#"
+							style="color: #007bff;">terms of use</a> and <a href="#" style="color: #007bff;">Privacy
+							policy</a>.</p>
+				</div>
+			</div>
+		</div>
 	</div>
-  </div>
-</body>
-</html>
+</div>

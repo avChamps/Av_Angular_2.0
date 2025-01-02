@@ -31,6 +31,8 @@ import { ProductListComponent } from './product-list/product-list.component';
 import { QuizPageComponent } from './quiz-page/quiz-page.component';
 import { MaterialGatepassComponent } from './material-gatepass/material-gatepass.component';
 import { RoomConfiguratorComponent } from './room-configurator/room-configurator.component';
+import { ProjectTrackerComponent } from './project-tracker/project-tracker.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 
 const appRoutes: Routes = [
     { path: '', component: HeaderComponent },
@@ -60,6 +62,7 @@ const appRoutes: Routes = [
             { path: 'tools/avRack', component: AvRackComponent, canActivate: [AuthGuardService] },
             { path: 'tools/budgetCalculator', component: BudgetCalculatorComponent, canActivate: [AuthGuardService] },
             { path: 'tools/bandwithCalculator', component: BandwidthCalculatorComponent, canActivate: [AuthGuardService] },
+            { path: 'tools/projectTracker', component: ProjectTrackerComponent, canActivate: [AuthGuardService] },
             { path: 'tools/projectThrowDistance', component: ThrowDistanceComponent, canActivate: [AuthGuardService] },
             { path: 'tools/DiagonalScreenSize', component : DiagonalScreenComponent, canActivate: [AuthGuardService] },
             { path: 'tools/aspectCalculator', component : AspectRatioComponent, canActivate: [AuthGuardService] },

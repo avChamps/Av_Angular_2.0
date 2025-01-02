@@ -34,13 +34,13 @@ export class CommunityComponent implements OnInit {
   postedBy: string = '';
   selectedLocation: string = '';
   sortBy: string = 'newest'
-  emailId: string = 'disendra889@gmail.com';
-  userName: string = 'Disendra';
+  // emailId: string = 'disendra889@gmail.com';
+  // userName: string = 'Disendra';
   isEditing: boolean = false;
   selectedFile: File | null = null;
   selectedImagePath: string | null = null;
-  //  emailId : any;
-  //  userName : any;
+  emailId: string = ''; // Initialize as null
+  userName: string = ''; // Initialize as null
   profileImg: any;
   profileData: any = [];
   postedJobs: any = [];
@@ -61,8 +61,8 @@ export class CommunityComponent implements OnInit {
     questionType: string; // Add questionType property
   } = {
       questionId: 0, // Default to 0 when no question is selected
-      emailId: this.emailId,
-      userName: this.userName,
+      emailId: this.emailId || '',
+      userName: this.userName || '',
       questionText: '',
       questionType: '', // Default to an empty string
     };
@@ -101,8 +101,8 @@ export class CommunityComponent implements OnInit {
 
   ngOnInit(): void {
     this.isMobileView = window.innerWidth < 768;
-    //  this.emailId = localStorage.getItem('emailId')
-    //  this.userName = localStorage.getItem('userName');
+    this.emailId = localStorage.getItem('emailId') || ''
+    this.userName = localStorage.getItem('userName') || '';
     this.getProfileImage();
     this.getPostedJobs();
   }
@@ -227,6 +227,7 @@ export class CommunityComponent implements OnInit {
         this.showSpinner = false;
       }
     );
+    this.showSpinner = false;
   }
 
 
@@ -300,6 +301,7 @@ export class CommunityComponent implements OnInit {
           this.profileImg = '../assets/img/blank-user-directory.png';
         }
       })
+      this.showSpinner = false;
   }
 
 
@@ -313,6 +315,7 @@ export class CommunityComponent implements OnInit {
         this.totalRecords = response.totalRecords;
         this.postedJobs = response.records;
       })
+      this.showSpinner = false;
   }
 
   getComments(questionId: number) {
@@ -330,6 +333,7 @@ export class CommunityComponent implements OnInit {
         console.error('Error fetching comments:', error);
       }
     );
+    this.showSpinner = false;
   }
 
 
@@ -383,6 +387,7 @@ export class CommunityComponent implements OnInit {
         console.error('Error updating question:', error);
       }
     );
+    this.showSpinner = false;
   }
 
 

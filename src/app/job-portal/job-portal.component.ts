@@ -41,7 +41,7 @@ export class JobPortalComponent implements OnInit {
   buttonType: string = 'Apply';
   msgType: string = 'Post Job';
   uniqueLocations: any;
-  @ViewChild('cancelPopup') cancelPopup!: ElementRef<HTMLButtonElement>;
+  @ViewChild('cancelPopup', { static: false }) cancelPopup!: ElementRef;
   @ViewChild('jobPopup') jobPopup!: ElementRef<HTMLButtonElement>;
   @ViewChild('jobDetais') jobDetailsModal!: ElementRef;
 
@@ -75,13 +75,13 @@ export class JobPortalComponent implements OnInit {
 
   constructor(private jobPortaService: UserServicesService, private faService: FaServiceService, private cdr: ChangeDetectorRef, private userService: UserServicesService,
     private router: Router, private toastr: ToastrService, private fb: FormBuilder) {
-    this.generateForm();
   }
 
   ngOnInit(): void {
     this.isMobileView = window.innerWidth < 768;
     this.emailId = localStorage.getItem('emailId')
     this.userName = localStorage.getItem('userName');
+    this.generateForm();
     this.getProfileImage();
     this.getPostedJobs();
   }
@@ -108,6 +108,7 @@ export class JobPortalComponent implements OnInit {
 
   onJobApply(): void {
     this.isMenuVisible = false;
+    debugger;
     if (this.jobForm.invalid) {
       this.jobForm.markAllAsTouched();
       return;
@@ -119,20 +120,19 @@ export class JobPortalComponent implements OnInit {
       this.userService.editJob(this.jobForm.value)
         .subscribe((response: any) => {
           console.log('Job updated:', response);
-          this.cancelPopup.nativeElement.click();
           this.totalRecords = 0;
           this.postedJobs = [];
           this.onReload();
           this.jobForm.reset();
           this.getPostedJobs();
           this.showSpinner = false;
+          window.location.reload()
         });
     } else {
       // Add new job logic
       this.userService.submitApplication(this.jobForm.value)
         .subscribe((response: any) => {
           console.log('Job added:', response);
-          this.cancelPopup.nativeElement.click();
           this.isDisplayCoins = true;
           this.displayCoins = 50;
           this.totalRecords = 0;
@@ -141,7 +141,9 @@ export class JobPortalComponent implements OnInit {
           this.getPostedJobs();
           this.jobForm.reset();
           this.showSpinner = false;
+          window.location.reload()
         });
+        this.showSpinner = false;
     }
   }
 

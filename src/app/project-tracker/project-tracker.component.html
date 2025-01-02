@@ -1,0 +1,96 @@
+<section id="counts" class="counts" data-aos="fade-right">
+    <div class="me-2">
+        <div class="cur_pointer rounded-circle shadow-sm p-2 back-button" (click)="onBack()">
+            <i class="fas fa-arrow-left"></i>
+        </div>
+    </div>
+
+    <h4 class="text-center mb-4">Project Tracker with Graphical Overview</h4>
+    <!-- Graphical Overview Section -->
+    <div class="card p-4 mb-4">
+        <h5>Graphical Overview</h5>
+        <div class="row">
+            <div class="col-md-6">
+                <h6 class="text-center">Projects Overview</h6>
+                <canvas id="projectsChart"></canvas>
+            </div>
+            <div class="col-md-6">
+                <h6 class="text-center">Subtasks Overview</h6>
+                <canvas id="subtasksChart" style="width: 300px; height: 300px;"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Project Form -->
+    <div class="card p-4 mb-4">
+        <h6>Add New Project</h6>
+        <form (ngSubmit)="addProject()">
+            <div class="mb-3">
+                <label for="projectName" class="form-label">Project Name</label>
+                <input type="text" class="form-control" [(ngModel)]="projectName" name="projectName" required>
+            </div>
+            <div class="mb-3">
+                <label for="projectStart" class="form-label">Start Date</label>
+                <input type="date" class="form-control" [(ngModel)]="projectStart" name="projectStart" required>
+            </div>
+            <div class="mb-3">
+                <label for="projectEnd" class="form-label">End Date</label>
+                <input type="date" class="form-control" [(ngModel)]="projectEnd" name="projectEnd" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Add Project</button>
+        </form>
+    </div>
+
+    <!-- Project List -->
+    <div *ngIf="projects && projects.length > 0;">
+        <h6 class="mb-4">Projects</h6>
+        <div *ngFor="let project of projects" class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5>{{ project.name }}</h5>
+                <div>
+                    <small class="timeline">Start: {{ project.startDate }}, End: {{ project.endDate }}</small>
+                    <span>{{ project.progress }}% Completed</span>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="progress mb-3">
+                    <div class="progress-bar bg-success" [style.width.%]="project.progress"></div>
+                </div>
+                <form (ngSubmit)="addSubtask(project)">
+                    <div class="row g-2">
+                        <div class="col-4">
+                            <input type="text" class="form-control" [(ngModel)]="project.newSubtaskName"
+                                name="subtaskName" placeholder="Subtask Name" required>
+                        </div>
+                        <div class="col-3">
+                            <input type="date" class="form-control" [(ngModel)]="project.newSubtaskStart"
+                                name="subtaskStart" required>
+                        </div>
+                        <div class="col-3">
+                            <input type="date" class="form-control" [(ngModel)]="project.newSubtaskDue"
+                                name="subtaskDue" required>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-secondary">Add Subtask</button>
+                        </div>
+                    </div>
+                </form>
+                <ul class="list-group mt-3">
+                    <li *ngFor="let subtask of project.subtasks"
+                        class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>{{ subtask.name }}</strong><br>
+                            <small class="timeline">Start: {{ subtask.startDate }}, Due: {{ subtask.dueDate }}</small>
+                        </div>
+                        <select class="form-select" [(ngModel)]="subtask.status" name="subtaskStatus"
+                            (change)="updateProgress(project)">
+                            <option value="Not Started">Not Started</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>

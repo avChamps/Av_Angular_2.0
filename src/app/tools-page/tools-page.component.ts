@@ -28,10 +28,12 @@ export class ToolsPageComponent {
     { icon: '🔊', color: 'text-primary', title: 'Audio Delay Calculator', value: 'audioDelayCalculator' },
     { icon: '🔥', color: 'text-primary', title: 'BTU Calculator', value: 'btuCalculator' },
     { icon: '⚡', color: 'text-primary', title: 'Power Calculator', value: 'powerCalculator' },
+    // { icon: '⚡', color: 'text-primary', title: 'Project Tracker', value: 'projectTracker' },
     // { icon: '⚡', color: 'text-primary', title: 'Material Gatepass', value: 'materialGatepass' },
     // { icon: '⚡', color: 'text-primary', title: 'Room Configurator', value: 'roomConfigurator' },
     { icon: '💡', color: 'text-primary', title: 'Quiz', value: 'quiz' },
     // { icon: '💡', color: 'text-primary', title: 'Coming Soon' },
+    { icon: 'assets/images/common_Images/mca.png', color: '', title: 'MCA', value: 'mca', isImage: true },
     { icon: 'assets/images/common_Images/hdbt_img.png', color: '', title: 'Certified Product List', value: 'hdBase', isImage: true },
     { icon: 'assets/images/common_Images/AVIXA_LogoMark_Color_RGB.png', color: '', title: 'Certified List', value: 'certifiedList', isImage: true },
     { icon: 'assets/images/common_Images/dante_product_Img.png', color: '', title: 'Dante Enabled Products', value: 'danteProducts', isImage: true }
@@ -69,6 +71,8 @@ export class ToolsPageComponent {
       this.router.navigate(['/profile-dashboard/tools/quiz-page'])
     } else if (value === 'materialGatepass') {
       this.router.navigate(['/profile-dashboard/tools/material-gatepass'])
+    } else if (value === 'projectTracker') {
+      this.router.navigate(['/profile-dashboard/tools/projectTracker']);
     } else if (value === 'roomConfigurator') {
       this.router.navigate(['/profile-dashboard/tools/room-configurator'])
     } else if (value === 'hdBase') {
@@ -77,6 +81,8 @@ export class ToolsPageComponent {
       window.open('https://store.avixa.org/s/searchdirectory?language=en_US&id=a28f2000003OG86&_gl=1*4tp11j*_gcl_au*ODc0MDkyMjg2LjE3Mjg3MDkwODU.*_ga*MTQ2MjE2NDg2MS4xNzI4NzA5MDg0*_ga_2L7B5X2CNV*MTcyODc0MTA2OS40LjEuMTcyODc0MTA2OS42MC4wLjEwMjY4NTAzMDc.');
     } else if (value === 'danteProducts') {
       window.open('https://www.getdante.com/products/dante-enabled/');
+    } else if (value === 'mca') {
+      window.open('https://www.mca.gov.in/content/mca/global/en/mca/fo-llp-services/company-llp-name-search.html')
     }
   }
 }

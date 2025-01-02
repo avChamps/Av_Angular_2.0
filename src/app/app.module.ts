@@ -52,6 +52,8 @@ import { QuizPageComponent } from './quiz-page/quiz-page.component';
 import { SafeFlagPipe } from './safe-flag.pipe';
 import { MaterialGatepassComponent } from './material-gatepass/material-gatepass.component';
 import { RoomConfiguratorComponent } from './room-configurator/room-configurator.component';
+import { ProjectTrackerComponent } from './project-tracker/project-tracker.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -96,7 +98,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     QuizPageComponent,
     SafeFlagPipe,
     MaterialGatepassComponent,
-    RoomConfiguratorComponent
+    RoomConfiguratorComponent,
+    ProjectTrackerComponent,
+    PrivacyPolicyComponent
   ],
   imports: [
     BrowserModule,

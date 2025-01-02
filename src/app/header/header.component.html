@@ -1,303 +1,356 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AV Champs - Community Portal</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
+
 <body>
-    <!-- Navigation -->
-    <nav id="navbar" class="navbar navbar-expand-lg fixed-top navbar-dark" aria-label="Main navigation">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 fixed-top">
         <div class="container">
-            <a class="navbar-brand logo-image" href="index.html"><img src="./assets/images/logo/av_champs_logo.png" alt="alternative"></a>
-            <a class="navbar-brand logo-text" href="index.html"></a>
-            <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
+            <!-- ./assets/images/av_logo.jpeg -->
+            <a class="navbar-brand" href="#" (click)="onPrivacyPolicy()">
+                <img src="./assets/images/logo/avchamps-logo.png" alt="AV Champs Logo" class="img-fluid av-logo">
+            </a>
+            <button class="navbar-toggler" type="button" (click)="toggleNavbar()"
+                [attr.aria-expanded]="isNavbarCollapsed ? 'false' : 'true'" aria-controls="navbarNav"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
-            <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault" >
-                <ul class="navbar-nav ms-auto navbar-nav-scroll">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#header" >Home</a>
+            <div class="collapse navbar-collapse" [ngClass]="{ 'show': !isNavbarCollapsed }" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" (click)="scrollToTop()">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" routerLink="/login-page/jobs-portal">Careers</a></li>
+                    <li class="nav-item"><a class="nav-link" routerLink="/login-page/ekart-page">Kart</a></li>
+                    <li class="nav-item"><a class="nav-link" routerLink="/login-page/product-list">Review</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" (click)="onLogin('jobPortal')">Careers</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" (click)="onLogin('ekart')">Kart</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" (click)="onLogin('productReview')">Product Review</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" (click)="onLogin('community')">Community</a>
-                    </li>
-                    <!-- <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false" href="#">Drop</a>
-                        
-                        <ul class="dropdown-menu" aria-labelledby="dropdown01">
-                            <li><a class="dropdown-item" href="article.html">Article Details</a></li>
-                            <li><div class="dropdown-divider"></div></li>
-                            <li><a class="dropdown-item" href="terms.html">Terms Conditions</a></li>
-                            <li><div class="dropdown-divider"></div></li>
-                            <li><a class="dropdown-item" href="privacy.html">Privacy Policy</a></li>
-                        </ul>
-                    </li> -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="#contact">Contact</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" routerLink="/login-page/community">Community</a></li>
+                    <li class="nav-item"><a class="nav-link" routerLink="/contact">Contact</a></li>
+                    <li class="nav-item"><a class="btn btn-primary ms-2"
+                            routerLink="/login-page/profile-dashboard">SignUp/Login</a></li>
                 </ul>
             </div>
         </div>
     </nav>
-    <!-- end of navigation -->
 
-
-    <!-- Home -->
-    <section class="home py-5 d-flex align-items-center" id="header" data-aos="fade-right"> 
-        <div class="container text-light py-5"  data-aos="fade-right"> 
-            <h1 class="headline">Best <span class="home_text">AV CHAMPS</span><br>Community Portal For You</h1>
-            <p class="para para-light py-3">In today’s fast-paced, technology-driven world, the AV(Audio-Visual) community stands at the forefront of innovation, creativity, and connection. This vibrant community unites professionals, enthusiasts, and learners with a common passion for AV(Audio-Visual)technology.</p>
-            <div class="row">
-                <div *ngFor="let option of headerOptions" class="col-12 col-sm-6 col-md-2 mb-3">
-                <div class="d-flex align-items-center cur_pointer"  (click)=onNavigate(option.value)>
-                    <p class="p-2"><i [class]="option.icon"></i></p>
-                    <p>{{ option.label }}</p>
+   <ng-container *ngIf="isHomePage">
+    <!-- Hero Section -->
+    <section class="py-5 bg-white">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold mb-4">Connect, Collaborate, and Elevate in the AV World</h1>
+                    <p class="mb-4">AV Champs is a vibrant platform uniting Audio-Visual professionals, enthusiasts, and
+                        learners. From networking and knowledge-sharing to exploring jobs, trading AV equipment, and
+                        accessing tools, we empower the AV community to innovate, connect, and excel in the
+                        ever-evolving world of technology.
+                    </p>
+                    <button class="btn-custom" (click)="navigateTo('/login-page/profile-dashboard')"> <i
+                            class="fa fa-star"></i> Get Started </button>
                 </div>
-                </div>
-            </div>
-
-            <div class="my-3">
-                <a class="btn" (click)="onLogin('profile')">Get Started</a>
-            </div>
-        </div> <!-- end of container -->
-    </section> <!-- end of home -->
-
-    <!-- Services -->
-    <!-- <section class="services d-flex align-items-center py-5" id="services">
-        <div class="container text-light">
-            <div class="text-center pb-4" >
-                <p>OUR SERVICES</p> 
-                <h2 class="py-2">Explore unlimited possibilities</h2>
-                <p class="para-light">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae asperiores, quia accusantium sunt corporis optio recusandae? Nostrum libero pariatur cumque, ipsa dolores voluptatibus voluptate alias sit fuga. Itaque, ea quo.</p>
-            </div>
-            <div class="row gy-4 py-2" data-aos="zoom-in">
-                <div class="col-lg-4">
-                    <div class="card bg-transparent">
-                        <i class="fas fa-home fa-2x"></i>
-                        <h4 class="py-2">HOME BROADBAND</h4>
-                        <p class="para-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam odit consequatur doloribus natus in suscipit!</p>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="card bg-transparent">
-                        <i class="fas fa-wifi fa-2x"></i>
-                        <h4 class="py-2"> HOME WIFI</h4>
-                        <p class="para-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam odit consequatur doloribus natus in suscipit!</p>
-                    </div>                    
-                </div>
-                <div class="col-lg-4">
-                    <div class="card bg-transparent">
-                        <i class="fas fa-phone fa-2x"></i>
-                        <h4 class="py-2">HOME BROADBAND</h4>
-                        <p class="para-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam odit consequatur doloribus natus in suscipit!</p>
-                    </div>                    
-                </div>
-                <div class="col-lg-4">
-                    <div class="card bg-transparent">
-                        <i class="fas fa-mobile fa-2x"></i>
-                        <h4 class="py-2">MOBILE CONNECTION</h4>
-                        <p class="para-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam odit consequatur doloribus natus in suscipit!</p>
-                    </div>                    
-                </div>
-                <div class="col-lg-4">
-                    <div class="card bg-transparent">
-                        <i class="fas fa-home fa-2x"></i>
-                        <h4 class="py-2">SECURITY</h4>
-                        <p class="para-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam odit consequatur doloribus natus in suscipit!</p>
-                    </div>                    
-                </div>
-                <div class="col-lg-4">
-                    <div class="card bg-transparent">
-                        <i class="fas fa-tv fa-2x"></i>
-                        <h4 class="py-2">TV SETUP BOX</h4>
-                        <p class="para-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam odit consequatur doloribus natus in suscipit!</p>
-                    </div>                    
+                <div class="col-lg-6">
+                    <img src="./assets/images/hero-img.png" alt="Community Illustration" class="img-fluid">
                 </div>
             </div>
         </div>
-    </section> -->
+    </section>
 
-    <!-- Testimonials -->
-    <div class="slider-1 testimonial text-light d-flex align-items-center">
+    <!-- Features Section -->
+    <section class="py-5 bg-light">
         <div class="container">
-            <div class="row">
-                <div class="text-center w-lg-75 m-auto pb-4">
-                    <p>TESTIMONIALS</p>
-                    <h2 class="py-2">What Our Community Says</h2>
-                    <p class="para-light">Check out these testimonials to see how AV CHAMPS can advance your career. Excited to achieve similar success? Sign up today to begin!</p>
+            <div class="row justify-content-center text-center g-4">
+                <div class="col-md-2 col-sm-4" *ngFor="let card of featureCards" (click)="navigateTo(card.value)">
+                    <div class="feature-card">
+                        <div class="icon-circle-gradient" [style]="card.gradient">
+                            <i [class]="card.icon"></i>
+                        </div>
+                        <h6 class="mt-3">{{ card.title }}</h6>
+                    </div>
                 </div>
-            </div> <!-- end of row -->
-            <div class="row p-2" data-aos="zoom-in">
-                <div class="col-lg-12">
+            </div>
 
-                    <!-- testimonial-slider.component.html -->
-                <div class="slider-container">
-                    <div class="swiper-container card-slider">
-                        <div class="swiper-wrapper">
-                            <div *ngFor="let testimonial of testimonials" class="swiper-slide">
-                                <div class="testimonial-card p-4">
-                                    <p>{{ testimonial.content }}</p>
-                                    <div class="d-flex pt-4">
-                                        <div>
-                                            <img class="avatar" [src]="testimonial.imageUrl" alt="testimonial">
-                                        </div>
-                                        <div class="ms-3 pt-2">
-                                            <h6>{{ testimonial.name }}</h6>
-                                            <p>{{ testimonial.position }}</p>
-                                        </div>
+        </div>
+    </section>
+
+
+    <!-- Testimonials Section -->
+    <section class="py-5">
+        <div class="container">
+            <!-- Section Header -->
+            <div class="text-center mb-5">
+                <h2 class="fw-bold mb-3">What Our Community Says</h2>
+                <p class="text-muted">Check out these testimonials to see how AV CHAMPS can advance your career. Excited
+                    to achieve similar success? Sign up today to begin!</p>
+            </div>
+
+            <!-- Testimonials Carousel -->
+            <div class="position-relative testimonials-wrapper">
+                <!-- Carousel Container -->
+                <div class="testimonials-carousel" [style.transform]="carouselTransform">
+                    <div *ngFor="let testimonial of testimonials" class="testimonial-item">
+                        <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
+                            <div class="card-body d-flex flex-column">
+                                <p class="mb-4">{{ testimonial.message }}</p>
+                                <div class="mb-3 d-flex justify-content-center align-items-center star-container">
+                                    <span *ngFor="let star of [].constructor(testimonial.stars)" class="star-icon">
+                                        <i class="fas fa-star"></i>
+                                    </span>
+                                </div>
+
+                                <div class="mt-auto d-flex align-items-center" *ngIf="testimonial.author">
+                                    <img [src]="testimonial.image" class="rounded-circle custom-Img me-3"
+                                        alt="{{ testimonial.author }}">
+                                    <div>
+                                        <h6 class="mb-0 fw-bold">{{ testimonial.author }}</h6>
+                                        <small class="text-muted">{{ testimonial.role }}</small>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
                     </div>
                 </div>
 
-
-                </div> <!-- end of col -->
-            </div> <!-- end of row -->
-        </div> <!-- end of container -->
-    </div> <!-- end of testimonials -->
-
-    <div>
-        <app-contact></app-contact>
-    </div>
-
-    <!-- Footer -->
-    <section class="footer text-light">
-        <div class="container">
-            <div class="row" data-aos="fade-right">
-                <div class="col-lg-3 py-4 py-md-5">
-                    <div class="d-flex align-items-center">
-                        <h4 class="">AV CHAMPS</h4>
-                    </div>
-                    <p class="py-3 para-light">{{footertxt }}</p>
-                    <div class="d-flex">
-                        <div *ngFor="let icon of socialMediaIcons" class="me-3">
-                            <a [href]="icon.url" target="_blank" rel="noopener noreferrer">
-                                <i [ngClass]="icon.iconClass" class="fa-2x py-2"></i>
-                            </a>
-                        </div>
-                    </div>                    
-                </div> <!-- end of col -->
-
-                <div class="col-lg-3 py-4 py-md-5">
-                    <h4 class="py-2">Quick Links</h4>
-                    <div>
-                        <div *ngFor="let link of homeLinks" class="d-flex align-items-center py-2">
-                            <i class="fas fa-caret-right"></i>
-                            <a [href]="link.url"><p class="ms-3">{{ link.label }}</p></a>
-                        </div>
-                    </div>
-                </div>                
-
-                <div class="col-lg-3 py-4 py-md-5">
-                    <h4 class="py-2">Useful Links</h4>
-                    <div>
-                        <div *ngFor="let link of usefulLinks" class="d-flex align-items-center py-2">
-                            <i class="fas fa-caret-right"></i>
-                            <a [href]="link.url"><p class="ms-3">{{ link.label }}</p></a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-3 py-4 py-md-5">
-                    <div class="d-flex align-items-center">
-                        <h4>Newsletter</h4>
-                    </div>
-                    <p class="py-3 para-light">
-                        Yes, I’d like to subscribe to newsletter and other email marketing communications.
-                    </p>
-                    <div class="d-flex align-items-center">
-                        <div class="input-group">
-                            <input 
-                                type="email" 
-                                class="form-control p-2" 
-                                placeholder="Enter Email" 
-                                [(ngModel)]="newsLetterEmail" 
-                                #emailInput="ngModel"
-                                required
-                                email
-                                aria-label="Recipient's email">
-                            <button 
-                                class="btn-secondary text-light" 
-                                (click)="NewsLetterSubscribe()" 
-                                [disabled]="emailInput.invalid">
-                                <i class="fas fa-envelope fa-lg"></i>
-                            </button>       
-                        </div>
-                    </div>
-                    <div *ngIf="emailInput.invalid && emailInput.touched" class="text-danger">
-                        <span>Enter a valid email.</span>
-                    </div>
-                </div>
-                
-            </div> 
-        </div> 
+                <!-- Navigation Arrows -->
+                <div class="d-flex justify-content-center gap-2 mt-4">
+                    <button class="btn btn-outline-primary rounded-circle d-flex justify-content-center align-items-center" (click)="prevSlide()">
+                      <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <button class="btn btn-outline-primary rounded-circle d-flex justify-content-center align-items-center" (click)="nextSlide()">
+                      <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+                  
+            </div>
+        </div>
     </section>
 
 
-   <div class="modal fade custom-modal" id="applyJob" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
+    <!-- Contact Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-4">Contact</h2>
+            <p class="text-center mb-5">We'd love to hear from you! Whether you have a question, feedback, or need
+                support, please fill out the form below, and we'll get back to you as soon as possible.</p>
 
-            <div class="modal-header">
-                <h5 class="modal-title" id="applyModalLabel">Validate Captcha</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="container">
+                        <div class="contact-info">
+                            <!-- Address -->
+                            <div class="contact-item d-flex align-items-center mb-4">
+                                <div class="icon-circle bg-primary d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-map-marker-alt text-white fs-5"></i>
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="fw-bold mb-1">Address</h6>
+                                    <p class="text-muted mb-0">Anagha, H No- 362, 12th Main Road, Sector 5, HSR Layout,
+                                        Bangalore-560102</p>
+                                </div>
+                            </div>
+
+                            <!-- Call Us -->
+                            <div class="contact-item d-flex align-items-center mb-4">
+                                <div class="icon-circle bg-primary d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-phone text-white fs-5"></i>
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="fw-bold mb-1">Call Us</h6>
+                                    <p class="text-muted mb-0">+91 9966146147</p>
+                                </div>
+                            </div>
+
+                            <!-- Email Us -->
+                            <div class="contact-item d-flex align-items-center">
+                                <div class="icon-circle bg-primary d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-envelope text-white fs-5"></i>
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="fw-bold mb-1">Email Us</h6>
+                                    <p class="text-muted mb-0">hello@avchamps.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+                    <form [formGroup]="contactForm" (ngSubmit)="submitForm()">
+                        <div class="row">
+                            <!-- Name Field -->
+                            <div class="col-md-6 mb-3">
+                                <input type="text" class="form-control" placeholder="Your Name"
+                                    formControlName="personName" />
+                                <div *ngIf="submitted && contactForm.get('personName')?.invalid"
+                                    class="text-danger mt-1">
+                                    <small *ngIf="contactForm.get('personName')?.errors?.['required']">Name is
+                                        required.</small>
+                                    <small *ngIf="contactForm.get('personName')?.errors?.['minlength']">Name must be at
+                                        least 3 characters long.</small>
+                                </div>
+                            </div>
+
+                            <!-- Phone Field -->
+                            <div class="col-md-6 mb-3">
+                                <input type="tel" class="form-control" placeholder="Phone Number"
+                                    formControlName="mobileNumber" />
+                                <div *ngIf="submitted && contactForm.get('mobileNumber')?.invalid"
+                                    class="text-danger mt-1">
+                                    <small *ngIf="contactForm.get('mobileNumber')?.errors?.['required']">Phone number is
+                                        required.</small>
+                                    <small *ngIf="contactForm.get('mobileNumber')?.errors?.['pattern']">Enter a valid
+                                        10-digit phone number.</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Email Field -->
+                        <div class="mb-3">
+                            <input type="email" class="form-control" placeholder="Email ID" formControlName="emailId" />
+                            <div *ngIf="submitted && contactForm.get('emailId')?.invalid" class="text-danger mt-1">
+                                <small *ngIf="contactForm.get('emailId')?.errors?.['required']">Email is
+                                    required.</small>
+                                <small *ngIf="contactForm.get('emailId')?.errors?.['email']">Enter a valid email
+                                    address.</small>
+                            </div>
+                        </div>
+
+                        <!-- Message Field -->
+                        <div class="mb-3">
+                            <textarea class="form-control" rows="5" placeholder="Message"
+                                formControlName="message"></textarea>
+                            <div *ngIf="submitted && contactForm.get('message')?.invalid" class="text-danger mt-1">
+                                <small *ngIf="contactForm.get('message')?.errors?.['required']">Message is
+                                    required.</small>
+                                <small *ngIf="contactForm.get('message')?.errors?.['minlength']">Message must be at
+                                    least 10 characters long.</small>
+                            </div>
+                        </div>
+
+                        <!-- reCAPTCHA -->
+                        <div class="mb-3">
+                            <re-captcha (resolved)="resolved($event)" siteKey="6Lc6f-opAAAAAB4fRocBPRZIZwMSFUrbVjXry4at"
+                                formControlName="recaptcha" class="d-block"></re-captcha>
+                            <div *ngIf="submitted && !captchaResolved" class="text-danger mt-2">
+                                <small>Captcha verification is required.</small>
+                            </div>
+                        </div>
+
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-primary w-100">Send Message</button>
+                    </form>
+
+                </div>
             </div>
-            <div class="modal-body">
-                <re-captcha (resolved)="resolved($event)" siteKey="6Lc6f-opAAAAAB4fRocBPRZIZwMSFUrbVjXry4at" formControlName="recaptcha"></re-captcha>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <img src="./assets/images/logo/avchamps-logo-white.jpg" alt="AV Champs Logo" class="img-fluid av-logo mb-3">
+                    <p>Anagha, H No- 362, 12th Main Road, Sector 5, HSR Layout, Bangalore-560102</p>
+                    <p class="fs-16 fw-bold">Follow Us : </p>
+                    <div class="social-icons d-flex gap-3">
+                        <div *ngFor="let social of socialMediaLinks" class="icon-container"
+                            [attr.title]="social.platform">
+                            <a [href]="social.url" target="_blank" class="social-link">
+                                <i [class]="social.iconClass"></i>
+                            </a>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h5>EXPLORE</h5>
+                    <ul class="list-unstyled">
+                        <li *ngFor="let item of featureCards" (click)="navigateTo(item.value)"><a
+                                class="text-white text-decoration-none">{{ item.title }}</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h5>LEGAL</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white text-decoration-none" (click)="onPrivacyPolicy()">Privacy policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>NEWSLETTER</h5>
+                    <p>I'd like to subscribe to the newsletter and other email marketing communications.</p>
+                    <form [formGroup]="newsletterForm" (ngSubmit)="NewsLetterSubscribe()">
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" formControlName="emailId"
+                                placeholder="Your email address"
+                                [ngClass]="{ 'is-invalid': submitted && newsletterForm.get('emailId')?.invalid }" />
+                            <button class="btn btn-primary" type="submit">Get Updates</button>
+                        </div>
+                        <div *ngIf="submitted && newsletterForm.get('emailId')?.invalid" class="text-danger mt-1">
+                            <small *ngIf="newsletterForm.get('emailId')?.errors?.['required']">Email is
+                                required.</small>
+                            <small *ngIf="newsletterForm.get('emailId')?.errors?.['email']">Enter a valid email
+                                address.</small>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+        <div class="text-center">
+            <p class="mb-0">&copy;2024 AV CHAMPS. All Rights Reserved.</p>
+        </div>
+    </footer>
+   </ng-container>
+
+   <ng-container *ngIf="!isHomePage">
+     <app-privacy-policy></app-privacy-policy>
+   </ng-container> 
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center">
+                <div class="modal-header justify-content-center border-0">
+                    <i class="fas fa-check-circle success-icon"></i>
+                </div>
+                <div class="modal-body">
+                    <h5 class="modal-title mb-2" id="successModalLabel">Success</h5>
+                    <p class="mb-3">Thank you for your message. It has been sent.</p>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                        OK
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-
-<!-- <div class="modal fade custom-modal" id="applyJob" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true" #applyJob>
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="applyModalLabel">{{ message }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <!-- Success Modal -->
+    <div class="modal fade" id="newsletterSuccessModal" tabindex="-1" aria-labelledby="newsletterSuccessModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center">
+                <div class="modal-header justify-content-center border-0">
+                    <i class="fas fa-check-circle success-icon"></i>
+                </div>
+                <div class="modal-body">
+                    <h5 class="modal-title mb-2" id="newsletterSuccessModalLabel">Success</h5>
+                    <p class="mb-3">{{ message }}</p>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="scrollToTop()">
+                        OK
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-</div> -->
-
-<div class="modal fade custom-modal" id="applyJob" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true" #applyJob>
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content text-center p-4">
-        <div class="modal-body">
-          <!-- Bootstrap Check Circle Icon -->
-          <div class="text-success display-1">
-            <i class="fas fa-check-circle"></i>
-          </div>
-          <h4 class="mt-3">Thank you!</h4>
-          <p class="mb-0">Your submission has been sent.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-    <div class="bottom py-2 text-light" >
-    <p style="text-align: center;">©2023 AV CHAMPS. All Rights Reserved.</p>
-    </div>
-    
-    <button onclick="topFunction()" id="myBtn">
-        <img src="assets/images/up-arrow.png" alt="alternative">
-    </button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
