@@ -41,6 +41,7 @@
                 <div class="col">
                   <div class="d-flex flex-column">
                     <span class="user-name fs-16 text-dark">{{ item.fullName | titleCase }}</span>
+                    <span class="user-company fs-14">{{ item.designation | titleCase }}</span>
                     <span class="user-company fs-14 text-muted">{{ item.companyName | titleCase }}</span>
                   </div>
                 </div>
@@ -97,7 +98,7 @@
       </div>
     </div>
 
-    <div class="wrapper text-center card-move" *ngIf="showClickedData">
+    <div class="wrapper box-shadow text-center card-move" *ngIf="showClickedData">
       <div class="img-area mx-auto">
         <div class="inner-area">
           <!-- <img [src]="imagePath || 'assets/images/common_Images/user-Icon.png'" alt=""> -->

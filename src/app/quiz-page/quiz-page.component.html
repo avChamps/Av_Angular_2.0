@@ -64,8 +64,8 @@
       <div class="col-md-8">
         <div class="bg-white rounded shadow-sm p-4 text-center">
           <div *ngIf="currentQuestion" class="text-start mb-4">
-            <h5>Question {{ currentIndex + 1 }}:</h5>
-            <p class="fw-bold">{{ currentQuestion.question_text }}</p>
+            <h5>Question {{ attemptedCount }}/ 5</h5>
+            <p class="fw-bold mt-1">{{ currentQuestion.question_text }}</p>
             <div *ngFor="let option of currentQuestion.options; let optIndex = index" class="form-check">
               <input class="form-check-input" type="radio" [name]="'question' + currentIndex" [id]="'option' + optIndex"
                 [value]="option" (change)="onAnswerSelected(option,optionLetters[optIndex])" />

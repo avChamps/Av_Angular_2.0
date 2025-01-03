@@ -59,13 +59,14 @@ export class ProfileDirectoryComponent {
     this.showSpinner = true;
     this.faService.getUserDetails(offset / limit + 1, limit, this.filterTerm).subscribe((response: any) => {
       console.log('Response from server:', response);
+      this.showSpinner = false;
       this.userData = response.records;
       this.totalRecords = response.totalCount;
       this.pagedUserData = this.userData;
       this.totalPages = Math.ceil(this.totalRecords / this.pageSize);
       this.updateVisiblePages();
-      this.showSpinner = false;
     });
+    this.showSpinner = true;
   }
 
   applyFilter(): void {

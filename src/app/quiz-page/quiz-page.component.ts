@@ -16,6 +16,7 @@ export class QuizPageComponent implements OnInit, OnDestroy {
   isCountdownActive: boolean = false;
   isAnswerCorrect: boolean = false;
   displayCoins: any = 0;
+  attemptedCount : any = 1;
   emailId: any;
   userName: any;
   // emailId = 'disendra889@gmail.com';
@@ -39,6 +40,7 @@ export class QuizPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.emailId = localStorage.getItem('emailId');
     this.userName = localStorage.getItem('userName');
+    this.attemptedCount = parseInt(localStorage.getItem('attemptedCount') || '1', 10);
     this.getQuizQuestions();
     this.startCountdown();
     this.getTopScores()
@@ -96,6 +98,10 @@ export class QuizPageComponent implements OnInit, OnDestroy {
 
     this.quizService.submitResponse(response).subscribe(
       (res: any) => {
+        this.attemptedCount = parseInt(localStorage.getItem('attemptedCount') || '0', 10);
+        this.attemptedCount += 1;
+        localStorage.setItem('attemptedCount', this.attemptedCount.toString());
+
         console.log('Response submitted:', res);
         if (res && this.isAnswerCorrect) {
           debugger;
@@ -113,6 +119,7 @@ export class QuizPageComponent implements OnInit, OnDestroy {
         console.error('Error submitting response:', err);
       }
     );
+    this.isDisplayCoins = false;
   }
 
   moveToNextQuestion() {

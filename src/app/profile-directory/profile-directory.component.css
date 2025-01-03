@@ -5,6 +5,12 @@ body {
   min-height: 100vh;
 }
 
+.container {
+  min-height: 100vh; /* Full viewport height */
+  display: flex;
+  flex-direction: column;
+}
+
 .counts {
   width: 100%;
 }
@@ -232,14 +238,14 @@ a {
 
 .page-link {
   color: black;
-  box-shadow: none!important;
+  box-shadow: none !important;
   cursor: pointer;
   border: 1px solid #00000042;
   font-size: 12px;
 }
 
 .page-item {
-  box-shadow: none!important;
+  box-shadow: none !important;
 }
 
 .btn-lg-square {

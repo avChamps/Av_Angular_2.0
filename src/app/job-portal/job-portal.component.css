@@ -12,9 +12,10 @@ body {
 }
 
 .header .nav-link {
-    font-size: 14px;
+    font-size: 18px;
     color: #333;
-    margin-right: 20px;
+    /* margin-right: 20px; */
+    margin-left: 35px;
     font-weight: 500;
 }
 
@@ -67,10 +68,15 @@ body {
 }
 
 .badge-custom {
+    max-width: 85px;
     font-size: 12px;
     padding: 5px 10px;
     border-radius: 15px;
     font-weight: unset;
+}
+
+.btn-warning {
+    max-width: 85px;
 }
 
 .btn-danger {
@@ -109,16 +115,20 @@ body {
 .post-job-btn {
     /* background-color: #6f42c1; */
     /* color: white; */
-    border: 1px solid green;
+    border: 1px solid royalblue;
     margin-right: 15px;
     border-radius: 25px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .post-job-btn:hover {
-    background-color: green;
+    background-color: royalblue;
     color: white;
 }
+.fa-edit {
+    color: blue;
+}
+
 
 .btn-close:hover {
     color: red !important;
@@ -322,7 +332,7 @@ textarea {
 .flashing-text {
     font-size: 2.5rem;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 20px;
     text-align: center;
     text-transform: uppercase;
     animation: multicolor-flash 2s infinite ease-in-out;

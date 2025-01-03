@@ -5,7 +5,7 @@
       <!-- <span class="logo me-4 cur_pointer" (click)="onReload()">AV CHAMPS</span> -->
       <img src="./assets/images/logo/avchamps-logo.png" (click)="onReload()" alt="AV Champs Logo" class="img-fluid av-logo mb-3">
       <nav class="d-flex d-none d-md-flex" (click)="navigateHome()">
-        <a class="nav-link"><i class="fas fa-home me-1"></i> Home</a>
+        <a class="nav-link"><i class="fas fa-home"></i> Home</a>
       </nav>
     </div>
     <div class="d-md-none">
@@ -14,7 +14,7 @@
       </button>
     </div>
     <div class="text-center d-none d-md-block">
-      <h1 class="flashing-text">Welcome to AV Champs</h1>
+      <h1 class="flashing-text">AV Careers</h1>
     </div>
     <div class="profile-info d-none d-md-flex">
       <button class="btn post-job-btn mr-2" #jobPopup data-bs-toggle="modal" data-bs-target="#jobFormModal">+ Post
@@ -148,22 +148,22 @@
                           'bg-green': job.jobType === 'Full-Time',
                           'bg-blue': job.jobType === 'Part-Time',
                           'bg-teal': job.jobType === 'Internship'
-                        }" class="badge badge-custom fs-12 flex-fill text-center me-2">
+                        }" class="badge badge-custom fs-14 flex-fill text-center me-2">
                         {{ job.jobType }}
                       </span>
 
                       <!-- Salary -->
-                      <span *ngIf="job.package" class="fs-12 text-muted flex-fill text-center me-2">
+                      <span *ngIf="job.package" class="fs-14 text-muted flex-fill text-center me-2">
                         &#8377; {{ job.package }}
                       </span>
 
                       <!-- Experience -->
-                      <span *ngIf="job.experience" class="fs-12 text-muted flex-fill text-center me-2">
+                      <span *ngIf="job.experience" class="fs-14 text-muted flex-fill text-center me-2">
                         <i class="fas fa-suitcase me-1"></i>{{ job.experience }}yrs
                       </span>
 
                       <!-- Apply Button -->
-                      <button class="btn btn-warning btn-sm text-white fs-12 flex-fill text-center"
+                      <button class="btn btn-warning btn-sm text-white fs-14  flex-fill text-center"
                         *ngIf="buttonType === 'Apply'" (click)="editJob(job)">
                         {{ buttonType }}
                       </button>
